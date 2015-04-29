@@ -27,7 +27,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="86dp"
-        android:textSize="40sp"/>
+        android:textSize="40sp"
+        android:background="#819FF7"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -37,7 +39,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="62dp"
-        android:textSize="50sp"/>
+        android:textSize="50sp"
+        android:background="#819FF7"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,5 +62,7 @@
         android:id="@+id/patientid"
         android:layout_below="@+id/patientname"
         android:layout_centerHorizontal="true"
-        android:textSize="40sp"/>
+        android:textSize="40sp"
+        android:layout_marginTop="80dp" />
+
 </RelativeLayout>
