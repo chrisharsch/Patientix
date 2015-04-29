@@ -1,39 +1,25 @@
 package com.patientix.maren.patientix;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 
-public class MainActivity extends ActionBarActivity {
-
-    private Button startBtn;
+public class FormActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        startBtn = (Button)findViewById(R.id.startbtn);
-
-        //Press buttons method
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentFormActivity = new Intent(MainActivity.this, FormActivity.class);
-                startActivity(intentFormActivity);
-            }
-        });
+        setContentView(R.layout.activity_form);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_form, menu);
         return true;
     }
 

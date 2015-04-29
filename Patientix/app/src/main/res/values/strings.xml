@@ -8,4 +8,8 @@
     <string name="start">Start</string>
     <string name="patientname">Max Mustermann</string>
     <string name="patientid">12345</string>
+    <string name="title_activity_form">FormActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title">Patientenaufklärung für</string>
 </resources>
