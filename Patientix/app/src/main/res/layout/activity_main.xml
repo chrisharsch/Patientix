@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@drawable/startseiteapp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/ueberschrift"
+        android:id="@+id/ueberschrift"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/updatebtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update"
+        android:id="@+id/updatebtn"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="86dp"
+        android:textSize="40sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        android:id="@+id/startbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:textSize="50sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/patientname"
+        android:id="@+id/patientname"
+        android:layout_below="@+id/ueberschrift"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp"
+        android:textSize="40sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/patientid"
+        android:id="@+id/patientid"
+        android:layout_below="@+id/patientname"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp"/>
+</RelativeLayout>
