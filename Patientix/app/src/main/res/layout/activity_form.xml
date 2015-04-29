@@ -7,4 +7,34 @@
     tools:context="com.patientix.maren.patientix.FormActivity"
     android:background="@drawable/inhaltsseiteapp">
 
+    <!-- Zoom Controls-->
+    <ZoomControls
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoomControls"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+    />
+
+    <!-- Continue Button -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonContinue"
+        android:id="@+id/buttonContinue"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/zoomControls"
+        android:layout_marginBottom="70dp"
+        android:textSize="50sp"/>
+
+    <!-- Back Button -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonBack"
+        android:id="@+id/buttonBack"
+        android:layout_marginStart="218dp"
+        android:layout_alignTop="@+id/buttonContinue"
+        android:layout_alignParentStart="true"
+        android:textSize="50sp"/>
 </RelativeLayout>

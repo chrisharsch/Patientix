@@ -12,4 +12,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title">Patientenaufklärung für</string>
+    <string name="buttonContinue">Weiter</string>
+    <string name="buttonBack">Zurück</string>
 </resources>

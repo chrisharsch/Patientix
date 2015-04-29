@@ -8,11 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 
     private Button startBtn;
+    private Button buttonUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         startBtn = (Button)findViewById(R.id.startbtn);
+        buttonUpdate = (Button) findViewById(R.id.updatebtn);
 
         //Press buttons method
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +32,16 @@ public class MainActivity extends Activity {
                 startActivity(intentFormActivity);
             }
         });
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+
+                Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     /*
