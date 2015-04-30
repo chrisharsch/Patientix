@@ -11,31 +11,31 @@
 
     <!-- Continue Button -->
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="270dip"
+        android:layout_height="50dip"
         android:text="@string/buttonContinue"
         android:id="@+id/buttonContinue"
 
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:onClick="onClickNextButton"
-        android:background="@android:color/darker_gray"
-        android:layout_marginEnd="209dp"
-        android:layout_above="@+id/button"
+        android:background="@drawable/button1x3normal"
+        android:layout_marginEnd="70dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
 
     <!-- Back Button -->
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="270dip"
+        android:layout_height="50dip"
         android:text="@string/buttonBack"
         android:id="@+id/buttonBack"
-        android:layout_marginStart="218dp"
-        android:layout_alignTop="@+id/buttonContinue"
-        android:layout_alignParentStart="true"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:onClick="onClickBackButton"
-        android:background="#ffff9928"
-        android:textColor="#ff3b28ff" />
+        android:background="@drawable/button1x3normal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="153dp" />
 
     <TextView
         android:layout_width="1500px"
@@ -45,29 +45,28 @@
         android:textSize="30pt"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="96dp"
-        android:layout_above="@+id/buttonContinue"
+        android:layout_marginTop="76dp"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonZoomMore"
-        android:onClick="onClickZoomButtonMore"
-
-        android:id="@+id/button"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:text="@string/buttonZoomIn"
+        android:onClick="onClickZoomButtonIn"
+        android:background="@drawable/button1x1normal"
+        android:id="@+id/buttonZoomIn"
         android:textSize="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/buttonContinue"
-        android:layout_marginEnd="92dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/buttonContinue" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonZoomLow"
-        android:id="@+id/button2"
-        android:onClick="onClickZoomButtonLow"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/buttonBack"
-        android:textSize="50dp" />
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:text="@string/buttonZoomOut"
+        android:id="@+id/buttonZoomOut"
+        android:onClick="onClickZoomButtonOut"
+        android:textSize="50dp"
+        android:background="@drawable/button1x1normal"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/buttonBack" />
 </RelativeLayout>

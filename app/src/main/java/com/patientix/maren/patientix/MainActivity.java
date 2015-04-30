@@ -3,6 +3,7 @@ package com.patientix.maren.patientix;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,9 +13,10 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private Button startBtn;
+    private Button buttonStart;
     private Button buttonUpdate;
-//Disable back button
+
+    //Disable back button
     @Override
     public void onBackPressed() {
 
@@ -32,20 +34,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-
-
-
-
-        startBtn = (Button)findViewById(R.id.startbtn);
+        buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebtn);
 
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Press buttons method
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startBtn.setBackgroundResource(0);
+                flashButton(buttonStart);
                 Intent intentFormActivity = new Intent(MainActivity.this, FormActivity.class);
                 startActivity(intentFormActivity);
                 finish();
@@ -54,15 +52,26 @@ public class MainActivity extends Activity {
 
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                flashButton(buttonUpdate);
 
 
                 Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
+
             }
         });
 
     }
 
+    public void flashButton(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
+            }
+        }, 25);
 
+    }
 
     /*
     @Override

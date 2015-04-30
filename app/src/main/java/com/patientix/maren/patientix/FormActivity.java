@@ -2,6 +2,7 @@ package com.patientix.maren.patientix;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ public class FormActivity extends Activity {
 
     private Button buttonContinue;
     private Button buttonBack;
+    private Button buttonZoomIn;
+    private Button buttonZoomOut;
     private TextView questionText;
 
     @Override
@@ -36,6 +39,8 @@ public class FormActivity extends Activity {
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
+        buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         questionText = (TextView) findViewById(R.id.questionText);
 
         questionText.setText(fragebogen[0]);
@@ -65,52 +70,53 @@ public class FormActivity extends Activity {
 
 
     public void onClickNextButton(View v) {
-        buttonContinue.setBackgroundResource(0);
-        try {
-            wait(10);
-        } catch (Exception e) {
 
-        }
         if (counter < fragebogen.length) {
+            flashButton(buttonContinue);
             questionText.setText(fragebogen[counter]);
             counter++;
 
         } else {
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
         }
+
     }
+
 
     public void onClickBackButton(View v) {
-        buttonBack.setBackgroundResource(0);
-        try {
-            wait(10);
-        } catch (Exception e) {
 
-        }
         if (counter > 0) {
+            flashButton(buttonBack);
             counter--;
             questionText.setText(fragebogen[counter]);
-        } else {
-
         }
-    }
-
-    public void onClickZoomButtonMore(View v) {
-       /* float x = questionText.getScaleX();
-        float y = questionText.getScaleY();
-        questionText.setScaleX(x + 1);
-        questionText.setScaleY(y + 1);*/
-        float size = questionText.getTextSize();
-        questionText.setTextSize(size+(float)0.0001);
 
     }
-    public void onClickZoomButtonLow(View v) {
-       /* float x = questionText.getScaleX();
-        float y = questionText.getScaleY();
-        questionText.setScaleX(x + 1);
-        questionText.setScaleY(y + 1);*/
+
+    public void onClickZoomButtonIn(View v) {
+        flashButton(buttonZoomIn);
         float size = questionText.getTextSize();
-        questionText.setTextSize(size-(float)0.0001);
+        size = size + 1;
+        questionText.setTextSize(size);
+
+    }
+
+    public void onClickZoomButtonOut(View v) {
+        flashButton(buttonZoomOut);
+        float size = questionText.getTextSize();
+        size = size - 1;
+        questionText.setTextSize(size);
+
+    }
+
+    public void flashButton(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
+            }
+        }, 25);
 
     }
 
