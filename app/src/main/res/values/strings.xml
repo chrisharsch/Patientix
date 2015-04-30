@@ -14,4 +14,6 @@
     <string name="title">Patientenaufklärung für</string>
     <string name="buttonContinue">Weiter</string>
     <string name="buttonBack">Zurück</string>
+    <string name="buttonZoomMore">ZoomIn</string>
+    <string name="buttonZoomLow">ZoomOut</string>
 </resources>

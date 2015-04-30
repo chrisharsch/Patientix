@@ -1,11 +1,12 @@
 package com.patientix.maren.patientix;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,9 +14,9 @@ import android.widget.TextView;
 public class FormActivity extends Activity {
 
     private String[] fragebogen = {
-        "Hier könnte die erste Seite stehen",
-                "Hier steht die zweite Seite",
-                "Hier steht noch eine Seite"
+            "Hier könnte die erste Seite stehen",
+            "Hier steht die zweite Seite",
+            "Hier steht noch eine Seite"
     };
 
     private int counter = 1;
@@ -27,6 +28,10 @@ public class FormActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Titlebar removed
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_form);
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
@@ -60,20 +65,60 @@ public class FormActivity extends Activity {
 
 
     public void onClickNextButton(View v) {
-        if(counter < fragebogen.length-1) {
+        buttonContinue.setBackgroundResource(0);
+        try {
+            wait(10);
+        } catch (Exception e) {
+
+        }
+        if (counter < fragebogen.length) {
             questionText.setText(fragebogen[counter]);
             counter++;
-        } else{
+
+        } else {
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
         }
     }
 
     public void onClickBackButton(View v) {
-        if(counter > 1) {
+        buttonBack.setBackgroundResource(0);
+        try {
+            wait(10);
+        } catch (Exception e) {
+
+        }
+        if (counter > 0) {
             counter--;
             questionText.setText(fragebogen[counter]);
         } else {
 
         }
     }
+
+    public void onClickZoomButtonMore(View v) {
+       /* float x = questionText.getScaleX();
+        float y = questionText.getScaleY();
+        questionText.setScaleX(x + 1);
+        questionText.setScaleY(y + 1);*/
+        float size = questionText.getTextSize();
+        questionText.setTextSize(size+(float)0.0001);
+
+    }
+    public void onClickZoomButtonLow(View v) {
+       /* float x = questionText.getScaleX();
+        float y = questionText.getScaleY();
+        questionText.setScaleX(x + 1);
+        questionText.setScaleY(y + 1);*/
+        float size = questionText.getTextSize();
+        questionText.setTextSize(size-(float)0.0001);
+
+    }
+
+    // remove options for back button
+    @Override
+    public void onBackPressed() {
+
+    }
+
+
 }

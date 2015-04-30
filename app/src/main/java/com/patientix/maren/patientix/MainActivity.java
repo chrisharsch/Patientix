@@ -2,12 +2,10 @@ package com.patientix.maren.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -16,12 +14,27 @@ public class MainActivity extends Activity {
 
     private Button startBtn;
     private Button buttonUpdate;
+//Disable back button
+    @Override
+    public void onBackPressed() {
+
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Titlebar removed
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
+
+
+
+
+
 
         startBtn = (Button)findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebtn);
@@ -32,8 +45,10 @@ public class MainActivity extends Activity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startBtn.setBackgroundResource(0);
                 Intent intentFormActivity = new Intent(MainActivity.this, FormActivity.class);
                 startActivity(intentFormActivity);
+                finish();
             }
         });
 
@@ -44,7 +59,10 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
+
 
     /*
     @Override
