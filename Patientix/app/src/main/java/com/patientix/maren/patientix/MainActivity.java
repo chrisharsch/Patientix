@@ -2,6 +2,7 @@ package com.patientix.maren.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,7 @@ public class MainActivity extends Activity {
     private Button startBtn;
     private Button buttonUpdate;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,8 @@ public class MainActivity extends Activity {
 
         startBtn = (Button)findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebtn);
+
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Press buttons method
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +44,6 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     /*

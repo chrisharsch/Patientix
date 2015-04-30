@@ -5,16 +5,36 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class FormActivity extends Activity {
+
+    private String[] fragebogen = {
+        "Hier könnte die erste Seite stehen",
+                "Hier steht die zweite Seite",
+                "Hier steht noch eine Seite"
+    };
+
+    private int counter = 1;
+
+    private Button buttonContinue;
+    private Button buttonBack;
+    private TextView questionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-    }
 
+        buttonContinue = (Button) findViewById(R.id.buttonContinue);
+        buttonBack = (Button) findViewById(R.id.buttonBack);
+        questionText = (TextView) findViewById(R.id.questionText);
+
+        questionText.setText(fragebogen[0]);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -36,5 +56,24 @@ public class FormActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void onClickNextButton(View v) {
+        if(counter < fragebogen.length-1) {
+            questionText.setText(fragebogen[counter]);
+            counter++;
+        } else{
+            questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
+        }
+    }
+
+    public void onClickBackButton(View v) {
+        if(counter > 1) {
+            counter--;
+            questionText.setText(fragebogen[counter]);
+        } else {
+
+        }
     }
 }
