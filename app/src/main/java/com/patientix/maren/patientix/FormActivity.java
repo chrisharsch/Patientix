@@ -27,6 +27,7 @@ public class FormActivity extends Activity {
     private Button buttonZoomIn;
     private Button buttonZoomOut;
     private TextView questionText;
+    private TextView numberOfPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +69,16 @@ public class FormActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * Show next page when click next (Weiter)
+     * @param v
+     */
     public void onClickNextButton(View v) {
 
         if (counter < fragebogen.length) {
             flashButton(buttonContinue);
             questionText.setText(fragebogen[counter]);
+            numberOfPages.setText("Seite" + counter);
             counter++;
 
         } else {
@@ -82,13 +87,17 @@ public class FormActivity extends Activity {
 
     }
 
-
+    /**
+     * Go back to the last page when click back (Zurück)
+     * @param v
+     */
     public void onClickBackButton(View v) {
 
         if (counter > 0) {
             flashButton(buttonBack);
             counter--;
             questionText.setText(fragebogen[counter]);
+            numberOfPages.setText("Seite" + counter);
         }
 
     }
