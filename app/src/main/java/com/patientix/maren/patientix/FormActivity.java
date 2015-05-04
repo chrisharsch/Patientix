@@ -43,6 +43,7 @@ public class FormActivity extends Activity {
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         questionText = (TextView) findViewById(R.id.questionText);
+        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
 
         questionText.setText(fragebogen[0]);
     }
@@ -80,11 +81,9 @@ public class FormActivity extends Activity {
             questionText.setText(fragebogen[counter]);
             numberOfPages.setText("Seite" + counter);
             counter++;
-
         } else {
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
         }
-
     }
 
     /**
