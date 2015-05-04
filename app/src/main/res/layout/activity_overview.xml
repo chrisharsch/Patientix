@@ -14,7 +14,8 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:background="@drawable/inhaltsseiteapp">
 
         <LinearLayout android:id="@+id/fullscreen_content_controls" style="?metaButtonBarStyle"
             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -24,6 +25,13 @@
             android:focusable="false">
 
         </LinearLayout>
+
+        <ListView
+            android:layout_width="700dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewOverview"
+            android:layout_gravity="center"
+            android:smoothScrollbar="false" />
     </FrameLayout>
 
 </FrameLayout>
