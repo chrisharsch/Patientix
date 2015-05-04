@@ -46,6 +46,7 @@ public class FormActivity extends Activity {
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
 
         questionText.setText(fragebogen[0]);
+        numberOfPages.setText("Seite " + counter);
     }
 
     @Override
@@ -79,10 +80,12 @@ public class FormActivity extends Activity {
         if (counter < fragebogen.length) {
             flashButton(buttonContinue);
             questionText.setText(fragebogen[counter]);
-            numberOfPages.setText("Seite" + counter);
             counter++;
+            numberOfPages.setText("Seite " + counter);
         } else {
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
+            counter++;
+            numberOfPages.setText("Seite " + counter);
         }
     }
 
@@ -96,7 +99,7 @@ public class FormActivity extends Activity {
             flashButton(buttonBack);
             counter--;
             questionText.setText(fragebogen[counter]);
-            numberOfPages.setText("Seite" + counter);
+            numberOfPages.setText("Seite " + counter);
         }
 
     }
