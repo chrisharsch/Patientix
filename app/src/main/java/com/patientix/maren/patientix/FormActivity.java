@@ -11,16 +11,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.LinkedList;
+
 
 public class FormActivity extends Activity {
 
-    private String[] fragebogen = {
-            "Hier könnte die erste Seite stehen",
-            "Hier steht die zweite Seite",
-            "Hier steht noch eine Seite"
-    };
-
-    private int counter = 1;
+    private static LinkedList<String> fragebogen = new LinkedList<String>();
+    private int counter = -1;
+    private int pageCounter = 1;
 
     private Button buttonContinue;
     private Button buttonBack;
@@ -29,8 +27,12 @@ public class FormActivity extends Activity {
     private TextView questionText;
     private TextView numberOfPages;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        fragebogen.add("Hier könnte die erste Seite stehen");
+        fragebogen.add("Hier steht die zweite Seite");
+        fragebogen.add("Hier steht noch eine Seite");
         super.onCreate(savedInstanceState);
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -45,8 +47,12 @@ public class FormActivity extends Activity {
         questionText = (TextView) findViewById(R.id.questionText);
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
 
-        questionText.setText(fragebogen[0]);
-        numberOfPages.setText("Seite " + counter);
+        onClickNextButton(buttonContinue);
+
+    }
+
+    public static LinkedList<String> getListe(){
+        return fragebogen;
     }
 
     @Override
@@ -73,24 +79,31 @@ public class FormActivity extends Activity {
 
     /**
      * Show next page when click next (Weiter)
+     *
      * @param v
      */
     public void onClickNextButton(View v) {
 
-        if (counter < fragebogen.length) {
+        if (counter < fragebogen.size() - 1) {
             flashButton(buttonContinue);
-            questionText.setText(fragebogen[counter]);
             counter++;
-            numberOfPages.setText("Seite " + counter);
-        } else {
+            questionText.setText(fragebogen.get(counter));
+            numberOfPages.setText("Seite " + pageCounter);
+            pageCounter++;
+        } else if (counter < fragebogen.size()) {
+            counter++;
+
+
+            numberOfPages.setText("Seite " + pageCounter);
+
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
-            counter++;
-            numberOfPages.setText("Seite " + counter);
         }
+
     }
 
     /**
      * Go back to the last page when click back (Zurück)
+     *
      * @param v
      */
     public void onClickBackButton(View v) {
@@ -98,11 +111,12 @@ public class FormActivity extends Activity {
         if (counter > 0) {
             flashButton(buttonBack);
             counter--;
-            questionText.setText(fragebogen[counter]);
-            numberOfPages.setText("Seite " + counter);
+            questionText.setText(fragebogen.get(counter));
+            pageCounter--;
+            numberOfPages.setText("Seite " + pageCounter);
         }
-
     }
+
 
     public void onClickZoomButtonIn(View v) {
         flashButton(buttonZoomIn);

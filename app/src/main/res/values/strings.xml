@@ -17,4 +17,9 @@
     <string name="buttonZoomOut">-</string>
     <string name="buttonZoomIn" >+</string>
 
+    <string name="title_activity_overview">OverviewActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="test">test</string>
+
 </resources>
