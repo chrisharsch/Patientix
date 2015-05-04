@@ -31,7 +31,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button1x5normal"
-        android:padding="1dp" />
+        android:padding="1dp"
+        android:textColor="#fffafa" />
 
     <!-- Start Button -->
     <Button
@@ -45,7 +46,8 @@
         android:layout_marginTop="104dp"
         android:text="Start"
         android:clickable="true"
-        android:padding="1dp" />
+        android:padding="1dp"
+        android:textColor="#fffafa" />
 
     <!-- Patient textfield -->
     <TextView
