@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flashButton(buttonStart);
+                flashButtonsmall(buttonStart);
                 Intent intentFormActivity = new Intent(MainActivity.this, FormActivity.class);
                 startActivity(intentFormActivity);
                 finish();
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
         // Update-Button
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                flashButton(buttonUpdate);
+                flashButtonlarge(buttonUpdate);
 
                 Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
@@ -60,14 +60,24 @@ public class MainActivity extends Activity {
     }
 
     //
-    public void flashButton(final Button myBtnToFlash) {
+    public void flashButtonsmall(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
             }
-        }, 25);
+        }, 10);
+
+    }
+    public void flashButtonlarge(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x5aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x5normal);
+            }
+        }, 10);
 
     }
 }
