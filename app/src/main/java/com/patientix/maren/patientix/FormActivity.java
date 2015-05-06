@@ -34,14 +34,16 @@ public class FormActivity extends Activity {
         fragebogen.add("Hier steht die zweite Seite");
         fragebogen.add("Hier steht noch eine Seite");
         super.onCreate(savedInstanceState);
+
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_form);
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.buttonLogin);
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         questionText = (TextView) findViewById(R.id.questionText);

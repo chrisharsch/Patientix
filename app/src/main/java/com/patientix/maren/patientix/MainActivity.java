@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     private Button buttonStart;
     private Button buttonUpdate;
 
-    //Disable back button WARUM??
+    //Disable back button
     @Override
     public void onBackPressed() {
 
@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         // Set the first View
         setContentView(R.layout.activity_main);
@@ -59,7 +60,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    //
+    // Change the view from the button to press
     public void flashButtonsmall(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
         Handler handler = new Handler();
@@ -68,8 +69,8 @@ public class MainActivity extends Activity {
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
             }
         }, 10);
-
     }
+
     public void flashButtonlarge(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x5aktiv);
         Handler handler = new Handler();

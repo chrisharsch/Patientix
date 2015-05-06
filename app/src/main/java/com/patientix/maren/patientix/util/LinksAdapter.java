@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Chris on 04.05.2015.
- */
+
 public class LinksAdapter extends ArrayAdapter<String> {
 
     private ArrayList<String> items;
@@ -54,4 +54,4 @@ public class LinksAdapter extends ArrayAdapter<String> {
 }
 
 
-}
+} */
