@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,8 +15,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Created by Simon on 06.05.2015.
  */
 public final class JavaStrucBuilder {
-    static MetaandForm builStruc(String filename) throws Exception {
-        Document xml = buildDOMTreeformXMLString(filename);
+    static MetaandForm builStruc() throws Exception {
+        FileInputStream fileimput = new FileInputStream(/*HIER MUSS NACH DIE ADDRESSE REIN*/);
+        String xmlString = fileimput.toString();
+        Document xml = buildDOMTreeformXMLString(xmlString);
         NodeList pagelist =  xml.getElementsByTagName("page");
         NodeList metadata = xml.getElementsByTagName("metaData");
         MetaData meta = metaParser(metadata.item(0).getChildNodes());
