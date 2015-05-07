@@ -6,6 +6,10 @@ package de.teambluebaer.patientix.xmlParser;
 public class Video implements Element {
     private String videoSource;
 
+    public Video(String src){
+        videoSource = src;
+    }
+
     @Override
     public void addToView() {
 

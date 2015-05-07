@@ -6,6 +6,10 @@ package de.teambluebaer.patientix.xmlParser;
 public class Sound implements Element {
     private String soundSource;
 
+    public Sound(String src){
+        soundSource = src;
+    }
+
     @Override
     public void addToView() {
 

@@ -8,11 +8,7 @@ public class Checkbox implements Element{
     private boolean checked;
 
     void check(){
-        if(checked){
-            checked = false;
-        }else{
-            checked = true;
-        }
+        checked = !checked;
     }
 
     public Checkbox(String checkboxText){

@@ -10,11 +10,12 @@ public class Radio implements Element {
 
 
     void check(){
-        if(checked){
-            checked = false;
-        }else{
-            checked = true;
-        }
+        checked = !checked;
+    }
+
+    public Radio(String radiText){
+        this.radioText = radiText;
+        this.checked = false;
     }
 
     @Override

@@ -6,6 +6,10 @@ package de.teambluebaer.patientix.xmlParser;
 public class Image implements Element {
     private String imageSource;
 
+    public Image(String src){
+        imageSource = src;
+    }
+
     @Override
     public void addToView() {
 
