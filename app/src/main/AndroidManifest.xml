@@ -31,6 +31,10 @@
             android:label="@string/title_activity_form"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="de.teambluebaer.patientix.OverviewActivity"
+            android:label="@string/title_activity_overview" >
+        </activity>
     </application>
 
 </manifest>

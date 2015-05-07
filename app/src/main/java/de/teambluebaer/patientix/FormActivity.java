@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -32,17 +33,16 @@ public class FormActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fragebogen.add("Hier könnte die erste Seite stehen");
-        fragebogen.add("Hier steht die zweite Seite");
-        fragebogen.add("Hier steht noch eine Seite");
         super.onCreate(savedInstanceState);
-
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_form);
+
+        fragebogen.add("Hier könnte die erste Seite stehen");
+        fragebogen.add("Hier steht die zweite Seite");
+        fragebogen.add("Hier steht noch eine Seite");
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonLogin);
@@ -120,14 +120,19 @@ public class FormActivity extends Activity {
             numberOfPages.setText("Seite " + pageCounter);
         }
     }
-
+// show temprarily the overview activity
 
     public void onClickZoomButtonIn(View v) {
         flashButton(buttonZoomIn);
+
+        Intent intentFormActivity = new Intent(FormActivity.this, OverviewActivity.class);
+        startActivity(intentFormActivity);
+        finish();
+        /*
         float size = questionText.getTextSize();
         size = size + 1;
         questionText.setTextSize(size);
-
+*/
     }
 
     public void onClickZoomButtonOut(View v) {
