@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/Users/chris/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-593f0fd334cdcaeec2f827bd6643eb2be7e2a090.jar" />
-    </item>
-    <item
-        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/libs/internal_impl-22.1.1.jar"
+        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\libs\internal_impl-22.1.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-4949397fa656779a92b5af820b358acd1abcc8ef.jar" />
+        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-bfbd020def20960432ea1978c0b733d1773980a8.jar" />
     </item>
     <item
-        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/classes.jar"
+        jar="C:\Users\Maren\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-dda5e79359c7e9a4483bd8a6dec1e03c92f1ed00.jar" />
+    </item>
+    <item
+        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/classes-4e34914a37ce57d2470e762a557a68c9c6d1c14a.jar" />
+        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\classes-2cf6de2e910fb616c8b717a53fe705d9e527af7d.jar" />
     </item>
     <item
-        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/classes.jar"
+        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/classes-946928d8f0d14046fa236f40ce56d7fe1fdcfeae.jar" />
+        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\classes-ee939d0dce5229b3312e77ca24a98292ec96c425.jar" />
     </item>
 
 </items>

@@ -20,6 +20,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -29,7 +30,8 @@ public class LoginActivity extends Activity {
 
         myDb = new DatabaseHelper(this);
 
-
+        // Keyboard open when touch editfield
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
 
