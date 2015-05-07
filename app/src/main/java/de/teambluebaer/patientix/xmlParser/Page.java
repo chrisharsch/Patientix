@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix.xmlParser;
+package de.teambluebaer.patientix.xmlParser;
 
 import android.view.View;
 

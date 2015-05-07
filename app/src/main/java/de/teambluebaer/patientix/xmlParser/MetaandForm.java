@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix.xmlParser;
+package de.teambluebaer.patientix.xmlParser;
 
 /**
  * Created by Simon on 07.05.2015.

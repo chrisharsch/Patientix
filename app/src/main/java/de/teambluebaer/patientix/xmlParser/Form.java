@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix.xmlParser;
+package de.teambluebaer.patientix.xmlParser;
 
 import java.util.ArrayList;
 import java.util.List;

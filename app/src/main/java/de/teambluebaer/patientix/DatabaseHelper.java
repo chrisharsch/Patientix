@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix;
+package de.teambluebaer.patientix;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

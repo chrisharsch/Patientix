@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix;
+package de.teambluebaer.patientix;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.patientix.maren.patientix.R;
 
 import java.util.LinkedList;
 

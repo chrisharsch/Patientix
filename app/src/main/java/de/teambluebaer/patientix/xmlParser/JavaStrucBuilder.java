@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix.xmlParser;
+package de.teambluebaer.patientix.xmlParser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

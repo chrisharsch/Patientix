@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix;
+package de.teambluebaer.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.patientix.maren.patientix.R;
 
 
 public class StartActivity extends Activity {

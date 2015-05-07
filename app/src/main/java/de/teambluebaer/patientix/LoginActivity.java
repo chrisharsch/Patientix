@@ -1,4 +1,4 @@
-package com.patientix.maren.patientix;
+package de.teambluebaer.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import com.patientix.maren.patientix.R;
 
 
 public class LoginActivity extends Activity {
