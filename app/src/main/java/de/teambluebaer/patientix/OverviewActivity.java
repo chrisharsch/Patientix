@@ -1,11 +1,15 @@
 package de.teambluebaer.patientix;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.patientix.maren.patientix.R;
@@ -21,6 +25,7 @@ import static de.teambluebaer.patientix.overViewHelper.Constants.SECOND_COLUMN;
 public class OverviewActivity extends Activity {
 
     private ArrayList<HashMap<String, String>> list;
+    private Button buttonReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,19 @@ public class OverviewActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_overview);
-        ListView listView=(ListView)findViewById(R.id.listView1);
+
+        ListView listView = (ListView)findViewById(R.id.listView1);
+        buttonReady = (Button) findViewById(R.id.buttonReady);
+
+        buttonReady.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flashButtonsmall(buttonReady);
+                Intent intentFormActivity = new Intent(OverviewActivity.this, SignatureActivity.class);
+                startActivity(intentFormActivity);
+                finish();
+            }
+        });
 
         populateList();
         ListViewAdapter adapter=new ListViewAdapter(this, list);
@@ -107,5 +124,15 @@ public class OverviewActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void flashButtonsmall(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
+            }
+        }, 10);
     }
 }

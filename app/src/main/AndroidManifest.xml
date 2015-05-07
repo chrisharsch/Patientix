@@ -36,6 +36,10 @@
             android:label="@string/title_activity_overview"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="de.teambluebaer.patientix.SignatureActivity"
+            android:label="@string/title_activity_signature" >
+        </activity>
     </application>
 
 </manifest>

@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
         // Keyboard open when touch editfield
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        buttonLogin = (Button) findViewById(R.id.buttonReady);
         editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
