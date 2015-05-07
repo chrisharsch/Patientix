@@ -48,6 +48,25 @@ public class OverviewActivity extends Activity {
         temp.put(SECOND_COLUMN, "By Navneet");
 
         list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

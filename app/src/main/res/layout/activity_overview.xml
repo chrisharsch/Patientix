@@ -4,15 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.OverviewActivity"
-    android:background="@drawable/inhaltsseiteapp"
-    android:paddingTop="125dp">
+    android:background="#ffffffff">
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+    <!--android:paddingTop="100dp" -->
+
+        <!--android:paddingBottom="250dp"-->
     </ListView>
 
 </RelativeLayout>

@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name="de.teambluebaer.patientix.OverviewActivity"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/title_activity_overview"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 
