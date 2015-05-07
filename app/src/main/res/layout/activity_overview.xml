@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.OverviewActivity"
-    android:background="#ffffffff">
+    android:background="@drawable/inhaltsseiteapp"
+    >
 
     <ListView
         android:id="@+id/listView1"
@@ -14,12 +15,10 @@
         android:layout_alignParentStart="true"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        android:paddingTop="100dp"
+        android:paddingBottom="250dp">
 
-    <!--android:paddingTop="100dp" -->
 
-        <!--android:paddingBottom="250dp"-->
     </ListView>
 
 </RelativeLayout>

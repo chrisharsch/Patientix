@@ -16,7 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public final class JavaStrucBuilder {
     static MetaandForm builStruc() throws Exception {
-        FileInputStream fileimput = new FileInputStream(/*HIER MUSS NACH DIE ADDRESSE REIN*/);
+        FileInputStream fileimput = new FileInputStream("/sdcard");
         String xmlString = fileimput.toString();
         Document xml = buildDOMTreeformXMLString(xmlString);
         NodeList pagelist =  xml.getElementsByTagName("page");
