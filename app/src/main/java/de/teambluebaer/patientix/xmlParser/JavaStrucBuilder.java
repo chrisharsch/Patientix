@@ -47,7 +47,7 @@ public final class JavaStrucBuilder {
     }
 
     static Form formPaser(NodeList pageList){
-
+        return null;
     }
 
 

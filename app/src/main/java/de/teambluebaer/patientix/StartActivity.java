@@ -35,7 +35,7 @@ public class StartActivity extends Activity {
 
 
         // Set the first View
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebtn);

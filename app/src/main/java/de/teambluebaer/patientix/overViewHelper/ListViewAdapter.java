@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.patientix.maren.patientix.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static example.multicolumnlist.Constants.FIRST_COLUMN;
-import static example.multicolumnlist.Constants.SECOND_COLUMN;
+import static de.teambluebaer.patientix.overViewHelper.Constants.FIRST_COLUMN;
+import static de.teambluebaer.patientix.overViewHelper.Constants.SECOND_COLUMN;
 
 public class ListViewAdapter extends BaseAdapter {
 
@@ -57,7 +59,7 @@ public class ListViewAdapter extends BaseAdapter {
 		
 		if(convertView == null){
 			
-			convertView=inflater.inflate(R.layout.colmn_row, null);
+			convertView=inflater.inflate(R.layout.content_of_list_view, null);
 			holder=new ViewHolder();
 			
 			holder.txtFirst=(TextView) convertView.findViewById(R.id.TextFirst);
