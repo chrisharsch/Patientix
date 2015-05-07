@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class MainActivity extends Activity {
+public class StartActivity extends Activity {
 
     private Button buttonStart;
     private Button buttonUpdate;
@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 flashButtonsmall(buttonStart);
-                Intent intentFormActivity = new Intent(MainActivity.this, FormActivity.class);
+                Intent intentFormActivity = new Intent(StartActivity.this, FormActivity.class);
                 startActivity(intentFormActivity);
                 finish();
             }
@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 flashButtonlarge(buttonUpdate);
 
-                Toast.makeText(MainActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
             }
         });

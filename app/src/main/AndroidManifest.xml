@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="landscape">
         </activity>
