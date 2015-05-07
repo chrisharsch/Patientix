@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="de.teambluebaer.patientix.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -22,19 +22,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.teambluebaer.patientix.StartActivity"
+            android:name=".StartActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
         </activity>
+
         <activity
-            android:name="de.teambluebaer.patientix.FormActivity"
+            android:name=".FormActivity"
             android:label="@string/title_activity_form"
             android:screenOrientation="landscape" >
         </activity>
-        <activity
-            android:name="de.teambluebaer.patientix.OverviewActivity"
-            android:label="@string/title_activity_overview" >
-        </activity>
+
     </application>
 
 </manifest>
