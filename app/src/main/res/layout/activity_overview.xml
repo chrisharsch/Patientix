@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.OverviewActivity"
-    android:background="@drawable/inhaltsseiteapp"
-    >
+    android:background="@drawable/inhaltsseiteapp" >
+
 
     <ListView
         android:id="@+id/listView1"

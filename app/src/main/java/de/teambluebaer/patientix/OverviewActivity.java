@@ -66,6 +66,25 @@ public class OverviewActivity extends Activity {
         list.add(temp);
         list.add(temp);
         list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
+        list.add(temp);
 
     }
     @Override
