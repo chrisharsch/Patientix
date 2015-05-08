@@ -24,7 +24,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editPassword"
         android:layout_below="@+id/editName"
