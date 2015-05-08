@@ -2,10 +2,18 @@ package de.teambluebaer.patientix.xmlParser;
 
 /**
  * Created by Simon on 06.05.2015.
+ *
+ * Represents a Text Field that could insert into a <code>Row</code>
+ * @see Row
+ * @see Element
  */
 public class Text implements Element {
     private String text;
 
+    /**
+     * Constructor
+     * @param text represents the shoen Text
+     */
     public Text(String text){
         this.text = text;
     }

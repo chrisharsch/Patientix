@@ -6,11 +6,18 @@ import java.util.List;
 /**
  * Created by Simon on 06.05.2015.
  *
- * Singilton, represents any kind of Form
+ * Singilton, represents any kind of Form and hold <code>Pages</code>
+ * and is part of <code>MetaandForm</code>
+ * @see Page
+ * @see MetaandForm
  */
 public class Form {
     private static Form ourInstance = new Form();
 
+    /**
+     * give access to the Singleton Instance
+     * @return a Instance of Form
+     */
     public static Form getInstance() {
         return ourInstance;
     }
@@ -25,7 +32,7 @@ public class Form {
     }
 
     /**
-     * remove reference to old Data
+     * remove reference to old Form Objects
      */
     public void refresh(){
         pageList = new ArrayList<Page>();

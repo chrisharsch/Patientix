@@ -2,10 +2,18 @@ package de.teambluebaer.patientix.xmlParser;
 
 /**
  * Created by Simon on 06.05.2015.
+ *
+ * Represents a Sound File that could insert into a <code>Row</code>
+ * @see Row
+ * @see Element
  */
 public class Sound implements Element {
     private String soundSource;
 
+    /**
+     * Constructor
+     * @param src URL-String represents Location of the Sound you want to add
+     */
     public Sound(String src){
         soundSource = src;
     }

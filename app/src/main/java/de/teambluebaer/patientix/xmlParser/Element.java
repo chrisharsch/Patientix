@@ -3,7 +3,15 @@ package de.teambluebaer.patientix.xmlParser;
 /**
  * Created by Simon on 06.05.2015.
  *
- * Represents any Objekt that can be add to a Row
+ * Represents any Object that can be add to a <code>Row</code>
+ * @see Row
+ * @see Checkbox
+ * @see Image
+ * @see Input
+ * @see Radio
+ * @see Sound
+ * @see Video
+ * @see WhiteSpace
  */
 public interface Element {
     /**

@@ -3,14 +3,9 @@ package de.teambluebaer.patientix.xmlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,9 +13,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by Simon on 06.05.2015.
+ *
+ * holds functions to pars an XMLString into an defined Java Structure
  */
 public final class JavaStrucBuilder {
 
+    /**
+    * creates an <code>MetaandForm</code> Object from an File
+    * @return file that has been parsed into a <code>MetaandForm</code> Object
+    */
     public static MetaandForm buildStruc() {
 
         FileInputStream fileimput;
@@ -43,6 +44,11 @@ public final class JavaStrucBuilder {
         return metaAndForm;
     }
 
+    /**
+     * build a DOM-Tree out of an XML-String
+     * @param filename represents an XML-String
+     * @return the generated DOM-Tree
+     */
     static Document buildDOMTreeformXMLString(String filename) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -59,6 +65,12 @@ public final class JavaStrucBuilder {
 
     }
 
+    /**
+     * parses DOM-Tree Object with Meta Data into a <code>MetaData</code> Object
+     * @param meta represents the Meta Data as a NodeList
+     * @return initialised <code>MetaData</code> Objekt
+     * @see MetaData
+     */
     static MetaData metaParser(NodeList meta){
 
         MetaData.getInstance().setMetaData(
@@ -73,7 +85,13 @@ public final class JavaStrucBuilder {
 
     }
 
-    static Form formParser(NodeList pageList){
+    /**
+     * parses DOM-Tree Object with Form Data into an <code>Form</code> Object
+     * @param pageList List of all <code>Pages</code> that are hold in the <code>Form</code>
+     * @return initialised <code>Form</code> Objekt
+     * @see Form
+     */
+    protected static Form formParser(NodeList pageList){
         Form form = Form.getInstance();
 
         for(int pageIterator = 0; pageIterator < pageList.getLength(); pageIterator++){
