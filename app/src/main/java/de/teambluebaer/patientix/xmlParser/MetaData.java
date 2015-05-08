@@ -31,7 +31,4 @@ public class MetaData {
         ourInstance.exameName = exName;
     }
 
-    public void getMeta(){
-
     }
-}

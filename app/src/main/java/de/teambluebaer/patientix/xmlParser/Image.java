@@ -2,10 +2,17 @@ package de.teambluebaer.patientix.xmlParser;
 
 /**
  * Created by Simon on 06.05.2015.
+ *
+ * Represents a Image that could insert into a Page
+ *
  */
 public class Image implements Element {
     private String imageSource;
 
+    /**
+     * Constructor
+     * @param src URL-String represents Location of the Image you want to add
+     */
     public Image(String src){
         imageSource = src;
     }

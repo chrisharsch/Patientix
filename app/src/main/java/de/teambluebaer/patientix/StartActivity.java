@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+import de.teambluebaer.patientix.xmlParser.*;
 
 import com.patientix.maren.patientix.R;
 
@@ -55,6 +56,13 @@ public class StartActivity extends Activity {
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 flashButtonlarge(buttonUpdate);
+                //TODO SEND "OLD" DATA TO SERVER
+
+
+                Form.getInstance().refresh();
+                MetaData.getInstance().refresh();
+
+                MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
                 Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
