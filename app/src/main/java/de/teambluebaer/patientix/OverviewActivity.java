@@ -40,6 +40,7 @@ public class OverviewActivity extends Activity {
         ListView listView = (ListView)findViewById(R.id.listView1);
         buttonReady = (Button) findViewById(R.id.buttonReady);
 
+
         buttonReady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +55,8 @@ public class OverviewActivity extends Activity {
         ListViewAdapter adapter=new ListViewAdapter(this, list);
         listView.setAdapter(adapter);
     }
+
+
 
     private void populateList() {
 
