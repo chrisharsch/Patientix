@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.OverviewActivity"
-    android:background="@drawable/inhaltsseiteapp" >
+    android:background="#ffffffff">
 
 
     <ListView
@@ -31,5 +31,23 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageViewLeftSide"
+        android:src="@drawable/left"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="262dp"
+        android:layout_height="95dp"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:src="@drawable/ummlogoklein" />
 
 </RelativeLayout>

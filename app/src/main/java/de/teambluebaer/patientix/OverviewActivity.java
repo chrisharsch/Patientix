@@ -46,7 +46,7 @@ public class OverviewActivity extends Activity {
                 flashButtonsmall(buttonReady);
                 Intent intentFormActivity = new Intent(OverviewActivity.this, SignatureActivity.class);
                 startActivity(intentFormActivity);
-                finish();
+
             }
         });
 
