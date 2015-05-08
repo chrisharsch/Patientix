@@ -62,7 +62,7 @@ public class StartActivity extends Activity {
                 Form.getInstance().refresh();
                 MetaData.getInstance().refresh();
 
-                MetaAndForm metaandform = JavaStrucBuilder.buildStruc();
+                MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
                 Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
