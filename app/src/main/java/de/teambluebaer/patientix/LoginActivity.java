@@ -21,8 +21,6 @@ public class LoginActivity extends Activity {
     private Button buttonLogin;
     private EditText editName = null;
     private EditText editPassword = null;
-    private TextView attempts;
-    int counter = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +44,20 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 flashButtonsmall(buttonLogin);
-                login(v);
-                Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
-                startActivity(intentFormActivity);
-                finish();
+                checkCredentials();
             }
         });
     }
 
-    public void login(View view) {
 
-        buttonLogin.setEnabled(true);
-
+    private void checkCredentials() {
         if (editName.getText().toString().equals("MTRA") &&
                 editPassword.getText().toString().equals("MTRA")) {
             Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
+            Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
+            startActivity(intentFormActivity);
         } else {
-            Toast.makeText(getApplicationContext(), "Passwort falsch",
-                    Toast.LENGTH_SHORT).show();
-            buttonLogin.setEnabled(false);
-            /*
-            attempts.setBackgroundColor(Color.RED);
-            counter--;
-            attempts.setText(Integer.toString(counter));
-            if(counter==0){
-                login.setEnabled(false);
-            } */
+            Toast.makeText(getApplicationContext(), "Passwort falsch", Toast.LENGTH_SHORT).show();
         }
     }
 
