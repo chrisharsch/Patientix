@@ -1,0 +1,35 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.teambluebaer.patientix.OverviewActivity"
+    android:background="@drawable/inhaltsseiteapp" >
+
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="100dp"
+        android:paddingBottom="250dp">
+    </ListView>
+
+    <Button
+        android:layout_width="210dip"
+        android:layout_height="70dip"
+        android:text="@string/buttonReady"
+        android:id="@+id/buttonReady"
+        android:textSize="40sp"
+        android:onClick="onClickBackButton"
+        android:background="@drawable/button1x3normal"
+        android:textColor="#fffafa"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp" />
+
+</RelativeLayout>

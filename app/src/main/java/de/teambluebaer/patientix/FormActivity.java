@@ -45,7 +45,7 @@ public class FormActivity extends Activity {
         fragebogen.add("Hier steht noch eine Seite");
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
-        buttonBack = (Button) findViewById(R.id.buttonLogin);
+        buttonBack = (Button) findViewById(R.id.buttonReady);
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         questionText = (TextView) findViewById(R.id.questionText);

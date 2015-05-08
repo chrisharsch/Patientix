@@ -30,7 +30,7 @@
     android:layout_width="210dip"
     android:layout_height="70dip"
     android:text="@string/buttonBack"
-    android:id="@+id/buttonLogin"
+    android:id="@+id/buttonReady"
     android:textSize="40sp"
     android:onClick="onClickBackButton"
     android:background="@drawable/button1x3normal"
@@ -70,7 +70,7 @@
         android:textSize="50dp"
         android:background="@drawable/button1x1normal"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/buttonLogin"
+        android:layout_alignStart="@+id/buttonReady"
         android:textColor="#fffafa" />
 
     <TextView
