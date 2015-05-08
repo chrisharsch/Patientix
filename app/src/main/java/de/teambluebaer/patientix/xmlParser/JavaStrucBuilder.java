@@ -19,10 +19,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public final class JavaStrucBuilder {
 
     /**
-    * creates an <code>MetaandForm</code> Object from an File
-    * @return file that has been parsed into a <code>MetaandForm</code> Object
+    * creates an <code>MetaAndForm</code> Object from an File
+    * @return file that has been parsed into a <code>MetaAndForm</code> Object
     */
-    public static MetaandForm buildStruc() {
+    public static MetaAndForm buildStruc() {
 
         FileInputStream fileimput;
         try{
@@ -38,7 +38,7 @@ public final class JavaStrucBuilder {
         NodeList metadata = xml.getElementsByTagName("metaData");
         MetaData meta = metaParser(metadata.item(0).getChildNodes());
         Form form = formParser(pagelist);
-        MetaandForm metaAndForm = MetaandForm.getInstance();
+        MetaAndForm metaAndForm = MetaAndForm.getInstance();
         metaAndForm.setMeta(meta);
         metaAndForm.setForm(form);
         return metaAndForm;

@@ -8,14 +8,14 @@ package de.teambluebaer.patientix.xmlParser;
  * @see Form
  *
  */
-public final class MetaandForm {
-    private static MetaandForm ourInstance = new MetaandForm();
+public final class MetaAndForm {
+    private static MetaAndForm ourInstance = new MetaAndForm();
 
     /**
      * give access to the Singleton Instance
      * @return a Instance of <code>MetaAnfForm</code>
      */
-    public static MetaandForm getInstance() {
+    public static MetaAndForm getInstance() {
         return ourInstance;
     }
 
@@ -26,7 +26,7 @@ public final class MetaandForm {
     /**
      * Private Constructor
      */
-    private MetaandForm() {
+    private MetaAndForm() {
 
     }
 
@@ -48,7 +48,7 @@ public final class MetaandForm {
 
     /**
      * give you access to the <code>Form</code> Object of <code>MetaAnfForm</code>
-     * @return the Form of MetaandForm
+     * @return the Form of MetaAndForm
      */
     public Form getForm(){
         return this.form;
@@ -56,7 +56,7 @@ public final class MetaandForm {
 
     /**
      * give you access to the <code>MetaData</code> Object of <code>MetaAnfForm</code>
-     * @return the MetaData of MetaandForm
+     * @return the MetaData of MetaAndForm
      */
     public MetaData getMeta(){
         return this.meta;
@@ -64,5 +64,3 @@ public final class MetaandForm {
 
 
 }
-
-
