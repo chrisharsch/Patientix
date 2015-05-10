@@ -78,4 +78,10 @@ public class DatabaseActivity extends Activity {
              new AssertionError("Verbindung konnte nicht geschlossen werden!");
          }
     }
+
+    //Getter and setter for the LoginActivity
+    public Connection getCon() {
+        return con;
+    }
+
 }
