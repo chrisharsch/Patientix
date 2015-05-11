@@ -2,6 +2,7 @@ package de.teambluebaer.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -49,7 +50,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 flashButtonsmall(buttonLogin);
-                if(checkCredentials()) {
+                if(new DownloadHelper().doInBackground()) {
                     Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
                     startActivity(intentFormActivity);
                 }
@@ -57,50 +58,62 @@ public class LoginActivity extends Activity {
         });
     }
 
-    /**
-     * Check the login data from the MTRA
-     */
-    private boolean checkCredentials() {
+    private class DownloadHelper extends AsyncTask<String, Void, Boolean> {
 
-        try {
-            String passwordHash = getHash(editPassword.getText().toString());
-            String userName = editName.getText().toString();
 
-            if(getHTML("141.19.145.237/login.php?userName="+userName+"&userPW="+passwordHash).equals("200")) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-                Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
         }
-        return false;
-    }
 
-    public String getHTML(String urlToRead) {
-        URL url;
-        HttpURLConnection conn;
-        BufferedReader rd;
-        String line;
-        String result = "";
-        try {
-            url = new URL(urlToRead);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while ((line = rd.readLine()) != null) {
-                result += line;
+        @Override
+        protected Boolean doInBackground(String... urls) {
+            /**
+             * Check the login data from the MTRA
+             */
+
+            try {
+                String passwordHash = getHash(editPassword.getText().toString());
+                String userName = editName.getText().toString();
+
+                //if(getHTML("141.19.145.237/login.php?userName="+userName+"&userPW="+passwordHash).equals("200")) {
+                if (getHTML("192.168.1.7/login.php?userName=" + userName + "&userPW=" + passwordHash).equals("200")) {
+                    Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Login faild", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
             }
-            rd.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return result;
-    }
 
+        public String getHTML(String urlToRead) {
+            URL url;
+            HttpURLConnection conn;
+            BufferedReader rd;
+            String line;
+            String result = "";
+            try {
+                url = new URL(urlToRead);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = rd.readLine()) != null) {
+                    result += line;
+                }
+                rd.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
     /**
      * Change the view from the button to press
      * @param myBtnToFlash
