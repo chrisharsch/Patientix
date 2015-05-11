@@ -9,9 +9,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-import de.teambluebaer.patientix.xmlParser.*;
 
 import com.patientix.maren.patientix.R;
+
+import de.teambluebaer.patientix.xmlParser.Form;
+import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
+import de.teambluebaer.patientix.xmlParser.MetaData;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 
 public class StartActivity extends Activity {
@@ -19,27 +23,35 @@ public class StartActivity extends Activity {
     private Button buttonStart;
     private Button buttonUpdate;
 
-    //Disable back button
+
+    /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the funktionality of the button is disabled.
+     */
     @Override
     public void onBackPressed() {
 
     }
 
+    /**
+     * In this method is defined what happens on create of the Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        buttonStart = (Button) findViewById(R.id.startbtn);
+        buttonUpdate = (Button) findViewById(R.id.updatebtn);
 
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
-        // Set the first View
         setContentView(R.layout.activity_start);
 
-        buttonStart = (Button) findViewById(R.id.startbtn);
-        buttonUpdate = (Button) findViewById(R.id.updatebtn);
+
 
         //Press buttons method -> Start-Button
         buttonStart.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +81,7 @@ public class StartActivity extends Activity {
             }
         });
     }
+
 
     // Change the view from the button to press
     public void flashButtonsmall(final Button myBtnToFlash) {
