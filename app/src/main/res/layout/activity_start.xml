@@ -15,7 +15,7 @@
         android:gravity="center"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:layout_below="@+id/updatebtn"
+        android:layout_below="@+id/updatebutton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="104dp" />
 
@@ -25,14 +25,15 @@
         android:text="@string/update"
         android:layout_width="380dip"
         android:layout_height="70dip"
-        android:id="@+id/updatebtn"
+        android:id="@+id/updatebutton"
         android:textSize="40sp"
         android:layout_marginTop="61dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button1x5normal"
         android:padding="1dp"
-        android:textColor="#fffafa" />
+        android:textColor="#fffafa"
+        android:onClick="onClickUpdateButton"/>
 
     <!-- Start Button -->
     <Button
@@ -47,7 +48,8 @@
         android:text="Start"
         android:clickable="true"
         android:padding="1dp"
-        android:textColor="#fffafa" />
+        android:textColor="#fffafa"
+        android:onClick="onClickStartButton"/>
 
     <!-- Patient textfield -->
     <TextView

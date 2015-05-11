@@ -2,7 +2,6 @@ package de.teambluebaer.patientix;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,16 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class LoginActivity extends Activity {
@@ -60,7 +49,7 @@ public class LoginActivity extends Activity {
      * Check the login data from the MTRA
      */
     private void checkCredentials() {
-
+/*
         try {
             Connection conn = databaseClass.getCon();
             Statement stmt = conn.createStatement();
@@ -75,21 +64,21 @@ public class LoginActivity extends Activity {
 
             Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
 
-            /*      TEST
+                 TEST
             if (editName.getText().toString().equals("MTRA") &&
                     editPassword.getText().toString().equals("MTRA")) {
-                Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();*/
                 Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intentFormActivity);
-            } else {
+          /*  } else {
                 Toast.makeText(getApplicationContext(), "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
-            } */
+            }
 
         } catch (SQLException se) {
             Toast.makeText(getApplicationContext(), "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
 

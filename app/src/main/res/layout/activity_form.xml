@@ -15,7 +15,7 @@
         android:layout_height="70dip"
         android:text="@string/buttonContinue"
         android:id="@+id/buttonContinue"
-
+        android:visibility="visible"
         android:textSize="40sp"
         android:onClick="onClickNextButton"
         android:background="@drawable/button1x3normal"

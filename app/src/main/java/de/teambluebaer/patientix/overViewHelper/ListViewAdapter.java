@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.patientix.maren.patientix.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.teambluebaer.patientix.R;
 
 import static de.teambluebaer.patientix.overViewHelper.Constants.FIRST_COLUMN;
 import static de.teambluebaer.patientix.overViewHelper.Constants.SECOND_COLUMN;

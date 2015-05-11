@@ -40,8 +40,7 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        buttonStart = (Button) findViewById(R.id.startbtn);
-        buttonUpdate = (Button) findViewById(R.id.updatebtn);
+
 
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -50,35 +49,29 @@ public class StartActivity extends Activity {
 
         setContentView(R.layout.activity_start);
 
+        buttonStart = (Button) findViewById(R.id.startbtn);
+        buttonUpdate = (Button) findViewById(R.id.updatebutton);
+
+    }
+
+    public void onClickStartButton(View v){
+        flashButtonsmall(buttonStart);
+        Intent intentFormActivity = new Intent(StartActivity.this, FormActivity.class);
+        startActivity(intentFormActivity);
+        finish();
+    }
+    public void onClickUpdateButton(View v){
+        flashButtonlarge(buttonUpdate);
+        //TODO SEND "OLD" DATA TO SERVER
 
 
-        //Press buttons method -> Start-Button
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flashButtonsmall(buttonStart);
-                Intent intentFormActivity = new Intent(StartActivity.this, FormActivity.class);
-                startActivity(intentFormActivity);
-                finish();
-            }
-        });
+        Form.getInstance().refresh();
+        MetaData.getInstance().refresh();
 
-        // Update-Button
-        buttonUpdate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                flashButtonlarge(buttonUpdate);
-                //TODO SEND "OLD" DATA TO SERVER
+        MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
+        Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
-                Form.getInstance().refresh();
-                MetaData.getInstance().refresh();
-
-                MetaandForm metaandform = JavaStrucBuilder.buildStruc();
-
-                Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     /**

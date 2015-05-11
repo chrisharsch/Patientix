@@ -22,7 +22,7 @@ public class FormActivity extends Activity {
 
     private static LinkedList<String> fragebogen = new LinkedList<String>();
     private int counter = -1;
-    private int pageCounter = 1;
+
 
     private Button buttonContinue;
     private Button buttonBack;
@@ -36,8 +36,8 @@ public class FormActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        formView = new FormView(this.questionText.getContext());
-        setContentView(formView);
+//        formView = new FormView(this.questionText.getContext());
+      //  setContentView(formView);
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -93,18 +93,20 @@ public class FormActivity extends Activity {
     public void onClickNextButton(View v) {
 
         if (counter < fragebogen.size() - 1) {
-            flashButton(buttonContinue);
+            flashButton1x3(buttonContinue);
             counter++;
             questionText.setText(fragebogen.get(counter));
-            numberOfPages.setText("Seite " + pageCounter);
-            pageCounter++;
+            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter))+1));
+
         } else if (counter < fragebogen.size()) {
             counter++;
 
 
-            numberOfPages.setText("Seite " + pageCounter);
-
+            numberOfPages.setText("Seite " + (fragebogen.size()+1));
+            buttonContinue.setVisibility(View.INVISIBLE);
+            buttonContinue.setClickable(false);
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
+
         }
 
     }
@@ -117,17 +119,19 @@ public class FormActivity extends Activity {
     public void onClickBackButton(View v) {
 
         if (counter > 0) {
-            flashButton(buttonBack);
+            flashButton1x3(buttonBack);
             counter--;
             questionText.setText(fragebogen.get(counter));
-            pageCounter--;
-            numberOfPages.setText("Seite " + pageCounter);
+
+            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter))+1));
+            buttonContinue.setVisibility(View.VISIBLE);
+            buttonContinue.setClickable(true);
         }
     }
 // show temprarily the overview activity
 
     public void onClickZoomButtonIn(View v) {
-        flashButton(buttonZoomIn);
+        flashButton1x1(buttonZoomIn);
 
         Intent intentFormActivity = new Intent(FormActivity.this, OverviewActivity.class);
         startActivity(intentFormActivity);
@@ -140,19 +144,29 @@ public class FormActivity extends Activity {
     }
 
     public void onClickZoomButtonOut(View v) {
-        flashButton(buttonZoomOut);
+        flashButton1x1(buttonZoomOut);
         float size = questionText.getTextSize();
         size = size - 1;
         questionText.setTextSize(size);
 
     }
 
-    public void flashButton(final Button myBtnToFlash) {
+    public void flashButton1x3(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
+            }
+        }, 25);
+
+    }
+    public void flashButton1x1(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x1aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x1normal);
             }
         }, 25);
 

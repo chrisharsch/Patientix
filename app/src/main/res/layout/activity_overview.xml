@@ -43,7 +43,7 @@
     <ImageView
         android:layout_width="262dp"
         android:layout_height="95dp"
-        android:id="@+id/imageView2"
+        class = "imageViewLogo"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:paddingRight="0dp"
