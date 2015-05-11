@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.patientix.maren.patientix.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

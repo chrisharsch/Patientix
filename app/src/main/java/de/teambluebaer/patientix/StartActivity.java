@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.patientix.maren.patientix.R;
 
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;

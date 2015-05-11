@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.patientix.maren.patientix.R;
+
 
 public class SignatureActivity extends Activity {
 
