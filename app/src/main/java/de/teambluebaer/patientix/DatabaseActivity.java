@@ -1,17 +1,15 @@
 package de.teambluebaer.patientix;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.patientix.maren.patientix.R;
 
 public class DatabaseActivity extends Activity {
 

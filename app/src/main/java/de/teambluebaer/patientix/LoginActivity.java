@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.patientix.maren.patientix.R;
+
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

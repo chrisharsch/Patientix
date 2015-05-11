@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.patientix.maren.patientix.R;
 
 import java.util.LinkedList;
 
