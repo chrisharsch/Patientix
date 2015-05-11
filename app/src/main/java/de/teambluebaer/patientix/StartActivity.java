@@ -44,7 +44,7 @@ public class StartActivity extends Activity {
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebtn);
 
-        //Titlebar removed
+        //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -82,8 +82,11 @@ public class StartActivity extends Activity {
         });
     }
 
-
-    // Change the view from the button to press
+    /**
+     * This Methode flashs a button. In this case the flash
+     * is the feedback the user gets when it clicks on a button1x3.
+     * @param myBtnToFlash button of Type Button to flash
+     */
     public void flashButtonsmall(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
         Handler handler = new Handler();
@@ -94,6 +97,11 @@ public class StartActivity extends Activity {
         }, 10);
     }
 
+    /**
+     * This Methode flashs a button. In this case the flash
+     * is the feedback the user gets when it clicks on a button1x5.
+     * @param myBtnToFlash Button of Type Button to flash
+     */
     public void flashButtonlarge(final Button myBtnToFlash) {
         myBtnToFlash.setBackgroundResource(R.drawable.button1x5aktiv);
         Handler handler = new Handler();
