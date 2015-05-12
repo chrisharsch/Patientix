@@ -77,8 +77,8 @@ public class LoginActivity extends Activity {
                 String passwordHash = getHash(editPassword.getText().toString());
                 String userName = editName.getText().toString();
 
-                //if(getHTML("141.19.145.237/login.php?userName="+userName+"&userPW="+passwordHash).equals("200")) {
-                if (getHTML("192.168.1.7/login.php?userName=" + userName + "&userPW=" + passwordHash).equals("200")) {
+                if (getHTML("http://141.19.145.237/login.php?userName=" + userName + "&userPW=" + passwordHash).equals("200")) {
+                    //if (getHTML("http://192.168.1.7/login.php?userName=" + userName + "&userPW=" + passwordHash).equals("200")) {
                     Toast.makeText(getApplicationContext(), "Login...", Toast.LENGTH_SHORT).show();
                     return true;
                 } else {
