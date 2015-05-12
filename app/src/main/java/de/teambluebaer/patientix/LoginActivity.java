@@ -1,38 +1,67 @@
 package de.teambluebaer.patientix;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
+public class LoginActivity extends Activity {
 
-public class LoginActivity extends ActionBarActivity {
+    private Button buttonLogin;
+    private EditText editName = null;
+    private EditText editPassword = null;
+    private String url;
+    private String thisExeption;
+    private String httpData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Titlebar removed
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_login);
+
+        // Keyboard open when touch editfield
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        buttonLogin = (Button) findViewById(R.id.buttonReady);
+        editName = (EditText) findViewById(R.id.editName);
+        editPassword = (EditText) findViewById(R.id.editPassword);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flashButtonsmall(buttonLogin);
+
+                Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
+                startActivity(intentFormActivity);
+
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    /**
+     * Change the view from the button to press
+     *
+     * @param myBtnToFlash
+     */
+    public void flashButtonsmall(final Button myBtnToFlash) {
+        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
+            }
+        }, 10);
     }
 }
