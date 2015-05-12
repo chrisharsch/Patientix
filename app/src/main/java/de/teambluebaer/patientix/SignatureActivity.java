@@ -40,7 +40,6 @@ public class SignatureActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_signature);
 
-
         setContentView(R.layout.activity_signature);
         mContext = this;
 
@@ -51,7 +50,7 @@ public class SignatureActivity extends Activity {
             spenPackage.initialize(this);
             isSpenFeatureEnabled = spenPackage.isFeatureEnabled(Spen.DEVICE_PEN);
         } catch (SsdkUnsupportedException e) {
-            if (processUnsupportedException(e) == true) {
+            if (processUnsupportedException(e)) {
                 return;
             }
         } catch (Exception e1) {
@@ -65,11 +64,6 @@ public class SignatureActivity extends Activity {
         RelativeLayout spenViewLayout =
                 (RelativeLayout) findViewById(R.id.signatureLayout);
         mSpenSurfaceView = new SpenSurfaceView(mContext);
-        if (mSpenSurfaceView == null) {
-            Toast.makeText(mContext, "Cannot create new SpenView.",
-                    Toast.LENGTH_SHORT).show();
-            finish();
-        }
         spenViewLayout.addView(mSpenSurfaceView);
 
         // Get the dimension of the device screen.
@@ -96,7 +90,7 @@ public class SignatureActivity extends Activity {
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
 
-        if(isSpenFeatureEnabled == false) {
+        if(!isSpenFeatureEnabled) {
             mSpenSurfaceView.setToolTypeAction(SpenSurfaceView.TOOL_FINGER, SpenSurfaceView.ACTION_STROKE);
             Toast.makeText(mContext,
                     "Device does not support Spen. \n You can draw stroke by finger.",
@@ -171,7 +165,7 @@ public class SignatureActivity extends Activity {
                             @Override
                             public void onClick(
                                     DialogInterface dialog, int which) {
-                                if(closeActivity == true) {
+                                if(closeActivity) {
                                     // Terminate the activity if APK is not installed.
                                     finish();
                                 }
@@ -181,14 +175,14 @@ public class SignatureActivity extends Activity {
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-                        if(closeActivity == true) {
+                        if(closeActivity) {
                             // Terminate the activity if APK is not installed.
                             finish();
                         }
                     }
                 })
                 .show();
-        dlg = null;
+        //dlg = null;
     }
 
     @Override
@@ -208,5 +202,5 @@ public class SignatureActivity extends Activity {
             }
             mSpenNoteDoc = null;
         }
-    };
+    }
 }

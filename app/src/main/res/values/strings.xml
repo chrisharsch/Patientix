@@ -8,11 +8,10 @@
     <string name="patientname">Max Mustermann</string>
     <string name="patientid">12345</string>
     <string name="title_activity_form">FormActivity</string>
-
     <string name="title">Patientenaufklärung für</string>
+
     <string name="buttonContinue">Weiter</string>
     <string name="buttonBack">Zurück</string>
-
     <string name="buttonZoomOut">-</string>
     <string name="buttonZoomIn" >+</string>
 
@@ -20,19 +19,17 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="test">test</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="buttonReady">Fertig</string>
 
+    <string name="title_activity_login">LoginActivity</string>
     <string name="editName">Name</string>
     <string name="editPassword">Passwort</string>
     <string name="textLogin">Bitte einloggen</string>
     <string name="buttonLogin">Login</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_start">StartActivity</string>
 
     <string name="action_settings">Settings</string>
+
     <string name="title_activity_signature">SignatureActivity</string>
-    <string name="buttonReady">Fertig</string>
-    <string name="title_activity_database">DatabaseActivity</string>
 
-
-    <color name="buttonErase">Löschen</color>
 </resources>

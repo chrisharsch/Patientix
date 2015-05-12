@@ -10,23 +10,4 @@
     android:clickable="true">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonErase"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/tooliceraser"
-        android:src="@color/buttonErase" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonPen"
-        android:layout_alignTop="@+id/buttonErase"
-        android:layout_toEndOf="@+id/buttonErase"
-        android:layout_marginStart="116dp"
-        android:background="@drawable/toolicpen"
-        android:src="@color/buttonPen" />
-
-
 </RelativeLayout>
