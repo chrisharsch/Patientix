@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="buttonErase">Löschen</color>
-    <color name="buttonPen">Stift</color>
+    <color name="buttonErase"/>
+    <color name="buttonPen"/>
 </resources>
