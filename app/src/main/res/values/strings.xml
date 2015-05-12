@@ -34,4 +34,5 @@
     <string name="title_activity_database">DatabaseActivity</string>
 
 
+    <color name="buttonErase">Löschen</color>
 </resources>
