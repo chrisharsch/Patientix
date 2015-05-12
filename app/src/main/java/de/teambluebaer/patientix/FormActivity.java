@@ -37,7 +37,7 @@ public class FormActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        formView = new FormView(this.questionText.getContext());
-      //  setContentView(formView);
+        //  setContentView(formView);
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

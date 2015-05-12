@@ -4,8 +4,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="de.teambluebaer.patientix.SignatureActivity"
-    android:id="@+id/signature"
-    android:background="@drawable/inhaltsseiteapp">
+    tools:context="de.teambluebaer.patientix.SignatureActivity">
+
+    <TextView android:text="Hallo" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

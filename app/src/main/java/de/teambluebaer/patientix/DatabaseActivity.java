@@ -31,10 +31,10 @@ public class DatabaseActivity extends Activity {
 
         // Auf Treiber überprüfen
         try {
-             Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
 
         } catch (Exception ex) {
-             new AssertionError("Es wurde kein Datenbanktreiber gefunden!");
+            new AssertionError("Es wurde kein Datenbanktreiber gefunden!");
         }
 
         // DB Verbindung herstellen
@@ -47,34 +47,34 @@ public class DatabaseActivity extends Activity {
     }
 
     public boolean update(String query) {
-         // Update, Insert, Delete
-         try {
-             Statement stmt = con.createStatement();
-             stmt.executeUpdate(query);
-             return true;
-         } catch (SQLException e) {
-             new AssertionError("Statement konnte nicht erstellt werden!");
-             return false;
-         }
+        // Update, Insert, Delete
+        try {
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (SQLException e) {
+            new AssertionError("Statement konnte nicht erstellt werden!");
+            return false;
+        }
     }
 
     public ResultSet select(String query) {
-         // Select
-         try {
-             Statement stmt = con.createStatement();
-             return stmt.executeQuery(query);
-         } catch (SQLException e) {
-             new AssertionError("Statement konnte nicht erstellt werden!");
-             return null;
-         }
+        // Select
+        try {
+            Statement stmt = con.createStatement();
+            return stmt.executeQuery(query);
+        } catch (SQLException e) {
+            new AssertionError("Statement konnte nicht erstellt werden!");
+            return null;
+        }
     }
 
     public void close() {
-         try {
-             con.close();
-         } catch (SQLException e) {
-             new AssertionError("Verbindung konnte nicht geschlossen werden!");
-         }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            new AssertionError("Verbindung konnte nicht geschlossen werden!");
+        }
     }
 
     //Getter and setter for the LoginActivity

@@ -33,6 +33,5 @@
     <string name="buttonReady">Fertig</string>
     <string name="title_activity_database">DatabaseActivity</string>
 
-    <string name="hello_world">Hello world!</string>
 
 </resources>
