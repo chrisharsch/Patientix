@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="de.teambluebaer.patientix.FormActivity"
+    tools:context="de.teambluebaer.patientix.activities.FormActivity"
     android:background="@drawable/inhaltsseiteapp">
 
 
@@ -30,7 +30,7 @@
         android:layout_width="210dip"
         android:layout_height="70dip"
         android:text="@string/buttonBack"
-        android:id="@+id/buttonReady"
+        android:id="@+id/buttonBack"
         android:textSize="40sp"
         android:onClick="onClickBackButton"
         android:background="@drawable/button1x3normal"
@@ -44,7 +44,7 @@
         android:layout_height="1000px"
         android:text="New Text"
         android:id="@+id/questionText"
-        android:textSize="30pt"
+        android:textSize="30sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="76dp"
@@ -54,23 +54,24 @@
         android:layout_width="70dip"
         android:layout_height="70dip"
         android:text="@string/buttonZoomIn"
-        android:onClick="onClickZoomButtonIn"
+        android:onClick="onClickZoomButton"
         android:background="@drawable/button1x1normal"
         android:id="@+id/buttonZoomIn"
-        android:textSize="50dp"
-        android:layout_alignParentTop="true"
-        android:textColor="#fffafa" />
+        android:textSize="50sp"
+        android:textColor="#fffafa"
+        android:layout_alignTop="@+id/buttonZoomOut"
+        android:layout_alignStart="@+id/buttonZoomOut" />
 
     <Button
         android:layout_width="70dip"
         android:layout_height="70dip"
         android:text="@string/buttonZoomOut"
         android:id="@+id/buttonZoomOut"
-        android:onClick="onClickZoomButtonOut"
-        android:textSize="50dp"
+        android:onClick="onClickZoomButton"
+        android:textSize="50sp"
         android:background="@drawable/button1x1normal"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/buttonReady"
+        android:layout_alignStart="@+id/buttonBack"
         android:textColor="#fffafa" />
 
     <TextView

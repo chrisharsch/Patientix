@@ -1,4 +1,4 @@
-package de.teambluebaer.patientix;
+package de.teambluebaer.patientix.activities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,8 @@ import com.samsung.android.sdk.pen.recognition.SpenSignatureVerification;
 import com.samsung.android.sdk.pen.recognition.SpenSignatureVerification.ResultListener;
 import com.samsung.android.sdk.pen.recognition.SpenSignatureVerificationInfo;
 import com.samsung.android.sdk.pen.recognition.SpenSignatureVerificationManager;
+
+import de.teambluebaer.patientix.R;
 
 
 public class SignatureVerificationActivity extends Activity {

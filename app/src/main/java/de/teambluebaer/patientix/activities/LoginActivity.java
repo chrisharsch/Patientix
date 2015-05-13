@@ -1,14 +1,16 @@
-package de.teambluebaer.patientix;
+package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helpers.Flasher;
 
 public class LoginActivity extends Activity {
 
@@ -33,35 +35,19 @@ public class LoginActivity extends Activity {
         // Keyboard open when touch editfield
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        buttonLogin = (Button) findViewById(R.id.buttonReady);
+        buttonLogin = (Button) findViewById(R.id.buttonBack);
         editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flashButtonsmall(buttonLogin);
+    }
 
-                Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
-                startActivity(intentFormActivity);
+    public void onClickLoginButton(View v){
+        Flasher.flash(buttonLogin, "1x3");
 
-            }
-        });
+      //  new Helper().executeRequest("", );
+        Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intentFormActivity);
     }
 
 
-    /**
-     * Change the view from the button to press
-     *
-     * @param myBtnToFlash
-     */
-    public void flashButtonsmall(final Button myBtnToFlash) {
-        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
-            }
-        }, 10);
-    }
 }

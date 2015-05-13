@@ -1,4 +1,4 @@
-package de.teambluebaer.patientix;
+package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,10 +15,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.teambluebaer.patientix.overViewHelper.ListViewAdapter;
+import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helpers.ListViewAdapter;
 
-import static de.teambluebaer.patientix.overViewHelper.Constants.FIRST_COLUMN;
-import static de.teambluebaer.patientix.overViewHelper.Constants.SECOND_COLUMN;
+import static de.teambluebaer.patientix.helpers.Constants.FIRST_COLUMN;
+import static de.teambluebaer.patientix.helpers.Constants.SECOND_COLUMN;
 
 public class OverviewActivity extends Activity {
 
@@ -36,7 +37,7 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
 
         ListView listView = (ListView)findViewById(R.id.listView1);
-        buttonReady = (Button) findViewById(R.id.buttonReady);
+        buttonReady = (Button) findViewById(R.id.buttonBack);
 
 
         buttonReady.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +62,7 @@ public class OverviewActivity extends Activity {
 
         list = new ArrayList<HashMap<String, String>>();
 
-        HashMap<String, String> temp = new HashMap<String, String>();
+        HashMap<String, String> temp = new HashMap();
         temp.put(FIRST_COLUMN, "colored Notebook");
         temp.put(SECOND_COLUMN, "By Navneet");
 

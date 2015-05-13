@@ -1,9 +1,7 @@
-package de.teambluebaer.patientix;
+package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +10,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import java.util.LinkedList;
 
-import de.teambluebaer.patientix.ViewCreator.FormView;
+import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helpers.Flasher;
+import de.teambluebaer.patientix.helpers.FormView;
 
 
 public class FormActivity extends Activity {
@@ -49,13 +48,22 @@ public class FormActivity extends Activity {
         fragebogen.add("Hier steht noch eine Seite");
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
-        buttonBack = (Button) findViewById(R.id.buttonReady);
+        buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         questionText = (TextView) findViewById(R.id.questionText);
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
 
         onClickNextButton(buttonContinue);
+
+        //Disable back button at first page
+        buttonBack.setVisibility(View.INVISIBLE);
+        buttonBack.setClickable(false);
+
+        //Disable zoom out button and set text size to button size
+        questionText.setTextSize(40);
+        buttonZoomOut.setClickable(false);
+        buttonZoomOut.setVisibility(View.INVISIBLE);
 
     }
 
@@ -92,11 +100,13 @@ public class FormActivity extends Activity {
      */
     public void onClickNextButton(View v) {
 
+
         if (counter < fragebogen.size() - 1) {
-            flashButton1x3(buttonContinue);
+            Flasher.flash(buttonContinue, "1x3");
+
             counter++;
             questionText.setText(fragebogen.get(counter));
-            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter))+1));
+            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter)) + 1));
 
         } else if (counter < fragebogen.size()) {
             counter++;
@@ -108,7 +118,7 @@ public class FormActivity extends Activity {
             questionText.setText("Ende anzeigen: Bitte Tablet am Empfang....");
 
         }
-
+        firstPageCheck();
     }
 
     /**
@@ -118,24 +128,27 @@ public class FormActivity extends Activity {
      */
     public void onClickBackButton(View v) {
 
+
         if (counter > 0) {
-            flashButton1x3(buttonBack);
+            Flasher.flash(buttonBack, "1x3");
             counter--;
             questionText.setText(fragebogen.get(counter));
 
-            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter))+1));
+            numberOfPages.setText("Seite " + (fragebogen.indexOf(fragebogen.get(counter)) + 1));
             buttonContinue.setVisibility(View.VISIBLE);
             buttonContinue.setClickable(true);
+
         }
+        firstPageCheck();
     }
 // show temprarily the overview activity
 
     public void onClickZoomButtonIn(View v) {
-        flashButton1x1(buttonZoomIn);
 
-        Intent intentFormActivity = new Intent(FormActivity.this, OverviewActivity.class);
+
+      /*  Intent intentFormActivity = new Intent(FormActivity.this, OverviewActivity.class);
         startActivity(intentFormActivity);
-        finish();
+        finish();*/
         /*
         float size = questionText.getTextSize();
         size = size + 1;
@@ -143,32 +156,22 @@ public class FormActivity extends Activity {
 */
     }
 
-    public void onClickZoomButtonOut(View v) {
-        flashButton1x1(buttonZoomOut);
-        float size = questionText.getTextSize();
-        size = size - 1;
-        questionText.setTextSize(size);
-
-    }
-
-    public void flashButton1x3(final Button myBtnToFlash) {
-        myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
-            }
-        }, 25);
-
-    }
-    public void flashButton1x1(final Button myBtnToFlash) {
-        myBtnToFlash.setBackgroundResource(R.drawable.button1x1aktiv);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                myBtnToFlash.setBackgroundResource(R.drawable.button1x1normal);
-            }
-        }, 25);
+    public void onClickZoomButton(View v) {
+        if(buttonZoomIn.isClickable()){
+            Flasher.flash(buttonZoomIn, "1x1");
+            questionText.setTextSize(75);
+            buttonZoomIn.setClickable(false);
+            buttonZoomOut.setClickable(true);
+            buttonZoomOut.setVisibility(View.VISIBLE);
+            buttonZoomIn.setVisibility(View.INVISIBLE);
+        }else {
+            Flasher.flash(buttonZoomOut,"1x1");
+            questionText.setTextSize(40);
+            buttonZoomIn.setClickable(true);
+            buttonZoomOut.setClickable(false);
+            buttonZoomIn.setVisibility(View.VISIBLE);
+            buttonZoomOut.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -178,5 +181,17 @@ public class FormActivity extends Activity {
 
     }
 
+    /**
+     * checks if the counter is 0 to diasable the back button on the first screen
+     */
+    public void firstPageCheck(){
+        if(counter == 0) {
+            buttonBack.setClickable(false);
+            buttonBack.setVisibility(View.INVISIBLE);
+        }else{
+            buttonBack.setClickable(true);
+            buttonBack.setVisibility(View.VISIBLE);
+        }
+    }
 
 }

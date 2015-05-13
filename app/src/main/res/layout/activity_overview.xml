@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.teambluebaer.patientix.OverviewActivity"
+    tools:context="de.teambluebaer.patientix.activities.OverviewActivity"
     android:background="#ffffffff">
 
 
@@ -23,7 +23,7 @@
         android:layout_width="210dip"
         android:layout_height="70dip"
         android:text="@string/buttonReady"
-        android:id="@+id/buttonReady"
+        android:id="@+id/buttonBack"
         android:textSize="40sp"
         android:onClick="onClickBackButton"
         android:background="@drawable/button1x3normal"
