@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.LinkedList;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helpers.Flasher;
-import de.teambluebaer.patientix.helpers.FormView;
+import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.FormView;
 
 
 public class FormActivity extends Activity {

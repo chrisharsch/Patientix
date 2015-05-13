@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helpers.Flasher;
+import de.teambluebaer.patientix.helper.Flasher;
 
 public class LoginActivity extends Activity {
 

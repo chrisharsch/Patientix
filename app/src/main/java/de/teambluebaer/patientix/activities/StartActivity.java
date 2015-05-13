@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helpers.Flasher;
+import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaData;

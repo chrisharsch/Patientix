@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helpers.ListViewAdapter;
+import de.teambluebaer.patientix.helper.ListViewAdapter;
 
-import static de.teambluebaer.patientix.helpers.Constants.FIRST_COLUMN;
-import static de.teambluebaer.patientix.helpers.Constants.SECOND_COLUMN;
+import static de.teambluebaer.patientix.helper.Constants.FIRST_COLUMN;
+import static de.teambluebaer.patientix.helper.Constants.SECOND_COLUMN;
 
 public class OverviewActivity extends Activity {
 
