@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('src/main/libs/pen-v3.1.4.jar')
     compile files('src/main/libs/sdk-v1.0.0.jar')
+    compile files('src/main/libs/apacheds-all-1.5.5.jar')
 }
