@@ -34,6 +34,6 @@
     <string name="textSignature">Bitte unterschreiben Sie im vorgegebenen Feld:</string>
     <string name="buttonOverview">OK</string>
     <string name="buttonOk">OK</string>
-    <string name="buttonAbsolutlyReady">Fertig</string>
+    <string name="buttonDone">Fertig</string>
 
 </resources>

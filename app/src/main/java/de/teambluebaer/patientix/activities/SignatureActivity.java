@@ -1,13 +1,17 @@
-package de.teambluebaer.patientix.signatureHelper;
+package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +24,8 @@ import com.samsung.android.sdk.pen.document.SpenNoteDoc;
 import com.samsung.android.sdk.pen.document.SpenPageDoc;
 import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.teambluebaer.patientix.R;
@@ -101,13 +107,24 @@ public class SignatureActivity extends Activity {
         }
     }
 
-    public void onClickAbsolutlyReadyButton(View v){
-        Flasher.flash(buttonAbsolutlyReady, "1x3");
-
-        // Bild von Unterschrift erzeugen beim drücken
-        //Intent intentSignatureActivity = new Intent(SignatureActivity.this, SignatureActivity.class);
-        //startActivity(intentSignatureActivity);
-        //finish();
+    // Save signature in a bitmap
+    public void saveSig(View view) {
+        try {
+            GestureOverlayView gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
+            gestureView.setDrawingCacheEnabled(true);
+            Bitmap bm = Bitmap.createBitmap(gestureView.getDrawingCache());
+            File f = new File(Environment.getExternalStorageDirectory()
+                        + File.separator + "signature.png");
+            f.createNewFile();
+            FileOutputStream os = new FileOutputStream(f);
+            os = new FileOutputStream(f);
+            //compress to specified format (PNG), quality - which is ignored for PNG, and out stream
+            bm.compress(Bitmap.CompressFormat.PNG, 100, os);
+            os.close();
+        } catch (Exception e) {
+            Log.v("Gestures", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private boolean processUnsupportedException(SsdkUnsupportedException e) {

@@ -23,6 +23,23 @@
             android:layout_marginRight="250dp"
             android:layout_marginBottom="250dp"
             android:layout_gravity="center">
+
+            <android.gesture.GestureOverlayView
+                android:id="@+id/signaturePad"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:eventsInterceptionEnabled="true"
+                android:fadeEnabled="false"
+                android:gestureColor="@color/black"
+                android:gestureStrokeLengthThreshold="0.1"
+                android:gestureStrokeType="multiple"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+            </android.gesture.GestureOverlayView>
         </RelativeLayout>
     </FrameLayout>
 
@@ -40,13 +57,14 @@
     <Button
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:text="@string/buttonAbsolutlyReady"
-        android:id="@+id/buttonAbsolutlyReady"
+        android:text="@string/buttonDone"
+        android:id="@+id/DoneButton"
         android:textSize="40sp"
-        android:onClick="onClickAbsolutlyReadyButton"
+        android:onClick="saveSig"
         android:background="@drawable/button1x3normal"
         android:textColor="#fffafa"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp" />
+
 </RelativeLayout>

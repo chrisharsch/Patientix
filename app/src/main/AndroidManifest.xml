@@ -37,7 +37,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".signatureHelper.SignatureActivity"
+            android:name=".activities.SignatureActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_signature"
             android:screenOrientation="landscape">
