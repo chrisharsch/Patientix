@@ -14,7 +14,7 @@ import java.util.LinkedList;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.helper.FormView;
+import de.teambluebaer.patientix.helper.LayoutCreater;
 
 
 public class FormActivity extends Activity {
@@ -30,7 +30,7 @@ public class FormActivity extends Activity {
     private TextView questionText;
     private TextView numberOfPages;
 
-    FormView formView;
+    LayoutCreater formView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

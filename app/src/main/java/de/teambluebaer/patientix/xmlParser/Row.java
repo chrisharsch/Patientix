@@ -16,6 +16,10 @@ public class Row {
         elementList = new ArrayList<Element>();
     }
 
+    public List<Element> getElements (){
+        return this.elementList;
+    }
+
     /**
      * add a new <code>Element</code> to this <code>Row</code>
      * @param newElement Element you want to add
