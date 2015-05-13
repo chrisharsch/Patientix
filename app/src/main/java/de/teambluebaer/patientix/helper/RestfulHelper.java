@@ -34,10 +34,10 @@ public class RestfulHelper extends Activity {
     // public final String SERVER_URL = "http://anakin.informatik.hs-mannheim.de/uip2/FocusedHealth/";
     //public final String SERVER_URL = "http://141.19.142.46:8080/FocusedHealth/";
     //public final String SERVER_URL = "http://141.19.144.212:8080/FocusedHealth/";
-    public final String SERVER_URL = "http://141.19.145.237:8080/FocusedHealth/";
+    public final String SERVER_URL = "http://141.19.145.237:8080/";
     private final String POST_LOGIN = "api/person/login";
-  /*  private final String POST_LOGOUT = "api/person/logout";
-    private final String POST_REGISTER = "api/person/register";
+    private final String POST_LOGOUT = "api/person/logout";
+  /*  private final String POST_REGISTER = "api/person/register";
     private final String DELETE_PROVIDER = "api/person/deleteProvider";
     private final String POST_DELETEACCOUNT = "api/person/deleteAccount";
     private final String POST_MISSING_PASSWORD = "api/person/forgetPassword";
@@ -115,7 +115,7 @@ public class RestfulHelper extends Activity {
             networkThread.setDaemon(false);
             networkThread.start();
             //Join main-thread with Network-Thread to share Domain-Objects
-            // The network-thread get an Timeout of 2 Seconds, otherwise, the application will hang
+            // The network-thread get an Timeout of 5 Seconds, otherwise, the application will hang
             networkThread.join(5000);
         } catch (InterruptedException e) {
             // ignore
@@ -146,7 +146,6 @@ public class RestfulHelper extends Activity {
             response = client.execute(post);
             responseArray = IOUtils.toByteArray(response.getEntity().getContent());
             responseString = getStringFromInputStream(responseArray);
-            checkAndSetSpecialReturns(restMethod);
             responseCode = response.getStatusLine().getStatusCode();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -163,20 +162,7 @@ public class RestfulHelper extends Activity {
         }
     }
 
-    /**
-     * //TODO
-     *
-     * @param restMethod
-     */
-    private void checkAndSetSpecialReturns(String restMethod) {
-        Log.d("OAUTH", restMethod);
-        if (restMethod.equals("login")) {
-            mobileLoginHash = response.getFirstHeader("LoginHash").getValue();
-        } else if (restMethod.equals("oAuthProcess")) {
-            oAuthUrl = response.getFirstHeader("url").getValue();
-            Log.d("Test", oAuthUrl);
-        }
-    }
+
 
     /**
      * Method which set the URL for the RESTful-Request
@@ -197,9 +183,9 @@ public class RestfulHelper extends Activity {
             POST_URL = SERVER_URL + POST_OAUTH;
         } else if (restMethod.equals("changeMail")) {
             POST_URL = SERVER_URL + POST_CHANGE_MAIL;
-        } else if (restMethod.equals("logout")) {
+      */  } else if (restMethod.equals("logout")) {
             POST_URL = SERVER_URL + POST_LOGOUT;
-        } else if (restMethod.equals("steps")) {
+       /* } else if (restMethod.equals("steps")) {
             POST_URL = SERVER_URL + POST_GETDATA;
         } else if (restMethod.equals("changePassword")) {
             POST_URL = SERVER_URL + POST_CHANGE_PASSWORD;
@@ -259,15 +245,6 @@ public class RestfulHelper extends Activity {
         }
     }
 
-    /**
-     * Method, which checks if the input password has an special character
-     *
-     * @param s The String to check
-     * @return True or false, whether the password has an special or not
-     */
-  /*  public boolean passwordHasSpecialCharacter(String s) {
-        return !(s.matches("([A-Za-z]|[0-9])+"));
-    }*/
 
     /**
      * @param parameterMap
@@ -304,53 +281,4 @@ public class RestfulHelper extends Activity {
         return sb.toString();
     }
 
-    /**
-     * @return
-
-    public String getOneWeekFromNow() {
-        calcDate.setTime(new Date().getTime() - 604800000);
-        return formatter.format(calcDate);
-    }
-*/
-    /**
-     * @return
-
-    public String getOneMonthFromNow() {
-        calcDate.setTime(new Date().getTime() - 2419200000l);
-        return formatter.format(calcDate);
-    }
-    */
-    /**
-     * @return
-
-    public String getOneYearFromNow() {
-        calcDate.setTime(new Date().getTime() - 31449600000l);
-        return formatter.format(calcDate);
-    }
-    */
-    /**
-     * @return
-
-    public String getToday() {
-        return formatter.format(new Date());
-    }
-    */
-    /*
-    public void calculateDates(String buttonText) {
-        endDate = getToday();
-        Log.i("Test1", String.valueOf(startDate));
-        if (buttonText.equals("Year")) {
-            startDate = getOneYearFromNow();
-            Log.i("Test2", String.valueOf(startDate));
-        } else if (buttonText.equals("Month")) {
-            startDate = getOneMonthFromNow();
-            Log.i("Test3", String.valueOf(startDate));
-        } else if (buttonText.equals("Week")) {
-            startDate = getOneWeekFromNow();
-            Log.i("Test4", String.valueOf(startDate));
-        } else {
-            startDate = getToday();
-            Log.i("Test1", String.valueOf(startDate));
-        }
-    }*/
 }
