@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,9 @@ public class FormActivity extends Activity {
     private Button buttonBack;
     private Button buttonZoomIn;
     private Button buttonZoomOut;
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private Button buttonOk;
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private TextView questionText;
     private TextView numberOfPages;
 
@@ -54,6 +58,10 @@ public class FormActivity extends Activity {
         questionText = (TextView) findViewById(R.id.questionText);
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
 
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        buttonOk = (Button) findViewById(R.id.buttonOk);
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         onClickNextButton(buttonContinue);
 
         //Disable back button at first page
@@ -65,6 +73,18 @@ public class FormActivity extends Activity {
         buttonZoomOut.setClickable(false);
         buttonZoomOut.setVisibility(View.INVISIBLE);
 
+    }
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
+    // Braucht man oder nicht???
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void onClickButton(View v){
+        Flasher.flash(buttonOk, "1x3");
+
+        //  new Helper().executeRequest("", );
+        Intent intentOverviewActivity = new Intent(FormActivity.this, OverviewActivity.class);
+        startActivity(intentOverviewActivity);
     }
 
     public static LinkedList<String> getListe(){
@@ -99,7 +119,6 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickNextButton(View v) {
-
 
         if (counter < fragebogen.size() - 1) {
             Flasher.flash(buttonContinue, "1x3");

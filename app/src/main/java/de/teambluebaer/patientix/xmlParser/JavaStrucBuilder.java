@@ -108,7 +108,7 @@ public final class JavaStrucBuilder {
                     }else if(currendElementNode.getNodeName().equals("checkbox")){
                         elementToAdd = new Checkbox(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("radiobutton")){
-                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
+                      //  elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("image")){
                         elementToAdd = new Image(currendElementNode.getAttributes().getNamedItem("picture").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("sound")){
@@ -120,7 +120,7 @@ public final class JavaStrucBuilder {
                     }else{
                         elementToAdd = new WhiteSpace();
                     }
-                    currendRow.addElement(elementToAdd);
+                   // currendRow.addElement(elementToAdd);
                 }
                 currendPage.addNewRow(currendRow);
             }

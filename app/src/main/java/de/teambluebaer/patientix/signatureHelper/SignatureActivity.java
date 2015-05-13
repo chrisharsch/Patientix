@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 import java.io.IOException;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Flasher;
 
 public class SignatureActivity extends Activity {
 
@@ -28,13 +31,15 @@ public class SignatureActivity extends Activity {
     private SpenNoteDoc mSpenNoteDoc;
     private SpenPageDoc mSpenPageDoc;
     private SpenSurfaceView mSpenSurfaceView;
+    private Button buttonAbsolutlyReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signature2);
+        setContentView(R.layout.activity_signature);
 
         mContext = this;
+        buttonAbsolutlyReady = (Button) findViewById(R.id.buttonAbsolutlyReady);
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -94,6 +99,15 @@ public class SignatureActivity extends Activity {
                     "Device does not support Spen. \n You can draw stroke by finger.",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onClickAbsolutlyReadyButton(View v){
+        Flasher.flash(buttonAbsolutlyReady, "1x3");
+
+        // Bild von Unterschrift erzeugen beim drücken
+        //Intent intentSignatureActivity = new Intent(SignatureActivity.this, SignatureActivity.class);
+        //startActivity(intentSignatureActivity);
+        //finish();
     }
 
     private boolean processUnsupportedException(SsdkUnsupportedException e) {
@@ -183,6 +197,7 @@ public class SignatureActivity extends Activity {
                 .show();
         dlg = null;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

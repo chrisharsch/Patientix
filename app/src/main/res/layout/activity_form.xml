@@ -71,7 +71,6 @@
         android:textSize="50sp"
         android:background="@drawable/button1x1normal"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/buttonBack"
         android:textColor="#fffafa" />
 
     <TextView
@@ -84,5 +83,17 @@
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/buttonContinue"
         android:textIsSelectable="false" />
+
+    <Button
+        android:layout_width="210dip"
+        android:layout_height="70dip"
+        android:text="@string/buttonOk"
+        android:id="@+id/buttonOk"
+        android:textSize="40sp"
+        android:onClick="onClickButton"
+        android:background="@drawable/button1x3normal"
+        android:textColor="#fffafa"
+        android:layout_above="@+id/buttonContinue"
+        android:layout_alignStart="@+id/buttonContinue" />
 
 </RelativeLayout>

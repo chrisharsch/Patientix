@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.ListViewAdapter;
+import de.teambluebaer.patientix.signatureHelper.SignatureActivity;
 
 import static de.teambluebaer.patientix.helper.Constants.FIRST_COLUMN;
 import static de.teambluebaer.patientix.helper.Constants.SECOND_COLUMN;
@@ -37,25 +39,19 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
 
         ListView listView = (ListView)findViewById(R.id.listView1);
-        buttonReady = (Button) findViewById(R.id.buttonBack);
+        buttonReady = (Button) findViewById(R.id.buttonReady);
 
-
-        buttonReady.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flashButtonsmall(buttonReady);
-                Intent intentFormActivity = new Intent(OverviewActivity.this, SignatureActivity.class);
-                startActivity(intentFormActivity);
-
-            }
-        });
 
         populateList();
         ListViewAdapter adapter=new ListViewAdapter(this, list);
         listView.setAdapter(adapter);
     }
 
-
+    public void onClickReadyButton(View v){
+        Flasher.flash(buttonReady, "1x3");
+        Intent intentSignatureActivity = new Intent(OverviewActivity.this, SignatureActivity.class);
+        startActivity(intentSignatureActivity);
+    }
 
     private void populateList() {
 

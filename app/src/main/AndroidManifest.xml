@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -22,17 +22,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartActivity"
+            android:name=".activities.StartActivity"
             android:label="StartActivity"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".FormActivity"
+            android:name=".activities.FormActivity"
             android:label="@string/title_activity_form"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".OverviewActivity"
+            android:name=".activities.OverviewActivity"
             android:label="@string/title_activity_overview"
             android:screenOrientation="landscape" >
         </activity>
