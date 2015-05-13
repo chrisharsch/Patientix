@@ -1,5 +1,9 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -19,7 +23,9 @@ public class Text implements Element {
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        TextView textView = new TextView(context);
+        textView.setText(text);
+        layout.addView(textView);
     }
 }

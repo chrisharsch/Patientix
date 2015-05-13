@@ -1,5 +1,9 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -29,7 +33,10 @@ public class Checkbox implements Element{
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        CheckBox checkBox = new CheckBox(context);
+        checkBox.setText(checkboxText);
+        checkBox.setChecked(checked);
+        layout.addView(checkBox);
     }
 }

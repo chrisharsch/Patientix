@@ -1,5 +1,9 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -19,7 +23,8 @@ public class Input implements Element {
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        EditText imput = new EditText(context);
+        layout.addView(imput);
     }
 }
