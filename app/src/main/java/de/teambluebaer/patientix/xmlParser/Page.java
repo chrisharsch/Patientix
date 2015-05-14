@@ -20,6 +20,7 @@ public class Page {
      * constructor
      */
     public Page(){
+
         rowList = new ArrayList<Row>();
 
     }
@@ -58,6 +59,8 @@ public class Page {
      public void addDocCommant(){
 
      }
+
+
 
 
 
