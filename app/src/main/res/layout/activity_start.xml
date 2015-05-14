@@ -42,14 +42,14 @@
         android:id="@+id/startbtn"
         android:textSize="40sp"
         android:background="@drawable/button1x3normal"
-        android:layout_below="@+id/patientid"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
         android:text="Start"
         android:clickable="true"
         android:padding="1dp"
         android:textColor="#fffafa"
-        android:onClick="onClickStartButton"/>
+        android:onClick="onClickStartButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="63dp" />
 
     <!-- Patient textfield -->
     <TextView
@@ -70,9 +70,20 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/patientid"
         android:id="@+id/patientid"
-        android:layout_below="@+id/patientname"
-        android:layout_centerHorizontal="true"
         android:textSize="40sp"
-        android:layout_marginTop="80dp" />
+        android:layout_below="@+id/patientname"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/textExamination"
+        android:id="@+id/textExamination"
+        android:layout_below="@+id/patientid"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
 
 </RelativeLayout>

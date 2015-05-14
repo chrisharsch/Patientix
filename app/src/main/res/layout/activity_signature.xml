@@ -58,7 +58,7 @@
         android:layout_width="210dip"
         android:layout_height="70dip"
         android:text="@string/buttonDone"
-        android:id="@+id/DoneButton"
+        android:id="@+id/buttonDone"
         android:textSize="40sp"
         android:onClick="saveSig"
         android:background="@drawable/button1x3normal"

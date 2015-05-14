@@ -1,5 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.os.Environment;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,7 +29,7 @@ public final class JavaStrucBuilder {
         FileInputStream fileimput;
         try{
             //TODO INSERT RIGHT PATH
-            fileimput = new FileInputStream("/sdcard");
+            fileimput = new FileInputStream(Environment.getExternalStorageDirectory().getPath() + "MRTAufklärung.txt");
         }catch (Exception e){
             System.out.println(e.getMessage()+"File loading Error");
             return null;
@@ -108,7 +110,7 @@ public final class JavaStrucBuilder {
                     }else if(currendElementNode.getNodeName().equals("checkbox")){
                         elementToAdd = new Checkbox(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("radiobutton")){
-                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
+                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent(), null);
                     }else if(currendElementNode.getNodeName().equals("image")){
                         elementToAdd = new Image(currendElementNode.getAttributes().getNamedItem("picture").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("sound")){

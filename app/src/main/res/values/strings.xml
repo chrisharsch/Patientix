@@ -35,5 +35,9 @@
     <string name="buttonOverview">OK</string>
     <string name="buttonOk">OK</string>
     <string name="buttonDone">Fertig</string>
+    <string name="title_activity_end">EndActivity</string>
+
+    <string name="textEnd">Bitte bringen Sie das Tablet zurück an den Empfang.</string>
+    <string name="textExamination">MRT</string>
 
 </resources>

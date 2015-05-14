@@ -14,6 +14,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -31,21 +33,36 @@ import java.io.IOException;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 
+/**
+ * This class is for the signature from patient.
+ */
 public class SignatureActivity extends Activity {
 
     private Context mContext;
     private SpenNoteDoc mSpenNoteDoc;
     private SpenPageDoc mSpenPageDoc;
     private SpenSurfaceView mSpenSurfaceView;
-    private Button buttonAbsolutlyReady;
+    private Button buttonDone;
 
+    /**
+     * In this method is defined what happens on create of the Activity:
+     * remove titlebar, set the view, initialize spen and function
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Titlebar removed
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Set View
         setContentView(R.layout.activity_signature);
 
         mContext = this;
-        buttonAbsolutlyReady = (Button) findViewById(R.id.buttonAbsolutlyReady);
+        buttonDone = (Button) findViewById(R.id.buttonDone);
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -79,6 +96,7 @@ public class SignatureActivity extends Activity {
         Display display = getWindowManager().getDefaultDisplay();
         Rect rect = new Rect();
         display.getRectSize(rect);
+
         // Create SpenNoteDoc
         try {
             mSpenNoteDoc =
@@ -92,10 +110,13 @@ public class SignatureActivity extends Activity {
             e.printStackTrace();
             finish();
         }
-        // Add a Page to NoteDoc, get an instance, and set it to the member variable.
+
+        // Add a Page to NoteDoc, get an instance, and set it to the member variable
+        // The signaturefield
         mSpenPageDoc = mSpenNoteDoc.appendPage();
         mSpenPageDoc.setBackgroundColor(0xFFD6E6F5);
         mSpenPageDoc.clearHistory();
+
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
 
@@ -107,8 +128,12 @@ public class SignatureActivity extends Activity {
         }
     }
 
-    // Save signature in a bitmap
+    /**
+     * Save signature from patient in a image, when press the "Fertig"/Done-Button
+     * @param view
+     */
     public void saveSig(View view) {
+        Flasher.flash(buttonDone, "1x3");
         try {
             GestureOverlayView gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
             gestureView.setDrawingCacheEnabled(true);
@@ -116,10 +141,15 @@ public class SignatureActivity extends Activity {
             File f = new File(Environment.getExternalStorageDirectory()
                         + File.separator + "signature.png");
             f.createNewFile();
-            FileOutputStream os = new FileOutputStream(f);
+            FileOutputStream os;
             os = new FileOutputStream(f);
             //compress to specified format (PNG), quality - which is ignored for PNG, and out stream
             bm.compress(Bitmap.CompressFormat.PNG, 100, os);
+
+            Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
+            startActivity(intent);
+            finish();
+
             os.close();
         } catch (Exception e) {
             Log.v("Gestures", e.getMessage());
@@ -127,6 +157,11 @@ public class SignatureActivity extends Activity {
         }
     }
 
+    /**
+     *  Handle the Exceptions
+     * @param e
+     * @return
+     */
     private boolean processUnsupportedException(SsdkUnsupportedException e) {
 
         e.printStackTrace();
@@ -166,6 +201,11 @@ public class SignatureActivity extends Activity {
         return true;
     }
 
+    /**
+     * Brauchen wir das???
+     * @param msg
+     * @param closeActivity
+     */
     private void showAlertDialog(String msg, final boolean closeActivity) {
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(mContext);
@@ -215,6 +255,9 @@ public class SignatureActivity extends Activity {
         dlg = null;
     }
 
+    /**
+     *
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

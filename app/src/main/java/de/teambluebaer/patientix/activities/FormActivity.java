@@ -19,6 +19,9 @@ import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.xmlParser.Form;
 
+/**
+ *
+ */
 
 public class FormActivity extends Activity {
 
@@ -38,20 +41,23 @@ public class FormActivity extends Activity {
 
     private LayoutCreater formView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        formView = new FormView(this.questionText.getContext());
-        //  setContentView(formView);
+        // formView = new FormView(this.questionText.getContext());
+        // setContentView(formView);
+
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_form);
+
         //View add_phone = getLayoutInflater().inflate(R.layout.phone_info, null);
         content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
         content = layoutCreater.CreatPageLayout(this, Form.getInstance().getFirstPage());
-
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
@@ -60,7 +66,6 @@ public class FormActivity extends Activity {
         content = (LinearLayout) findViewById(R.id.content);
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
         numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
-
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -86,30 +91,8 @@ public class FormActivity extends Activity {
         Flasher.flash(buttonOk, "1x3");
 
         //  new Helper().executeRequest("", );
-        Intent intentOverviewActivity = new Intent(FormActivity.this, OverviewActivity.class);
-        startActivity(intentOverviewActivity);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_form, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        Intent intent = new Intent(FormActivity.this, OverviewActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -118,6 +101,7 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickNextButton(View v) {
+        // hier fehlt der flasher?
 
         content = layoutCreater.CreatPageLayout(this, Form.getInstance().getNextPage());
         numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
@@ -130,27 +114,17 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickBackButton(View v) {
-
+        // fehlt da nicht auch der flasher??
 
         content = layoutCreater.CreatPageLayout(this, Form.getInstance().getPreviousPage());
         numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
 
     }
-// show temprarily the overview activity
 
-    public void onClickZoomButtonIn(View v) {
-
-
-      /*  Intent intentFormActivity = new Intent(FormActivity.this, OverviewActivity.class);
-        startActivity(intentFormActivity);
-        finish();*/
-        /*
-        float size = questionText.getTextSize();
-        size = size + 1;
-        questionText.setTextSize(size);
-*/
-    }
-
+    /**
+     * Set the text size higher and schmaller
+     * @param v
+     */
     public void onClickZoomButton(View v) {
         if(buttonZoomIn.isClickable()){
             Flasher.flash(buttonZoomIn, "1x1");
@@ -167,10 +141,12 @@ public class FormActivity extends Activity {
             buttonZoomIn.setVisibility(View.VISIBLE);
             buttonZoomOut.setVisibility(View.INVISIBLE);
         }
-
     }
 
-    // remove options for back button
+    /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the funktionality of the button is disabled.
+     */
     @Override
     public void onBackPressed() {
 
