@@ -28,10 +28,9 @@ public class Radio implements Element {
      * constructor
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText, RadioGroup radiogroup){
+    public Radio(String radioText){
         this.radioText = radioText;
         this.checked = false;
-        this.radiogroup = radiogroup;
     }
 
     @Override
@@ -41,4 +40,14 @@ public class Radio implements Element {
         radiogroup.addView(radio);
         layout.addView(radio);
     }
+
+    public void addToView(Context context, LinearLayout layout,RadioGroup radiogroup) {
+        RadioButton radio = new RadioButton(context);
+        radio.setChecked(checked);
+        this.radiogroup = radiogroup;
+        radiogroup.addView(radio);
+        layout.addView(radio);
+    }
+
+
 }

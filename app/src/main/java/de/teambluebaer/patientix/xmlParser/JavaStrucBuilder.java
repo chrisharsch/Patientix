@@ -110,7 +110,7 @@ public final class JavaStrucBuilder {
                     }else if(currendElementNode.getNodeName().equals("checkbox")){
                         elementToAdd = new Checkbox(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("radiobutton")){
-                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent(), null);
+                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("image")){
                         elementToAdd = new Image(currendElementNode.getAttributes().getNamedItem("picture").getTextContent());
                     }else if(currendElementNode.getNodeName().equals("sound")){

@@ -3,8 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,8 +24,6 @@ import de.teambluebaer.patientix.xmlParser.Form;
 public class FormActivity extends Activity {
 
     private static LinkedList<String> fragebogen = new LinkedList<String>();
-    private int counter = -1;
-    private LayoutCreater layoutCreater;
 
     private Button buttonContinue;
     private Button buttonBack;
@@ -39,7 +35,7 @@ public class FormActivity extends Activity {
     private LinearLayout content;
     private TextView numberOfPages;
 
-    private LayoutCreater formView;
+    private LayoutCreater layoutCreater;
 
 
     @Override
@@ -156,7 +152,7 @@ public class FormActivity extends Activity {
      * checks if the counter is 0 to diasable the back button on the first screen
      */
     public void firstPageCheck(){
-        if(counter == 0) {
+        if(Form.getInstance().getcurrendPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
         }else{

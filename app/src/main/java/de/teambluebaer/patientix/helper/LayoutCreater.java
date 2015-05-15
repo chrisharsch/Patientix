@@ -2,11 +2,13 @@ package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import java.util.List;
 
 import de.teambluebaer.patientix.xmlParser.Element;
 import de.teambluebaer.patientix.xmlParser.Page;
+import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
@@ -22,8 +24,15 @@ public class LayoutCreater {
     public LinearLayout CreateRowLayout(Context context, Row row){
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
+        RadioGroup radioGroup = new RadioGroup(context);
         for(Element element: elements){
-            element.addToView(context, rowLayout);
+            if(element.getClass().equals("Radio")){
+                Radio radio = (Radio)element;
+                radio.addToView(context, rowLayout, radioGroup);
+            }else {
+                element.addToView(context, rowLayout);
+            }
+
         }
         return rowLayout;
     }
