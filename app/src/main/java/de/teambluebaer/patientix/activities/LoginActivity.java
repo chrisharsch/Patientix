@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -56,16 +57,22 @@ public class LoginActivity extends Activity {
         Flasher.flash(buttonLogin, "1x3");
         //create parameterMap to add parameters of the request
 
-        parameterMap.add(new BasicNameValuePair("user", editName.getText().toString()));
-        parameterMap.add(new BasicNameValuePair("password", passwordHash(editPassword.getText().toString())));
+        parameterMap.add(new BasicNameValuePair("userName", editName.getText().toString()));
+        parameterMap.add(new BasicNameValuePair("userPW", passwordHash(editPassword.getText().toString())));
 
         //send the request to server
         RestfulHelper restfulHelper = new RestfulHelper();
-        responseCode= restfulHelper.executeRequest("login", parameterMap);
-
-
+        responseCode = restfulHelper.executeRequest("login", parameterMap);
+        if(responseCode==200){
+            Toast.makeText(LoginActivity.this,"Login established",Toast.LENGTH_SHORT).show();
+            Log.d("Login successful:", responseCode + "");
         Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
         startActivity(intentFormActivity);
+        }else {
+            Log.d("ResponseCode", responseCode+"");
+            Toast.makeText(LoginActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private String passwordHash(String pw) {

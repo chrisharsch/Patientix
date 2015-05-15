@@ -34,8 +34,8 @@ public class RestfulHelper extends Activity {
     // public final String SERVER_URL = "http://anakin.informatik.hs-mannheim.de/uip2/FocusedHealth/";
     //public final String SERVER_URL = "http://141.19.142.46:8080/FocusedHealth/";
     //public final String SERVER_URL = "http://141.19.144.212:8080/FocusedHealth/";
-    public final String SERVER_URL = "http://141.19.145.237:8080/";
-    private final String POST_LOGIN = "api/person/login";
+    public final String SERVER_URL = "http://141.19.145.237/";
+    private final String POST_LOGIN = "index.php/login";
     private final String POST_LOGOUT = "api/person/logout";
   /*  private final String POST_REGISTER = "api/person/register";
     private final String DELETE_PROVIDER = "api/person/deleteProvider";
