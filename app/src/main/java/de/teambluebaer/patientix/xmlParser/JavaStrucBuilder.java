@@ -1,5 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.os.Environment;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,7 +29,7 @@ public final class JavaStrucBuilder {
         FileInputStream fileimput;
         try{
             //TODO INSERT RIGHT PATH
-            fileimput = new FileInputStream("/sdcard");
+            fileimput = new FileInputStream(Environment.getExternalStorageDirectory().getPath() + "MRTAufklärung.txt");
         }catch (Exception e){
             System.out.println(e.getMessage()+"File loading Error");
             return null;
@@ -49,7 +51,7 @@ public final class JavaStrucBuilder {
      * @param filename represents an XML-String
      * @return the generated DOM-Tree
      */
-    static Document buildDOMTreeformXMLString(String filename) {
+    protected static Document buildDOMTreeformXMLString(String filename) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db;
@@ -71,7 +73,7 @@ public final class JavaStrucBuilder {
      * @return initialised <code>MetaData</code> Objekt
      * @see MetaData
      */
-    static MetaData metaParser(NodeList meta){
+    protected static MetaData metaParser(NodeList meta){
 
         MetaData.getInstance().setMetaData(
                 meta.item(0).getNodeValue(),

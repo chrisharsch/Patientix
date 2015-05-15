@@ -1,5 +1,8 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 07.05.2015.
  Represents a WhiteSpace that could insert into a <code>Row</code>
@@ -16,7 +19,7 @@ public class WhiteSpace implements Element{
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        // Do nothing
     }
 }

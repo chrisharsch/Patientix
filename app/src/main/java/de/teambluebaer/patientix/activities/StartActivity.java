@@ -16,31 +16,22 @@ import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
+/**
+ * This class have the patient data...
+ */
 
 public class StartActivity extends Activity {
 
     private Button buttonStart;
     private Button buttonUpdate;
 
-
-    /**
-     * This method defines what happens when you press on the hardkey back on the Tablet.
-     * In this case the funktionality of the button is disabled.
-     */
-    @Override
-    public void onBackPressed() {
-
-    }
-
-    /**
+     /**
      * In this method is defined what happens on create of the Activity
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -54,16 +45,24 @@ public class StartActivity extends Activity {
 
     }
 
+    /**
+     * When the start button is clicked, then opens the FormActivity
+     * @param v
+     */
     public void onClickStartButton(View v){
         Flasher.flash(buttonStart, "1x3");
-        Intent intentFormActivity = new Intent(StartActivity.this, FormActivity.class);
-        startActivity(intentFormActivity);
+        Intent intent = new Intent(StartActivity.this, FormActivity.class);
+        startActivity(intent);
         finish();
     }
+
+    /**
+     *
+     * @param v
+     */
     public void onClickUpdateButton(View v){
         Flasher.flash(buttonUpdate, "1x5");
         //TODO SEND "OLD" DATA TO SERVER
-
 
         Form.getInstance().refresh();
         MetaData.getInstance().refresh();
@@ -71,6 +70,15 @@ public class StartActivity extends Activity {
         MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
         Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
+
+    }
+
+    /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the functionality of the button is disabled.
+     */
+    @Override
+    public void onBackPressed() {
 
     }
 

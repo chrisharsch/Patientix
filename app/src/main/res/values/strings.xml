@@ -28,12 +28,16 @@
     <string name="buttonLogin">Login</string>
     <string name="title_activity_start">StartActivity</string>
 
+    <string name="title_activity_signature"/>
     <string name="action_settings">Settings</string>
+    <string name="description" translatable="false">ImageView</string>
+    <string name="textSignature">Bitte unterschreiben Sie im vorgegebenen Feld:</string>
+    <string name="buttonOverview">OK</string>
+    <string name="buttonOk">OK</string>
+    <string name="buttonDone">Fertig</string>
+    <string name="title_activity_end">EndActivity</string>
 
-    <string name="title_activity_signature">SignatureActivity</string>
-    <string name="title_activity_signature_registration">SignatureRegistrationActivity</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_signature_verification">SignatureVerificationActivity</string>
+    <string name="textEnd">Bitte bringen Sie das Tablet zurück an den Empfang.</string>
+    <string name="textExamination">MRT</string>
 
 </resources>

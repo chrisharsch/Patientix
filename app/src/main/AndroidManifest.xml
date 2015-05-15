@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.teambluebaer.patientix" >
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
@@ -40,19 +38,14 @@
         </activity>
         <activity
             android:name=".activities.SignatureActivity"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_signature"
-            android:screenOrientation="landscape"
-            android:configChanges="locale|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize">
+            android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".activities.SignatureRegistrationActivity"
-            android:label="@string/title_activity_signature_registration"
-            android:configChanges="locale|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity
-            android:name=".activities.SignatureVerificationActivity"
-            android:label="@string/title_activity_signature_verification"
-            android:configChanges="locale|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize">
+            android:name=".activities.EndActivity"
+            android:label="@string/title_activity_end"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 

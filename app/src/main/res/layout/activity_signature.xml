@@ -1,12 +1,70 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FF242424"
-    tools:context=".SignatureActivity" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="de.teambluebaer.patientix.signatureHelper.SignatureActivity"
+    android:background="@drawable/inhaltsseiteapp">
 
-    <ListView
-        android:id="@+id/signature_list"
+    <FrameLayout
+        android:id="@+id/spenViewContainer"
+        android:layout_width="580dp"
+        android:layout_height="320dp"
+        android:layout_margin="250dp">
+
+        <RelativeLayout
+            android:id="@+id/spenViewLayout"
+            android:layout_width="580dp"
+            android:layout_height="320dp"
+            android:layout_margin="250dp"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="250dp"
+            android:layout_marginRight="250dp"
+            android:layout_marginBottom="250dp"
+            android:layout_gravity="center">
+
+            <android.gesture.GestureOverlayView
+                android:id="@+id/signaturePad"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:eventsInterceptionEnabled="true"
+                android:fadeEnabled="false"
+                android:gestureColor="@color/black"
+                android:gestureStrokeLengthThreshold="0.1"
+                android:gestureStrokeType="multiple"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+            </android.gesture.GestureOverlayView>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/textSignature"
+        android:id="@+id/textSignature"
+        android:layout_marginTop="112dp"
+        android:textSize="50sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="210dip"
+        android:layout_height="70dip"
+        android:text="@string/buttonDone"
+        android:id="@+id/buttonDone"
+        android:textSize="40sp"
+        android:onClick="saveSig"
+        android:background="@drawable/button1x3normal"
+        android:textColor="#fffafa"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp" />
+
+</RelativeLayout>

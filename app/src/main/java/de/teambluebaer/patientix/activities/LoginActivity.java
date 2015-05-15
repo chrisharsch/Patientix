@@ -12,6 +12,10 @@ import android.widget.EditText;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 
+/**
+ * This class handle the login data from the MTRA.
+ */
+
 public class LoginActivity extends Activity {
 
     private Button buttonLogin;
@@ -21,6 +25,11 @@ public class LoginActivity extends Activity {
     private String thisExeption;
     private String httpData;
 
+    /**
+     * In this method is defined what happens on create of the Activity:
+     * Set Layout, remove titlebar and open the keyboard
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,21 +41,23 @@ public class LoginActivity extends Activity {
 
         setContentView(R.layout.activity_login);
 
-        // Keyboard open when touch editfield
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         buttonLogin = (Button) findViewById(R.id.buttonBack);
         editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
+        // Keyboard open when touch editfield
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    /**
+     * When the start button is clicked, then opens the StartActivity
+     * @param v
+     */
     public void onClickLoginButton(View v){
         Flasher.flash(buttonLogin, "1x3");
-
       //  new Helper().executeRequest("", );
-        Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
-        startActivity(intentFormActivity);
+        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intent);
     }
 
 

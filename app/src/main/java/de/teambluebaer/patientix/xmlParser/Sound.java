@@ -1,5 +1,8 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -19,7 +22,7 @@ public class Sound implements Element {
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        //TODO How to add sound by URL
     }
 }

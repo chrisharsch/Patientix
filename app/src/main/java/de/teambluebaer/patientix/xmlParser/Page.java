@@ -1,7 +1,5 @@
 package de.teambluebaer.patientix.xmlParser;
 
-import android.view.View;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +20,16 @@ public class Page {
      * constructor
      */
     public Page(){
+
         rowList = new ArrayList<Row>();
 
     }
 
     /**
-     * creat the View for the next shown Page
-     * @param pageView represents the View the new content get add in
+     * give a List of all conteining Row back
      */
-     public void createNextPageView(View pageView){
-
-     }
-    /**
-     * creat the View for the previous shown Page
-     * @param pageView represents the View the new content get add in
-     */
-     public void createPriviosPageView(View pageView){
-
+     public List<Row> getRows(){
+         return this.rowList;
      }
 
     /**
@@ -68,6 +59,8 @@ public class Page {
      public void addDocCommant(){
 
      }
+
+
 
 
 

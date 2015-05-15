@@ -1,5 +1,8 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 06.05.2015.
  Represents a Video File that could insert into a <code>Row</code>
@@ -18,8 +21,8 @@ public class Video implements Element {
     }
 
     @Override
-    public void addToView() {
-
+    public void addToView(Context context, LinearLayout layout) {
+        //TODO How to add Video by URL
     }
 
 }

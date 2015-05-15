@@ -1,64 +1,79 @@
 package de.teambluebaer.patientix.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.Environment;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.pen.Spen;
+import com.samsung.android.sdk.pen.document.SpenNoteDoc;
+import com.samsung.android.sdk.pen.document.SpenPageDoc;
+import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 
-import com.samsung.android.sdk.pen.recognition.SpenCreationFailureException;
-import com.samsung.android.sdk.pen.recognition.SpenSignatureVerification;
-import com.samsung.android.sdk.pen.recognition.SpenSignatureVerificationInfo;
-import com.samsung.android.sdk.pen.recognition.SpenSignatureVerificationManager;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Flasher;
 
-
+/**
+ * This class is for the signature from patient.
+ */
 public class SignatureActivity extends Activity {
 
-    private Context mContext = null;
+    private Context mContext;
+    private SpenNoteDoc mSpenNoteDoc;
+    private SpenPageDoc mSpenPageDoc;
+    private SpenSurfaceView mSpenSurfaceView;
+    private Button buttonDone;
 
-    public ListView mSignatureList;
-    public ArrayList<ListItem> mSignatureListItem;
-
-    private SpenSignatureVerificationManager mSpenSignatureVerificationManager;
-    private SpenSignatureVerification mSpenSignatureVerification;
-    public ListAdapter mSignatureAdapter;
-
-    private final int LIST_CHECK_SIGNATURE = 0;
-    private final int LIST_REGISRTATION = 1;
-    private final int LIST_VERIFICATION = 2;
-    private final int LIST_DELETE_SIGNATURE = 3;
-
+    /**
+     * In this method is defined what happens on create of the Activity:
+     * remove titlebar, set the view, initialize spen and function
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
+
+        //Titlebar removed
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Set View
         setContentView(R.layout.activity_signature);
 
+        mContext = this;
+        buttonDone = (Button) findViewById(R.id.buttonDone);
+
         // Initialize Spen
+        boolean isSpenFeatureEnabled = false;
         Spen spenPackage = new Spen();
         try {
             spenPackage.initialize(this);
+            isSpenFeatureEnabled = spenPackage.isFeatureEnabled(Spen.DEVICE_PEN);
         } catch (SsdkUnsupportedException e) {
-            //if(processUnsupportedException(e)) {
-              //  return;
-            //}
+            if( processUnsupportedException(e) == true) {
+                return;
+            }
         } catch (Exception e1) {
             Toast.makeText(mContext, "Cannot initialize Spen.",
                     Toast.LENGTH_SHORT).show();
@@ -66,204 +81,199 @@ public class SignatureActivity extends Activity {
             finish();
         }
 
-        // Set the List
-        mSignatureListItem = new ArrayList<ListItem>();
-        mSignatureListItem.add(new ListItem("[Check signature]",
-                "Check whether the registered signature exists or not"));
-        mSignatureListItem.add(new ListItem("[Registration]",
-                "Start registration"));
-        mSignatureListItem.add(new ListItem("[Verification]",
-                "Start verification - Signature must be registered"));
-        mSignatureListItem.add(new ListItem("[Delete signature]",
-                "Delete the registered signature"));
+        // Create Spen View
+        RelativeLayout spenViewLayout =
+                (RelativeLayout) findViewById(R.id.spenViewLayout);
+        mSpenSurfaceView = new SpenSurfaceView(mContext);
+        if (mSpenSurfaceView == null) {
+            Toast.makeText(mContext, "Cannot create new SpenView.",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        spenViewLayout.addView(mSpenSurfaceView);
 
-        mSignatureAdapter = new ListAdapter(this);
+        // Get the dimension of the device screen.
+        Display display = getWindowManager().getDefaultDisplay();
+        Rect rect = new Rect();
+        display.getRectSize(rect);
 
-        mSignatureList = (ListView) findViewById(R.id.signature_list);
-        mSignatureList.setAdapter(mSignatureAdapter);
-
-        // Settings for Verification
-        mSpenSignatureVerificationManager =
-                new SpenSignatureVerificationManager(mContext);
-
-        List<SpenSignatureVerificationInfo> signatureVerificationList =
-                mSpenSignatureVerificationManager.getInfoList();
+        // Create SpenNoteDoc
         try {
-            if (signatureVerificationList.size() > 0) {
-                for (SpenSignatureVerificationInfo info : signatureVerificationList) {
-                    if (info.name.equalsIgnoreCase("SpenSignature")) {
-                        mSpenSignatureVerification = mSpenSignatureVerificationManager
-                                .createSignatureVerification(info);
-                        break;
-                    }
-                }
-            } else {
-                finish();
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(mContext, "SpenSignatureVerificationManager class not found.",
+            mSpenNoteDoc =
+                    new SpenNoteDoc(mContext, rect.width(), rect.height());
+        } catch (IOException e) {
+            Toast.makeText(mContext, "Cannot create new NoteDoc.",
                     Toast.LENGTH_SHORT).show();
-            return;
-        } catch (InstantiationException e) {
             e.printStackTrace();
-            Toast.makeText(mContext, "Failed to access the SpenSignatureVerificationManager constructor.",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            Toast.makeText(mContext, "Failed to access the SpenSignatureVerificationManager field or method.",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } catch (SpenCreationFailureException e) {
-            // Exit the application if the device does not support Verification feature.
-            e.printStackTrace();
-            AlertDialog.Builder ad = new AlertDialog.Builder(this);
-            ad.setIcon(this.getResources().getDrawable(
-                    android.R.drawable.ic_dialog_alert));
-            ad.setTitle(this.getResources().getString(R.string.app_name))
-                    .setMessage(
-                            "This device does not support Recognition.")
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    // Close the dialog.
-                                    dialog.dismiss();
-                                    finish();
-                                }
-                            }).show();
-            ad = null;
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(mContext, "SpenSignatureVerificationManager engine not loaded.",
+            finish();
+        }
+
+        // Add a Page to NoteDoc, get an instance, and set it to the member variable
+        // The signaturefield
+        mSpenPageDoc = mSpenNoteDoc.appendPage();
+        mSpenPageDoc.setBackgroundColor(0xFFD6E6F5);
+        mSpenPageDoc.clearHistory();
+
+        // Set PageDoc to View.
+        mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
+
+        if(isSpenFeatureEnabled == false) {
+            mSpenSurfaceView.setToolTypeAction(SpenSurfaceView.TOOL_FINGER, SpenSurfaceView.ACTION_STROKE);
+            Toast.makeText(mContext,
+                    "Device does not support Spen. \n You can draw stroke by finger.",
                     Toast.LENGTH_SHORT).show();
-            return;
         }
+    }
 
-        mSignatureList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                int registeredCount = mSpenSignatureVerification.getRegisteredCount();
-                int minimumRequiredCount = mSpenSignatureVerification.getMinimumRequiredCount();
-                if (position == LIST_CHECK_SIGNATURE) {
-                    // Check if there is a signature registered.
-                    if (registeredCount == minimumRequiredCount)
-                        Toast.makeText(mContext, "Registered signature is existed.",
-                                Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(mContext, "Registered Signature is less than minimum required count.",
-                                Toast.LENGTH_SHORT).show();
-                } else if (position == LIST_REGISRTATION) {
-                    // Go to Signature Registration.
-                    Intent intent = new Intent(SignatureActivity.this,
-                            SignatureRegistrationActivity.class);
-                    startActivity(intent); // create RegistrationActivity
-                } else if (position == LIST_VERIFICATION) {
-                    // If there is a registered signature, go to Signature Verification.
-                    if (registeredCount == minimumRequiredCount) {
-                        Intent intent = new Intent(SignatureActivity.this,
-                                SignatureVerificationActivity.class);
-                        startActivity(intent);
-                    } else
-                        Toast.makeText(mContext, "Registered Signature is less than minimum required count.",
-                                Toast.LENGTH_SHORT).show();
-                } else if (position == LIST_DELETE_SIGNATURE) {
-                    // Delete the registered signature.
-                    if (registeredCount == 0) {
-                        Toast.makeText(mContext, "Signature is not registered.",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        mSpenSignatureVerification.unregisterAll();
-                        if (mSpenSignatureVerification.getRegisteredCount() == 0)
-                            Toast.makeText(mContext, "Registered signature is deleted.",
-                                    Toast.LENGTH_SHORT).show();
+    /**
+     * Save signature from patient in a image, when press the "Fertig"/Done-Button
+     * @param view
+     */
+    public void saveSig(View view) {
+        Flasher.flash(buttonDone, "1x3");
+        try {
+            GestureOverlayView gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
+            gestureView.setDrawingCacheEnabled(true);
+            Bitmap bm = Bitmap.createBitmap(gestureView.getDrawingCache());
+            File f = new File(Environment.getExternalStorageDirectory()
+                        + File.separator + "signature.png");
+            f.createNewFile();
+            FileOutputStream os;
+            os = new FileOutputStream(f);
+            //compress to specified format (PNG), quality - which is ignored for PNG, and out stream
+            bm.compress(Bitmap.CompressFormat.PNG, 100, os);
+
+            Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
+            startActivity(intent);
+            finish();
+
+            os.close();
+        } catch (Exception e) {
+            Log.v("Gestures", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  Handle the Exceptions
+     * @param e
+     * @return
+     */
+    private boolean processUnsupportedException(SsdkUnsupportedException e) {
+
+        e.printStackTrace();
+        int errType = e.getType();
+        // If the device is not a Samsung device or if the device does not support Pen.
+        if (errType == SsdkUnsupportedException.VENDOR_NOT_SUPPORTED
+                || errType == SsdkUnsupportedException.DEVICE_NOT_SUPPORTED) {
+            Toast.makeText(mContext, "This device does not support Spen.",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
+            // If SpenSDK APK is not installed.
+            showAlertDialog( "You need to install additional Spen software"
+                    +" to use this application."
+                    + "You will be taken to the installation screen."
+                    + "Restart this application after the software has been installed."
+                    , true);
+        } else if (errType
+                == SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED) {
+            // SpenSDK APK must be updated.
+            showAlertDialog( "You need to update your Spen software "
+                    + "to use this application."
+                    + " You will be taken to the installation screen."
+                    + " Restart this application after the software has been updated."
+                    , true);
+        } else if (errType
+                == SsdkUnsupportedException.LIBRARY_UPDATE_IS_RECOMMENDED) {
+            // Update of SpenSDK APK to an available new version is recommended.
+            showAlertDialog( "We recommend that you update your Spen software"
+                    +" before using this application."
+                    + " You will be taken to the installation screen."
+                    + " Restart this application after the software has been updated."
+                    , false);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Brauchen wir das???
+     * @param msg
+     * @param closeActivity
+     */
+    private void showAlertDialog(String msg, final boolean closeActivity) {
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(mContext);
+        dlg.setIcon(getResources().getDrawable(
+                android.R.drawable.ic_dialog_alert));
+        dlg.setTitle("Upgrade Notification")
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog, int which) {
+                                // Go to the market website and install/update APK.
+                                Uri uri = Uri.parse("market://details?id="
+                                        + Spen.SPEN_NATIVE_PACKAGE_NAME);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+
+                                dialog.dismiss();
+                                finish();
+                            }
+                        })
+                .setNegativeButton(android.R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog, int which) {
+                                if(closeActivity == true) {
+                                    // Terminate the activity if APK is not installed.
+                                    finish();
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        if(closeActivity == true) {
+                            // Terminate the activity if APK is not installed.
+                            finish();
+                        }
                     }
-                }
-                mSignatureAdapter.notifyDataSetChanged();
-            }
-        });
+                })
+                .show();
+        dlg = null;
     }
 
-    static class ListItem {
-        ListItem(String iTitle, String isubTitle) {
-            Title = iTitle;
-            subTitle = isubTitle;
-        }
-
-        String Title;
-        String subTitle;
-    }
-
-    class ListAdapter extends BaseAdapter {
-        LayoutInflater Inflater;
-
-        public ListAdapter(Context context) {
-            Inflater =
-                    (LayoutInflater) context
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return mSignatureListItem.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView,
-                            ViewGroup parent) {
-            if (convertView == null) {
-                convertView =
-                        Inflater.inflate(R.layout.signature_list_item, parent,
-                                false);
-            }
-            TextView title = (TextView) convertView
-                    .findViewById(R.id.signature_list_title);
-            title.setText(mSignatureListItem.get(position).Title);
-            TextView subtitle = (TextView) convertView
-                    .findViewById(R.id.signature_list_subtitle);
-            subtitle.setText(mSignatureListItem.get(position).subTitle);
-            if ((position == LIST_VERIFICATION || position == LIST_DELETE_SIGNATURE)
-                    && mSpenSignatureVerification.getRegisteredCount()!= mSpenSignatureVerification
-                    .getMinimumRequiredCount()) {
-                title.setTextColor(0xFF005D87);
-                subtitle.setTextColor(0xFF777777);
-            } else {
-                title.setTextColor(0xFF00B8FF);
-                subtitle.setTextColor(0xFFFFFFFF);
-            }
-            return convertView;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        if(mSignatureAdapter != null) {
-            mSignatureAdapter.notifyDataSetChanged();
-        }
-        super.onResume();
-    }
-
+    /**
+     *
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mSpenSignatureVerification != null) {
-            mSpenSignatureVerificationManager
-                    .destroySignatureVerification(mSpenSignatureVerification);
-            mSpenSignatureVerificationManager.close();
+        if (mSpenSurfaceView != null) {
+            mSpenSurfaceView.close();
+            mSpenSurfaceView = null;
         }
-    }
+
+        if(mSpenNoteDoc != null) {
+            try {
+                mSpenNoteDoc.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mSpenNoteDoc = null;
+        }
+    };
 }

@@ -1,5 +1,8 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -16,6 +19,8 @@ package de.teambluebaer.patientix.xmlParser;
 public interface Element {
     /**
      * put this Element into a View
+     * @param context
+     * @param layout
      */
-    public void addToView();
+    public void addToView(Context context, LinearLayout layout);
 }
