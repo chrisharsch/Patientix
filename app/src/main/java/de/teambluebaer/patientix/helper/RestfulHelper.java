@@ -37,6 +37,7 @@ public class RestfulHelper extends Activity {
     public final String SERVER_URL = "http://141.19.145.237/";
     private final String POST_LOGIN = "index.php/login";
     private final String POST_LOGOUT = "api/person/logout";
+    private final String POST_FORMULA = "index.php/formula";
   /*  private final String POST_REGISTER = "api/person/register";
     private final String DELETE_PROVIDER = "api/person/deleteProvider";
     private final String POST_DELETEACCOUNT = "api/person/deleteAccount";
@@ -74,7 +75,7 @@ public class RestfulHelper extends Activity {
     public String POST_URL;
 
 
-  //  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     //Respsone Output
     public volatile HttpResponse response;
@@ -163,7 +164,6 @@ public class RestfulHelper extends Activity {
     }
 
 
-
     /**
      * Method which set the URL for the RESTful-Request
      *
@@ -183,7 +183,10 @@ public class RestfulHelper extends Activity {
             POST_URL = SERVER_URL + POST_OAUTH;
         } else if (restMethod.equals("changeMail")) {
             POST_URL = SERVER_URL + POST_CHANGE_MAIL;
-      */  } else if (restMethod.equals("logout")) {
+      */
+        } else if (restMethod.equals("formula")) {
+            POST_URL = SERVER_URL + POST_FORMULA;
+        } else if (restMethod.equals("logout")) {
             POST_URL = SERVER_URL + POST_LOGOUT;
        /* } else if (restMethod.equals("steps")) {
             POST_URL = SERVER_URL + POST_GETDATA;
@@ -255,7 +258,6 @@ public class RestfulHelper extends Activity {
         return responseCode;
     }
 */
-
     public String getStringFromInputStream(byte[] array) {
         BufferedReader br = null;
         InputStream is = null;

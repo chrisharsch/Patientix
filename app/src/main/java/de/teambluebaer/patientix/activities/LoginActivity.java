@@ -60,6 +60,7 @@ public class LoginActivity extends Activity {
         parameterMap.add(new BasicNameValuePair("userName", editName.getText().toString()));
         parameterMap.add(new BasicNameValuePair("userPW", passwordHash(editPassword.getText().toString())));
 
+        Log.d("ResponseCode",passwordHash(editPassword.getText().toString()));
         //send the request to server
         RestfulHelper restfulHelper = new RestfulHelper();
         responseCode = restfulHelper.executeRequest("login", parameterMap);
