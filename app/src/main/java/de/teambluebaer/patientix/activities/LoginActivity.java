@@ -8,13 +8,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.security.MessageDigest;
+import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-
-/**
- * This class handle the login data from the MTRA.
- */
+import de.teambluebaer.patientix.helper.RestfulHelper;
 
 public class LoginActivity extends Activity {
 
@@ -24,12 +28,10 @@ public class LoginActivity extends Activity {
     private String url;
     private String thisExeption;
     private String httpData;
+    Integer responseCode;
 
-    /**
-     * In this method is defined what happens on create of the Activity:
-     * Set Layout, remove titlebar and open the keyboard
-     * @param savedInstanceState
-     */
+    private ArrayList<NameValuePair> parameterMap = new ArrayList<NameValuePair>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,23 +43,61 @@ public class LoginActivity extends Activity {
 
         setContentView(R.layout.activity_login);
 
+        // Keyboard open when touch editfield
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         buttonLogin = (Button) findViewById(R.id.buttonBack);
         editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
-        // Keyboard open when touch editfield
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    /**
-     * When the start button is clicked, then opens the StartActivity
-     * @param v
-     */
-    public void onClickLoginButton(View v){
+    public void onClickLoginButton(View v) {
         Flasher.flash(buttonLogin, "1x3");
-      //  new Helper().executeRequest("", );
-        Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-        startActivity(intent);
+        //create parameterMap to add parameters of the request
+
+        parameterMap.add(new BasicNameValuePair("user", editName.getText().toString()));
+        parameterMap.add(new BasicNameValuePair("password", passwordHash(editPassword.getText().toString())));
+
+        //send the request to server
+        RestfulHelper restfulHelper = new RestfulHelper();
+        responseCode= restfulHelper.executeRequest("login", parameterMap);
+
+
+        Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
+        startActivity(intentFormActivity);
+    }
+
+    private String passwordHash(String pw) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            byte[] hash = digest.digest(pw.getBytes("UTF-8"));
+
+            StringBuilder hexString = new StringBuilder();
+            for (int i : hash) {
+                hexString.append(Integer.toHexString(0XFF & i));
+            }
+            return hexString.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void checkResponseCode() {
+        switch (responseCode) {
+            case 500:
+                Toast.makeText(this, "Server temporary offline", Toast.LENGTH_LONG).show();
+                break;
+            case 401:
+                Toast.makeText(this, "Login-Information incorrect", Toast.LENGTH_LONG).show();
+                break;
+            case 200:
+               //TODO
+                Toast.makeText(this, "Login successful", Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 
 
