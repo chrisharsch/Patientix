@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.os.Environment;
+import android.widget.RadioGroup;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

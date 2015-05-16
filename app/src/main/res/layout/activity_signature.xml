@@ -7,42 +7,6 @@
     tools:context="de.teambluebaer.patientix.signatureHelper.SignatureActivity"
     android:background="@drawable/inhaltsseiteapp">
 
-    <FrameLayout
-        android:id="@+id/spenViewContainer"
-        android:layout_width="580dp"
-        android:layout_height="320dp"
-        android:layout_margin="250dp">
-
-        <RelativeLayout
-            android:id="@+id/spenViewLayout"
-            android:layout_width="580dp"
-            android:layout_height="320dp"
-            android:layout_margin="250dp"
-            android:layout_marginLeft="250dp"
-            android:layout_marginTop="250dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="250dp"
-            android:layout_gravity="center">
-
-            <android.gesture.GestureOverlayView
-                android:id="@+id/signaturePad"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:background="@color/white"
-                android:eventsInterceptionEnabled="true"
-                android:fadeEnabled="false"
-                android:gestureColor="@color/black"
-                android:gestureStrokeLengthThreshold="0.1"
-                android:gestureStrokeType="multiple"
-                android:orientation="vertical"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true">
-            </android.gesture.GestureOverlayView>
-        </RelativeLayout>
-    </FrameLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,17 +18,73 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <!-- Wird unten in titlebar gespeichert vorübergehend
     <Button
         android:layout_width="210dip"
         android:layout_height="70dip"
         android:text="@string/buttonDone"
         android:id="@+id/buttonDone"
         android:textSize="40sp"
-        android:onClick="saveSig"
         android:background="@drawable/button1x3normal"
         android:textColor="#fffafa"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp" />
+-->
 
+    <FrameLayout
+        android:id="@+id/spenViewContainer"
+        android:layout_width="780dp"
+        android:layout_height="270dp"
+        android:layout_gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/spenViewLayout"
+            android:layout_width="780dp"
+            android:layout_height="270dp"
+            android:layout_gravity="center">
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/tool_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/penBtn"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/selector_tool_bg"
+            android:contentDescription="@string/description"
+            android:src="@drawable/selector_pen" />
+
+        <ImageView
+            android:id="@+id/eraserBtn"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/selector_tool_bg"
+            android:contentDescription="@string/description"
+            android:src="@drawable/selector_eraser" />
+
+        <ImageView
+            android:id="@+id/captureBtn"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/selector_tool_bg"
+            android:contentDescription="@string/description"
+            android:src="@drawable/selector_capture" />
+    </LinearLayout>
 </RelativeLayout>

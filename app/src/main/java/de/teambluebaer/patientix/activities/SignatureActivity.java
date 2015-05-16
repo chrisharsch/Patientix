@@ -5,44 +5,72 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.pen.Spen;
+import com.samsung.android.sdk.pen.SpenSettingEraserInfo;
+import com.samsung.android.sdk.pen.SpenSettingPenInfo;
 import com.samsung.android.sdk.pen.document.SpenNoteDoc;
 import com.samsung.android.sdk.pen.document.SpenPageDoc;
 import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
+import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
+import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.EventListener;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 
 /**
- * This class is for the signature from patient.
+ * This class is for saving the signature from patient.
+ */
+/**
+ * Created by Maren on 16.05.2015.
  */
 public class SignatureActivity extends Activity {
+
+    private final int REQUEST_CODE_SELECT_IMAGE_BACKGROUND = 100;
 
     private Context mContext;
     private SpenNoteDoc mSpenNoteDoc;
     private SpenPageDoc mSpenPageDoc;
     private SpenSurfaceView mSpenSurfaceView;
-    private Button buttonDone;
+
+    private SpenSettingPenLayout mPenSettingView;
+    private SpenSettingEraserLayout mEraserSettingView;
+
+    private ImageView mPenBtn;
+    private ImageView mEraserBtn;
+    private ImageView mCaptureBtn;
+    //private Button buttonDone;
+
+    private int mToolType = SpenSurfaceView.TOOL_SPEN;
+    private MediaScannerConnection msConn = null;
+    private Toast mToast = null;
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -60,9 +88,9 @@ public class SignatureActivity extends Activity {
 
         //Set View
         setContentView(R.layout.activity_signature);
-
+        mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
         mContext = this;
-        buttonDone = (Button) findViewById(R.id.buttonDone);
+        //buttonDone = (Button) findViewById(R.id.buttonDone);
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -81,9 +109,33 @@ public class SignatureActivity extends Activity {
             finish();
         }
 
+        FrameLayout spenViewContainer = (FrameLayout) findViewById(R.id.spenViewContainer);
+        RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
+
+        // Create PenSettingView
+        if (android.os.Build.VERSION.SDK_INT > 19) {
+            mPenSettingView = new SpenSettingPenLayout(mContext, new String(), spenViewLayout);
+        } else {
+            mPenSettingView = new SpenSettingPenLayout(getApplicationContext(), new String(), spenViewLayout);
+        }
+        if (mPenSettingView == null) {
+            Toast.makeText(mContext, "Cannot create new PenSettingView.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        // Create EraserSettingView
+        if (android.os.Build.VERSION.SDK_INT > 19) {
+            mEraserSettingView = new SpenSettingEraserLayout(mContext, new String(), spenViewLayout);
+        } else {
+            mEraserSettingView = new SpenSettingEraserLayout(getApplicationContext(), new String(), spenViewLayout);
+        }
+        if (mEraserSettingView == null) {
+            Toast.makeText(mContext, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        spenViewContainer.addView(mPenSettingView);
+        spenViewContainer.addView(mEraserSettingView);
+
         // Create Spen View
-        RelativeLayout spenViewLayout =
-                (RelativeLayout) findViewById(R.id.spenViewLayout);
         mSpenSurfaceView = new SpenSurfaceView(mContext);
         if (mSpenSurfaceView == null) {
             Toast.makeText(mContext, "Cannot create new SpenView.",
@@ -91,12 +143,13 @@ public class SignatureActivity extends Activity {
             finish();
         }
         spenViewLayout.addView(mSpenSurfaceView);
+        mPenSettingView.setCanvasView(mSpenSurfaceView);
+        mEraserSettingView.setCanvasView(mSpenSurfaceView);
 
         // Get the dimension of the device screen.
         Display display = getWindowManager().getDefaultDisplay();
         Rect rect = new Rect();
         display.getRectSize(rect);
-
         // Create SpenNoteDoc
         try {
             mSpenNoteDoc =
@@ -110,13 +163,10 @@ public class SignatureActivity extends Activity {
             e.printStackTrace();
             finish();
         }
-
-        // Add a Page to NoteDoc, get an instance, and set it to the member variable
-        // The signaturefield
+        // Add a Page to NoteDoc, get an instance, and set it to the member variable.
         mSpenPageDoc = mSpenNoteDoc.appendPage();
         mSpenPageDoc.setBackgroundColor(0xFFD6E6F5);
         mSpenPageDoc.clearHistory();
-
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
 
@@ -126,35 +176,211 @@ public class SignatureActivity extends Activity {
                     "Device does not support Spen. \n You can draw stroke by finger.",
                     Toast.LENGTH_SHORT).show();
         }
+
+        initSettingInfo();
+        // Register the listener
+        //mEraserSettingView.setEraserListener(mEraserListener);
+
+        // Set a button
+        mPenBtn = (ImageView) findViewById(R.id.penBtn);
+        mPenBtn.setOnClickListener(mPenBtnClickListener);
+
+        mEraserBtn = (ImageView) findViewById(R.id.eraserBtn);
+        mEraserBtn.setOnClickListener(mEraserBtnClickListener);
+
+        mCaptureBtn = (ImageView) findViewById(R.id.captureBtn);
+        mCaptureBtn.setOnClickListener(mCaptureBtnClickListener);
+
+        selectButton(mPenBtn);
+
+        mSpenPageDoc.startRecord();
+
+        if (isSpenFeatureEnabled == false) {
+            mToolType = SpenSurfaceView.TOOL_FINGER;
+            mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_STROKE);
+            Toast.makeText(mContext, "Device does not support Spen. \n You can draw stroke by finger",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initSettingInfo() {
+        // Initialize Pen settings
+        SpenSettingPenInfo penInfo = new SpenSettingPenInfo();
+        penInfo.color = Color.BLUE;
+        penInfo.size = 10;
+        // mSpenSurfaceView.setPenSettingInfo(penInfo);
+        // mPenSettingView.setInfo(penInfo);
+
+        // Initialize Eraser settings
+        SpenSettingEraserInfo eraserInfo = new SpenSettingEraserInfo();
+        eraserInfo.size = 30;
+        mSpenSurfaceView.setEraserSettingInfo(eraserInfo);
+        mEraserSettingView.setInfo(eraserInfo);
     }
 
     /**
-     * Save signature from patient in a image, when press the "Fertig"/Done-Button
-     * @param view
+     * Use the pen when click the symbol
      */
-    public void saveSig(View view) {
-        Flasher.flash(buttonDone, "1x3");
-        try {
-            GestureOverlayView gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
-            gestureView.setDrawingCacheEnabled(true);
-            Bitmap bm = Bitmap.createBitmap(gestureView.getDrawingCache());
-            File f = new File(Environment.getExternalStorageDirectory()
-                        + File.separator + "signature.png");
-            f.createNewFile();
-            FileOutputStream os;
-            os = new FileOutputStream(f);
-            //compress to specified format (PNG), quality - which is ignored for PNG, and out stream
-            bm.compress(Bitmap.CompressFormat.PNG, 100, os);
-
-            Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
-            startActivity(intent);
-            finish();
-
-            os.close();
-        } catch (Exception e) {
-            Log.v("Gestures", e.getMessage());
-            e.printStackTrace();
+    private final View.OnClickListener mPenBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // When Spen is in stroke (pen) mode
+            if (mSpenSurfaceView.getToolTypeAction(mToolType) == SpenSurfaceView.ACTION_STROKE) {
+                // If PenSettingView is open, close it.
+                if (mPenSettingView.isShown()) {
+                    mPenSettingView.setVisibility(View.GONE);
+                    // If PenSettingView is not open, open it.
+                } else {
+                    mPenSettingView.setViewMode(SpenSettingPenLayout.VIEW_MODE_EXTENSION);
+                    mPenSettingView.setVisibility(View.VISIBLE);
+                }
+                // If Spen is not in stroke (pen) mode, change it to stroke mode.
+            } else {
+                selectButton(mPenBtn);
+                mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_STROKE);
+            }
         }
+    };
+
+    /**
+     * Use the eraser when click the symbol
+     */
+    private final View.OnClickListener mEraserBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // When Spen is in eraser mode
+            if (mSpenSurfaceView.getToolTypeAction(mToolType) == SpenSurfaceView.ACTION_ERASER) {
+                // If EraserSettingView is open, close it.
+                if (mEraserSettingView.isShown()) {
+                    mEraserSettingView.setVisibility(View.GONE);
+                    // If EraserSettingView is not open, open it.
+                } else {
+                    mEraserSettingView.setViewMode(SpenSettingEraserLayout.VIEW_MODE_NORMAL);
+                    mEraserSettingView.setVisibility(View.VISIBLE);
+                }
+                // If Spen is not in eraser mode, change it to eraser mode.
+            } else {
+                selectButton(mEraserBtn);
+                mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_ERASER);
+            }
+        }
+    };
+
+    /**
+     * calls the saving methode captureSpenSurfaceView
+     */
+    private final View.OnClickListener mCaptureBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            closeSettingView();
+            mCaptureBtn.setEnabled(false);
+            captureSpenSurfaceView();
+            mCaptureBtn.setEnabled(true);
+        }
+    };
+
+    /**
+     * EventListener geht nicht. Sonst radiert alles auf einmal :(
+     */
+    private final EventListener mEraserListener = new EventListener() {
+
+        public void onClearAll() {
+            // ClearAll button action routines of EraserSettingView
+            mSpenPageDoc.removeAllObject();
+            mSpenSurfaceView.update();
+        }
+    };
+
+    /**
+     * select the pen or the eraser
+     * @param v
+     */
+    private void selectButton(View v) {
+        // Enable or disable the button according to the current mode.
+        mPenBtn.setSelected(false);
+        mEraserBtn.setSelected(false);
+
+        v.setSelected(true);
+
+        closeSettingView();
+    }
+
+    /**
+     * close the view from the settings (pen or eraser)
+     */
+    private void closeSettingView() {
+        // Close all the setting views.
+        mEraserSettingView.setVisibility(SpenSurfaceView.GONE);
+        mPenSettingView.setVisibility(SpenSurfaceView.GONE);
+    }
+
+    /**
+     * Save the signature in the gallery directory on the tablet
+     */
+    private void captureSpenSurfaceView() {
+        // Set save directory for a captured image.
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
+        File fileCacheItem = new File(filePath);
+        if (!fileCacheItem.exists()) {
+            if (!fileCacheItem.mkdirs()) {
+                Toast.makeText(mContext, "Save Path Creation Error", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        filePath = fileCacheItem.getPath() + "/CaptureImg.png";
+
+        // Capture an image and save it as bitmap.
+        Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
+
+        OutputStream out = null;
+        try {
+            // Save a captured bitmap image to the directory.
+            out = new FileOutputStream(filePath);
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            mToast.setText("Captured images were stored in the file \'CaptureImg.png\'.");
+            mToast.show();
+        } catch (Exception e) {
+            Toast.makeText(mContext, "Capture failed.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+
+                scanImage(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        imgBitmap.recycle();
+    }
+
+    private void scanImage(final String imageFileName) {
+        msConn = new MediaScannerConnection(mContext, new MediaScannerConnection.MediaScannerConnectionClient() {
+            @Override
+            public void onMediaScannerConnected() {
+                try {
+                    msConn.scanFile(imageFileName, null);
+                } catch (Exception e) {
+                    mToast.setText("Please wait for store image file.");
+                    mToast.show();
+                }
+            }
+
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+                msConn.disconnect();
+                msConn = null;
+            }
+        });
+        msConn.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mToast.cancel();
     }
 
     /**
@@ -202,7 +428,7 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * Brauchen wir das???
+     * Show alert for the exceptions
      * @param msg
      * @param closeActivity
      */
@@ -256,18 +482,31 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     *
+     * Destroy and stop the notedocument and views
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mToast.cancel();
+        if (mSpenNoteDoc != null && mSpenPageDoc.isRecording()) {
+            mSpenPageDoc.stopRecord();
+        }
 
+        if (mPenSettingView != null) {
+            mPenSettingView.close();
+        }
+        if (mEraserSettingView != null) {
+            mEraserSettingView.close();
+        }
         if (mSpenSurfaceView != null) {
+            if (mSpenSurfaceView.getReplayState() == SpenSurfaceView.REPLAY_STATE_PLAYING) {
+                mSpenSurfaceView.stopReplay();
+            }
             mSpenSurfaceView.close();
             mSpenSurfaceView = null;
         }
 
-        if(mSpenNoteDoc != null) {
+        if (mSpenNoteDoc != null) {
             try {
                 mSpenNoteDoc.close();
             } catch (Exception e) {
