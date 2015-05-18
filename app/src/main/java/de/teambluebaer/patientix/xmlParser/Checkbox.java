@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 public class Checkbox implements Element{
     private String checkboxText;
     private boolean checked;
+    private String patientCommentar;
+    private String mtraCommentar;
+    private String doctorCommentar;
 
     /**
      * changes the state of the boolean checked
@@ -38,5 +41,23 @@ public class Checkbox implements Element{
         checkBox.setText(checkboxText);
         checkBox.setChecked(checked);
         layout.addView(checkBox);
+    }
+    /**
+     * Insert a patient comment field to this Checkbox
+     */
+    public void addPatCommant(){
+
+    }
+    /**
+     * Insert a MTRA comment field to this Checkbox
+     */
+    public void addMTRACommant(){
+
+    }
+    /**
+     * Insert a Doctor comment field to this Checkbox
+     */
+    public void addDocCommant(){
+
     }
 }

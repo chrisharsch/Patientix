@@ -13,7 +13,7 @@ public final class MetaandForm {
 
     /**
      * give access to the Singleton Instance
-     * @return a Instance of <code>MetaAnfForm</code>
+     * @return a Instance of <code>MetaandForm</code>
      */
     public static MetaandForm getInstance() {
         return ourInstance;

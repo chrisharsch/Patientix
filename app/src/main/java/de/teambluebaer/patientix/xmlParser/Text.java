@@ -13,13 +13,15 @@ import android.widget.TextView;
  */
 public class Text implements Element {
     private String text;
+    private int size;
 
     /**
      * Constructor
      * @param text represents the shoen Text
      */
-    public Text(String text){
+    public Text(String text, String size){
         this.text = text;
+        this.size = Integer.parseInt(size);
     }
 
     @Override
