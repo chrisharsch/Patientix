@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -14,13 +12,10 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -43,7 +38,6 @@ import java.io.OutputStream;
 import java.util.EventListener;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helper.Flasher;
 
 /**
  * This class is for saving the signature from patient.
@@ -88,7 +82,7 @@ public class SignatureActivity extends Activity {
 
         //Set View
         setContentView(R.layout.activity_signature);
-        mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
+//        mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
         mContext = this;
         //buttonDone = (Button) findViewById(R.id.buttonDone);
 
@@ -276,6 +270,9 @@ public class SignatureActivity extends Activity {
             mCaptureBtn.setEnabled(false);
             captureSpenSurfaceView();
             mCaptureBtn.setEnabled(true);
+
+            Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -380,7 +377,7 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        mToast.cancel();
+//        mToast.cancel();
     }
 
     /**
