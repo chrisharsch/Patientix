@@ -34,7 +34,6 @@ public class Flasher {
                 }, 25);
                 System.gc();
             } else if (size.equals("1x3")) {
-
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
