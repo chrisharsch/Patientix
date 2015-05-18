@@ -13,19 +13,23 @@ import android.widget.TextView;
  */
 public class Text implements Element {
     private String text;
+    private int size;
 
     /**
      * Constructor
-     * @param text represents the shoen Text
+     * @param text represents the showen Text
+     * @param size represents the Fontsize
      */
-    public Text(String text){
+    public Text(String text, String size){
         this.text = text;
+        this.size = Integer.parseInt(size);
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
         TextView textView = new TextView(context);
         textView.setText(text);
+        textView.setTextSize(size);
         layout.addView(textView);
     }
 }

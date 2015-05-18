@@ -3,30 +3,20 @@ package de.teambluebaer.patientix.xmlParser;
 /**
  * Created by Simon on 07.05.2015.
  *
- * Singleton, represents a <code>MetaData</code> and <code>Form</code> combination
+ * represents a <code>MetaData</code> and <code>Form</code> combination
  * @see MetaData
  * @see Form
  *
  */
-public final class MetaandForm {
-    private static MetaandForm ourInstance = new MetaandForm();
-
-    /**
-     * give access to the Singleton Instance
-     * @return a Instance of <code>MetaAnfForm</code>
-     */
-    public static MetaandForm getInstance() {
-        return ourInstance;
-    }
+public class MetaandForm {
 
     private MetaData meta;
     private Form form;
 
-
     /**
-     * Private Constructor
+     * Constructor
      */
-    private MetaandForm() {
+    public MetaandForm() {
 
     }
 

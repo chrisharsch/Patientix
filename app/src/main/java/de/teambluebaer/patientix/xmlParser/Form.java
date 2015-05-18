@@ -13,23 +13,15 @@ import java.util.ListIterator;
  * @see MetaandForm
  */
 public class Form {
-    private static Form ourInstance = new Form();
-
-    /**
-     * give access to the Singleton Instance
-     * @return a Instance of Form
-     */
-    public static Form getInstance() {
-        return ourInstance;
-    }
 
     private List<Page> pageList;
     private ListIterator<Page> iterator;
 
+
     /**
      * Private constructor
      */
-    private Form() {
+    public Form() {
         pageList = new ArrayList<Page>();
         iterator = pageList.listIterator();
     }
@@ -50,15 +42,17 @@ public class Form {
     }
 
     public Page getNextPage(){
-        return iterator.next();
+            return iterator.next();
+
     }
 
     public Page getPreviousPage(){
         return iterator.previous();
     }
-     public Page getFirstPage(){
-         return pageList.get(0);
-     }
+
+    public Page getFirstPage(){
+         return iterator.next();
+    }
 
     public int getcurrendPageNumber(){
         return iterator.previousIndex() +1 ;

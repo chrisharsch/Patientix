@@ -1,17 +1,16 @@
 package de.teambluebaer.patientix.xmlParser;
 
-import android.os.Environment;
-import android.widget.RadioGroup;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import android.os.Environment;
+import android.util.Log;
+
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 
 /**
@@ -19,119 +18,128 @@ import javax.xml.parsers.DocumentBuilderFactory;
  *
  * holds functions to pars an XMLString into an defined Java Structure
  */
-public final class JavaStrucBuilder {
+public class JavaStrucBuilder extends DefaultHandler{
 
-    /**
-    * creates an <code>MetaandForm</code> Object from an File
-    * @return file that has been parsed into a <code>MetaandForm</code> Object
-    */
-    public static MetaandForm buildStruc() {
+    Form form;
+    MetaData meta;
+    MetaandForm metaandForm;
+    Page currendPage;
+    Row currendRow;
+    boolean isPID = false;
+    boolean isPFN = false;
+    boolean isPLN = false;
+    boolean ispDate = false;
+    boolean isName = false;
 
-        FileInputStream fileimput;
+    public MetaandForm buildStruc(){
+
+        SAXParserFactory spf = SAXParserFactory.newInstance();
         try{
-            //TODO INSERT RIGHT PATH
-            fileimput = new FileInputStream(Environment.getExternalStorageDirectory().getPath() + "MRTAufklärung.txt");
-        }catch (Exception e){
-            System.out.println(e.getMessage()+"File loading Error");
-            return null;
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(new File(Environment.getExternalStorageDirectory().toString()+"/patientix/form.xml"), this);
+
+        } catch (Exception e){
+            Log.d("FEHLER",e.toString());
         }
-        String xmlString = fileimput.toString();
-        Document xml = buildDOMTreeformXMLString(xmlString);
-        NodeList pagelist =  xml.getElementsByTagName("page");
-        NodeList metadata = xml.getElementsByTagName("metaData");
-        MetaData meta = metaParser(metadata.item(0).getChildNodes());
-        Form form = formParser(pagelist);
-        MetaandForm metaAndForm = MetaandForm.getInstance();
-        metaAndForm.setMeta(meta);
-        metaAndForm.setForm(form);
-        return metaAndForm;
+        return metaandForm;
     }
 
-    /**
-     * build a DOM-Tree out of an XML-String
-     * @param filename represents an XML-String
-     * @return the generated DOM-Tree
-     */
-    protected static Document buildDOMTreeformXMLString(String filename) {
+    @Override
+    public void startDocument() throws SAXException {
+        form = new Form();
+        meta = new MetaData();
+        metaandForm = new MetaandForm();
+    }
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db;
-        try{
-             db = dbf.newDocumentBuilder();
-            return db.parse(new File(filename));
-        }catch (Exception e){
+    @Override
+    public void endDocument() throws SAXException {
+        System.out.println("Dokument geladen");
+    }
 
-            System.out.println(e.getMessage() + "Parsing Error");
-            return null;
+
+    @Override
+    public void startElement(String uri, String localName, String qName,
+                              Attributes attributes) {
+        if(qName.equals("page")){
+            currendPage = new Page();
+        }else if (qName.equals("row")){
+            currendRow = new Row();
+        }else if(qName.equals("text")){
+            currendRow.addElement(new Text(attributes.getValue("text"),attributes.getValue("size")));
+        }else if(qName.equals("checkbox")){
+            currendRow.addElement(new Checkbox(attributes.getValue("text")));
+        }else if(qName.equals("radiobutton")){
+            currendRow.addElement(new Radio(attributes.getValue("text")));
+        }else if(qName.equals("image")){
+            currendRow.addElement(new Image(attributes.getValue("src")));
+        }else if(qName.equals("sound")){
+            currendRow.addElement(new Sound(attributes.getValue("src")));
+        }else if(qName.equals("video")){
+            currendRow.addElement(new Video(attributes.getValue("src")));
+        }else if(qName.equals("input")) {
+            currendRow.addElement(new Input());
+        }else if(qName.equals("pID")){
+            isPID = true;
+        }else if(qName.equals("pFirstName")){
+            isPFN = true;
+        }else if(qName.equals("pLastName")){
+            isPLN = true;
+        }else if(qName.equals("pDate")){
+            ispDate = true;
+        }else if(qName.equals("name")){
+            isName = true;
+        }else{
+            Log.d("SCHREIBT","NIX REIN");
         }
-
-
     }
 
-    /**
-     * parses DOM-Tree Object with Meta Data into a <code>MetaData</code> Object
-     * @param meta represents the Meta Data as a NodeList
-     * @return initialised <code>MetaData</code> Objekt
-     * @see MetaData
-     */
-    protected static MetaData metaParser(NodeList meta){
-
-        MetaData.getInstance().setMetaData(
-                meta.item(0).getNodeValue(),
-                meta.item(1).getNodeValue(),
-                meta.item(2).getNodeValue(),
-                meta.item(3).getNodeValue(),
-                meta.item(4).getNodeValue()
-        );
-
-        return MetaData.getInstance();
-
-    }
-
-    /**
-     * parses DOM-Tree Object with Form Data into an <code>Form</code> Object
-     * @param pageList List of all <code>Pages</code> that are hold in the <code>Form</code>
-     * @return initialised <code>Form</code> Objekt
-     * @see Form
-     */
-    protected static Form formParser(NodeList pageList){
-        Form form = Form.getInstance();
-
-        for(int pageIterator = 0; pageIterator < pageList.getLength(); pageIterator++){
-            Node currendPageNode = pageList.item(pageIterator);
-            Page currendPage = new Page();
-            for(int rowIterator = 0; rowIterator < currendPageNode.getChildNodes().getLength(); rowIterator++){
-                Node currendRowNode = currendPageNode.getChildNodes().item(rowIterator);
-                Row currendRow = new Row();
-                for(int elementIterator = 0; elementIterator < currendRowNode.getChildNodes().getLength(); elementIterator++){
-                    Node currendElementNode = currendRowNode.getChildNodes().item(elementIterator);
-                    Element elementToAdd;
-                    if(currendElementNode.getNodeName().equals("text")){
-                        elementToAdd = new Text(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("checkbox")){
-                        elementToAdd = new Checkbox(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("radiobutton")){
-                        elementToAdd = new Radio(currendElementNode.getAttributes().getNamedItem("text").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("image")){
-                        elementToAdd = new Image(currendElementNode.getAttributes().getNamedItem("picture").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("sound")){
-                        elementToAdd = new Sound(currendElementNode.getAttributes().getNamedItem("sound").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("video")){
-                        elementToAdd = new Video(currendElementNode.getAttributes().getNamedItem("video").getTextContent());
-                    }else if(currendElementNode.getNodeName().equals("input")){
-                        elementToAdd = new Input();
-                    }else{
-                        elementToAdd = new WhiteSpace();
-                    }
-                    currendRow.addElement(elementToAdd);
-                }
-                currendPage.addNewRow(currendRow);
-            }
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        if(qName.equals("page")){
             form.addPage(currendPage);
+        }else if (qName.equals("row")) {
+            currendPage.addNewRow(currendRow);
+        }else if (qName.equals("page")){
+            metaandForm.setForm(form);
+        }else if (qName.equals("meta")){
+            metaandForm.setMeta(meta);
+        }else {
+            isPID = false;
+            isPFN = false;
+            isPLN = false;
+            ispDate = false;
+            isName = false;
         }
-
-        return null;
     }
+
+    @Override
+    public void characters(char[] ch, int start, int length){
+        if(isPID){
+            meta.setPatientID(new String(ch, start, length));
+        }else if(isPFN){
+            meta.setPatientFirstName(new String(ch, start, length));
+        }else if(isPLN){
+            meta.setPatientLastName(new String(ch, start, length));
+        }else if(ispDate){
+            meta.setPatientBithDate(new String(ch, start, length));
+        }else if (isName){
+            meta.setexameName(new String(ch, start, length));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

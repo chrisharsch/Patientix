@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
  */
 public class Input implements Element {
     private String inputText;
+    private String patientCommentar;
+    private String mtraCommentar;
+    private String doctorCommentar;
 
     /**
      * Constructor
@@ -26,5 +29,24 @@ public class Input implements Element {
     public void addToView(Context context, LinearLayout layout) {
         EditText imput = new EditText(context);
         layout.addView(imput);
+    }
+
+    /**
+     * Insert a patient comment field to this InputFiled
+     */
+    public void addPatCommant(){
+
+    }
+    /**
+     * Insert a MTRA comment field to this InputFiled
+     */
+    public void addMTRACommant(){
+
+    }
+    /**
+     * Insert a Doctor comment field to this InputFiled
+     */
+    public void addDocCommant(){
+
     }
 }

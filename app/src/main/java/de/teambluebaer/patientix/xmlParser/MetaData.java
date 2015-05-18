@@ -7,50 +7,42 @@ package de.teambluebaer.patientix.xmlParser;
  * @see MetaandForm
  */
 public class MetaData {
-    private static MetaData ourInstance = new MetaData();
-
-    /**
-     * give access to the Singleton Instance
-     * @return a Instance of MetaData
-     */
-    public static MetaData getInstance() {
-        return ourInstance;
-    }
 
     private String patientID;
     private String patientFirstName;
     private String patientLastName;
-    private String exameID;
+    private String patientBithDate;
     private String exameName;
 
 
     /**
      * remove reference to old MeatData Objects
      */
-    public void refresh(){
-        ourInstance = new MetaData();
+
+    public MetaData() {
+        this.setPatientBithDate("Unbekannt");
     }
 
-    /**
-     * private Constructor
-     */
-    private MetaData() {
+
+    public void setPatientID(String patientID){
+        this.patientID = patientID;
     }
 
-    /**
-     * set the variables of the MetaData Singleton
-     * @param patID represents the unique patient identification number
-     * @param patFN represents the firstname of a patient
-     * @param patLN represents the lastname of a patient
-     * @param exID represents the unique Exam identification number
-     * @param exName represents the name of the Exam
-     */
-    public void setMetaData(String patID, String patFN, String patLN, String exID, String exName){
-        ourInstance.patientID = patID;
-        ourInstance.patientFirstName = patFN;
-        ourInstance.patientLastName = patLN;
-        ourInstance.exameID = exID;
-        ourInstance.exameName = exName;
+    public void setPatientFirstName(String patientFirstName){
+        this.patientFirstName = patientFirstName;
     }
+
+    public void setPatientLastName(String patientLastName){
+        this.patientLastName = patientLastName;
+    }
+
+    public void setPatientBithDate(String patientBithDate){
+        this.patientBithDate = patientBithDate;
+    }
+
+    public void setexameName(String exameName){
+        this.exameName = exameName;
+    }
+
 
     }

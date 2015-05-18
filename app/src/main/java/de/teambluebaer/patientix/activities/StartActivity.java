@@ -3,26 +3,18 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.helper.RestfulHelper;
-import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
+import de.teambluebaer.patientix.xmlParser.Form;
+import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
+import de.teambluebaer.patientix.xmlParser.MetaData;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
  * This class have the patient data...
@@ -32,12 +24,9 @@ public class StartActivity extends Activity {
 
     private Button buttonStart;
     private Button buttonUpdate;
-    private ArrayList<NameValuePair> parameterMap = new ArrayList<NameValuePair>();
-    private int responseCode;
 
-    /**
+     /**
      * In this method is defined what happens on create of the Activity
-     *
      * @param savedInstanceState
      */
     @Override
@@ -58,29 +47,24 @@ public class StartActivity extends Activity {
 
     /**
      * When the start button is clicked, then opens the FormActivity
-     *
      * @param v
      */
-    public void onClickStartButton(View v) {
+    public void onClickStartButton(View v){
         Flasher.flash(buttonStart, "1x3");
-        Intent intent = new Intent(StartActivity.this, SignatureActivity.class);
+        Intent intent = new Intent(StartActivity.this, FormActivity.class);
         startActivity(intent);
         finish();
     }
 
     /**
+     *
      * @param v
      */
-    public void onClickUpdateButton(View v) {
+    public void onClickUpdateButton(View v){
         Flasher.flash(buttonUpdate, "1x5");
-
-
         //TODO SEND "OLD" DATA TO SERVER
 
-       // Form.getInstance().refresh();
-        //MetaData.getInstance().refresh();
-
-        //MetaandForm metaandform = JavaStrucBuilder.buildStruc();
+        MetaandForm metaandform = new JavaStrucBuilder().buildStruc();
 
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 

@@ -16,6 +16,9 @@ public class Radio implements Element {
     private String radioText;
     private boolean checked;
     private RadioGroup radiogroup;
+    private String patientCommentar;
+    private String mtraCommentar;
+    private String doctorCommentar;
 
     /**
      * changes the state of the boolean checked
@@ -31,6 +34,7 @@ public class Radio implements Element {
     public Radio(String radioText){
         this.radioText = radioText;
         this.checked = false;
+
     }
 
     @Override
@@ -47,6 +51,25 @@ public class Radio implements Element {
         this.radiogroup = radiogroup;
         radiogroup.addView(radio);
         layout.addView(radio);
+    }
+
+    /**
+     * Insert a patient comment field to this Radiobutton
+     */
+    public void addPatCommant(){
+
+    }
+    /**
+     * Insert a MTRA comment field to this Radiobutton
+     */
+    public void addMTRACommant(){
+
+    }
+    /**
+     * Insert a Doctor comment field to this Radiobutton
+     */
+    public void addDocCommant(){
+
     }
 
 

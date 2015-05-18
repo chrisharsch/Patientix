@@ -12,9 +12,6 @@ import java.util.List;
  */
 public class Page {
     private List<Row> rowList;
-    private String patientCommentar;
-    private String mtraCommentar;
-    private String doctorCommentar;
 
     /**
      * constructor
@@ -41,24 +38,7 @@ public class Page {
            rowList.add(newRow);
      }
 
-    /**
-     * Insert a patient comment field to this Page
-     */
-     public void addPatCommant(){
 
-     }
-     /**
-     * Insert a MTRA comment field to this Page
-     */
-     public void addMTRACommant(){
-
-     }
-     /**
-     * Insert a Doctor comment field to this Page
-     */
-     public void addDocCommant(){
-
-     }
 
 
 

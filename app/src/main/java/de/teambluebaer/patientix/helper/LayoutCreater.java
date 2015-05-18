@@ -16,8 +16,10 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class LayoutCreater {
 
-    public LayoutCreater(){
+    //private MetaandForm metaandForm;
 
+    public LayoutCreater(/*MetaandForm metaandForm*/){
+        //this.metaandForm = metaandForm;
     }
 
 
