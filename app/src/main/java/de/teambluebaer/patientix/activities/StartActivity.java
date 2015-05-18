@@ -88,7 +88,6 @@ public class StartActivity extends Activity {
         RestfulHelper restfulHelper = new RestfulHelper();
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
         if (200 == responseCode) {
-            Toast.makeText(StartActivity.this, "Connection established", Toast.LENGTH_LONG).show();
             try {
 
                 File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
@@ -105,11 +104,14 @@ public class StartActivity extends Activity {
                 fOut.close();
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                Log.d("Hallo", e.toString());
-                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("FileSaveExeption", e.toString());
+                Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
             }
-        } else {
-            Toast.makeText(StartActivity.this, "Connection faild" + responseCode, Toast.LENGTH_LONG).show();
+        } else if(404 == responseCode) {
+            Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
         }
 
 
