@@ -1,8 +1,15 @@
 package de.teambluebaer.patientix.xmlParser;
 
 
+import android.os.Environment;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.File;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 
 /**
@@ -23,13 +30,20 @@ public class JavaStrucBuilder extends DefaultHandler{
     boolean ispDate = false;
     boolean isName = false;
 
-    public static MetaandForm buildStruc(){
+    public MetaandForm buildStruc(){
 
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        try{
+            SAXParser saxParser = spf.newSAXParser();
+            saxParser.parse(new File(Environment.getExternalStorageDirectory().toString()+"/patientix/form.xml"), this);
 
-
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return MetaandForm.getInstance();
     }
-    @Override
+
+
     public void StartDocument() throws Exception{
         Form.getInstance().refresh();
         MetaData.getInstance().refresh();

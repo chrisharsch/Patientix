@@ -3,8 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,16 +17,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
-import de.teambluebaer.patientix.xmlParser.Form;
-import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaData;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
@@ -42,6 +33,7 @@ public class StartActivity extends Activity {
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList<NameValuePair>();
     private int responseCode;
+    private boolean documentReception = false;
 
     /**
      * In this method is defined what happens on create of the Activity
@@ -85,10 +77,11 @@ public class StartActivity extends Activity {
 
         //TODO SEND "OLD" DATA TO SERVER
 
-        Form.getInstance().refresh();
-        MetaData.getInstance().refresh();
 
-        MetaandForm metaandform = JavaStrucBuilder.buildStruc();
+
+
+
+
 
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
@@ -107,11 +100,17 @@ public class StartActivity extends Activity {
                 myOutWriter.close();
                 fOut.close();
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
+                documentReception = true;
             } catch (Exception e) {
                 Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         } else {
             Toast.makeText(StartActivity.this, "Connection faild" + responseCode, Toast.LENGTH_LONG).show();
+        }
+
+        if(documentReception){
+
         }
 
 

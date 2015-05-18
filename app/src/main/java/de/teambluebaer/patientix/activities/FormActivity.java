@@ -16,6 +16,8 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.xmlParser.Form;
+import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
  *
@@ -36,11 +38,16 @@ public class FormActivity extends Activity {
     private TextView numberOfPages;
 
     private LayoutCreater layoutCreater;
+    private MetaandForm metaandForm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
+        metaandForm = strucBuilder.buildStruc();
+
         // formView = new FormView(this.questionText.getContext());
         // setContentView(formView);
 

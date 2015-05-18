@@ -26,6 +26,7 @@ public class Form {
     private List<Page> pageList;
     private ListIterator<Page> iterator;
 
+
     /**
      * Private constructor
      */
@@ -56,9 +57,10 @@ public class Form {
     public Page getPreviousPage(){
         return iterator.previous();
     }
-     public Page getFirstPage(){
+
+    public Page getFirstPage(){
          return pageList.get(0);
-     }
+    }
 
     public int getcurrendPageNumber(){
         return iterator.previousIndex() +1 ;
