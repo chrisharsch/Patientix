@@ -3,6 +3,8 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,11 +22,6 @@ import java.util.ArrayList;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
-import de.teambluebaer.patientix.xmlParser.Form;
-import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaData;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
-
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
 /**
@@ -80,10 +77,10 @@ public class StartActivity extends Activity {
 
         //TODO SEND "OLD" DATA TO SERVER
 
-        Form.getInstance().refresh();
-        MetaData.getInstance().refresh();
+       // Form.getInstance().refresh();
+        //MetaData.getInstance().refresh();
 
-        MetaandForm metaandform = JavaStrucBuilder.buildStruc();
+        //MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
@@ -93,7 +90,12 @@ public class StartActivity extends Activity {
         if (200 == responseCode) {
             Toast.makeText(StartActivity.this, "Connection established", Toast.LENGTH_LONG).show();
             try {
-                File myFile = new File("/sdcard/test.xml");
+
+                File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
+                folders.mkdirs();
+                String extStorageDirectory = folders.toString();
+              //  deleteFile("form.xml");
+                File myFile = new File(extStorageDirectory,"form.xml");
                 myFile.createNewFile();
                 FileOutputStream fOut = new FileOutputStream(myFile);
                 OutputStreamWriter myOutWriter =
@@ -103,6 +105,7 @@ public class StartActivity extends Activity {
                 fOut.close();
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
+                Log.d("Hallo", e.toString());
                 Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else {

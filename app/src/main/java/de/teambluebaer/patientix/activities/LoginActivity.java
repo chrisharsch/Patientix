@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.helper.RestfulHelper;
 
 public class LoginActivity extends Activity {
 
@@ -59,20 +58,20 @@ public class LoginActivity extends Activity {
 
         parameterMap.add(new BasicNameValuePair("userName", editName.getText().toString()));
         parameterMap.add(new BasicNameValuePair("userPW", passwordHash(editPassword.getText().toString())));
-
+/*
         Log.d("ResponseCode",passwordHash(editPassword.getText().toString()));
         //send the request to server
         RestfulHelper restfulHelper = new RestfulHelper();
         responseCode = restfulHelper.executeRequest("login", parameterMap);
         if(responseCode==200){
-            Toast.makeText(LoginActivity.this,"Login established",Toast.LENGTH_SHORT).show();
+  */          Toast.makeText(LoginActivity.this,"Login established",Toast.LENGTH_SHORT).show();
             Log.d("Login successful:", responseCode + "");
         Intent intentFormActivity = new Intent(LoginActivity.this, StartActivity.class);
         startActivity(intentFormActivity);
-        }else {
+    /*    }else {
             Log.d("ResponseCode", responseCode+"");
             Toast.makeText(LoginActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
-        }
+        }*/
 
     }
 
