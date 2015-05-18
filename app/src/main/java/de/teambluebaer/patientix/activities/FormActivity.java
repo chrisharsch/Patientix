@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,7 +16,6 @@ import java.util.LinkedList;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
-import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
@@ -48,9 +48,7 @@ public class FormActivity extends Activity {
         JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
         metaandForm = strucBuilder.buildStruc();
 
-        // formView = new FormView(this.questionText.getContext());
-        // setContentView(formView);
-
+        Log.d("FEHLER", metaandForm.toString());
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -58,22 +56,23 @@ public class FormActivity extends Activity {
 
         setContentView(R.layout.activity_form);
 
+
+
         //View add_phone = getLayoutInflater().inflate(R.layout.phone_info, null);
         content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
-        content = layoutCreater.CreatPageLayout(this, Form.getInstance().getFirstPage());
+        //content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage());
+
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
         content = (LinearLayout) findViewById(R.id.content);
-        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-        numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
+  //      numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+ //       numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        onClickNextButton(buttonContinue);
 
         //Disable back button at first page
         buttonBack.setVisibility(View.INVISIBLE);
@@ -106,8 +105,8 @@ public class FormActivity extends Activity {
     public void onClickNextButton(View v) {
         // hier fehlt der flasher?
 
-        content = layoutCreater.CreatPageLayout(this, Form.getInstance().getNextPage());
-        numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
+        content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage());
+        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
     }
 
@@ -119,8 +118,8 @@ public class FormActivity extends Activity {
     public void onClickBackButton(View v) {
         // fehlt da nicht auch der flasher??
 
-        content = layoutCreater.CreatPageLayout(this, Form.getInstance().getPreviousPage());
-        numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
+        content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage());
+        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
     }
 
@@ -159,7 +158,7 @@ public class FormActivity extends Activity {
      * checks if the counter is 0 to diasable the back button on the first screen
      */
     public void firstPageCheck(){
-        if(Form.getInstance().getcurrendPageNumber() == 0) {
+        if(metaandForm.getForm().getcurrendPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
         }else{

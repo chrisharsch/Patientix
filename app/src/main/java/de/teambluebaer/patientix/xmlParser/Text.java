@@ -17,7 +17,8 @@ public class Text implements Element {
 
     /**
      * Constructor
-     * @param text represents the shoen Text
+     * @param text represents the showen Text
+     * @param size represents the Fontsize
      */
     public Text(String text, String size){
         this.text = text;
@@ -28,6 +29,7 @@ public class Text implements Element {
     public void addToView(Context context, LinearLayout layout) {
         TextView textView = new TextView(context);
         textView.setText(text);
+        textView.setTextSize(size);
         layout.addView(textView);
     }
 }

@@ -2,9 +2,10 @@ package de.teambluebaer.patientix.xmlParser;
 
 
 import android.os.Environment;
+import android.util.Log;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
 
 import java.io.File;
 
@@ -38,26 +39,27 @@ public class JavaStrucBuilder extends DefaultHandler{
             saxParser.parse(new File(Environment.getExternalStorageDirectory().toString()+"/patientix/form.xml"), this);
 
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            Log.d("FEHLER",e.toString());
         }
-        return MetaandForm.getInstance();
+        return metaandForm;
     }
 
-
-    public void StartDocument() throws Exception{
-        Form.getInstance().refresh();
-        MetaData.getInstance().refresh();
-        metaandForm = MetaandForm.getInstance();
-
+    @Override
+    public void startDocument() throws SAXException {
+        form = new Form();
+        meta = new MetaData();
+        metaandForm = new MetaandForm();
     }
 
-
-    public void EndDocument() throws Exception{
+    @Override
+    public void endDocument() throws SAXException {
         System.out.println("Dokument geladen");
     }
 
-    public void StartElement(String uri, String localName, String qName,
-                             Attributes attributes) throws Exception{
+
+    @Override
+    public void startElement(String uri, String localName, String qName,
+                              Attributes attributes) {
         if(qName.equals("page")){
             currendPage = new Page();
         }else if (qName.equals("row")){
@@ -87,38 +89,41 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("name")){
             isName = true;
         }else{
+            Log.d("SCHREIBT","NIX REIN");
         }
-
-
     }
 
-    public void EndElement(String uri, String localName, String qName,
-                           Attributes attributes) throws Exception{
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
         if(qName.equals("page")){
-            Form.getInstance().addPage(currendPage);
-        }else if (qName.equals("row")){
+            form.addPage(currendPage);
+        }else if (qName.equals("row")) {
             currendPage.addNewRow(currendRow);
-        }else{
+        }else if (qName.equals("page")){
+            metaandForm.setForm(form);
+        }else if (qName.equals("meta")){
+            metaandForm.setMeta(meta);
+        }else {
             isPID = false;
             isPFN = false;
             isPLN = false;
             ispDate = false;
             isName = false;
         }
-
     }
 
-    public void character(char[] ch, int start, int length){
+    @Override
+    public void characters(char[] ch, int start, int length){
         if(isPID){
-            MetaData.getInstance().setPatientID(new String(ch,start,length));
+            meta.setPatientID(new String(ch, start, length));
         }else if(isPFN){
-            MetaData.getInstance().setPatientFirstName(new String(ch, start, length));
+            meta.setPatientFirstName(new String(ch, start, length));
         }else if(isPLN){
-            MetaData.getInstance().setPatientLastName(new String(ch, start, length));
+            meta.setPatientLastName(new String(ch, start, length));
         }else if(ispDate){
-            MetaData.getInstance().setPatientBithDate(new String(ch, start, length));
+            meta.setPatientBithDate(new String(ch, start, length));
         }else if (isName){
-            MetaData.getInstance().setexameName(new String(ch, start, length));
+            meta.setexameName(new String(ch, start, length));
         }
     }
 

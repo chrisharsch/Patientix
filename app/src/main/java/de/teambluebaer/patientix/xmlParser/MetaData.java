@@ -7,15 +7,6 @@ package de.teambluebaer.patientix.xmlParser;
  * @see MetaandForm
  */
 public class MetaData {
-    private static MetaData ourInstance = new MetaData();
-
-    /**
-     * give access to the Singleton Instance
-     * @return a Instance of MetaData
-     */
-    public static MetaData getInstance() {
-        return ourInstance;
-    }
 
     private String patientID;
     private String patientFirstName;
@@ -27,14 +18,8 @@ public class MetaData {
     /**
      * remove reference to old MeatData Objects
      */
-    public void refresh(){
-        ourInstance = new MetaData();
-    }
 
-    /**
-     * private Constructor
-     */
-    private MetaData() {
+    public MetaData() {
         this.setPatientBithDate("Unbekannt");
     }
 

@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -51,7 +49,7 @@ public class StartActivity extends Activity {
      */
     public void onClickStartButton(View v){
         Flasher.flash(buttonStart, "1x3");
-        Intent intent = new Intent(StartActivity.this, SignatureActivity.class);
+        Intent intent = new Intent(StartActivity.this, FormActivity.class);
         startActivity(intent);
         finish();
     }
@@ -64,10 +62,7 @@ public class StartActivity extends Activity {
         Flasher.flash(buttonUpdate, "1x5");
         //TODO SEND "OLD" DATA TO SERVER
 
-        Form.getInstance().refresh();
-        MetaData.getInstance().refresh();
-
-        MetaandForm metaandform = JavaStrucBuilder.buildStruc();
+        MetaandForm metaandform = new JavaStrucBuilder().buildStruc();
 
         Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
