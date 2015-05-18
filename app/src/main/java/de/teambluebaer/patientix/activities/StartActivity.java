@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +28,7 @@ import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaData;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
@@ -86,16 +88,7 @@ public class StartActivity extends Activity {
         Form.getInstance().refresh();
         MetaData.getInstance().refresh();
 
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        try{
-            SAXParser saxParser = spf.newSAXParser();
-            saxParser.parse(new File(Environment.getExternalStorageDirectory().toString()+"/patientix/form.xml"), JavaStrucBuilder);
-
-        } catch (Exception e){
-
-        }
-
-
+        MetaandForm metaandform = JavaStrucBuilder.buildStruc();
 
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 

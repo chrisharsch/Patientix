@@ -56,5 +56,13 @@
         android:layout_alignStart="@+id/editPassword"
         android:layout_marginBottom="72dp"
         />
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonBack"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="128dp" />
 
 </RelativeLayout>
