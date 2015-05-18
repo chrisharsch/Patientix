@@ -40,14 +40,15 @@ import java.util.EventListener;
 import de.teambluebaer.patientix.R;
 
 /**
+ * TODO: PNG als String portieren
+ */
+/**
  * This class is for saving the signature from patient.
  */
 /**
  * Created by Maren on 16.05.2015.
  */
 public class SignatureActivity extends Activity {
-
-    private final int REQUEST_CODE_SELECT_IMAGE_BACKGROUND = 100;
 
     private Context mContext;
     private SpenNoteDoc mSpenNoteDoc;
@@ -64,7 +65,7 @@ public class SignatureActivity extends Activity {
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
     private MediaScannerConnection msConn = null;
-    private Toast mToast = null;
+    //private Toast mToast = null;
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -82,8 +83,8 @@ public class SignatureActivity extends Activity {
 
         //Set View
         setContentView(R.layout.activity_signature);
-//        mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
         mContext = this;
+        //mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
         //buttonDone = (Button) findViewById(R.id.buttonDone);
 
         // Initialize Spen
@@ -263,7 +264,7 @@ public class SignatureActivity extends Activity {
     /**
      * calls the saving methode captureSpenSurfaceView
      */
-    private final View.OnClickListener mCaptureBtnClickListener = new View.OnClickListener() {
+    public final View.OnClickListener mCaptureBtnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             closeSettingView();
@@ -334,10 +335,11 @@ public class SignatureActivity extends Activity {
             // Save a captured bitmap image to the directory.
             out = new FileOutputStream(filePath);
             imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            mToast.setText("Captured images were stored in the file \'CaptureImg.png\'.");
-            mToast.show();
+            //mToast.setText("Captured images were stored in the file \'CaptureImg.png\'.");
+            //mToast.show();
+            Toast.makeText(mContext, "Unterschrift konnte als CaptureImg.png gespeichert werden", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(mContext, "Capture failed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } finally {
             try {
@@ -360,8 +362,9 @@ public class SignatureActivity extends Activity {
                 try {
                     msConn.scanFile(imageFileName, null);
                 } catch (Exception e) {
-                    mToast.setText("Please wait for store image file.");
-                    mToast.show();
+                    //mToast.setText("Please wait for store image file.");
+                    //mToast.show();
+                    Toast.makeText(mContext, "Please wait for store image file.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -479,12 +482,12 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * Destroy and stop the notedocument and views
+     * Release the memory allocations
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mToast.cancel();
+        //mToast.cancel();
         if (mSpenNoteDoc != null && mSpenPageDoc.isRecording()) {
             mSpenPageDoc.stopRecord();
         }
