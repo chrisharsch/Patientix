@@ -2,7 +2,10 @@ package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,12 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.RestfulHelper;
 
 public class LoginActivity extends Activity {
 
@@ -52,7 +57,7 @@ public class LoginActivity extends Activity {
         Flasher.flash(buttonLogin, "1x3");
 
         //create parameterMap to add parameters of the request
-        /*
+
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -67,9 +72,10 @@ public class LoginActivity extends Activity {
             if (responseCode == 200) {
                 Toast.makeText(LoginActivity.this, "Login erfolgreich!", Toast.LENGTH_SHORT).show();
                 Log.d("Login successful: ", responseCode + "");
-              */  Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                Intent intent = new Intent(LoginActivity.this, FormActivity.class);
                 startActivity(intent);
-          /*  } else {
+                //finish();
+            } else {
                 Log.d("ResponseCode: ", responseCode + "");
                 checkResponseCode();
             }
@@ -77,7 +83,7 @@ public class LoginActivity extends Activity {
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
         }
-*/
+
     }
 
     private String passwordHash(String pw) {
