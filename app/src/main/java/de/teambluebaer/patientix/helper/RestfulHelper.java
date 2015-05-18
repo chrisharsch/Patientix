@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by m.jando on 25.11.2014.
  */
@@ -68,11 +70,11 @@ public class RestfulHelper extends Activity {
             //Join main-thread with Network-Thread to share Domain-Objects
             // The network-thread get an Timeout of 1 Second, otherwise, the application will hang
             networkThread.join(999);
-          /*  try {
+            try {
                 sleep(1000);
             } catch (Exception e) {
 
-            }*/
+            }
         } catch (InterruptedException e) {
             return 503;
         }

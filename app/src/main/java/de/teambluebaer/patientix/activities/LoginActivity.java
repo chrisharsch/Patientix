@@ -25,12 +25,10 @@ import de.teambluebaer.patientix.helper.RestfulHelper;
 
 public class LoginActivity extends Activity {
 
+
     private Button buttonLogin;
     private EditText editName = null;
     private EditText editPassword = null;
-    private String url;
-    private String thisExeption;
-    private String httpData;
     Integer responseCode;
 
 
@@ -57,12 +55,14 @@ public class LoginActivity extends Activity {
 
     public void onClickLoginButton(View v) {
         Flasher.flash(buttonLogin, "1x3");
+
         //create parameterMap to add parameters of the request
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected()) {
+
             parameterMap.add(new BasicNameValuePair("userName", editName.getText().toString()));
             parameterMap.add(new BasicNameValuePair("userPW", passwordHash(editPassword.getText().toString())));
 
@@ -78,6 +78,7 @@ public class LoginActivity extends Activity {
                 Log.d("ResponseCode: ", responseCode + "");
                 checkResponseCode();
             }
+
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
         }
