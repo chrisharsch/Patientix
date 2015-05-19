@@ -23,17 +23,10 @@ public class Form {
      */
     public Form() {
         pageList = new ArrayList<Page>();
-        iterator = pageList.listIterator();
+
     }
 
-    /**
-     * remove reference to old Form Objects
-     */
-    public void refresh(){
-        pageList = new ArrayList<Page>();
-    }
-
-    /**
+     /**
      * adds new Page to an Form
      * @param newPage Page that you want to add
      */
@@ -41,8 +34,17 @@ public class Form {
         pageList.add(newPage);
     }
 
+    public Page getFirstPage(){
+        iterator = pageList.listIterator();
+        return iterator.next();
+    }
+
     public Page getNextPage(){
+        if(iterator.hasNext()) {
             return iterator.next();
+        }else{
+            return iterator.previous();
+        }
 
     }
 
@@ -50,11 +52,7 @@ public class Form {
         return iterator.previous();
     }
 
-    public Page getFirstPage(){
-         return iterator.next();
-    }
-
     public int getcurrendPageNumber(){
-        return iterator.previousIndex() +1 ;
+        return iterator.nextIndex() ;
     }
 }

@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
  * This class have the patient data...
@@ -62,7 +60,6 @@ public class StartActivity extends Activity {
         Flasher.flash(buttonUpdate, "1x5");
         //TODO SEND "OLD" DATA TO SERVER
 
-        MetaandForm metaandform = new JavaStrucBuilder().buildStruc();
 
         Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
 
