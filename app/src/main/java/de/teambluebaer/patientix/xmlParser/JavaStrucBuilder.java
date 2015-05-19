@@ -49,11 +49,13 @@ public class JavaStrucBuilder extends DefaultHandler{
         form = new Form();
         meta = new MetaData();
         metaandForm = new MetaandForm();
+        metaandForm.setForm(form);
+        metaandForm.setMeta(meta);
     }
 
     @Override
     public void endDocument() throws SAXException {
-        System.out.println("Dokument geladen");
+
     }
 
 
@@ -99,10 +101,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             form.addPage(currendPage);
         }else if (qName.equals("row")) {
             currendPage.addNewRow(currendRow);
-        }else if (qName.equals("page")){
-            metaandForm.setForm(form);
-        }else if (qName.equals("meta")){
-            metaandForm.setMeta(meta);
+
         }else {
             isPID = false;
             isPFN = false;

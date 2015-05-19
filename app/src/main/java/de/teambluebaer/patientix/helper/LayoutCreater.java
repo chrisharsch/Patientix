@@ -16,10 +16,8 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class LayoutCreater {
 
-    //private MetaandForm metaandForm;
+    public LayoutCreater(){
 
-    public LayoutCreater(/*MetaandForm metaandForm*/){
-        //this.metaandForm = metaandForm;
     }
 
 
@@ -39,12 +37,10 @@ public class LayoutCreater {
         return rowLayout;
     }
 
-    public LinearLayout CreatPageLayout(Context context, Page page){
-        LinearLayout pageLayout = new LinearLayout(context);
+    public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout){
         List<Row> rows = page.getRows();
         for(Row row : rows){
             pageLayout.addView(CreateRowLayout(context, row));
         }
-        return pageLayout;
     }
 }

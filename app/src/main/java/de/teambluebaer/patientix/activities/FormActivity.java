@@ -3,7 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,35 +40,28 @@ public class FormActivity extends Activity {
     private MetaandForm metaandForm;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-        metaandForm = strucBuilder.buildStruc();
-
-        Log.d("FEHLER", metaandForm.toString());
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_form);
-
-
 
         //View add_phone = getLayoutInflater().inflate(R.layout.phone_info, null);
         content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
         //content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage());
 
-
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
         buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
-        content = (LinearLayout) findViewById(R.id.content);
-  //      numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
- //       numberOfPages.setText(Form.getInstance().getcurrendPageNumber());
+
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -82,6 +74,19 @@ public class FormActivity extends Activity {
         // TODO now a Layout (content) questionText.setTextSize(40);
         buttonZoomOut.setClickable(false);
         buttonZoomOut.setVisibility(View.INVISIBLE);
+
+        content = (LinearLayout) findViewById(R.id.content);
+
+        JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
+        metaandForm = strucBuilder.buildStruc();
+        layoutCreater = new LayoutCreater();
+        layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
+
+
+
+
+        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+        numberOfPages.setText(Integer.toString(metaandForm.getForm().getcurrendPageNumber()));
 
     }
 
@@ -105,7 +110,7 @@ public class FormActivity extends Activity {
     public void onClickNextButton(View v) {
         // hier fehlt der flasher?
 
-        content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage());
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
         numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
     }
@@ -118,7 +123,7 @@ public class FormActivity extends Activity {
     public void onClickBackButton(View v) {
         // fehlt da nicht auch der flasher??
 
-        content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage());
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
         numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
     }
