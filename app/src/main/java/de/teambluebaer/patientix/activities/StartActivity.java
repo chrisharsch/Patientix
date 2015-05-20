@@ -13,8 +13,6 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
@@ -24,7 +22,7 @@ import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
-import static de.teambluebaer.patientix.helper.Constants.formFile;
+import static de.teambluebaer.patientix.helper.Constants.formFileInput;
 
 /**
  * This class have the patient data...
@@ -87,18 +85,8 @@ public class StartActivity extends Activity {
         if (200 == responseCode) {
             try {
 
-               // File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
-                //folders.mkdirs();
-               // String extStorageDirectory = folders.toString();
-              //  deleteFile("form.xml");
-              //  File myFile = new File(extStorageDirectory,"form.xml");
-               formFile.createNewFile();
-                FileOutputStream fOut = new FileOutputStream(formFile);
-                OutputStreamWriter myOutWriter =
-                        new OutputStreamWriter(fOut);
-                myOutWriter.append(restfulHelper.responseString);
-                myOutWriter.close();
-                fOut.close();
+
+                formFileInput = restfulHelper.responseString;
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
@@ -110,8 +98,6 @@ public class StartActivity extends Activity {
         else{
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     /**

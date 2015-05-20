@@ -1,9 +1,5 @@
 package de.teambluebaer.patientix.helper;
 
-import java.io.File;
-import java.io.InputStream;
-
-import de.teambluebaer.patientix.xmlParser.Input;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -18,7 +14,7 @@ public class Constants {
     public static final String SECOND_COLUMN = "Second";
     public static final String TABLET_ID= "3";
     public static MetaandForm globalMetaandForm;
-    public static InputStream formFileInput ;
+    public static String formFileInput ;
 
 
 }
