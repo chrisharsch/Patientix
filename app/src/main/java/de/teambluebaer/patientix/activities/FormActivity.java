@@ -105,11 +105,12 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickNextButton(View v) {
-        // hier fehlt der flasher?
-
-        pageCheck();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
-        numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+        Flasher.flash(buttonContinue,"1x3");
+        if(!lastPageCheck()) {
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
+            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+        }
+        lastPageCheck();
 
     }
 
@@ -119,10 +120,12 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickBackButton(View v) {
-        // fehlt da nicht auch der flasher??
-        pageCheck();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
-        numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+        Flasher.flash(buttonBack,"1x3");
+        if(!firstPageCheck()) {
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
+            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+        }
+        firstPageCheck();
 
     }
 
@@ -161,25 +164,28 @@ public class FormActivity extends Activity {
     /**
      * checks if the counter is 0 to diasable the back button on the first screen
      */
-    public void pageCheck() {
-        if (metaandForm.getForm().getCurrentPageNumber() == 0) {
+    private boolean firstPageCheck() {
+        if (metaandForm.getForm().getCurrentPageNumber() == 1) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
-            buttonOk.setVisibility(View.INVISIBLE);
-            buttonOk.setClickable(false);
-        }else if(metaandForm.getForm().getCurrentPageNumber()==metaandForm.getForm().getLastPage()){
+            return true;
+        }
+        buttonContinue.setClickable(true);
+        buttonContinue.setVisibility(View.VISIBLE);
+        return false;
+    }
+
+    private boolean lastPageCheck() {
+        if (metaandForm.getForm().getCurrentPageNumber() == metaandForm.getForm().getLastPage()) {
             buttonContinue.setClickable(false);
             buttonContinue.setVisibility(View.INVISIBLE);
-            buttonOk.setVisibility(View.VISIBLE);
             buttonOk.setClickable(true);
-        }else{
-            buttonContinue.setClickable(true);
-            buttonContinue.setVisibility(View.VISIBLE);
-            buttonBack.setClickable(true);
-            buttonBack.setVisibility(View.VISIBLE);
-            buttonOk.setVisibility(View.INVISIBLE);
-            buttonOk.setClickable(false);
+            buttonOk.setVisibility(View.VISIBLE);
+            return true;
         }
+        buttonBack.setVisibility(View.VISIBLE);
+        buttonBack.setClickable(true);
+        return false;
     }
 
 }
