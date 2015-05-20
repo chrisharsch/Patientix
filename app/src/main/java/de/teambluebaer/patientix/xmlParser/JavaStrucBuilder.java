@@ -8,6 +8,7 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 import java.io.File;
+import java.io.StringReader;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -38,7 +39,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         SAXParserFactory spf = SAXParserFactory.newInstance();
         try{
             SAXParser saxParser = spf.newSAXParser();
-            saxParser.parse(Constants.formFile, this);
+            saxParser.parse(Constants.formFileInput, this);
 
         } catch (Exception e){
             Log.d("FEHLER",e.toString());
