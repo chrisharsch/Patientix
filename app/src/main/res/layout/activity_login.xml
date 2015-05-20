@@ -3,36 +3,51 @@
     android:id="@+id/loginMtra"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/startseiteapp"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="de.teambluebaer.patientix.activities.LoginActivity">
+    tools:context="de.teambluebaer.patientix.activities.LoginActivity"
+    android:background="#ffffffff">
+
+
+    <LinearLayout
+        android:layout_width="500dip"
+        android:layout_height="fill_parent"
+        android:gravity="left"
+        android:background="@drawable/bannerklein"
+        android:id="@+id/linearLayoutBannerLeft">
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="220dip"
+        android:layout_height="220dip"
+        android:gravity="right"
+        android:background="@drawable/right"
+        android:layout_alignBottom="@+id/linearLayoutBannerLeft"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayoutAdditionRight">
+
+    </LinearLayout>
 
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editPassword"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="99dp"
         android:ems="10"
         android:hint="@string/editName"
-        android:inputType="textPersonName" />
-
+        android:inputType="textPersonName"
+        android:layout_marginTop="132dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/editPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
         android:ems="10"
         android:hint="@string/editPassword"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_marginBottom="132dp"
+        android:layout_above="@+id/buttonBack"
+        android:layout_alignStart="@+id/editName" />
 
     <TextView
         android:id="@+id/textView"
@@ -57,5 +72,13 @@
         android:text="@string/buttonLogin"
         android:textColor="#fffafa"
         android:textSize="40sp" />
+
+    <ImageView
+        android:layout_width="600px"
+        android:layout_height="211px"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/linearLayoutAdditionRight"
+        android:src="@drawable/ummlogoklein" />
 
 </RelativeLayout>

@@ -3,9 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +15,7 @@ import java.util.HashMap;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.ListViewAdapter;
-import de.teambluebaer.patientix.activities.SignatureActivity;
+
 
 import static de.teambluebaer.patientix.helper.Constants.FIRST_COLUMN;
 import static de.teambluebaer.patientix.helper.Constants.SECOND_COLUMN;
