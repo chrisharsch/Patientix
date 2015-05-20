@@ -94,7 +94,9 @@
         android:layout_above="@+id/buttonOk"
         android:layout_alignEnd="@+id/buttonOk"
         android:layout_below="@+id/buttonZoomIn"
-        android:id="@+id/content">
+        android:id="@+id/content"
+        android:clickable="false"
+        android:visibility="invisible">
     </LinearLayout>
 
 </RelativeLayout>

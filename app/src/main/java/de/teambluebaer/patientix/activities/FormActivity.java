@@ -164,14 +164,20 @@ public class FormActivity extends Activity {
         if(metaandForm.getForm().getCurrentPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
+            buttonOk.setVisibility(View.INVISIBLE);
+            buttonOk.setClickable(false);
         }else if(metaandForm.getForm().getCurrentPageNumber()==metaandForm.getForm().getLastPage()){
             buttonContinue.setClickable(false);
             buttonContinue.setVisibility(View.INVISIBLE);
+            buttonOk.setVisibility(View.VISIBLE);
+            buttonOk.setClickable(true);
         }else{
             buttonContinue.setClickable(true);
             buttonContinue.setVisibility(View.VISIBLE);
             buttonBack.setClickable(true);
             buttonBack.setVisibility(View.VISIBLE);
+            buttonOk.setVisibility(View.INVISIBLE);
+            buttonOk.setClickable(false);
         }
     }
 
