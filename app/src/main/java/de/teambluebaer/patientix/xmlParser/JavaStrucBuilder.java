@@ -8,8 +8,10 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -34,16 +36,12 @@ public class JavaStrucBuilder extends DefaultHandler{
     boolean ispDate = false;
     boolean isName = false;
 
-    public MetaandForm buildStruc(){
+    public MetaandForm buildStruc() throws IOException, SAXException, ParserConfigurationException {
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
-        try{
-            SAXParser saxParser = spf.newSAXParser();
-            saxParser.parse(new InputSource(new StringReader(Constants.formFileInput)), this);
 
-        } catch (Exception e){
-            Log.d("FEHLER",e.toString());
-        }
+        SAXParser saxParser = spf.newSAXParser();
+        saxParser.parse(new InputSource(new StringReader(Constants.formFileInput)), this);
         return metaandForm;
     }
 

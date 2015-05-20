@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
@@ -74,9 +75,6 @@ public class StartActivity extends Activity {
         Flasher.flash(buttonUpdate, "1x5");
         //TODO SEND "OLD" DATA TO SERVER
 
-        MetaandForm metaandform = new JavaStrucBuilder().buildStruc();
-
-
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
         //send the request to server
@@ -87,13 +85,17 @@ public class StartActivity extends Activity {
 
 
                 formFileInput = restfulHelper.responseString;
+
+                JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
+                Constants.globalMetaandForm = strucBuilder.buildStruc();
+
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
             }
         } else if(404 == responseCode) {
-            Toast.makeText(StartActivity.this, "Keine Daten fÃ¼r dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
+            Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();

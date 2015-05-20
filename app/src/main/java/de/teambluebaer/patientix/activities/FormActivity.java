@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.LinkedList;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
@@ -77,14 +78,14 @@ public class FormActivity extends Activity {
 
         content = (LinearLayout) findViewById(R.id.content);
 
-        JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-        metaandForm = strucBuilder.buildStruc();
+        metaandForm = Constants.globalMetaandForm;
+
         layoutCreater = new LayoutCreater();
         layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-        numberOfPages.setText(Integer.toString(metaandForm.getForm().getcurrendPageNumber()));
+        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
     }
 
