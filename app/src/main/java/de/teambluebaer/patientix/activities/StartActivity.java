@@ -23,7 +23,6 @@ import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
-import static de.teambluebaer.patientix.helper.Constants.formFileInput;
 
 /**
  * This class have the patient data...
