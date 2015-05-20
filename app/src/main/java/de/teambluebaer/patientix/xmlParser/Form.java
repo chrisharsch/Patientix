@@ -52,7 +52,13 @@ public class Form {
         return iterator.previous();
     }
 
-    public int getcurrendPageNumber(){
-        return iterator.nextIndex() ;
+    public String getCurrentPageText(){
+        return "Seite "+iterator.nextIndex()+ " von "+ pageList.size() ;
+    }
+    public int getLastPage(){
+        return pageList.size();
+    }
+    public int getCurrentPageNumber(){
+        return iterator.nextIndex();
     }
 }
