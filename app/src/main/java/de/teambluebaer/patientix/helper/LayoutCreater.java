@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -25,6 +26,7 @@ public class LayoutCreater {
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         for(Element element: elements){
             if(element.getClass().equals(new Radio("").getClass())){
                 Radio radio = (Radio)element;
