@@ -3,14 +3,28 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.RestfulHelper;
+import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
+import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
 /**
  * This class have the patient data...
@@ -20,6 +34,8 @@ public class StartActivity extends Activity {
 
     private Button buttonStart;
     private Button buttonUpdate;
+    private ArrayList<NameValuePair> parameterMap;
+    int responseCode;
 
      /**
      * In this method is defined what happens on create of the Activity
@@ -60,8 +76,41 @@ public class StartActivity extends Activity {
         Flasher.flash(buttonUpdate, "1x5");
         //TODO SEND "OLD" DATA TO SERVER
 
+        MetaandForm metaandform = new JavaStrucBuilder().buildStruc();
 
-        Toast.makeText(StartActivity.this, "Das Formular ist bereit", Toast.LENGTH_SHORT).show();
+
+        parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
+
+        //send the request to server
+        RestfulHelper restfulHelper = new RestfulHelper();
+        responseCode = restfulHelper.executeRequest("formula", parameterMap);
+        if (200 == responseCode) {
+            try {
+
+                File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
+                folders.mkdirs();
+                String extStorageDirectory = folders.toString();
+              //  deleteFile("form.xml");
+                File myFile = new File(extStorageDirectory,"form.xml");
+                myFile.createNewFile();
+                FileOutputStream fOut = new FileOutputStream(myFile);
+                OutputStreamWriter myOutWriter =
+                        new OutputStreamWriter(fOut);
+                myOutWriter.append(restfulHelper.responseString);
+                myOutWriter.close();
+                fOut.close();
+                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Log.d("FileSaveExeption", e.toString());
+                Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
+            }
+        } else if(404 == responseCode) {
+            Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
+        }
+
 
     }
 
