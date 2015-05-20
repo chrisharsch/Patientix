@@ -2,6 +2,7 @@ package de.teambluebaer.patientix.helper;
 
 import org.xml.sax.InputSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,7 +20,5 @@ public class Constants {
     public static final String SECOND_COLUMN = "Second";
     public static final String TABLET_ID= "3";
     public static MetaandForm globalMetaandForm;
-    public static String formFileInput ;
-
 
 }

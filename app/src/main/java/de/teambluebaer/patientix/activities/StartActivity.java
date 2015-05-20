@@ -82,12 +82,10 @@ public class StartActivity extends Activity {
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
         if (200 == responseCode) {
             try {
-
-
-                formFileInput = restfulHelper.responseString;
+                String xmlString = restfulHelper.responseString;
 
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-                Constants.globalMetaandForm = strucBuilder.buildStruc();
+                Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
 
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
                 buttonStart.setVisibility(View.VISIBLE);

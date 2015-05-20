@@ -36,12 +36,12 @@ public class JavaStrucBuilder extends DefaultHandler{
     boolean ispDate = false;
     boolean isName = false;
 
-    public MetaandForm buildStruc() throws IOException, SAXException, ParserConfigurationException {
+    public MetaandForm buildStruc(String xmlString) throws IOException, SAXException, ParserConfigurationException {
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
 
         SAXParser saxParser = spf.newSAXParser();
-        saxParser.parse(new InputSource(new StringReader(Constants.formFileInput)), this);
+        saxParser.parse(new InputSource(new java.io.StringReader(xmlString)), this);
         return metaandForm;
     }
 
