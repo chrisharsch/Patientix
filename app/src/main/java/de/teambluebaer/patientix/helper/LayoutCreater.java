@@ -38,7 +38,6 @@ public class LayoutCreater {
         if(radioGroup.getChildCount()!=0){
             rowLayout.addView(radioGroup);
         }
-        rowLayout.addView(radioGroup);
         return rowLayout;
     }
 

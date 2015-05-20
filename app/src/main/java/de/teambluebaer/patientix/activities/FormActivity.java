@@ -40,7 +40,6 @@ public class FormActivity extends Activity {
     private MetaandForm metaandForm;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,7 +79,7 @@ public class FormActivity extends Activity {
         metaandForm = Constants.globalMetaandForm;
 
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -92,7 +91,7 @@ public class FormActivity extends Activity {
     // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
     // Braucht man oder nicht???
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void onClickButton(View v){
+    public void onClickButton(View v) {
         Flasher.flash(buttonOk, "1x3");
 
         //  new Helper().executeRequest("", );
@@ -108,6 +107,7 @@ public class FormActivity extends Activity {
     public void onClickNextButton(View v) {
         // hier fehlt der flasher?
 
+        pageCheck();
         layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
         numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
 
@@ -120,7 +120,7 @@ public class FormActivity extends Activity {
      */
     public void onClickBackButton(View v) {
         // fehlt da nicht auch der flasher??
-
+        pageCheck();
         layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
         numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
 
@@ -128,18 +128,19 @@ public class FormActivity extends Activity {
 
     /**
      * Set the text size higher and schmaller
+     *
      * @param v
      */
     public void onClickZoomButton(View v) {
-        if(buttonZoomIn.isClickable()){
+        if (buttonZoomIn.isClickable()) {
             Flasher.flash(buttonZoomIn, "1x1");
             // TODO now a Layout (content) questionText.setTextSize(75);
             buttonZoomIn.setClickable(false);
             buttonZoomOut.setClickable(true);
             buttonZoomOut.setVisibility(View.VISIBLE);
             buttonZoomIn.setVisibility(View.INVISIBLE);
-        }else {
-            Flasher.flash(buttonZoomOut,"1x1");
+        } else {
+            Flasher.flash(buttonZoomOut, "1x1");
             // TODO now a Layout (content) questionText.setTextSize(40);
             buttonZoomIn.setClickable(true);
             buttonZoomOut.setClickable(false);
@@ -160,14 +161,14 @@ public class FormActivity extends Activity {
     /**
      * checks if the counter is 0 to diasable the back button on the first screen
      */
-    public void pageCheck(){
-        if(metaandForm.getForm().getCurrentPageNumber() == 0) {
+    public void pageCheck() {
+        if (metaandForm.getForm().getCurrentPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
-        }else if(metaandForm.getForm().getCurrentPageNumber()==metaandForm.getForm().getLastPage()){
+        } else if (metaandForm.getForm().getCurrentPageNumber() == metaandForm.getForm().getLastPage()) {
             buttonContinue.setClickable(false);
             buttonContinue.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             buttonContinue.setClickable(true);
             buttonContinue.setVisibility(View.VISIBLE);
             buttonBack.setClickable(true);
