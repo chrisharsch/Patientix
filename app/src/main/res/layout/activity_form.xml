@@ -79,6 +79,7 @@
         android:text="@string/buttonOk"
         android:id="@+id/buttonOk"
         android:textSize="40sp"
+        android:clickable="false"
         android:onClick="onClickButton"
         android:background="@drawable/button1x3normal"
         android:textColor="#fffafa"

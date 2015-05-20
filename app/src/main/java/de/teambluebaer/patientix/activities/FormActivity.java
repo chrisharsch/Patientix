@@ -16,7 +16,6 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
-import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -76,6 +75,8 @@ public class FormActivity extends Activity {
         buttonZoomOut.setClickable(false);
         buttonZoomOut.setVisibility(View.INVISIBLE);
 
+        buttonOk.setClickable(false);
+        buttonOk.setVisibility(View.INVISIBLE);
         content = (LinearLayout) findViewById(R.id.content);
 
         metaandForm = Constants.globalMetaandForm;
@@ -85,7 +86,7 @@ public class FormActivity extends Activity {
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
+        numberOfPages.setText(metaandForm.getForm().getNumberOfPages());
 
     }
 
@@ -107,11 +108,12 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickNextButton(View v) {
-        // hier fehlt der flasher?
+        Flasher.flash(buttonContinue,"1x3");
 
         layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
-        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
 
+        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+        numberOfPages.setText(metaandForm.getForm().getNumberOfPages());
     }
 
     /**
@@ -120,11 +122,11 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickBackButton(View v) {
-        // fehlt da nicht auch der flasher??
+       Flasher.flash(buttonBack,"1x3");
 
         layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
-        numberOfPages.setText(metaandForm.getForm().getcurrendPageNumber());
-
+        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+        numberOfPages.setText(metaandForm.getForm().getNumberOfPages());
     }
 
     /**
@@ -161,8 +163,8 @@ public class FormActivity extends Activity {
     /**
      * checks if the counter is 0 to diasable the back button on the first screen
      */
-    public void firstPageCheck(){
-        if(metaandForm.getForm().getcurrendPageNumber() == 0) {
+    public void pageCheck(){
+        if(metaandForm.getForm().getcurrentPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
         }else{

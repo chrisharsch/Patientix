@@ -52,6 +52,7 @@ public class OverviewActivity extends Activity {
         populateList();
         ListViewAdapter adapter = new ListViewAdapter(this, list);
         listView.setAdapter(adapter);
+
     }
 
     /**
@@ -70,6 +71,7 @@ public class OverviewActivity extends Activity {
     private void populateList() {
 
         list = new ArrayList<HashMap<String, String>>();
+
 
         HashMap<String, String> temp = new HashMap();
         temp.put(FIRST_COLUMN, "colored Notebook");

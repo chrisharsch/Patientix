@@ -62,7 +62,7 @@
         android:background="@drawable/button1x3normal"
         android:text="Start"
         android:visibility="invisible"
-        android:clickable="true"
+        android:clickable="false"
         android:padding="1dp"
         android:textColor="#fffafa"
         android:onClick="onClickStartButton"

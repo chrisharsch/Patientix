@@ -20,7 +20,6 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
@@ -88,13 +87,14 @@ public class StartActivity extends Activity {
 
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
                 buttonStart.setVisibility(View.VISIBLE);
+                buttonStart.setClickable(true);
 
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
             }
         } else if(404 == responseCode) {
-            Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
+            Toast.makeText(StartActivity.this, "Keine Daten fï¿½r dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
