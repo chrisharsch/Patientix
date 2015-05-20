@@ -29,11 +29,16 @@ public class LayoutCreater {
             if(element.getClass().equals(new Radio("").getClass())){
                 Radio radio = (Radio)element;
                 radio.addToView(context, rowLayout, radioGroup);
+
             }else {
                 element.addToView(context, rowLayout);
             }
 
         }
+        if(radioGroup.getChildCount()!=0){
+            rowLayout.addView(radioGroup);
+        }
+        rowLayout.addView(radioGroup);
         return rowLayout;
     }
 
