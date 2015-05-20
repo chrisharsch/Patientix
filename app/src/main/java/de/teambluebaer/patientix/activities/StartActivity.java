@@ -90,6 +90,8 @@ public class StartActivity extends Activity {
                 Constants.globalMetaandForm = strucBuilder.buildStruc();
 
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
+                buttonStart.setVisibility(View.VISIBLE);
+
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();

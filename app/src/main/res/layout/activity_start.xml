@@ -13,7 +13,8 @@
         android:layout_height="fill_parent"
         android:gravity="left"
         android:background="@drawable/bannerklein"
-        android:id="@+id/linearLayoutBannerLeft">
+        android:id="@+id/linearLayoutBannerLeft"
+        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -24,7 +25,8 @@
         android:background="@drawable/right"
         android:layout_alignBottom="@+id/linearLayoutBannerLeft"
         android:layout_alignParentEnd="true"
-        android:id="@+id/linearLayoutAdditionRight">
+        android:id="@+id/linearLayoutAdditionRight"
+        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -59,6 +61,7 @@
         android:textSize="40sp"
         android:background="@drawable/button1x3normal"
         android:text="Start"
+        android:visibility="invisible"
         android:clickable="true"
         android:padding="1dp"
         android:textColor="#fffafa"
