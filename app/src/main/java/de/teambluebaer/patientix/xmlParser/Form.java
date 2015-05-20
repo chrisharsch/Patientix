@@ -40,11 +40,7 @@ public class Form {
     }
 
     public Page getNextPage(){
-        if(iterator.hasNext()) {
-            return iterator.next();
-        }else{
-            return iterator.previous();
-        }
+        return iterator.next();
 
     }
 
