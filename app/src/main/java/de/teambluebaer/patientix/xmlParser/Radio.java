@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 public class Radio implements Element {
     private String radioText;
     private boolean checked;
-    private RadioGroup radiogroup;
     private String patientCommentar;
     private String mtraCommentar;
     private String doctorCommentar;
@@ -40,17 +39,17 @@ public class Radio implements Element {
     @Override
     public void addToView(Context context, LinearLayout layout) {
         RadioButton radio = new RadioButton(context);
+        radio.setText(radioText);
         radio.setChecked(checked);
-        radiogroup.addView(radio);
         layout.addView(radio);
     }
 
     public void addToView(Context context, LinearLayout layout,RadioGroup radiogroup) {
         RadioButton radio = new RadioButton(context);
         radio.setChecked(checked);
-        this.radiogroup = radiogroup;
-        radiogroup.addView(radio);
+        radio.setText(radioText);
         layout.addView(radio);
+        radiogroup.addView(radio);
     }
 
     /**

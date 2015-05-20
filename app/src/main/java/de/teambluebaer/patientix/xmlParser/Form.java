@@ -38,9 +38,6 @@ public class Form {
         iterator = pageList.listIterator();
         return iterator.next();
     }
-    public String getNumberOfPages(){
-        return ""+ pageList.size();
-    }
 
     public Page getNextPage(){
         if(iterator.hasNext()) {
@@ -55,14 +52,7 @@ public class Form {
         return iterator.previous();
     }
 
-    public String getcurrendPageNumber(){
-        return "Seite "+iterator.nextIndex() +" von "+ pageList.size() ;
+    public int getcurrendPageNumber(){
+        return iterator.nextIndex() ;
     }
-    public int getcurrentPageNumber(){
-        return iterator.nextIndex();
-    }
-    public int getLastPageNumber(){
-        return pageList.size();
-    }
-
 }

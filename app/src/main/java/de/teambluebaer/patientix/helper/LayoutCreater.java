@@ -26,7 +26,7 @@ public class LayoutCreater {
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
         for(Element element: elements){
-            if(element.getClass().equals("Radio")){
+            if(element.getClass().equals(new Radio("").getClass())){
                 Radio radio = (Radio)element;
                 radio.addToView(context, rowLayout, radioGroup);
             }else {
