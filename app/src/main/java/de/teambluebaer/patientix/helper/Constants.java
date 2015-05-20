@@ -1,5 +1,10 @@
 package de.teambluebaer.patientix.helper;
 
+import org.xml.sax.InputSource;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**

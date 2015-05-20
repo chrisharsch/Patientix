@@ -39,7 +39,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         SAXParserFactory spf = SAXParserFactory.newInstance();
         try{
             SAXParser saxParser = spf.newSAXParser();
-            saxParser.parse(Constants.formFileInput, this);
+            saxParser.parse(new InputSource(new StringReader(Constants.formFileInput)), this);
 
         } catch (Exception e){
             Log.d("FEHLER",e.toString());
