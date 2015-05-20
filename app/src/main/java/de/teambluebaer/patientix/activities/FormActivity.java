@@ -83,8 +83,6 @@ public class FormActivity extends Activity {
         layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
 
 
-
-
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
         numberOfPages.setText(Integer.toString(metaandForm.getForm().getcurrendPageNumber()));
 

@@ -3,7 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -24,7 +22,9 @@ import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
+
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
+import static de.teambluebaer.patientix.helper.Constants.formFile;
 
 /**
  * This class have the patient data...
@@ -34,8 +34,8 @@ public class StartActivity extends Activity {
 
     private Button buttonStart;
     private Button buttonUpdate;
-    private ArrayList<NameValuePair> parameterMap;
-    int responseCode;
+    private ArrayList<NameValuePair> parameterMap = new ArrayList();
+    private int responseCode;
 
      /**
      * In this method is defined what happens on create of the Activity
@@ -87,13 +87,13 @@ public class StartActivity extends Activity {
         if (200 == responseCode) {
             try {
 
-                File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
-                folders.mkdirs();
-                String extStorageDirectory = folders.toString();
+               // File folders = new File (Environment.getExternalStorageDirectory().toString()+"/patientix");
+                //folders.mkdirs();
+               // String extStorageDirectory = folders.toString();
               //  deleteFile("form.xml");
-                File myFile = new File(extStorageDirectory,"form.xml");
-                myFile.createNewFile();
-                FileOutputStream fOut = new FileOutputStream(myFile);
+              //  File myFile = new File(extStorageDirectory,"form.xml");
+               formFile.createNewFile();
+                FileOutputStream fOut = new FileOutputStream(formFile);
                 OutputStreamWriter myOutWriter =
                         new OutputStreamWriter(fOut);
                 myOutWriter.append(restfulHelper.responseString);
