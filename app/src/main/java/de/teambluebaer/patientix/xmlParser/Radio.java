@@ -48,7 +48,6 @@ public class Radio implements Element {
         RadioButton radio = new RadioButton(context);
         radio.setChecked(checked);
         radio.setText(radioText);
-        layout.addView(radio);
         radiogroup.addView(radio);
     }
 
