@@ -38,6 +38,7 @@ public class LayoutCreater {
     }
 
     public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout){
+        pageLayout.removeAllViews();
         List<Row> rows = page.getRows();
         for(Row row : rows){
             pageLayout.addView(CreateRowLayout(context, row));
