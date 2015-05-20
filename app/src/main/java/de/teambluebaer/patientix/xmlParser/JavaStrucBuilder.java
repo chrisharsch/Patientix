@@ -12,6 +12,8 @@ import java.io.File;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import de.teambluebaer.patientix.helper.Constants;
+
 
 /**
  * Created by Simon on 06.05.2015.
@@ -36,7 +38,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         SAXParserFactory spf = SAXParserFactory.newInstance();
         try{
             SAXParser saxParser = spf.newSAXParser();
-            saxParser.parse(new File(Environment.getExternalStorageDirectory().toString()+"/patientix/form.xml"), this);
+            saxParser.parse(Constants.formFile, this);
 
         } catch (Exception e){
             Log.d("FEHLER",e.toString());
