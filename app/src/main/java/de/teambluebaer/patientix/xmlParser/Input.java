@@ -1,6 +1,8 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -27,8 +29,22 @@ public class Input implements Element {
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        EditText imput = new EditText(context);
-        layout.addView(imput);
+        EditText input = new EditText(context);
+        input.setText(inputText);
+        layout.addView(input);
+        input.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                inputText = charSequence.toString();
+            }
+        });
+
     }
 
     /**

@@ -79,7 +79,7 @@ public class FormActivity extends Activity {
         metaandForm = Constants.globalMetaandForm;
 
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
+        layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -91,7 +91,7 @@ public class FormActivity extends Activity {
     // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
     // Braucht man oder nicht???
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void onClickButton(View v) {
+    public void onClickButton(View v){
         Flasher.flash(buttonOk, "1x3");
 
         //  new Helper().executeRequest("", );

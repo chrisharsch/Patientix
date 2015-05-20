@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,12 +20,6 @@ public class Radio implements Element {
     private String mtraCommentar;
     private String doctorCommentar;
 
-    /**
-     * changes the state of the boolean checked
-     */
-    void check(){
-        checked = !checked;
-    }
 
     /**
      * constructor
@@ -49,6 +44,12 @@ public class Radio implements Element {
         radio.setChecked(checked);
         radio.setText(radioText);
         radiogroup.addView(radio);
+        radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                checked = isChecked;
+            }
+        });
     }
 
     /**

@@ -1,7 +1,9 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 /**
@@ -19,12 +21,6 @@ public class Checkbox implements Element{
     private String mtraCommentar;
     private String doctorCommentar;
 
-    /**
-     * changes the state of the boolean checked
-     */
-    void check(){
-        checked = !checked;
-    }
 
     /**
      * Constructor
@@ -36,11 +32,19 @@ public class Checkbox implements Element{
     }
 
     @Override
-    public void addToView(Context context, LinearLayout layout) {
+    public void addToView(Context context, final LinearLayout layout) {
         CheckBox checkBox = new CheckBox(context);
         checkBox.setText(checkboxText);
         checkBox.setChecked(checked);
         layout.addView(checkBox);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                checked = isChecked;
+            }
+        });
+
     }
     /**
      * Insert a patient comment field to this Checkbox
