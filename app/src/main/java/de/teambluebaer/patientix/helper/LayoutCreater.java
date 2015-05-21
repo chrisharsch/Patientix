@@ -1,11 +1,13 @@
 package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import java.util.List;
 
+import de.teambluebaer.patientix.xmlParser.Commentar;
 import de.teambluebaer.patientix.xmlParser.Element;
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.MetaData;
@@ -18,6 +20,8 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class LayoutCreater {
 
+    private boolean hasComBut = false;
+
     public LayoutCreater(){
 
     }
@@ -29,13 +33,18 @@ public class LayoutCreater {
         RadioGroup radioGroup = new RadioGroup(context);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         for(Element element: elements){
-            if(element.getClass().equals(new Radio("").getClass())){
+            if(element instanceof Radio){
                 Radio radio = (Radio)element;
                 radio.addToView(context, rowLayout, radioGroup);
 
             }else {
                 element.addToView(context, rowLayout);
             }
+            if(element instanceof Commentar && !hasComBut){
+                ((Commentar) element).addCommentarField(context,rowLayout);
+                hasComBut = true;
+            }
+
 
         }
         if(radioGroup.getChildCount()!=0){
@@ -49,7 +58,9 @@ public class LayoutCreater {
         List<Row> rows = page.getRows();
         for(Row row : rows){
             pageLayout.addView(CreateRowLayout(context, row));
+            hasComBut = false;
         }
+
     }
 
     public void CreatListLayout(Context context ,LinearLayout layout){

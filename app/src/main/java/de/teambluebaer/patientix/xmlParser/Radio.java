@@ -1,7 +1,12 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,7 +18,7 @@ import android.widget.RadioGroup;
  * @see Row
  * @see Element
  */
-public class Radio implements Element {
+public class Radio implements Element,Commentar {
     private String radioText;
     private boolean checked;
     private String patientCommentar;
@@ -52,24 +57,51 @@ public class Radio implements Element {
         });
     }
 
-    /**
-     * Insert a patient comment field to this Radiobutton
-     */
-    public void addPatCommant(){
+
+    @Override
+    public void addCommentarField(Context context, LinearLayout layout) {
+        final LinearLayout linearLayout = layout;
+        final Context comContext = context;
+        if(patientCommentar.isEmpty()){
+            Button comButton = new Button(context);
+            comButton.setText("Kommentar hinzufügen");
+            comButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText comment = new EditText(comContext);
+                    comment.setText("Hier Kommentar eingeben");
+                    linearLayout.addView(comment);
+                    comment.addTextChangedListener(new TextWatcher(){
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            patientCommentar = charSequence.toString();
+                        }
+                    });
+                }
+            });
+        }else{
+            EditText comment = new EditText(comContext);
+            comment.setText(patientCommentar);
+            linearLayout.addView(comment);
+            comment.addTextChangedListener(new TextWatcher(){
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    patientCommentar = charSequence.toString();
+                }
+            });
+        }
 
     }
-    /**
-     * Insert a MTRA comment field to this Radiobutton
-     */
-    public void addMTRACommant(){
-
-    }
-    /**
-     * Insert a Doctor comment field to this Radiobutton
-     */
-    public void addDocCommant(){
-
-    }
-
-
 }
