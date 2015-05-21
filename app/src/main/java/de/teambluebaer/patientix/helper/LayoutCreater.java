@@ -75,7 +75,7 @@ public class LayoutCreater {
 
         for (Page page : pageList) {
             //sollte die ersten 2 Rows ausbelnden damit nur die fragen auf der übersicht sichtbar sind
-            if (Constants.globalMetaandForm.getForm().getPageList().indexOf(page) != 0 || Constants.globalMetaandForm.getForm().getPageList().indexOf(page) != 1) {
+            if (pageList.indexOf(page) != 0 || pageList.indexOf(page) != 1) {
 
                 List<Row> rows = page.getRows();
                 for (Row row : rows) {
