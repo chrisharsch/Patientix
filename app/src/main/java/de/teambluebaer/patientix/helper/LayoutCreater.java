@@ -74,11 +74,15 @@ public class LayoutCreater {
         List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
 
         for (Page page : pageList) {
-            List<Row> rows = page.getRows();
-            for (Row row : rows) {
-                //sollte die ersten 2 Rows ausbelnden damit nur die fragen auf der übersicht sichtbar sind
-                if (row.getRow().indexOf(rows) != 0 || row.getRow().indexOf(rows) != 1) {
+            //sollte die ersten 2 Rows ausbelnden damit nur die fragen auf der übersicht sichtbar sind
+            if (Constants.globalMetaandForm.getForm().getPageList().indexOf(page) != 0 || Constants.globalMetaandForm.getForm().getPageList().indexOf(page) != 1) {
+
+                List<Row> rows = page.getRows();
+                for (Row row : rows) {
+
+
                     CreateRowLayout(context, row, layout);
+
                 }
             }
         }
