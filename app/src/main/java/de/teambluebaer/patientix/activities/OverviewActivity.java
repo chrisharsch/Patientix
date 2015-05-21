@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.helper.ListViewAdapter;
 
 
@@ -26,8 +28,11 @@ import static de.teambluebaer.patientix.helper.Constants.SECOND_COLUMN;
 
 public class OverviewActivity extends Activity {
 
-    private ArrayList<HashMap<String, String>> list;
+    //private ArrayList<HashMap<String, String>> list;
     private Button buttonReady;
+
+    private LinearLayout list;
+    private LayoutCreater layoutCreater;
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -36,22 +41,21 @@ public class OverviewActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(savedInstanceState);
 
+        list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
         setContentView(R.layout.activity_overview);
+
+        layoutCreater = new LayoutCreater();
+        layoutCreater.CreatListLayout(list);
 
         buttonReady = (Button) findViewById(R.id.buttonReady);
 
-        //
-        ListView listView = (ListView)findViewById(R.id.listView1);
-        populateList();
-        ListViewAdapter adapter = new ListViewAdapter(this, list);
-        listView.setAdapter(adapter);
+
 
     }
 
@@ -65,9 +69,7 @@ public class OverviewActivity extends Activity {
         startActivity(intent);
     }
 
-    /**
-     *
-     */
+    /*
     private void populateList() {
 
         list = new ArrayList<HashMap<String, String>>();
@@ -116,5 +118,5 @@ public class OverviewActivity extends Activity {
         list.add(temp);
         list.add(temp);
 
-    }
+    }*/
 }

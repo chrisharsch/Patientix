@@ -8,6 +8,8 @@ import android.widget.RadioGroup;
 import java.util.List;
 
 import de.teambluebaer.patientix.xmlParser.Element;
+import de.teambluebaer.patientix.xmlParser.Form;
+import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
@@ -48,6 +50,15 @@ public class LayoutCreater {
         List<Row> rows = page.getRows();
         for(Row row : rows){
             pageLayout.addView(CreateRowLayout(context, row));
+        }
+    }
+
+    public void CreatListLayout(LinearLayout layout){
+        MetaData meta = Constants.globalMetaandForm.getMeta();
+        Form form = Constants.globalMetaandForm.getForm();
+
+        for(int pageiterator = 0; pageiterator < form.getLastPage();pageiterator++){
+            CreatPageLayout(layout.getContext(),form.getNextPage(),layout);
         }
     }
 
