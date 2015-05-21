@@ -56,9 +56,13 @@ public class LayoutCreater {
         MetaData meta = Constants.globalMetaandForm.getMeta();
         Form form = Constants.globalMetaandForm.getForm();
 
-        CreatPageLayout(context,form.getFirstPage(),layout);
+        LinearLayout linear = new LinearLayout(context);
+
+        CreatPageLayout(context, form.getFirstPage(), linear);
+        layout.addView(linear);
         for(int pageiterator = 1; pageiterator < form.getLastPage();pageiterator++){
-            CreatPageLayout(context,form.getNextPage(),layout);
+            CreatPageLayout(context,form.getNextPage(),linear);
+            layout.addView(linear);
 
         }
     }
