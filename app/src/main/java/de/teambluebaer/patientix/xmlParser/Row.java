@@ -28,4 +28,7 @@ public class Row {
     public void addElement(Element newElement) {
         elementList.add(newElement);
     }
+    public List getRow(){
+        return this.elementList;
+    }
 }

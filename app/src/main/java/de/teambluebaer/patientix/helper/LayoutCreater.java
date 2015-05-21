@@ -76,7 +76,9 @@ public class LayoutCreater {
         for (Page page : pageList) {
             List<Row> rows = page.getRows();
             for (Row row : rows) {
-                CreateRowLayout(context, row, layout);
+                if (row.getRow().indexOf(rows) != 0 || row.getRow().indexOf(rows) != 1) {
+                    CreateRowLayout(context, row, layout);
+                }
             }
         }
 
