@@ -25,7 +25,6 @@ public class OverviewActivity extends Activity {
 
     //private ArrayList<HashMap<String, String>> list;
     private Button buttonReady;
-    private ScrollView scrollers;
     private LinearLayout list;
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
@@ -45,18 +44,15 @@ public class OverviewActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
-        scrollers = (ScrollView) findViewById(R.id.ScrollViewOverview);
-        list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
         list = (LinearLayout) findViewById(R.id.list);
-        //list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
 
         metaandForm = Constants.globalMetaandForm;
 
         Log.d("Button", "Bevor");
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), list);
+        layoutCreater.CreatListLayout(this, list);
 
-        scrollers.invalidate();
+
 
         Log.d("Button", "Ready");
         buttonReady = (Button) findViewById(R.id.buttonReady);

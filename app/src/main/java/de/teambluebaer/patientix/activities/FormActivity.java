@@ -81,8 +81,7 @@ public class FormActivity extends Activity {
         metaandForm = Constants.globalMetaandForm;
 
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
-
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -94,7 +93,7 @@ public class FormActivity extends Activity {
     // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
     // Braucht man oder nicht???
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void onClickButton(View v){
+    public void onClickButton(View v) {
         Flasher.flash(buttonOk, "1x3");
 
         //  new Helper().executeRequest("", );
@@ -109,7 +108,7 @@ public class FormActivity extends Activity {
      */
     public void onClickNextButton(View v) {
         Flasher.flash(buttonContinue, "1x3");
-        if(!lastPageCheck()) {
+        if (!lastPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
             numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
@@ -124,8 +123,8 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickBackButton(View v) {
-        Flasher.flash(buttonBack,"1x3");
-        if(!firstPageCheck()) {
+        Flasher.flash(buttonBack, "1x3");
+        if (!firstPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
             numberOfPages.setText(metaandForm.getForm().getCurrentPageText());

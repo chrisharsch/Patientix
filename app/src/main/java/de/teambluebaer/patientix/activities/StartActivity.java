@@ -80,7 +80,8 @@ public class StartActivity extends Activity {
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
         if (200 == responseCode) {
             try {
-                String xmlString = restfulHelper.responseString;
+                String xmlString= restfulHelper.responseString;
+                Log.d("String",xmlString);
 
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);

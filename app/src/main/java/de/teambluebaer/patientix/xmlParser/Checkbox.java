@@ -12,13 +12,13 @@ import android.widget.LinearLayout;
 
 /**
  * Created by Simon on 06.05.2015.
- *
+ * <p/>
  * Represents a Checkbox that could insert into a <code>Row</code>
+ *
  * @see Row
  * @see Element
- *
  */
-public class Checkbox implements Element,Commentar{
+public class Checkbox implements Element, Commentar {
     private String checkboxText;
     private boolean checked;
     private String patientCommentar;
@@ -26,15 +26,15 @@ public class Checkbox implements Element,Commentar{
     private String doctorCommentar;
 
 
-
     /**
      * Constructor
+     *
      * @param checkboxText represents the showen Answer to this Checkbox
      */
-    public Checkbox(String checkboxText){
+    public Checkbox(String checkboxText) {
         this.checkboxText = checkboxText;
         this.checked = false;
-        patientCommentar="";
+        patientCommentar = "";
     }
 
     @Override
@@ -57,23 +57,25 @@ public class Checkbox implements Element,Commentar{
     public void addCommentarField(Context context, LinearLayout layout) {
         final LinearLayout linearLayout = layout;
         final Context comContext = context;
-        if(patientCommentar.isEmpty()){
+        if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
-            comButton.setText("Kommentar hinzuf�gen");
+            comButton.setText("Kommentar hinzufügen");
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    comButton.setVisibility(View.INVISIBLE);
+                    comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
-                    comment.setText("Hier Kommentar eingeben");
+                    comment.setHint("Hier Kommentar eingeben");
                     linearLayout.addView(comment);
-                    comment.addTextChangedListener(new TextWatcher(){
+                    comment.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
 
                         @Override
-                        public void afterTextChanged(Editable editable) {}
+                        public void afterTextChanged(Editable editable) {
+                        }
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -83,16 +85,18 @@ public class Checkbox implements Element,Commentar{
                 }
             });
             linearLayout.addView(comButton);
-        }else{
+        } else {
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);
             linearLayout.addView(comment);
-            comment.addTextChangedListener(new TextWatcher(){
+            comment.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
                 @Override
-                public void afterTextChanged(Editable editable) {}
+                public void afterTextChanged(Editable editable) {
+                }
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

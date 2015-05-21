@@ -19,38 +19,38 @@ public class LayoutCreater {
 
     private boolean hasComBut = false;
 
-    public LayoutCreater(){
+    public LayoutCreater() {
 
     }
 
 
-    public void CreateRowLayout(Context context, Row row,LinearLayout pageLayout){
+    public void CreateRowLayout(Context context, Row row, LinearLayout pageLayout) {
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         Commentar commentar = null;
-        for(Element element: elements){
-            if(element instanceof Radio){
-                Radio radio = (Radio)element;
+        for (Element element : elements) {
+            if (element instanceof Radio) {
+                Radio radio = (Radio) element;
                 radio.addToView(context, rowLayout, radioGroup);
 
-            }else {
+            } else {
                 element.addToView(context, rowLayout);
             }
-            if(element instanceof Commentar && !hasComBut){
+            if (element instanceof Commentar && !hasComBut) {
                 hasComBut = true;
                 commentar = (Commentar) element;
             }
 
 
         }
-        if(radioGroup.getChildCount()!=0){
+        if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
         }
 
         pageLayout.addView(rowLayout);
-        if(hasComBut){
+        if (hasComBut) {
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
             pageLayout.addView(comRow);
@@ -58,25 +58,25 @@ public class LayoutCreater {
         }
     }
 
-    public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout){
+    public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout) {
         pageLayout.removeAllViews();
         List<Row> rows = page.getRows();
-        for(Row row : rows){
+        for (Row row : rows) {
             CreateRowLayout(context, row, pageLayout);
 
         }
 
     }
 
-    public void CreatListLayout(Context context ,LinearLayout layout){
+    public void CreatListLayout(Context context, LinearLayout layout) {
 
 
         List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
 
-        for(Page page: pageList){
+        for (Page page : pageList) {
             List<Row> rows = page.getRows();
-            for(Row row : rows){
-               CreateRowLayout(context, row,layout);
+            for (Row row : rows) {
+                CreateRowLayout(context, row, layout);
             }
         }
 

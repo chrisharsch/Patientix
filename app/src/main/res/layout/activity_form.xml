@@ -1,114 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.teambluebaer.patientix.activities.FormActivity"
-    android:background="#ffffffff">
-
+    android:background="#ffffffff"
+    tools:context="de.teambluebaer.patientix.activities.FormActivity">
 
 
     <!-- Continue Button -->
     <Button
+        android:id="@+id/buttonContinue"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:text="@string/buttonContinue"
-        android:id="@+id/buttonContinue"
-        android:visibility="visible"
-        android:textSize="40sp"
-        android:onClick="onClickNextButton"
-        android:background="@drawable/button1x3normal"
-        android:textColor="#fffafa"
         android:layout_alignBottom="@+id/pageOfNumbers"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="108dp" />
+        android:layout_marginEnd="108dp"
+        android:background="@drawable/button1x3normal"
+        android:onClick="onClickNextButton"
+        android:text="@string/buttonContinue"
+        android:textColor="#fffafa"
+        android:textSize="40sp"
+        android:visibility="visible" />
 
 
     <!-- Back Button -->
     <Button
+        android:id="@+id/buttonBack"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:text="@string/buttonBack"
-        android:id="@+id/buttonBack"
-        android:textSize="40sp"
-        android:onClick="onClickBackButton"
-        android:background="@drawable/button1x3normal"
-        android:layout_marginStart="92dp"
-        android:textColor="#fffafa"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/imageViewLeftSide" />
-
-    <Button
-        android:layout_width="70dip"
-        android:layout_height="70dip"
-        android:text="@string/buttonZoomIn"
-        android:onClick="onClickZoomButton"
-        android:background="@drawable/button1x1normal"
-        android:id="@+id/buttonZoomIn"
-        android:textSize="50sp"
+        android:layout_marginStart="92dp"
+        android:layout_toEndOf="@+id/imageViewLeftSide"
+        android:background="@drawable/button1x3normal"
+        android:onClick="onClickBackButton"
+        android:text="@string/buttonBack"
         android:textColor="#fffafa"
-        android:layout_alignTop="@+id/buttonZoomOut"
-        android:layout_alignStart="@+id/buttonZoomOut" />
+        android:textSize="40sp" />
 
     <Button
+        android:id="@+id/buttonZoomIn"
         android:layout_width="70dip"
         android:layout_height="70dip"
-        android:text="@string/buttonZoomOut"
-        android:id="@+id/buttonZoomOut"
-        android:onClick="onClickZoomButton"
-        android:textSize="50sp"
+        android:layout_alignStart="@+id/buttonZoomOut"
+        android:layout_alignTop="@+id/buttonZoomOut"
         android:background="@drawable/button1x1normal"
+        android:onClick="onClickZoomButton"
+        android:text="@string/buttonZoomIn"
+        android:textColor="#fffafa"
+        android:textSize="50sp" />
+
+    <Button
+        android:id="@+id/buttonZoomOut"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
         android:layout_alignParentTop="true"
-        android:textColor="#fffafa" />
+        android:background="@drawable/button1x1normal"
+        android:onClick="onClickZoomButton"
+        android:text="@string/buttonZoomOut"
+        android:textColor="#fffafa"
+        android:textSize="50sp" />
 
     <TextView
+        android:id="@+id/pageOfNumbers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Page"
-        android:id="@+id/pageOfNumbers"
-        android:layout_marginEnd="178dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="178dp"
         android:layout_toStartOf="@+id/buttonContinue"
+        android:text="Page"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false" />
 
     <Button
+        android:id="@+id/buttonOk"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:text="@string/buttonOk"
-        android:id="@+id/buttonOk"
-        android:textSize="40sp"
+        android:layout_alignTop="@+id/buttonContinue"
+        android:layout_toEndOf="@+id/pageOfNumbers"
+        android:background="@drawable/button1x3normal"
         android:clickable="false"
         android:onClick="onClickButton"
-        android:background="@drawable/button1x3normal"
+        android:text="@string/buttonOk"
         android:textColor="#fffafa"
-        android:layout_alignTop="@+id/buttonContinue"
-        android:layout_toEndOf="@+id/pageOfNumbers" />
+        android:textSize="40sp" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
+        android:id="@+id/ScrollViewOverview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/imageViewLeftSide"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageViewLogo"
-        android:layout_above="@+id/imageViewLeftSide"
-        android:id="@+id/content"
-        android:clickable="false"
-        android:visibility="visible"
-        android:layout_alignEnd="@+id/imageViewLogo">
-    </LinearLayout>
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/imageViewLeftSide"
-        android:src="@drawable/left"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/imageViewLeftSide"
+            android:layout_alignEnd="@+id/imageViewLogo"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageViewLogo"
+            android:clickable="false"
+            android:orientation="vertical"
+            android:visibility="visible"></LinearLayout>
+    </ScrollView>
 
     <ImageView
+        android:id="@+id/imageViewLeftSide"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/left" />
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
         android:layout_width="262dp"
         android:layout_height="95dp"
-        android:id="@+id/imageViewLogo"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:paddingRight="0dp"
         android:paddingTop="0dp"
         android:src="@drawable/ummlogoklein" />

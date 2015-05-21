@@ -3,6 +3,7 @@ require 'Slim-2.6.2/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
 $db = new mysqli("localhost", "root", "", "UMMMobilePatients");
+$db->set_charset("utf-8");
 
 
 
@@ -15,7 +16,6 @@ $app->post('/formula', function () use ($app, $db){
         $result = $db->query("SELECT XML FROM Pages WHERE formID = $formID");
         if($result->num_rows > 0) {
             $app->response->setStatus(200);
-            echo json_encode('Login successful');
         
             while($row = $result->fetch_assoc()) {
                 $app->response->write($row["XML"]);
@@ -40,11 +40,14 @@ $app->post('/login', function () use ($app, $db){
         if($result->num_rows == 1) {
             $app->response->setStatus(200);
             echo json_encode('Login successful');
-        }
-        else {
+        }else {
             $app->response->setStatus(401);
             echo json_encode('Login unsuccessful');
         }
+        
+    }else {
+        $app->response->setStatus(401);
+        echo json_encode('Login unsuccessful');
     }
 });
 $app->post('/filledformula', function() use ($app,$db){

@@ -16,15 +16,16 @@ public class Row {
         elementList = new ArrayList<Element>();
     }
 
-    public List<Element> getElements (){
+    public List<Element> getElements() {
         return this.elementList;
     }
 
     /**
      * add a new <code>Element</code> to this <code>Row</code>
+     *
      * @param newElement Element you want to add
      */
-    public void addElement(Element newElement){
+    public void addElement(Element newElement) {
         elementList.add(newElement);
     }
 }
