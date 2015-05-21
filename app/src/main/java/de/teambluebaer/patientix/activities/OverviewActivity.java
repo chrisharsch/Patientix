@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
+import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
  * This has have the overview about all questions.
@@ -24,6 +26,8 @@ public class OverviewActivity extends Activity {
 
     private LinearLayout list;
     private LayoutCreater layoutCreater;
+    private MetaandForm metaandForm;
+
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -40,9 +44,10 @@ public class OverviewActivity extends Activity {
 
         list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
         setContentView(R.layout.activity_overview);
+        metaandForm = Constants.globalMetaandForm;
 
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatListLayout(this,list);
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(),list);
 
 
 
