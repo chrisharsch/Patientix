@@ -1,7 +1,6 @@
 package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -53,12 +52,14 @@ public class LayoutCreater {
         }
     }
 
-    public void CreatListLayout(LinearLayout layout){
+    public void CreatListLayout(Context context ,LinearLayout layout){
         MetaData meta = Constants.globalMetaandForm.getMeta();
         Form form = Constants.globalMetaandForm.getForm();
 
-        for(int pageiterator = 0; pageiterator < form.getLastPage();pageiterator++){
-            CreatPageLayout(layout.getContext(),form.getNextPage(),layout);
+        CreatPageLayout(context,form.getFirstPage(),layout);
+        for(int pageiterator = 1; pageiterator < form.getLastPage();pageiterator++){
+            CreatPageLayout(context,form.getNextPage(),layout);
+
         }
     }
 

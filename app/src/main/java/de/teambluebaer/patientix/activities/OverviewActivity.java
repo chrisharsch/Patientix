@@ -8,19 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
-import de.teambluebaer.patientix.helper.ListViewAdapter;
-
-
-import static de.teambluebaer.patientix.helper.Constants.FIRST_COLUMN;
-import static de.teambluebaer.patientix.helper.Constants.SECOND_COLUMN;
 
 /**
  * This has have the overview about all questions.
@@ -51,7 +42,9 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
 
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatListLayout(list);
+        layoutCreater.CreatListLayout(this,list);
+
+
 
         buttonReady = (Button) findViewById(R.id.buttonReady);
 
