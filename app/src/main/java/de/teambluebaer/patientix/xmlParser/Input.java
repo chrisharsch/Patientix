@@ -27,6 +27,7 @@ public class Input implements Element,Commentar {
      */
     public Input(){
         inputText = "";
+        patientCommentar="";
     }
 
     @Override

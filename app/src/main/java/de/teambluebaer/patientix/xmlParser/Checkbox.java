@@ -34,6 +34,7 @@ public class Checkbox implements Element,Commentar{
     public Checkbox(String checkboxText){
         this.checkboxText = checkboxText;
         this.checked = false;
+        patientCommentar="";
     }
 
     @Override

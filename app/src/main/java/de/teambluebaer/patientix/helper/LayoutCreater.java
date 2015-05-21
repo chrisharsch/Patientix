@@ -27,11 +27,12 @@ public class LayoutCreater {
     }
 
 
-    public LinearLayout CreateRowLayout(Context context, Row row){
+    public void CreateRowLayout(Context context, Row row,LinearLayout pageLayout){
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+        Commentar commentar = null;
         for(Element element: elements){
             if(element instanceof Radio){
                 Radio radio = (Radio)element;
@@ -41,8 +42,8 @@ public class LayoutCreater {
                 element.addToView(context, rowLayout);
             }
             if(element instanceof Commentar && !hasComBut){
-                ((Commentar) element).addCommentarField(context,rowLayout);
                 hasComBut = true;
+                commentar = (Commentar) element;
             }
 
 
@@ -50,15 +51,21 @@ public class LayoutCreater {
         if(radioGroup.getChildCount()!=0){
             rowLayout.addView(radioGroup);
         }
-        return rowLayout;
+
+        pageLayout.addView(rowLayout);
+        if(hasComBut){
+            LinearLayout comRow = new LinearLayout(context);
+            commentar.addCommentarField(context, comRow);
+            hasComBut = false;
+        }
     }
 
     public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout){
         pageLayout.removeAllViews();
         List<Row> rows = page.getRows();
         for(Row row : rows){
-            pageLayout.addView(CreateRowLayout(context, row));
-            hasComBut = false;
+            CreateRowLayout(context, row, pageLayout);
+
         }
 
     }
@@ -71,7 +78,7 @@ public class LayoutCreater {
         for(Page page: pageList){
             List<Row> rows = page.getRows();
             for(Row row : rows){
-                layout.addView(CreateRowLayout(context, row));
+               CreateRowLayout(context, row,layout);
             }
         }
 

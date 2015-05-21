@@ -33,7 +33,7 @@ public class Radio implements Element,Commentar {
     public Radio(String radioText){
         this.radioText = radioText;
         this.checked = false;
-
+        patientCommentar="";
     }
 
     @Override
