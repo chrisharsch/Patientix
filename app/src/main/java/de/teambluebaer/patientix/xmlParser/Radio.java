@@ -63,20 +63,24 @@ public class Radio implements Element,Commentar {
         final LinearLayout linearLayout = layout;
         final Context comContext = context;
         if(patientCommentar.isEmpty()){
-            Button comButton = new Button(context);
+             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzuf�gen");
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    comButton.setVisibility(View.INVISIBLE);
+                    comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
                     comment.setText("Hier Kommentar eingeben");
                     linearLayout.addView(comment);
-                    comment.addTextChangedListener(new TextWatcher(){
+                    comment.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
 
                         @Override
-                        public void afterTextChanged(Editable editable) {}
+                        public void afterTextChanged(Editable editable) {
+                        }
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

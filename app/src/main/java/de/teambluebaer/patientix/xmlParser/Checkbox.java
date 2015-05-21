@@ -58,11 +58,13 @@ public class Checkbox implements Element,Commentar{
         final LinearLayout linearLayout = layout;
         final Context comContext = context;
         if(patientCommentar.isEmpty()){
-            Button comButton = new Button(context);
+            final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzuf�gen");
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    comButton.setVisibility(View.INVISIBLE);
+                    comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
                     comment.setText("Hier Kommentar eingeben");
                     linearLayout.addView(comment);
