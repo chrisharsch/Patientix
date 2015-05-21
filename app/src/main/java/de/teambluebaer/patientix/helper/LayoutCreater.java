@@ -53,18 +53,17 @@ public class LayoutCreater {
     }
 
     public void CreatListLayout(Context context ,LinearLayout layout){
-        MetaData meta = Constants.globalMetaandForm.getMeta();
-        Form form = Constants.globalMetaandForm.getForm();
 
-        LinearLayout linear = new LinearLayout(context);
 
-        CreatPageLayout(context, form.getFirstPage(), linear);
-        layout.addView(linear);
-        for(int pageiterator = 1; pageiterator < form.getLastPage();pageiterator++){
-            CreatPageLayout(context,form.getNextPage(),linear);
-            layout.addView(linear);
+        List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
 
+        for(Page page: pageList){
+            List<Row> rows = page.getRows();
+            for(Row row : rows){
+                layout.addView(CreateRowLayout(context, row));
+            }
         }
+
     }
 
 }

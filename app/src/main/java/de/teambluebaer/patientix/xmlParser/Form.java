@@ -34,6 +34,10 @@ public class Form {
         pageList.add(newPage);
     }
 
+    public List<Page> getPageList(){
+        return pageList;
+    }
+
     public Page getFirstPage(){
         iterator = pageList.listIterator();
         return iterator.next();
