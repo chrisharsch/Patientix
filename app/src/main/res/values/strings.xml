@@ -40,4 +40,6 @@
     <string name="textEnd">Bitte bringen Sie das Tablet zurück an den Empfang.</string>
     <string name="textExamination">MRT</string>
 
+    <string name="hello_world">Hello world!</string>
+
 </resources>

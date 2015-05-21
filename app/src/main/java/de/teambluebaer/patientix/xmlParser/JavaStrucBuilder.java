@@ -1,21 +1,18 @@
 package de.teambluebaer.patientix.xmlParser;
 
 
-import android.os.Environment;
 import android.util.Log;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import de.teambluebaer.patientix.helper.Constants;
 
 
 /**
@@ -92,7 +89,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("name")){
             isName = true;
         }else{
-            Log.d("SCHREIBT","NIX REIN");
+            Log.d("JavaStrucBuilder","Doesn't write something for "+ qName);
         }
     }
 
@@ -126,19 +123,6 @@ public class JavaStrucBuilder extends DefaultHandler{
             meta.setexameName(new String(ch, start, length));
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

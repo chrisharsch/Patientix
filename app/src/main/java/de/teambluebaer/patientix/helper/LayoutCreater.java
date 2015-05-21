@@ -1,7 +1,6 @@
 package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -9,8 +8,6 @@ import java.util.List;
 
 import de.teambluebaer.patientix.xmlParser.Commentar;
 import de.teambluebaer.patientix.xmlParser.Element;
-import de.teambluebaer.patientix.xmlParser.Form;
-import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
@@ -56,6 +53,7 @@ public class LayoutCreater {
         if(hasComBut){
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
+            pageLayout.addView(comRow);
             hasComBut = false;
         }
     }

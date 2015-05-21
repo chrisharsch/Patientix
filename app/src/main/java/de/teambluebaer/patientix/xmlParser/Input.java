@@ -56,19 +56,21 @@ public class Input implements Element,Commentar {
         final Context comContext = context;
         if(patientCommentar.isEmpty()){
             Button comButton = new Button(context);
-            comButton.setText("Kommentar hinzufügen");
+            comButton.setText("Kommentar hinzufï¿½gen");
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     EditText comment = new EditText(comContext);
                     comment.setText("Hier Kommentar eingeben");
                     linearLayout.addView(comment);
-                    comment.addTextChangedListener(new TextWatcher(){
+                    comment.addTextChangedListener(new TextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
 
                         @Override
-                        public void afterTextChanged(Editable editable) {}
+                        public void afterTextChanged(Editable editable) {
+                        }
 
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -77,6 +79,7 @@ public class Input implements Element,Commentar {
                     });
                 }
             });
+            linearLayout.addView(comButton);
         }else{
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);

@@ -3,11 +3,13 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -23,7 +25,7 @@ public class OverviewActivity extends Activity {
 
     //private ArrayList<HashMap<String, String>> list;
     private Button buttonReady;
-
+    private ScrollView scrollers;
     private LinearLayout list;
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
@@ -32,6 +34,7 @@ public class OverviewActivity extends Activity {
     /**
      * In this method is defined what happens on create of the Activity:
      * Set Layout, remove titlebar
+     *
      * @param savedInstanceState
      */
     @Override
@@ -41,27 +44,32 @@ public class OverviewActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-
-        list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
         setContentView(R.layout.activity_overview);
+        scrollers = (ScrollView) findViewById(R.id.ScrollViewOverview);
+        list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
+        list = (LinearLayout) findViewById(R.id.list);
+        //list = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_overview, null).findViewById(R.id.list);
+
         metaandForm = Constants.globalMetaandForm;
 
+        Log.d("Button", "Bevor");
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(),list);
+        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), list);
 
+        scrollers.invalidate();
 
-
+        Log.d("Button", "Ready");
         buttonReady = (Button) findViewById(R.id.buttonReady);
-
 
 
     }
 
     /**
      * When the start button is clicked, then opens the SignatureActivity
+     *
      * @param v
      */
-    public void onClickReadyButton(View v){
+    public void onClickReadyButton(View v) {
         Flasher.flash(buttonReady, "1x3");
         Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
         startActivity(intent);

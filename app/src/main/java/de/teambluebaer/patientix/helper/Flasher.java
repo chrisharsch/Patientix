@@ -32,7 +32,7 @@ public class Flasher {
                         myBtnToFlash.setBackgroundResource(R.drawable.button1x1normal);
                     }
                 }, 25);
-                System.gc();
+
             } else if (size.equals("1x3")) {
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x3aktiv);
                 Handler handler = new Handler();
@@ -41,7 +41,7 @@ public class Flasher {
                         myBtnToFlash.setBackgroundResource(R.drawable.button1x3normal);
                     }
                 }, 25);
-                System.gc();
+
             } else if (size.equals("1x5")) {
                 myBtnToFlash.setBackgroundResource(R.drawable.button1x5aktiv);
                 Handler handler = new Handler();
@@ -50,7 +50,7 @@ public class Flasher {
                         myBtnToFlash.setBackgroundResource(R.drawable.button1x5normal);
                     }
                 }, 25);
-                System.gc();
+
             }
 
 

@@ -59,7 +59,7 @@ public class Checkbox implements Element,Commentar{
         final Context comContext = context;
         if(patientCommentar.isEmpty()){
             Button comButton = new Button(context);
-            comButton.setText("Kommentar hinzufügen");
+            comButton.setText("Kommentar hinzufï¿½gen");
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -80,6 +80,7 @@ public class Checkbox implements Element,Commentar{
                     });
                 }
             });
+            linearLayout.addView(comButton);
         }else{
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);

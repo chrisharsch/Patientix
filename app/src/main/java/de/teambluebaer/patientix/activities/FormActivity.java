@@ -53,7 +53,7 @@ public class FormActivity extends Activity {
         setContentView(R.layout.activity_form);
 
         //View add_phone = getLayoutInflater().inflate(R.layout.phone_info, null);
-        content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
+        //content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
         //content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage());
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
@@ -82,6 +82,7 @@ public class FormActivity extends Activity {
 
         layoutCreater = new LayoutCreater();
         layoutCreater.CreatPageLayout(this,metaandForm.getForm().getFirstPage(),content);
+
 
 
         numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
