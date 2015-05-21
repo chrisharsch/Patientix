@@ -68,6 +68,8 @@ public class FormActivity extends Activity {
         //Disable back button at first page
         buttonBack.setVisibility(View.INVISIBLE);
         buttonBack.setClickable(false);
+        buttonOk.setClickable(false);
+        buttonOk.setVisibility(View.INVISIBLE);
 
         //Disable zoom out button and set text size to button size
         // TODO now a Layout (content) questionText.setTextSize(40);
@@ -105,9 +107,10 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickNextButton(View v) {
-        Flasher.flash(buttonContinue,"1x3");
+        Flasher.flash(buttonContinue, "1x3");
         if(!lastPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
+            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
             numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
         }
         lastPageCheck();
@@ -123,7 +126,9 @@ public class FormActivity extends Activity {
         Flasher.flash(buttonBack,"1x3");
         if(!firstPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
+            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
             numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+
         }
         firstPageCheck();
 
@@ -165,7 +170,7 @@ public class FormActivity extends Activity {
      * checks if the counter is 0 to diasable the back button on the first screen
      */
     private boolean firstPageCheck() {
-        if (metaandForm.getForm().getCurrentPageNumber() == 1) {
+        if (metaandForm.getForm().getCurrentPageNumber() == 0) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
             return true;

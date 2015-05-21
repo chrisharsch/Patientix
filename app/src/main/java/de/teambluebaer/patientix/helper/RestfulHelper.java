@@ -23,19 +23,20 @@ import java.util.ArrayList;
 import static java.lang.Thread.sleep;
 
 /**
- * Created by m.jando on 25.11.2014.
+ * Created by chris on 15.05.2015.
  */
 public class RestfulHelper extends Activity {
 
 
     //URL's
-    public final String SERVER_URL = "http://141.19.145.237/";
+    private final String SERVER_URL = "http://141.19.145.237/";
+    //private final String SERVER_URL = "http://192.168.1.9/";
     private final String POST_LOGIN = "index.php/login";
     private final String POST_LOGOUT = "api/person/logout";
     private final String POST_FORMULA = "index.php/formula";
     private final String POST_FILLED_FORMULA = "index.php/filledformula";
 
-    public String POST_URL;
+    private String POST_URL;
 
     //Respsone Output
     public volatile HttpResponse response;
