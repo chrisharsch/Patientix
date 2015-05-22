@@ -126,6 +126,7 @@ public class FormActivity extends Activity {
             numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
 
         }
+        lastPageCheck();
         firstPageCheck();
 
     }

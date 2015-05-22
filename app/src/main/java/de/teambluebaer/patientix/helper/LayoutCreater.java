@@ -48,12 +48,12 @@ public class LayoutCreater {
         if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
         }
-        rowLayout.setPadding(0,2,0,2);
+        rowLayout.setPadding(0,10,0,10);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0, 2, 0, 2);
+            comRow.setPadding(0,10,0,10);
             pageLayout.addView(comRow);
             hasComBut = false;
         }
