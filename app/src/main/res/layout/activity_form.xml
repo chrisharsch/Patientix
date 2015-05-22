@@ -12,15 +12,17 @@
         android:id="@+id/buttonContinue"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:layout_alignBottom="@+id/pageOfNumbers"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="108dp"
         android:background="@drawable/button1x3normal"
         android:onClick="onClickNextButton"
         android:text="@string/buttonContinue"
         android:textColor="#fffafa"
         android:textSize="40sp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_toRightOf="@+id/imageViewLeftSide"
+        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_marginLeft="600dip"
+        android:layout_marginTop="50dip"
+        />
 
 
     <!-- Back Button -->
@@ -28,61 +30,59 @@
         android:id="@+id/buttonBack"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="92dp"
-        android:layout_toEndOf="@+id/imageViewLeftSide"
         android:background="@drawable/button1x3normal"
         android:onClick="onClickBackButton"
         android:text="@string/buttonBack"
         android:textColor="#fffafa"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_toRightOf="@+id/imageViewLeftSide"
+        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_marginLeft="80dip"
+        android:layout_marginTop="50dip"
+       />
 
+    <!-- Zoom Button -->
     <Button
-        android:id="@+id/buttonZoomIn"
+        android:id="@+id/buttonZoom"
         android:layout_width="70dip"
         android:layout_height="70dip"
-        android:layout_alignStart="@+id/buttonZoomOut"
-        android:layout_alignTop="@+id/buttonZoomOut"
         android:background="@drawable/button1x1normal"
         android:onClick="onClickZoomButton"
         android:text="@string/buttonZoomIn"
         android:textColor="#fffafa"
-        android:textSize="50sp" />
-
-    <Button
-        android:id="@+id/buttonZoomOut"
-        android:layout_width="70dip"
-        android:layout_height="70dip"
+        android:textSize="50sp"
+        android:layout_marginLeft="550dip"
         android:layout_alignParentTop="true"
-        android:background="@drawable/button1x1normal"
-        android:onClick="onClickZoomButton"
-        android:text="@string/buttonZoomOut"
-        android:textColor="#fffafa"
-        android:textSize="50sp" />
+        android:layout_alignParentStart="true" />
+
 
     <TextView
         android:id="@+id/pageOfNumbers"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="178dp"
-        android:layout_toStartOf="@+id/buttonContinue"
         android:text="Page"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/buttonBack"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/buttonBack" />
 
     <Button
         android:id="@+id/buttonOk"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:layout_alignTop="@+id/buttonContinue"
-        android:layout_toEndOf="@+id/pageOfNumbers"
         android:background="@drawable/button1x3normal"
         android:clickable="false"
         android:onClick="onClickButton"
         android:text="@string/buttonOk"
         android:textColor="#fffafa"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_toRightOf="@+id/imageViewLeftSide"
+        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_marginLeft="600dip"
+        android:layout_marginTop="50dip"
+        />
 
     <ScrollView
         android:id="@+id/ScrollViewOverview"
@@ -92,7 +92,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageViewLogo"
         android:visibility="visible"
-        android:layout_margin="30dip">
+        android:layout_margin="30dip"
+        android:fadeScrollbars="false">
 
         <LinearLayout
             android:id="@+id/content"
@@ -104,7 +105,8 @@
             android:layout_below="@+id/imageViewLogo"
             android:clickable="false"
             android:orientation="vertical"
-            android:visibility="visible"></LinearLayout>
+            android:visibility="visible"
+            android:paddingRight="5dip"></LinearLayout>
     </ScrollView>
 
     <ImageView

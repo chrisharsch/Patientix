@@ -15,7 +15,8 @@
         android:layout_below="@+id/imageViewLogo"
         android:visibility="visible"
         android:id="@+id/ScrollViewOverview"
-        android:layout_margin="30dip">
+        android:layout_margin="30dip"
+        android:fadeScrollbars="false">
 
         <LinearLayout
             android:id="@+id/list"
@@ -25,7 +26,7 @@
             android:layout_below="@+id/imageViewLogo"
             android:layout_toEndOf="@+id/imageViewLeftSide"
             android:orientation="vertical"
-            ></LinearLayout>
+            android:paddingRight="5dip"></LinearLayout>
     </ScrollView>
 
     <Button
