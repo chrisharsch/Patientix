@@ -28,7 +28,7 @@ public class LayoutCreater {
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
-        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+        radioGroup.setOrientation(LinearLayout.VERTICAL);
         Commentar commentar = null;
         for (Element element : elements) {
             if (element instanceof Radio) {
@@ -48,12 +48,12 @@ public class LayoutCreater {
         if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
         }
-        rowLayout.setPadding(0,10,0,10);
+        rowLayout.setPadding(0, 20, 0, 20);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0,10,0,10);
+            comRow.setPadding(0, 20, 0, 20);
             pageLayout.addView(comRow);
             hasComBut = false;
         }
@@ -71,21 +71,13 @@ public class LayoutCreater {
 
     public void CreatListLayout(Context context, LinearLayout layout) {
         layout.removeAllViews();
-
         List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
-
         for (Page page : pageList) {
-
-                List<Row> rows = page.getRows();
-                for (Row row : rows) {
-
-
-                    CreateRowLayout(context, row, layout);
-
-
+            List<Row> rows = page.getRows();
+            for (Row row : rows) {
+                CreateRowLayout(context, row, layout);
             }
         }
-
     }
 
     public boolean isHasComBut() {

@@ -20,8 +20,8 @@
         android:visibility="visible"
         android:layout_toRightOf="@+id/imageViewLeftSide"
         android:layout_below="@+id/ScrollViewOverview"
-        android:layout_marginLeft="600dip"
-        android:layout_marginTop="50dip"
+        android:layout_marginLeft="700dip"
+        android:layout_marginTop="10dip"
         />
 
 
@@ -37,8 +37,8 @@
         android:textSize="40sp"
         android:layout_toRightOf="@+id/imageViewLeftSide"
         android:layout_below="@+id/ScrollViewOverview"
-        android:layout_marginLeft="80dip"
-        android:layout_marginTop="50dip"
+        android:layout_marginLeft="180dip"
+        android:layout_marginTop="10dip"
        />
 
     <!-- Zoom Button -->
@@ -80,8 +80,8 @@
         android:textSize="40sp"
         android:layout_toRightOf="@+id/imageViewLeftSide"
         android:layout_below="@+id/ScrollViewOverview"
-        android:layout_marginLeft="600dip"
-        android:layout_marginTop="50dip"
+        android:layout_marginLeft="700dip"
+        android:layout_marginTop="10dip"
         />
 
     <ScrollView
@@ -92,8 +92,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageViewLogo"
         android:visibility="visible"
-        android:layout_margin="30dip"
-        android:fadeScrollbars="false">
+        android:fadeScrollbars="false"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginBottom="30dip"
+        android:layout_marginTop="10dip">
 
         <LinearLayout
             android:id="@+id/content"
@@ -111,8 +114,8 @@
 
     <ImageView
         android:id="@+id/imageViewLeftSide"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/left" />

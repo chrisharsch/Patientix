@@ -54,9 +54,9 @@ public class Input implements Element, Commentar {
                 inputText = charSequence.toString();
             }
         });
-        if(Constants.zoomed){
+        if (Constants.zoomed) {
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-        }else{
+        } else {
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
 
@@ -69,9 +69,11 @@ public class Input implements Element, Commentar {
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
+           // comButton.setBackgroundResource(R.drawable.button1x5normal);
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                  //  Flasher.flash(comButton,"1x5");
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
@@ -91,9 +93,9 @@ public class Input implements Element, Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
-                    if(Constants.zoomed){
-                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-                    }else{
+                    if (Constants.zoomed) {
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+                    } else {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
                     }
                 }
@@ -118,9 +120,9 @@ public class Input implements Element, Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
-            if(Constants.zoomed){
-                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-            }else{
+            if (Constants.zoomed) {
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            } else {
                 comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             }
         }

@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -37,7 +38,7 @@ public class FormActivity extends Activity {
 
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
-
+private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class FormActivity extends Activity {
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
+        scrollView = (ScrollView) findViewById(R.id.ScrollViewOverview);
 
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
@@ -104,6 +106,7 @@ public class FormActivity extends Activity {
      */
     public void onClickNextButton(View v) {
         Flasher.flash(buttonContinue, "1x3");
+        scrollView.scrollTo(0,0);
         if (!lastPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -120,6 +123,7 @@ public class FormActivity extends Activity {
      */
     public void onClickBackButton(View v) {
         Flasher.flash(buttonBack, "1x3");
+        scrollView.scrollTo(0,0);
         if (!firstPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);

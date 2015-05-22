@@ -70,9 +70,11 @@ public class Checkbox implements Element, Commentar {
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
+           // comButton.setBackgroundResource(R.drawable.button1x5normal);
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+              //      Flasher.flash(comButton, "1x5");
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
