@@ -91,7 +91,8 @@
         android:layout_above="@+id/imageViewLeftSide"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageViewLogo"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_margin="30dip">
 
         <LinearLayout
             android:id="@+id/content"

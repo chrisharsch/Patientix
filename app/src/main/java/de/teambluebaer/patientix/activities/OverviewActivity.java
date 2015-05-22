@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -48,13 +47,12 @@ public class OverviewActivity extends Activity {
 
         metaandForm = Constants.globalMetaandForm;
 
-        Log.d("Button", "Bevor");
         layoutCreater = new LayoutCreater();
         layoutCreater.CreatListLayout(this, list);
 
 
 
-        Log.d("Button", "Ready");
+
         buttonReady = (Button) findViewById(R.id.buttonReady);
 
 
