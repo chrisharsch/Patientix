@@ -51,7 +51,9 @@ public class Form {
 
     public Page getPreviousPage(){
         iterator.previous();
-        return iterator.previous();
+        Page page = iterator.previous();
+        iterator.next();
+        return page;
     }
 
     public String getCurrentPageText(){

@@ -2,8 +2,13 @@
 require 'Slim-2.6.2/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
-$db = new mysqli("localhost", "root", "", "UMMMobilePatients");
-$db->set_charset("utf-8");
+#$db = new mysqli("localhost", "root", "", "UMMMobilePatients");
+#$db->set_charset("utf-8");
+
+$db = mysqli_init();
+$db->options(MYSLI_INIT_COMMAND, 'SET NAMES \'utf8\'');
+$db->real_connect("localhost", "root", "", "UMMMobilePatients");
+
 
 
 

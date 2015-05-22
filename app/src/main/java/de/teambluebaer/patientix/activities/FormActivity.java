@@ -204,7 +204,7 @@ public class FormActivity extends Activity {
      * checks if the counter is 0 to diasable the back button on the first screen
      */
     private boolean firstPageCheck() {
-        if (metaandForm.getForm().getCurrentPageNumber() == 0) {
+        if (metaandForm.getForm().getCurrentPageNumber() == 1) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
             return true;

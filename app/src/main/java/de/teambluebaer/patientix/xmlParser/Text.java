@@ -33,6 +33,8 @@ public class Text implements Element {
             this.size = TextSize.SUBTITEL;
         }else if(sizeint == 14){
             this.size = TextSize.TEXT;
+        }else{
+            this.size = TextSize.TEXT;
         }
     }
 
