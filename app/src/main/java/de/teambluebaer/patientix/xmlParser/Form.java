@@ -67,7 +67,9 @@ public class Form {
     }
 
     public Page getcurrenPage(){
-        return iterator.previous();
+        Page page = iterator.previous();
+        iterator.next();
+        return page;
     }
 
 }

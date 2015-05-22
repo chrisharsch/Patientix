@@ -28,8 +28,7 @@ public class FormActivity extends Activity {
 
     private Button buttonContinue;
     private Button buttonBack;
-    private Button buttonZoomIn;
-    private Button buttonZoomOut;
+    private Button buttonZoom;
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private Button buttonOk;
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -58,8 +57,7 @@ public class FormActivity extends Activity {
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
-        buttonZoomIn = (Button) findViewById(R.id.buttonZoomIn);
-        buttonZoomOut = (Button) findViewById(R.id.buttonZoomOut);
+        buttonZoom = (Button) findViewById(R.id.buttonZoom);
 
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
@@ -73,8 +71,6 @@ public class FormActivity extends Activity {
 
         //Disable zoom out button and set text size to button size
         // TODO now a Layout (content) questionText.setTextSize(40);
-        buttonZoomOut.setClickable(false);
-        buttonZoomOut.setVisibility(View.INVISIBLE);
 
         content = (LinearLayout) findViewById(R.id.content);
 
@@ -144,38 +140,36 @@ public class FormActivity extends Activity {
 
 
 
-        if (buttonZoomIn.isClickable()) {
-            Flasher.flash(buttonZoomIn, "1x1");
+        if (!Constants.zoomed) {
+            Flasher.flash(buttonZoom, "1x1");
             // TODO now a Layout (content) questionText.setTextSize(75);
-            buttonZoomIn.setClickable(false);
-            buttonZoomOut.setClickable(true);
-            buttonZoomOut.setVisibility(View.VISIBLE);
-            buttonZoomIn.setVisibility(View.INVISIBLE);
 
-            metaandForm.getForm().getcurrenPage();
             Constants.zoomed = true;
-            /*for(int i = 0; i< content.getChildCount();i++){
+
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
+
+
+            buttonZoom.setText("-");
+           /* for(int i = 0; i< content.getChildCount();i++){
 
                 for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
 
                     if(((LinearLayout) content.getChildAt(i)).getChildAt(j) instanceof TextView){
                         TextView aktuellerText = (TextView) ((LinearLayout) content.getChildAt(i)).getChildAt(j);
-                        aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, aktuellerText.getTextSize()+20);
+                        Log.d("Size", ""+aktuellerText.getTextSize());
+                        //aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, aktuellerText.getTextSize()+20);
                     }
 
                 }
             }*/
         } else {
 
-            Flasher.flash(buttonZoomOut, "1x1");
-            // TODO now a Layout (content) questionText.setTextSize(40);
-            buttonZoomIn.setClickable(true);
-            buttonZoomOut.setClickable(false);
-            buttonZoomIn.setVisibility(View.VISIBLE);
-            buttonZoomOut.setVisibility(View.INVISIBLE);
 
-            metaandForm.getForm().getcurrenPage();
+            // TODO now a Layout (content) questionText.setTextSize(40);
             Constants.zoomed = false;
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
+
+            buttonZoom.setText("+");
             /*for(int i = 0; i< content.getChildCount();i++){
                 for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
                     if(((LinearLayout) content.getChildAt(i)).getChildAt(j) instanceof TextView){
