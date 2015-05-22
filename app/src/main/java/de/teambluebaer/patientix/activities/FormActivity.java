@@ -70,7 +70,7 @@ public class FormActivity extends Activity {
         buttonOk.setVisibility(View.INVISIBLE);
 
         //Disable zoom out button and set text size to button size
-
+        // TODO now a Layout (content) questionText.setTextSize(40);
 
         content = (LinearLayout) findViewById(R.id.content);
 
@@ -142,11 +142,13 @@ public class FormActivity extends Activity {
 
         if (!Constants.zoomed) {
             Flasher.flash(buttonZoom, "1x1");
-
+            // TODO now a Layout (content) questionText.setTextSize(75);
 
             Constants.zoomed = true;
 
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
+
+
             buttonZoom.setText("-");
 
         } else {
@@ -191,6 +193,9 @@ public class FormActivity extends Activity {
         }
         buttonBack.setVisibility(View.VISIBLE);
         buttonBack.setClickable(true);
+        buttonOk.setVisibility(View.INVISIBLE);
+        buttonOk.setClickable(false);
+
         return false;
     }
 
