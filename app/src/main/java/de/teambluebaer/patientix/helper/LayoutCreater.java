@@ -53,7 +53,7 @@ public class LayoutCreater {
         if (hasComBut) {
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0,2,0,2);
+            comRow.setPadding(0, 2, 0, 2);
             pageLayout.addView(comRow);
             hasComBut = false;
         }
@@ -70,7 +70,7 @@ public class LayoutCreater {
     }
 
     public void CreatListLayout(Context context, LinearLayout layout) {
-
+        layout.removeAllViews();
 
         List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
 

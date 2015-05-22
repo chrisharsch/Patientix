@@ -93,7 +93,7 @@ public class StartActivity extends Activity {
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
 
-                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
                 PatientID.setText(Constants.globalMetaandForm.getMeta().getPatientID());
                 String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
