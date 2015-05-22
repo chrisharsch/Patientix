@@ -5,8 +5,8 @@
     <string name="ueberschrift">Patientenaufklärung für</string>
     <string name="update">Aktualisieren</string>
     <string name="start">Start</string>
-    <string name="patientname">Max Mustermann</string>
-    <string name="patientid">12345</string>
+    <string name="patientname"></string>
+    <string name="patientid"></string>
     <string name="title_activity_form">FormActivity</string>
     <string name="title">Patientenaufklärung für</string>
 
@@ -38,7 +38,7 @@
     <string name="title_activity_end">EndActivity</string>
 
     <string name="textEnd">Bitte bringen Sie das Tablet zurück an den Empfang.</string>
-    <string name="textExamination">MRT</string>
+    <string name="textExamination"></string>
 
     <string name="hello_world">Hello world!</string>
 

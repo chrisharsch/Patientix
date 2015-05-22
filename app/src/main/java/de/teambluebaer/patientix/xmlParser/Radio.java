@@ -46,11 +46,11 @@ public class Radio implements Element, Commentar {
         layout.addView(radio);
     }
 
-    public void addToView(Context context, LinearLayout layout, RadioGroup radiogroup) {
+    public void addToView(Context context, RadioGroup radiogroup) {
         RadioButton radio = new RadioButton(context);
-        radio.setChecked(checked);
         radio.setText(radioText);
         radiogroup.addView(radio);
+        radio.setChecked(checked);
         radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -112,5 +112,25 @@ public class Radio implements Element, Commentar {
             });
         }
 
+    }
+
+    public String getRadioText() {
+        return radioText;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public String getPatientCommentar() {
+        return patientCommentar;
+    }
+
+    public String getMtraCommentar() {
+        return mtraCommentar;
+    }
+
+    public String getDoctorCommentar() {
+        return doctorCommentar;
     }
 }

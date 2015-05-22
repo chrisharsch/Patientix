@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -29,6 +30,9 @@ import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
 public class StartActivity extends Activity {
 
+    private TextView PatientName;
+    private TextView PatientID;
+    private TextView ExameName;
     private Button buttonStart;
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
@@ -51,6 +55,9 @@ public class StartActivity extends Activity {
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);
+        PatientName = (TextView) findViewById(R.id.patientname);
+        PatientID = (TextView) findViewById(R.id.patientid);
+        ExameName = (TextView) findViewById(R.id.textExamination);
 
     }
 
@@ -87,6 +94,16 @@ public class StartActivity extends Activity {
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
 
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_LONG).show();
+
+                PatientID.setText(Constants.globalMetaandForm.getMeta().getPatientID());
+                String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
+                        + Constants.globalMetaandForm.getMeta().getPatientFirstName();
+                if(!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")){
+                    nameSegment = nameSegment + Constants.globalMetaandForm.getMeta().getPatientBithDate();
+                }
+                PatientName.setText(nameSegment);
+                ExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
 

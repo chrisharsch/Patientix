@@ -125,5 +125,43 @@ public class JavaStrucBuilder extends DefaultHandler{
     }
 
 
+    public Form getForm() {
+        return form;
+    }
 
+    public MetaData getMeta() {
+        return meta;
+    }
+
+    public MetaandForm getMetaandForm() {
+        return metaandForm;
+    }
+
+    public Page getCurrendPage() {
+        return currendPage;
+    }
+
+    public Row getCurrendRow() {
+        return currendRow;
+    }
+
+    public boolean isPID() {
+        return isPID;
+    }
+
+    public boolean isPFN() {
+        return isPFN;
+    }
+
+    public boolean isPLN() {
+        return isPLN;
+    }
+
+    public boolean isIspDate() {
+        return ispDate;
+    }
+
+    public boolean isName() {
+        return isName;
+    }
 }

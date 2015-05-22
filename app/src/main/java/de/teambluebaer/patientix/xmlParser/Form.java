@@ -61,4 +61,8 @@ public class Form {
     public int getCurrentPageNumber(){
         return iterator.nextIndex();
     }
+
+    public ListIterator<Page> getIterator() {
+        return iterator;
+    }
 }

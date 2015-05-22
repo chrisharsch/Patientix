@@ -25,4 +25,8 @@ public class Sound implements Element {
     public void addToView(Context context, LinearLayout layout) {
         //TODO How to add sound by URL
     }
+
+    public String getSoundSource() {
+        return soundSource;
+    }
 }

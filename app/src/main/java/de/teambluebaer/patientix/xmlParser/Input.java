@@ -105,4 +105,8 @@ public class Input implements Element, Commentar {
         }
 
     }
+
+    public String getInputText() {
+        return inputText;
+    }
 }

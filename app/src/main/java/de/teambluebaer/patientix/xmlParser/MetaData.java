@@ -45,4 +45,23 @@ public class MetaData {
     }
 
 
+    public String getPatientID() {
+        return patientID;
     }
+
+    public String getPatientFirstName() {
+        return patientFirstName;
+    }
+
+    public String getPatientLastName() {
+        return patientLastName;
+    }
+
+    public String getPatientBithDate() {
+        return patientBithDate;
+    }
+
+    public String getExameName() {
+        return exameName;
+    }
+}

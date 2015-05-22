@@ -26,4 +26,8 @@ public class Image implements Element {
         //TODO How to get Image by URL
 
     }
+
+    public String getImageSource() {
+        return imageSource;
+    }
 }

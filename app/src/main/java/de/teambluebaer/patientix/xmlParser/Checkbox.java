@@ -106,4 +106,24 @@ public class Checkbox implements Element, Commentar {
         }
 
     }
+
+    public String getCheckboxText() {
+        return checkboxText;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public String getPatientCommentar() {
+        return patientCommentar;
+    }
+
+    public String getMtraCommentar() {
+        return mtraCommentar;
+    }
+
+    public String getDoctorCommentar() {
+        return doctorCommentar;
+    }
 }

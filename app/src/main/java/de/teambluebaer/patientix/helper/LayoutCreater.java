@@ -33,7 +33,7 @@ public class LayoutCreater {
         for (Element element : elements) {
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
-                radio.addToView(context, rowLayout, radioGroup);
+                radio.addToView(context, radioGroup);
 
             } else {
                 element.addToView(context, rowLayout);
@@ -89,4 +89,7 @@ public class LayoutCreater {
 
     }
 
+    public boolean isHasComBut() {
+        return hasComBut;
+    }
 }

@@ -32,4 +32,12 @@ public class Text implements Element {
         textView.setTextSize(size);
         layout.addView(textView);
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public int getSize() {
+        return size;
+    }
 }

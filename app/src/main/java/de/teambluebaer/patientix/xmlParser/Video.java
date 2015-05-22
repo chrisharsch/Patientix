@@ -25,4 +25,7 @@ public class Video implements Element {
         //TODO How to add Video by URL
     }
 
+    public String getVideoSource() {
+        return videoSource;
+    }
 }
