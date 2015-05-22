@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.xmlParser;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.helper.TextSize;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -27,6 +31,7 @@ public class Radio implements Element, Commentar {
     private String doctorCommentar;
 
 
+
     /**
      * constructor
      *
@@ -36,6 +41,7 @@ public class Radio implements Element, Commentar {
         this.radioText = radioText;
         this.checked = false;
         patientCommentar = "";
+
     }
 
     @Override
@@ -57,6 +63,11 @@ public class Radio implements Element, Commentar {
                 checked = isChecked;
             }
         });
+        if(Constants.zoomed){
+            radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+        }else{
+            radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+        }
     }
 
 
@@ -89,9 +100,15 @@ public class Radio implements Element, Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
+                    if(Constants.zoomed){
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+                    }else{
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                    }
                 }
             });
             linearLayout.addView(comButton);
+
         } else {
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);
@@ -110,6 +127,11 @@ public class Radio implements Element, Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
+            if(Constants.zoomed){
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+            }else{
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            }
         }
 
     }

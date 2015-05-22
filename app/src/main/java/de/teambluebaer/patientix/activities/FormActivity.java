@@ -70,7 +70,7 @@ public class FormActivity extends Activity {
         buttonOk.setVisibility(View.INVISIBLE);
 
         //Disable zoom out button and set text size to button size
-        // TODO now a Layout (content) questionText.setTextSize(40);
+
 
         content = (LinearLayout) findViewById(R.id.content);
 
@@ -142,46 +142,19 @@ public class FormActivity extends Activity {
 
         if (!Constants.zoomed) {
             Flasher.flash(buttonZoom, "1x1");
-            // TODO now a Layout (content) questionText.setTextSize(75);
+
 
             Constants.zoomed = true;
 
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
-
-
             buttonZoom.setText("-");
-           /* for(int i = 0; i< content.getChildCount();i++){
 
-                for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
-
-                    if(((LinearLayout) content.getChildAt(i)).getChildAt(j) instanceof TextView){
-                        TextView aktuellerText = (TextView) ((LinearLayout) content.getChildAt(i)).getChildAt(j);
-                        Log.d("Size", ""+aktuellerText.getTextSize());
-                        //aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, aktuellerText.getTextSize()+20);
-                    }
-
-                }
-            }*/
         } else {
-
-
-            // TODO now a Layout (content) questionText.setTextSize(40);
             Constants.zoomed = false;
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
 
             buttonZoom.setText("+");
-            /*for(int i = 0; i< content.getChildCount();i++){
-                for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
-                    if(((LinearLayout) content.getChildAt(i)).getChildAt(j) instanceof TextView){
-                        TextView aktuellerText = (TextView) ((LinearLayout) content.getChildAt(i)).getChildAt(j);
 
-                        aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.);
-
-                        Constants.zoomed = false;
-                    }
-
-                }
-            }*/
         }
     }
 

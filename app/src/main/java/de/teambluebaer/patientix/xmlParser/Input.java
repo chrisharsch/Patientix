@@ -3,10 +3,14 @@ package de.teambluebaer.patientix.xmlParser;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.helper.TextSize;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -28,6 +32,7 @@ public class Input implements Element, Commentar {
     public Input() {
         inputText = "";
         patientCommentar = "";
+
     }
 
     @Override
@@ -49,6 +54,11 @@ public class Input implements Element, Commentar {
                 inputText = charSequence.toString();
             }
         });
+        if(Constants.zoomed){
+            input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+        }else{
+            input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+        }
 
     }
 
@@ -81,9 +91,15 @@ public class Input implements Element, Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
+                    if(Constants.zoomed){
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+                    }else{
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                    }
                 }
             });
             linearLayout.addView(comButton);
+
         } else {
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);
@@ -102,6 +118,11 @@ public class Input implements Element, Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
+            if(Constants.zoomed){
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+            }else{
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            }
         }
 
     }

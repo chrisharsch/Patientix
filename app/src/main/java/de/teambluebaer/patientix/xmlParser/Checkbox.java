@@ -3,12 +3,16 @@ package de.teambluebaer.patientix.xmlParser;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.helper.TextSize;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -26,6 +30,7 @@ public class Checkbox implements Element, Commentar {
     private String doctorCommentar;
 
 
+
     /**
      * Constructor
      *
@@ -35,6 +40,7 @@ public class Checkbox implements Element, Commentar {
         this.checkboxText = checkboxText;
         this.checked = false;
         patientCommentar = "";
+
     }
 
     @Override
@@ -50,7 +56,11 @@ public class Checkbox implements Element, Commentar {
                 checked = isChecked;
             }
         });
-
+        if(Constants.zoomed){
+            checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+        }else{
+            checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+        }
     }
 
     @Override
@@ -82,9 +92,15 @@ public class Checkbox implements Element, Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
+                    if(Constants.zoomed){
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+                    }else{
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                    }
                 }
             });
             linearLayout.addView(comButton);
+
         } else {
             EditText comment = new EditText(comContext);
             comment.setText(patientCommentar);
@@ -103,7 +119,14 @@ public class Checkbox implements Element, Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
+            if(Constants.zoomed){
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
+            }else{
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            }
         }
+
+
 
     }
 
