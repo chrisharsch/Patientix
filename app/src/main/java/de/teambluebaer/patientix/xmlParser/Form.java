@@ -48,7 +48,9 @@ public class Form {
 
     }
 
+
     public Page getPreviousPage(){
+        iterator.previous();
         return iterator.previous();
     }
 
@@ -62,7 +64,8 @@ public class Form {
         return iterator.nextIndex();
     }
 
-    public ListIterator<Page> getIterator() {
-        return iterator;
+    public Page getcurrenPage(){
+        return iterator.previous();
     }
+
 }

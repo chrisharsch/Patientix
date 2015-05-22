@@ -14,5 +14,6 @@ public class Constants {
     public static final String SECOND_COLUMN = "Second";
     public static final String TABLET_ID= "3";
     public static MetaandForm globalMetaandForm;
+    public static boolean zoomed = false;
 
 }

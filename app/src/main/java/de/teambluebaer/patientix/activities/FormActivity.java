@@ -3,7 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -152,7 +151,10 @@ public class FormActivity extends Activity {
             buttonZoomOut.setClickable(true);
             buttonZoomOut.setVisibility(View.VISIBLE);
             buttonZoomIn.setVisibility(View.INVISIBLE);
-            for(int i = 0; i< content.getChildCount();i++){
+
+            metaandForm.getForm().getcurrenPage();
+            Constants.zoomed = true;
+            /*for(int i = 0; i< content.getChildCount();i++){
 
                 for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
 
@@ -162,7 +164,7 @@ public class FormActivity extends Activity {
                     }
 
                 }
-            }
+            }*/
         } else {
 
             Flasher.flash(buttonZoomOut, "1x1");
@@ -171,15 +173,21 @@ public class FormActivity extends Activity {
             buttonZoomOut.setClickable(false);
             buttonZoomIn.setVisibility(View.VISIBLE);
             buttonZoomOut.setVisibility(View.INVISIBLE);
-            for(int i = 0; i< content.getChildCount();i++){
+
+            metaandForm.getForm().getcurrenPage();
+            Constants.zoomed = false;
+            /*for(int i = 0; i< content.getChildCount();i++){
                 for(int j = 0; j < ((LinearLayout) content.getChildAt(i)).getChildCount() ;j++){
                     if(((LinearLayout) content.getChildAt(i)).getChildAt(j) instanceof TextView){
                         TextView aktuellerText = (TextView) ((LinearLayout) content.getChildAt(i)).getChildAt(j);
-                        aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, aktuellerText.getTextSize() - 20);
+
+                        aktuellerText.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.);
+
+                        Constants.zoomed = false;
                     }
 
                 }
-            }
+            }*/
         }
     }
 
