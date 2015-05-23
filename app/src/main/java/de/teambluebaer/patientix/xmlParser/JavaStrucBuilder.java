@@ -67,9 +67,12 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("text")){
             currendRow.addElement(new Text(attributes.getValue("text"),attributes.getValue("size")));
         }else if(qName.equals("checkbox")){
-            currendRow.addElement(new Checkbox(attributes.getValue("text")));
+            currendRow.addElement(new Checkbox(attributes.getValue("text"),attributes.getValue("comment"),
+                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
         }else if(qName.equals("radiobutton")){
-            currendRow.addElement(new Radio(attributes.getValue("text")));
+            currendRow.addElement(new Radio(attributes.getValue("text"),attributes.getValue("comment"),
+                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
+
         }else if(qName.equals("image")){
             currendRow.addElement(new Image(attributes.getValue("src")));
         }else if(qName.equals("sound")){
@@ -77,7 +80,9 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("video")){
             currendRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
-            currendRow.addElement(new Input());
+            currendRow.addElement(new Input(attributes.getValue("comment"),
+                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
+
         }else if(qName.equals("pID")){
             isPID = true;
         }else if(qName.equals("pFirstName")){

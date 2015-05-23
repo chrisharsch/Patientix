@@ -72,4 +72,15 @@ public class Form {
         return page;
     }
 
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<form>";
+        for(Page page : pageList){
+            xmlString = xmlString + page.toXMLString();
+        }
+        xmlString = xmlString + "</form>";
+
+        return xmlString;
+    }
+
 }

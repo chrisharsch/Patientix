@@ -25,6 +25,15 @@ public class Video implements Element {
         //TODO How to add Video by URL
     }
 
+    public String toXMLString() {
+        String xmlString = new String();
+        xmlString = xmlString + "<video/";
+        xmlString = xmlString + "src=\"" + this.videoSource + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
+    }
+
     public String getVideoSource() {
         return videoSource;
     }

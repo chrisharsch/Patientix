@@ -52,5 +52,13 @@ public class MetaandForm {
         return this.meta;
     }
 
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<root>";
+        xmlString = xmlString + this.meta.toXMLString();
+        xmlString = xmlString + this.form.toXMLString();
+        xmlString = xmlString + "</root>";
 
+        return xmlString;
+    }
 }

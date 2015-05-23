@@ -38,4 +38,17 @@ public class Page {
            rowList.add(newRow);
      }
 
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<page>";
+        for(Row row : rowList){
+            xmlString = xmlString + row.toXMLString();
+        }
+        xmlString = xmlString + "</page>";
+
+        return xmlString;
     }
+
+    }
+
+

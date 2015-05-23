@@ -29,4 +29,13 @@ public class Sound implements Element {
     public String getSoundSource() {
         return soundSource;
     }
+
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<audio/";
+        xmlString = xmlString + "src=\"" + this.soundSource + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
+    }
 }

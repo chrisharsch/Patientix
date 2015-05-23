@@ -19,8 +19,11 @@ import android.widget.LinearLayout;
 public interface Element {
     /**
      * put this Element into a View
+     *
      * @param context
      * @param layout
      */
     public void addToView(Context context, LinearLayout layout);
+
+    public String toXMLString();
 }

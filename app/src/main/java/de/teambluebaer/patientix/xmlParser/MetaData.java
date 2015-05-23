@@ -44,6 +44,18 @@ public class MetaData {
         this.exameName = exameName;
     }
 
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<meta>";
+        xmlString = xmlString + "<pFirstName>" + patientFirstName + "</pFirstName>";
+        xmlString = xmlString + "<pLastName>" + patientLastName + "</pLastName>";
+        xmlString = xmlString + "<pDate>" + patientBithDate + "</pDate>";
+        xmlString = xmlString + "<name>" + exameName + "</name>";
+        xmlString = xmlString + "</meta>";
+
+        return xmlString;
+    }
+
 
     public String getPatientID() {
         return patientID;

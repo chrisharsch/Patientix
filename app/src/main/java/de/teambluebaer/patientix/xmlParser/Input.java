@@ -29,9 +29,11 @@ public class Input implements Element, Commentar {
     /**
      * Constructor
      */
-    public Input() {
+    public Input(String patientCommentar, String mtraCommentar, String doctorCommentar) {
         inputText = "";
-        patientCommentar = "";
+        this.patientCommentar = new String() + patientCommentar;
+        this.mtraCommentar = new String() + mtraCommentar;
+        this.doctorCommentar = new String() + doctorCommentar;
 
     }
 
@@ -127,6 +129,18 @@ public class Input implements Element, Commentar {
             }
         }
 
+    }
+
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<checkbox/";
+        xmlString = xmlString + "text=\"" + this.inputText + "\" ";
+        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
+        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
     }
 
     public String getInputText() {

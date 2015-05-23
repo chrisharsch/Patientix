@@ -27,6 +27,15 @@ public class Image implements Element {
 
     }
 
+    public String toXMLString() {
+        String xmlString = new String();
+        xmlString = xmlString + "<picture/";
+        xmlString = xmlString + "src=\"" + this.imageSource + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
+    }
+
     public String getImageSource() {
         return imageSource;
     }

@@ -37,10 +37,12 @@ public class Radio implements Element, Commentar {
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText) {
+    public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
         this.radioText = radioText;
         this.checked = false;
-        patientCommentar = "";
+        this.patientCommentar = new String() + patientCommentar;
+        this.mtraCommentar = new String() + mtraCommentar;
+        this.doctorCommentar = new String() + doctorCommentar;
 
     }
 
@@ -137,6 +139,19 @@ public class Radio implements Element, Commentar {
             }
         }
 
+    }
+
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<radiobutton/";
+        xmlString = xmlString + "text=\"" + this.radioText + "\" ";
+        xmlString = xmlString + "checked=\"" + this.checked + "\" ";
+        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
+        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
     }
 
     public String getRadioText() {

@@ -22,4 +22,8 @@ public class WhiteSpace implements Element{
     public void addToView(Context context, LinearLayout layout) {
         // Do nothing
     }
+
+    public String toXMLString() {
+        return "";
+    }
 }

@@ -28,4 +28,15 @@ public class Row {
     public void addElement(Element newElement) {
         elementList.add(newElement);
     }
+
+    public String toXMLString(){
+        String xmlString = new String();
+        xmlString = xmlString + "<row>";
+        for(Element element : elementList){
+            xmlString = xmlString + element.toXMLString();
+        }
+        xmlString = xmlString + "</row>";
+
+        return xmlString;
+    }
 }

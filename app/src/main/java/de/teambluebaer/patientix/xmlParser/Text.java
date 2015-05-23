@@ -50,4 +50,14 @@ public class Text implements Element {
 
         layout.addView(textView);
     }
+
+    public String toXMLString() {
+        String xmlString = new String();
+        xmlString = xmlString + "<text/";
+        xmlString = xmlString + "text=\"" + this.text + "\" ";
+        xmlString = xmlString + "size=\"" + this.size + "\" ";
+        xmlString = xmlString + ">";
+
+        return xmlString;
+    }
 }
