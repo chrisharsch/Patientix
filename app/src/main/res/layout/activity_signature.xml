@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <!-- Wird unten in titlebar gespeichert vorübergehend
+    <!--
     <Button
         android:layout_width="210dip"
         android:layout_height="70dip"
@@ -31,7 +31,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="67dp" />
--->
+        -->
 
     <FrameLayout
         android:id="@+id/spenViewContainer"
@@ -50,12 +50,13 @@
 
     </FrameLayout>
 
+
     <LinearLayout
         android:id="@+id/tool_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
         <ImageView
@@ -87,5 +88,7 @@
             android:background="@drawable/selector_tool_bg"
             android:contentDescription="@string/description"
             android:src="@drawable/selector_capture" />
+
     </LinearLayout>
+
 </RelativeLayout>

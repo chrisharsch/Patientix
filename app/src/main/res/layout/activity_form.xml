@@ -52,8 +52,8 @@
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_centerHorizontal="true" />
 
 
     <TextView
@@ -129,5 +129,15 @@
         android:paddingRight="0dp"
         android:paddingTop="0dp"
         android:src="@drawable/ummlogoklein" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textZoom"
+        android:id="@+id/textZoom"
+        android:textSize="60sp"
+        android:layout_alignBottom="@+id/buttonZoom"
+        android:layout_toEndOf="@+id/imageViewLeftSide"
+        android:layout_marginStart="55dp" />
 
 </RelativeLayout>

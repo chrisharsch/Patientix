@@ -51,9 +51,6 @@ public class OverviewActivity extends Activity {
         layoutCreater = new LayoutCreater();
         layoutCreater.CreatListLayout(this, list);
 
-
-
-
         buttonReady = (Button) findViewById(R.id.buttonReady);
         if(!Constants.zoomed){
             buttonZoom.setText("+");
@@ -61,8 +58,6 @@ public class OverviewActivity extends Activity {
         }else{
             buttonZoom.setText("-");
         }
-
-
     }
 
     /**
@@ -77,9 +72,6 @@ public class OverviewActivity extends Activity {
     }
 
     public void onClickZoomButton(View v) {
-
-
-
 
         if (!Constants.zoomed) {
             Flasher.flash(buttonZoom, "1x1");

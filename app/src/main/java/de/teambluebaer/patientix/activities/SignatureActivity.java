@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -61,7 +62,7 @@ public class SignatureActivity extends Activity {
     private ImageView mPenBtn;
     private ImageView mEraserBtn;
     private ImageView mCaptureBtn;
-    //private Button buttonDone;
+    private Button buttonDone;
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
     private MediaScannerConnection msConn = null;
@@ -85,7 +86,6 @@ public class SignatureActivity extends Activity {
         setContentView(R.layout.activity_signature);
         mContext = this;
         //mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
-        //buttonDone = (Button) findViewById(R.id.buttonDone);
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -183,6 +183,8 @@ public class SignatureActivity extends Activity {
         mEraserBtn = (ImageView) findViewById(R.id.eraserBtn);
         mEraserBtn.setOnClickListener(mEraserBtnClickListener);
 
+
+        //buttonDone = (Button) findViewById(R.id.buttonDone);
         mCaptureBtn = (ImageView) findViewById(R.id.captureBtn);
         mCaptureBtn.setOnClickListener(mCaptureBtnClickListener);
 

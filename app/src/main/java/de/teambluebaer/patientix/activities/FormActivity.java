@@ -142,25 +142,19 @@ private ScrollView scrollView;
      */
     public void onClickZoomButton(View v) {
 
-
-
-
         if (!Constants.zoomed) {
             Flasher.flash(buttonZoom, "1x1");
             // TODO now a Layout (content) questionText.setTextSize(75);
 
             Constants.zoomed = true;
-
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
-
-
-            buttonZoom.setText("-");
+            buttonZoom.setText("Nein");
 
         } else {
             Constants.zoomed = false;
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
 
-            buttonZoom.setText("+");
+            buttonZoom.setText("Ja");
 
         }
     }

@@ -17,8 +17,8 @@
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_alignEnd="@+id/imageViewLeftSide" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -46,21 +46,20 @@
         android:id="@+id/buttonReady"
         android:layout_width="210dip"
         android:layout_height="70dip"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
         android:background="@drawable/button1x3normal"
         android:onClick="onClickReadyButton"
         android:text="@string/buttonReady"
         android:textColor="#fffafa"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/imageViewLeftSide"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:src="@drawable/left" />
 
     <ImageView
@@ -72,5 +71,15 @@
         android:paddingRight="0dp"
         android:paddingTop="0dp"
         android:src="@drawable/ummlogoklein" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textOverview"
+        android:id="@+id/textOverview"
+        android:textSize="60sp"
+        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true" />
 
 </RelativeLayout>
