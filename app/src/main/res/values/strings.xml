@@ -19,6 +19,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="test">test</string>
+    <string name="buttonReady">Weiter</string>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="editName">Name</string>
@@ -39,6 +40,7 @@
     <string name="textEnd">Bitte bringen Sie das Tablet zurück an den Empfang.</string>
     <string name="textExamination"></string>
 
+    <string name="hello_world">Hello world!</string>
     <string name="textZoom">Schrift zu klein?</string>
     <string name="textOverview">Übersicht aller Fragen</string>
 

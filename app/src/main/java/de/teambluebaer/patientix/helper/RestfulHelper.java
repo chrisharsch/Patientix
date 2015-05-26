@@ -30,8 +30,8 @@ public class RestfulHelper extends Activity {
 
     //URL's
     //private final String SERVER_URL ="http://192.168.178.40/";
-    private final String SERVER_URL = "http://141.19.145.237/";
-    //private final String SERVER_URL = "http://192.168.1.9/";
+   // private final String SERVER_URL = "http://141.19.145.237/";
+    private final String SERVER_URL = "http://192.168.1.7/";
     private final String POST_LOGIN = "index.php/login";
     private final String POST_LOGOUT = "api/person/logout";
     private final String POST_FORMULA = "index.php/formula";

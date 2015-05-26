@@ -30,7 +30,9 @@ public class FormActivity extends Activity {
     private Button buttonContinue;
     private Button buttonBack;
     private Button buttonZoom;
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private Button buttonOk;
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private LinearLayout content;
     private TextView numberOfPages;
 
@@ -55,10 +57,13 @@ private ScrollView scrollView;
         //content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage());
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
-        buttonBack = (Button) findViewById(R.id.buttonLogin);
+        buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
         scrollView = (ScrollView) findViewById(R.id.ScrollViewOverview);
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //Disable back button at first page
         buttonBack.setVisibility(View.INVISIBLE);
@@ -82,10 +87,10 @@ private ScrollView scrollView;
 
     }
 
-    /**
-     * Show the next activity (Overview)
-     * @param v
-     */
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
+    // Braucht man oder nicht???
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void onClickButton(View v) {
         Flasher.flash(buttonOk, "1x3");
 
@@ -149,7 +154,7 @@ private ScrollView scrollView;
             Constants.zoomed = false;
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
 
-            buttonZoom.setText("Ja");
+            buttonZoom.setText("+");
 
         }
     }
@@ -177,10 +182,6 @@ private ScrollView scrollView;
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     private boolean lastPageCheck() {
         if (metaandForm.getForm().getCurrentPageNumber() == metaandForm.getForm().getLastPage()) {
             buttonContinue.setClickable(false);

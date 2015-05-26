@@ -46,7 +46,6 @@ public class EndActivity extends Activity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        Constants.FILLEDFORMULA="<ahsdfadsfaewfawef>asdasdoansdobnawodfboi>aoisdaipsdjpoaj><asiodnpijn>";
         if (Constants.FILLEDFORMULA.length() > 1) {
             isFormula = "true";
         } else {
@@ -56,9 +55,9 @@ public class EndActivity extends Activity {
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
-        //set um parameterMap for RestPost to send formula data
 
-        Log.d("response", address);
+
+        //set um parameterMap for RestPost to send formula data
         parameterMap.add(new BasicNameValuePair("isFormula", "true"));
         parameterMap.add(new BasicNameValuePair("formula", "<xml>hallo</xml>"));
         parameterMap.add(new BasicNameValuePair("macaddress", "DE:AD:BE:EF:10:26"));
@@ -74,11 +73,18 @@ public class EndActivity extends Activity {
             responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
             if (responseCode == 404) {
                 Toast.makeText(this, "Keine oder Fehlerhafte Formulardaten!", Toast.LENGTH_LONG).show();
+                Log.d("response", responseCode + "");
+            }else if(responseCode == 405){
+                parameterMap.clear();
+                parameterMap.add(new BasicNameValuePair("isFormula", "true"));
+                parameterMap.add(new BasicNameValuePair("formula", "<xml>hallo</xml>"));
+                parameterMap.add(new BasicNameValuePair("macaddress", "34567"));
+                parameterMap.add(new BasicNameValuePair("patientID", "3"));
             }
-            Log.d("response", responseCode+"");
-            Log.d("response", RestfulHelper.responseString);
             Toast.makeText(this, ""+ responseCode, Toast.LENGTH_LONG).show();
+            Log.d("response", responseCode + "");
         }
+
 
         Toast.makeText(this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
         //Delete old Patientdata

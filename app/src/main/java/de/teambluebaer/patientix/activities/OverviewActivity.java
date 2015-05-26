@@ -44,13 +44,14 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
         list = (LinearLayout) findViewById(R.id.list);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
+        buttonReady = (Button) findViewById(R.id.buttonContinue);
 
         metaandForm = Constants.globalMetaandForm;
 
         layoutCreater = new LayoutCreater();
         layoutCreater.CreatListLayout(this, list);
 
-        buttonReady = (Button) findViewById(R.id.buttonReady);
+
         if(!Constants.zoomed){
             buttonZoom.setText("+");
         }else{
