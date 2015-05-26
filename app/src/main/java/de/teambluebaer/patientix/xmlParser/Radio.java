@@ -40,9 +40,23 @@ public class Radio implements Element, Commentar {
     public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
         this.radioText = radioText;
         this.checked = false;
-        this.patientCommentar = new String() + patientCommentar;
-        this.mtraCommentar = new String() + mtraCommentar;
-        this.doctorCommentar = new String() + doctorCommentar;
+
+        if(patientCommentar != null && !patientCommentar.isEmpty()){
+            this.patientCommentar = patientCommentar;
+        } else {
+            this.patientCommentar = "";
+        }
+        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+            this.mtraCommentar = mtraCommentar;
+        } else {
+
+            this.mtraCommentar = "";
+        }
+        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+            this.doctorCommentar = doctorCommentar;
+        } else {
+            this.doctorCommentar = "";
+        }
 
     }
 

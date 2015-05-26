@@ -83,6 +83,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             currendRow.addElement(new Input(attributes.getValue("comment"),
                     attributes.getValue("mtraComment"),attributes.getValue("docComment")));
 
+
         }else if(qName.equals("pID")){
             isPID = true;
         }else if(qName.equals("pFirstName")){
