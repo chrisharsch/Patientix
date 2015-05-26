@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class SignatureActivity extends Activity {
 
     private ImageView mPenBtn;
     private ImageView mEraserBtn;
-    private ImageView mCaptureBtn;
+    //private ImageView mCaptureBtn;
     private Button buttonDone;
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
@@ -104,8 +105,8 @@ public class SignatureActivity extends Activity {
             finish();
         }
 
-        FrameLayout spenViewContainer = (FrameLayout) findViewById(R.id.spenViewContainer);
-        RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
+        //LinearLayout spenViewContainer = (LinearLayout) findViewById(R.id.spenViewContainer);
+        final RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
 
         // Create PenSettingView
         if (android.os.Build.VERSION.SDK_INT > 19) {
@@ -127,8 +128,11 @@ public class SignatureActivity extends Activity {
             Toast.makeText(mContext, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
             finish();
         }
-        spenViewContainer.addView(mPenSettingView);
-        spenViewContainer.addView(mEraserSettingView);
+        //spenViewContainer.addView(mPenSettingView);
+        //spenViewContainer.addView(mEraserSettingView);
+
+        spenViewLayout.addView(mPenSettingView);
+        spenViewLayout.addView(mEraserSettingView);
 
         // Create Spen View
         mSpenSurfaceView = new SpenSurfaceView(mContext);
@@ -140,6 +144,8 @@ public class SignatureActivity extends Activity {
         spenViewLayout.addView(mSpenSurfaceView);
         mPenSettingView.setCanvasView(mSpenSurfaceView);
         mEraserSettingView.setCanvasView(mSpenSurfaceView);
+        mSpenSurfaceView.setZOrderOnTop(true);
+        mSpenSurfaceView.setZoomable(false);
 
         // Get the dimension of the device screen.
         Display display = getWindowManager().getDefaultDisplay();
@@ -183,10 +189,8 @@ public class SignatureActivity extends Activity {
         mEraserBtn = (ImageView) findViewById(R.id.eraserBtn);
         mEraserBtn.setOnClickListener(mEraserBtnClickListener);
 
-
-        //buttonDone = (Button) findViewById(R.id.buttonDone);
-        mCaptureBtn = (ImageView) findViewById(R.id.captureBtn);
-        mCaptureBtn.setOnClickListener(mCaptureBtnClickListener);
+        buttonDone = (Button) findViewById(R.id.buttonDone);
+        buttonDone.setOnClickListener(mCaptureBtnClickListener);
 
         selectButton(mPenBtn);
 
@@ -203,14 +207,14 @@ public class SignatureActivity extends Activity {
     private void initSettingInfo() {
         // Initialize Pen settings
         SpenSettingPenInfo penInfo = new SpenSettingPenInfo();
-        penInfo.color = Color.BLUE;
+        penInfo.color = Color.BLACK;
         penInfo.size = 10;
         // mSpenSurfaceView.setPenSettingInfo(penInfo);
         // mPenSettingView.setInfo(penInfo);
 
         // Initialize Eraser settings
         SpenSettingEraserInfo eraserInfo = new SpenSettingEraserInfo();
-        eraserInfo.size = 30;
+        eraserInfo.size = 100;
         mSpenSurfaceView.setEraserSettingInfo(eraserInfo);
         mEraserSettingView.setInfo(eraserInfo);
     }
@@ -270,9 +274,9 @@ public class SignatureActivity extends Activity {
         @Override
         public void onClick(View v) {
             closeSettingView();
-            mCaptureBtn.setEnabled(false);
+            buttonDone.setEnabled(false);
             captureSpenSurfaceView();
-            mCaptureBtn.setEnabled(true);
+            buttonDone.setEnabled(true);
 
             Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
             startActivity(intent);
