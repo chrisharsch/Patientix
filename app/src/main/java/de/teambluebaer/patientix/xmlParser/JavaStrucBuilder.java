@@ -80,7 +80,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("video")){
             currendRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
-            currendRow.addElement(new Input(attributes.getValue("comment"),
+            currendRow.addElement(new Input(attributes.getValue("patientInput"),attributes.getValue("text"), attributes.getValue("comment"),
                     attributes.getValue("mtraComment"),attributes.getValue("docComment")));
 
 

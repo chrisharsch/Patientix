@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
@@ -21,7 +22,9 @@ import de.teambluebaer.patientix.helper.TextSize;
  * @see Element
  */
 public class Input implements Element, Commentar {
+    private String hint;
     private String inputText;
+    private String patientInput;
     private String patientCommentar;
     private String mtraCommentar;
     private String doctorCommentar;
@@ -29,8 +32,10 @@ public class Input implements Element, Commentar {
     /**
      * Constructor
      */
-    public Input(String patientCommentar, String mtraCommentar, String doctorCommentar) {
-        inputText = "";
+    public Input(String patientImput, String inputText, String patientCommentar, String mtraCommentar, String doctorCommentar) {
+        this.inputText = inputText;
+        this.patientInput = patientImput;
+        this.hint = "bitte Hier eingeben";
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
         } else {
@@ -51,8 +56,16 @@ public class Input implements Element, Commentar {
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
+        TextView label = new TextView(context);
         EditText input = new EditText(context);
-        input.setText(inputText);
+        label.setText(inputText);
+        input.setHint(hint);
+        if(patientInput != null && !patientInput.isEmpty()){
+            input.setText(patientInput);
+        }
+
+
+        layout.addView(label);
         layout.addView(input);
         input.addTextChangedListener(new TextWatcher() {
             @Override
@@ -65,12 +78,14 @@ public class Input implements Element, Commentar {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                inputText = charSequence.toString();
+                patientInput = charSequence.toString();
             }
         });
         if (Constants.zoomed) {
+            label.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
         } else {
+            label.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
 

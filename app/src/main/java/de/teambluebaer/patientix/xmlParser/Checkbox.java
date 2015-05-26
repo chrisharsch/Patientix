@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -68,10 +69,10 @@ public class Checkbox implements Element, Commentar {
 
         TextView mtraCom = new TextView(context);
         mtraCom.setText(mtraCommentar);
-        //mtraCom.setTextColor();
+        mtraCom.setTextColor(Color.GREEN);
         TextView docCom = new TextView(context);
         docCom.setText(doctorCommentar);
-        //docCom.setTextColor();
+        docCom.setTextColor(Color.RED);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
