@@ -301,7 +301,7 @@ public class SignatureActivity extends Activity {
      */
     private void captureSpenSurfaceView() {
         // Set save directory for a captured image.
-       /* String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
         File fileCacheItem = new File(filePath);
         if (!fileCacheItem.exists()) {
             if (!fileCacheItem.mkdirs()) {
@@ -309,26 +309,25 @@ public class SignatureActivity extends Activity {
                 return;
             }
         }
-        filePath = fileCacheItem.getPath() + "/CaptureImg.png";     */
+        filePath = fileCacheItem.getPath() + "/CaptureImg.png";
 
         // Capture an image and save it as bitmap.
         Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
 
-        //OutputStream out = null;
+        OutputStream out = null;
         try {
             // Save a captured bitmap image to the directory.
-            //out = new FileOutputStream(filePath);
-            //imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out = new FileOutputStream(filePath);
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 
             // Save signature to a Base64 encode String
-            encodeTobase64(imgBitmap);
+            //encodeTobase64(imgBitmap);
 
             Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
             e.printStackTrace();
 
-        /*
         } finally {
             try {
                 if (out != null) {
@@ -338,7 +337,7 @@ public class SignatureActivity extends Activity {
                 scanImage(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
-            }                           */
+            }
 
         }
         imgBitmap.recycle();
@@ -347,7 +346,7 @@ public class SignatureActivity extends Activity {
     public static String encodeTobase64(Bitmap image) {
         Bitmap immagex=image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
