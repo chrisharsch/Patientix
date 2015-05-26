@@ -67,8 +67,8 @@
 
     <RelativeLayout
         android:id="@+id/spenViewLayout"
-        android:layout_width="780dp"
-        android:layout_height="270dp"
+        android:layout_width="100mm"
+        android:layout_height="50mm"
         android:layout_gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
