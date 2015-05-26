@@ -12,6 +12,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +34,7 @@ import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,12 +64,10 @@ public class SignatureActivity extends Activity {
 
     private ImageView mPenBtn;
     private ImageView mEraserBtn;
-    //private ImageView mCaptureBtn;
     private Button buttonDone;
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
     private MediaScannerConnection msConn = null;
-    //private Toast mToast = null;
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -86,7 +86,6 @@ public class SignatureActivity extends Activity {
         //Set View
         setContentView(R.layout.activity_signature);
         mContext = this;
-        //mToast = Toast.makeText(mContext, "", Toast.LENGTH_SHORT);
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -105,7 +104,6 @@ public class SignatureActivity extends Activity {
             finish();
         }
 
-        //LinearLayout spenViewContainer = (LinearLayout) findViewById(R.id.spenViewContainer);
         final RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
 
         // Create PenSettingView
@@ -128,9 +126,6 @@ public class SignatureActivity extends Activity {
             Toast.makeText(mContext, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
             finish();
         }
-        //spenViewContainer.addView(mPenSettingView);
-        //spenViewContainer.addView(mEraserSettingView);
-
         spenViewLayout.addView(mPenSettingView);
         spenViewLayout.addView(mEraserSettingView);
 
@@ -179,8 +174,6 @@ public class SignatureActivity extends Activity {
         }
 
         initSettingInfo();
-        // Register the listener
-        //mEraserSettingView.setEraserListener(mEraserListener);
 
         // Set a button
         mPenBtn = (ImageView) findViewById(R.id.penBtn);
@@ -284,18 +277,6 @@ public class SignatureActivity extends Activity {
     };
 
     /**
-     * EventListener geht nicht. Sonst radiert alles auf einmal :(
-     */
-    private final EventListener mEraserListener = new EventListener() {
-
-        public void onClearAll() {
-            // ClearAll button action routines of EraserSettingView
-            mSpenPageDoc.removeAllObject();
-            mSpenSurfaceView.update();
-        }
-    };
-
-    /**
      * select the pen or the eraser
      * @param v
      */
@@ -323,7 +304,7 @@ public class SignatureActivity extends Activity {
      */
     private void captureSpenSurfaceView() {
         // Set save directory for a captured image.
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
+       /* String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
         File fileCacheItem = new File(filePath);
         if (!fileCacheItem.exists()) {
             if (!fileCacheItem.mkdirs()) {
@@ -331,22 +312,26 @@ public class SignatureActivity extends Activity {
                 return;
             }
         }
-        filePath = fileCacheItem.getPath() + "/CaptureImg.png";
+        filePath = fileCacheItem.getPath() + "/CaptureImg.png";     */
 
         // Capture an image and save it as bitmap.
         Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
 
-        OutputStream out = null;
+        //OutputStream out = null;
         try {
             // Save a captured bitmap image to the directory.
-            out = new FileOutputStream(filePath);
-            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            //mToast.setText("Captured images were stored in the file \'CaptureImg.png\'.");
-            //mToast.show();
-            Toast.makeText(mContext, "Unterschrift konnte als CaptureImg.png gespeichert werden", Toast.LENGTH_SHORT).show();
+            //out = new FileOutputStream(filePath);
+            //imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            // Save signature to a Base64 encode String
+            encodeTobase64(imgBitmap);
+
+            Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
             e.printStackTrace();
+
+        /*
         } finally {
             try {
                 if (out != null) {
@@ -356,9 +341,20 @@ public class SignatureActivity extends Activity {
                 scanImage(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }                           */
+
         }
         imgBitmap.recycle();
+    }
+
+    public static String encodeTobase64(Bitmap image) {
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return imageEncoded;
     }
 
     private void scanImage(final String imageFileName) {
@@ -368,8 +364,6 @@ public class SignatureActivity extends Activity {
                 try {
                     msConn.scanFile(imageFileName, null);
                 } catch (Exception e) {
-                    //mToast.setText("Please wait for store image file.");
-                    //mToast.show();
                     Toast.makeText(mContext, "Please wait for store image file.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -386,7 +380,6 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-//        mToast.cancel();
     }
 
     /**
