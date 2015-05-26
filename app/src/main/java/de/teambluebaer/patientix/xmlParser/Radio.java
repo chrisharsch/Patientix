@@ -96,10 +96,11 @@ public class Radio implements Element, Commentar {
             comButton.setText("Kommentar hinzufügen");
            // comButton.setBackgroundResource(R.drawable.button1x5normal);
             //comButton.setWidth(500);
+            //comButton.setHeight(70);
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-            //        Flasher.flash(comButton, "1x5");
+              //      Flasher.flash(comButton, "1x5");
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);

@@ -26,8 +26,6 @@ public class LoginActivity extends Activity {
     private EditText editName = null;
     private EditText editPassword = null;
     Integer responseCode;
-
-
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
 
     @Override

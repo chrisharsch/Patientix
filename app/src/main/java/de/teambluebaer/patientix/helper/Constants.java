@@ -13,6 +13,8 @@ public class Constants {
     public static final String FIRST_COLUMN = "First";
     public static final String SECOND_COLUMN = "Second";
     public static final String TABLET_ID= "3";
+    public static String FILLEDFORMULA = "";
+    public static String PATIENTID = "";
     public static MetaandForm globalMetaandForm;
     public static boolean zoomed = false;
 
