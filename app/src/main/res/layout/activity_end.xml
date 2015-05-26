@@ -11,6 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.teambluebaer.patientix.activities.EndActivity">
 
+    <!-- Text View End -->
     <TextView
         android:id="@+id/textEnd"
         android:layout_width="wrap_content"

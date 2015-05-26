@@ -16,6 +16,7 @@
         android:id="@+id/linearLayoutBannerLeft">
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="220dip"
         android:layout_height="220dip"
@@ -24,10 +25,9 @@
         android:layout_alignBottom="@+id/linearLayoutBannerLeft"
         android:layout_alignParentEnd="true"
         android:id="@+id/linearLayoutAdditionRight">
-
     </LinearLayout>
 
-
+    <!-- Edit Name from MTRA -->
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
@@ -39,6 +39,7 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
+    <!-- Edit Password from MTRA -->
     <EditText
         android:id="@+id/editPassword"
         android:layout_width="wrap_content"
@@ -47,9 +48,10 @@
         android:hint="@string/editPassword"
         android:inputType="textPassword"
         android:layout_marginBottom="132dp"
-        android:layout_above="@+id/buttonBack"
+        android:layout_above="@+id/buttonLogin"
         android:layout_alignStart="@+id/editName" />
 
+    <!-- Text View: Bitte einloggen -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -61,8 +63,9 @@
         android:textColor="#000000"
         android:textSize="50sp" />
 
+    <!-- Login Button -->
     <Button
-        android:id="@+id/buttonBack"
+        android:id="@+id/buttonLogin"
         android:layout_width="210dip"
         android:layout_height="70dip"
         android:layout_alignParentBottom="true"
@@ -74,6 +77,7 @@
         android:textColor="#fffafa"
         android:textSize="40sp" />
 
+    <!-- Universitätsklinikum Mannheim Logo -->
     <ImageView
         android:layout_width="600px"
         android:layout_height="211px"

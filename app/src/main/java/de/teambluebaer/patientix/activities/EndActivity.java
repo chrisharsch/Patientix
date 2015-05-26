@@ -24,7 +24,9 @@ import de.teambluebaer.patientix.helper.RestfulHelper;
 /**
  * Endscreen with screen lock
  */
-
+/**
+ * Created by Maren on 16.05.2015.
+ */
 public class EndActivity extends Activity {
 
     private ArrayList<NameValuePair> parameterMap = new ArrayList();

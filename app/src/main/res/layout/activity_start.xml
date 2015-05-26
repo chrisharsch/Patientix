@@ -6,9 +6,7 @@
     android:keepScreenOn="true"
     android:background="#ffffffff">
 
-    <!-- Title: Patientenaufklärung für -->
-
-    <!-- Update Button -->
+    <!-- Banner in the right corner bottom -->
     <LinearLayout
         android:layout_width="500dip"
         android:layout_height="fill_parent"
@@ -16,9 +14,9 @@
         android:background="@drawable/bannerklein"
         android:id="@+id/linearLayoutBannerLeft"
         android:orientation="horizontal">
-
     </LinearLayout>
 
+    <!-- Banner left -->
     <LinearLayout
         android:layout_width="220dip"
         android:layout_height="220dip"
@@ -28,9 +26,9 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/linearLayoutAdditionRight"
         android:orientation="horizontal">
-
     </LinearLayout>
 
+    <!-- UMM Logo in the right corner -->
     <ImageView
         android:layout_width="600px"
         android:layout_height="211px"
@@ -39,8 +37,8 @@
         android:layout_alignEnd="@+id/linearLayoutAdditionRight"
         android:src="@drawable/ummlogoklein" />
 
+    <!-- Update Button -->
     <Button
-
         android:text="@string/update"
         android:layout_width="380dip"
         android:layout_height="70dip"
@@ -72,9 +70,6 @@
         android:layout_marginBottom="63dp" />
 
     <!-- Patient textfield -->
-
-    <!-- Patient ID field-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,6 +81,7 @@
         android:layout_marginTop="71dp"
         android:textSize="40sp"/>
 
+    <!-- Patient ID field-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,6 +92,7 @@
         android:layout_below="@+id/patientname"
         android:layout_centerHorizontal="true" />
 
+    <!-- Examination field -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,6 +105,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp" />
 
+    <!-- Title: Patientenaufklärung für -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,6 +119,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="104dp"
         />
-
 
 </RelativeLayout>

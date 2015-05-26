@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Flasher;
 
+/**
+ * This class is for the MTRA Login
+ */
 public class LoginActivity extends Activity {
-
 
     private Button buttonLogin;
     private EditText editName = null;
@@ -28,6 +30,11 @@ public class LoginActivity extends Activity {
     Integer responseCode;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
 
+    /**
+     * In this method is defined what happens on create of the Activity:
+     * Set Layout, remove titlebar, keyboard open
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +48,16 @@ public class LoginActivity extends Activity {
 
         // Keyboard open when touch editfield
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        buttonLogin = (Button) findViewById(R.id.buttonBack);
+        buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
     }
 
+    /**
+     * Check the login credentials from MTRA
+     * @param v
+     */
     public void onClickLoginButton(View v) {
         Flasher.flash(buttonLogin, "1x3");
 
@@ -80,6 +91,11 @@ public class LoginActivity extends Activity {
 */
     }
 
+    /**
+     * hash the entered password for comparison with deposited password in database
+     * @param pw
+     * @return
+     */
     private String passwordHash(String pw) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-512");
@@ -97,7 +113,9 @@ public class LoginActivity extends Activity {
         return null;
     }
 
-
+    /**
+     *
+     */
     private void checkResponseCode() {
         switch (responseCode) {
             default:

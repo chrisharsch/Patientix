@@ -44,9 +44,6 @@ import java.util.EventListener;
 import de.teambluebaer.patientix.R;
 
 /**
- * TODO: PNG als String portieren
- */
-/**
  * This class is for saving the signature from patient.
  */
 /**

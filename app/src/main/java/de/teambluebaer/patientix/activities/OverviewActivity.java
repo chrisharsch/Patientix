@@ -16,7 +16,7 @@ import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
- * This has have the overview about all questions.
+ * This have the overview about all questions.
  */
 
 public class OverviewActivity extends Activity {
@@ -27,7 +27,6 @@ public class OverviewActivity extends Activity {
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
     private Button buttonZoom;
-
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -54,7 +53,6 @@ public class OverviewActivity extends Activity {
         buttonReady = (Button) findViewById(R.id.buttonReady);
         if(!Constants.zoomed){
             buttonZoom.setText("+");
-
         }else{
             buttonZoom.setText("-");
         }
@@ -65,12 +63,16 @@ public class OverviewActivity extends Activity {
      *
      * @param v
      */
-    public void onClickReadyButton(View v) {
+    public void onClickContinueButton(View v) {
         Flasher.flash(buttonReady, "1x3");
         Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
         startActivity(intent);
     }
 
+    /**
+     *
+     * @param v
+     */
     public void onClickZoomButton(View v) {
 
         if (!Constants.zoomed) {
