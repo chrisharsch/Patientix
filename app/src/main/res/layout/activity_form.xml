@@ -13,9 +13,8 @@
         android:text="Zoom"
         android:id="@+id/textZoom"
         android:textSize="60sp"
-        android:layout_alignBottom="@+id/buttonZoom"
-        android:layout_toEndOf="@+id/imageViewLeftSide"
-        android:layout_marginStart="55dp" />
+        android:layout_marginLeft="425dip"
+        android:layout_above="@+id/ScrollViewOverview" />
 
     <!-- Zoom Button -->
     <Button

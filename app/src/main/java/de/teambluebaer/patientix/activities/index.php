@@ -33,29 +33,36 @@ $app->post('/formula', function () use ($app, $db){
     }
 });
 
-$app->post('/login', function () use ($app, $db){
-    if(isset($_POST["userName"]) && !empty($_POST["userName"]) && isset($_POST["userPW"]) && !empty($_POST["userPW"])) {
-        $name = $_POST["userName"];
-        $PW = $_POST["userPW"];
+$app->post('/filledformula', function() use ($app, $db){
+    if(isset($_POST["isFormula"]) && !empty($_POST["isFormula"]) && isset($_POST["formula"]) && !empty($_POST["formula"]) && isset($_POST["macaddress"]) && !empty($_POST["macaddress"]) && isset($_POST["patientID"]) && !empty($_POST["patientID"])){
+        $isFormula = $_POST["isFormula"];
+        $formula= utf8_encode($_POST["formula"]);
+        $macaddress = $_POST["macaddress"];
+        $patientID = $_POST["patientID"];
+   
+       # string $regDate = date('Y-m-d h:m:s');
+        $app->response->write($formula);
 
-        $result = $db->query("SELECT userID FROM Users WHERE userName = '".$name."' AND userPW = '".$PW."'");
-       
+        $result = $db->query("SELECT formID FROM ScheduledPatients WHERE patientID = '".$patientID."'");
+        $formID = $result->fetch_assoc()["formID"];
+        $result = $db->query("SELECT tabletID FROM Tablets WHERE MACAddress = '".$macaddress."'");
+
+        $formula = trim($formula);
+        $formula = addslashes($formula);
+
         if($result->num_rows == 1) {
-            $app->response->setStatus(200);
-            echo json_encode('Login successful');
-        }else {
-            $app->response->setStatus(401);
-            echo json_encode('Login unsuccessful');
+            if($isFormula == true){
+                $db->query("INSERT INTO MTRADocuments(formID, XML, patientID) VALUES ('$formID','$formula','$patientID');");
+                $app->response->setStatus(200);
+            }else{
+                $app->response->setStatus(404);
+            }
+        }else{
+                $app->response->setStatus(405);
         }
-        
-    }else {
-        $app->response->setStatus(401);
-        echo json_encode('Login unsuccessful');
+    }else{
+        $app->response->setStatus(406);
     }
-});
-$app->post('/filledformula', function() use ($app,$db){
-    //TODO
-
 });
 
 $app->run();

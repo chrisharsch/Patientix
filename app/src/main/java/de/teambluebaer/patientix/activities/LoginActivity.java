@@ -19,7 +19,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 
 /**
@@ -51,9 +50,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         // Keyboard open when touch editfield
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
-        editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
     }
@@ -70,21 +68,21 @@ public class LoginActivity extends Activity {
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
+/*
         if (mWifi.isConnected()) {
-            if(editPassword.getText().toString().equals(Constants.PIN)) {
+            if(passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
                 Log.d("Login successful: ", responseCode + "");
-                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+               */ Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 finish();
-            }else{
+          /*  }else{
                 Toast.makeText(this,"Falscher PIN!!!",Toast.LENGTH_LONG).show();
             }
 
 
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
-        }
+        }*/
 
     }
 
@@ -97,7 +95,7 @@ public class LoginActivity extends Activity {
         return hexData.toString();
     }
 
-    private String passwordHash(String textToHash) throws Exception {
+    private String passwordHash(String textToHash){
         try {
             final MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
             sha512.update(textToHash.getBytes());
