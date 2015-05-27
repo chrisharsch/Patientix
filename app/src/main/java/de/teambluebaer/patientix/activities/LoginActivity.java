@@ -2,6 +2,8 @@ package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 
 /**
@@ -33,6 +36,7 @@ public class LoginActivity extends Activity {
     /**
      * In this method is defined what happens on create of the Activity:
      * Set Layout, remove titlebar, keyboard open
+     *
      * @param savedInstanceState
      */
     @Override
@@ -56,59 +60,51 @@ public class LoginActivity extends Activity {
 
     /**
      * Check the login credentials from MTRA
+     *
      * @param v
      */
     public void onClickLoginButton(View v) {
         Flasher.flash(buttonLogin, "1x3");
 
         //create parameterMap to add parameters of the request
-/*
+
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected()) {
-
-            parameterMap.add(new BasicNameValuePair("userName", editName.getText().toString()));
-            parameterMap.add(new BasicNameValuePair("userPW", passwordHash(editPassword.getText().toString())));
-
-            //send the request to server
-            RestfulHelper restfulHelper = new RestfulHelper();
-            responseCode = restfulHelper.executeRequest("login", parameterMap);
-            if (responseCode == 200) {
-                Toast.makeText(LoginActivity.this, "Login erfolgreich!", Toast.LENGTH_SHORT).show();
-             */   Log.d("Login successful: ", responseCode + "");
+            if(editPassword.getText().toString().equals(Constants.PIN)) {
+                Log.d("Login successful: ", responseCode + "");
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
-                //finish();
-            /*} else {
-                Log.d("ResponseCode: ", responseCode + "");
-                checkResponseCode();
+                finish();
+            }else{
+                Toast.makeText(this,"Falscher PIN!!!",Toast.LENGTH_LONG).show();
             }
+
 
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
         }
-*/
+
     }
 
-    /**
-     * hash the entered password for comparison with deposited password in database
-     * @param pw
-     * @return
-     */
-    private String passwordHash(String pw) {
+
+    private String convertByteToHex(byte data[]) {
+        StringBuffer hexData = new StringBuffer();
+        for (int byteIndex = 0; byteIndex < data.length; byteIndex++)
+            hexData.append(Integer.toString((data[byteIndex] & 0xff) + 0x100, 16).substring(1));
+
+        return hexData.toString();
+    }
+
+    private String passwordHash(String textToHash) throws Exception {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512");
-            byte[] hash = digest.digest(pw.getBytes("UTF-8"));
+            final MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
+            sha512.update(textToHash.getBytes());
 
-            StringBuilder hexString = new StringBuilder();
-            for (int i : hash) {
-                hexString.append(Integer.toHexString(0XFF & i));
-            }
-            return hexString.toString();
-
+            return convertByteToHex(sha512.digest());
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d("HashFail", e.toString());
         }
         return null;
     }

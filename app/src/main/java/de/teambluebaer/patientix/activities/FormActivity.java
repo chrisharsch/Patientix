@@ -148,7 +148,7 @@ private ScrollView scrollView;
 
             Constants.zoomed = true;
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
-            buttonZoom.setText("Nein");
+            buttonZoom.setText("-");
 
         } else {
             Constants.zoomed = false;
