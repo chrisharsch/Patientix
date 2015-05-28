@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
 
@@ -31,28 +33,27 @@ public class Radio implements Element, Commentar {
     private String doctorCommentar;
 
 
-
     /**
      * constructor
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
+    public Radio(String radioText, String patientCommentar, String mtraCommentar, String doctorCommentar) {
         this.radioText = radioText;
         this.checked = false;
 
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
+        if (patientCommentar != null && !patientCommentar.isEmpty()) {
             this.patientCommentar = patientCommentar;
         } else {
             this.patientCommentar = "";
         }
-        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+        if (mtraCommentar != null && !mtraCommentar.isEmpty()) {
             this.mtraCommentar = mtraCommentar;
         } else {
 
             this.mtraCommentar = "";
         }
-        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+        if (doctorCommentar != null && !doctorCommentar.isEmpty()) {
             this.doctorCommentar = doctorCommentar;
         } else {
             this.doctorCommentar = "";
@@ -79,14 +80,14 @@ public class Radio implements Element, Commentar {
                 checked = isChecked;
             }
         });
-        if(Constants.zoomed){
+        if (Constants.zoomed) {
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-        }else{
+            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+        } else {
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
     }
 
@@ -98,13 +99,14 @@ public class Radio implements Element, Commentar {
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
-           // comButton.setBackgroundResource(R.drawable.button1x5normal);
-            //comButton.setWidth(500);
-            //comButton.setHeight(70);
+            comButton.setBackgroundResource(R.drawable.button1x5normal);
+            comButton.setLayoutParams(new LinearLayout.LayoutParams(760, 152));
+            comButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
+            comButton.setTextColor(Color.parseColor("#fffafa"));
+            comButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-              //      Flasher.flash(comButton, "1x5");
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
@@ -124,9 +126,9 @@ public class Radio implements Element, Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
-                    if(Constants.zoomed){
-                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-                    }else{
+                    if (Constants.zoomed) {
+                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+                    } else {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
                     }
                 }
@@ -151,21 +153,21 @@ public class Radio implements Element, Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
-            if(Constants.zoomed){
-                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-            }else{
+            if (Constants.zoomed) {
+                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            } else {
                 comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             }
         }
 
     }
 
-    public String toXMLString(){
+    public String toXMLString() {
         String xmlString = new String();
         xmlString = xmlString + "<radiobutton/";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
+        xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
         xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
         xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + ">";

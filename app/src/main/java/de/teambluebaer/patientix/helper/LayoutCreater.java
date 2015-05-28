@@ -35,7 +35,7 @@ public class LayoutCreater {
         for (Element element : elements) {
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
-                radio.addToView(context, radioGroup, rowLayout);
+                radio.addToView(context, radioGroup);
 
 
             } else {
