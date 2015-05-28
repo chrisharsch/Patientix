@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
 
@@ -115,11 +116,15 @@ public class Input implements Element, Commentar {
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
-           // comButton.setBackgroundResource(R.drawable.button1x5normal);
+            comButton.setBackgroundResource(R.drawable.button1x5normal);
+            comButton.setLayoutParams(new LinearLayout.LayoutParams(760, 152));
+            comButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.TEXT.normalSize);
+            comButton.setTextColor(Color.parseColor("#fffafa"));
+            comButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  //  Flasher.flash(comButton,"1x5");
+
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);

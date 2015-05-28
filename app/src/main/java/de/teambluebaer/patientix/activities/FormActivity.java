@@ -51,19 +51,11 @@ private ScrollView scrollView;
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_form);
-
-        //View add_phone = getLayoutInflater().inflate(R.layout.phone_info, null);
-        //content = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_form, null).findViewById(R.id.content);
-        //content = layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage());
-
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
         scrollView = (ScrollView) findViewById(R.id.ScrollViewOverview);
-
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         buttonOk = (Button) findViewById(R.id.buttonOk);
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //Disable back button at first page
         buttonBack.setVisibility(View.INVISIBLE);

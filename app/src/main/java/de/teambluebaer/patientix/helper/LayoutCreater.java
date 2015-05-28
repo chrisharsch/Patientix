@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.helper;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
@@ -28,12 +29,14 @@ public class LayoutCreater {
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
-        radioGroup.setOrientation(LinearLayout.VERTICAL);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+        rowLayout.setGravity(Gravity.CENTER);
         Commentar commentar = null;
         for (Element element : elements) {
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
                 radio.addToView(context, radioGroup, rowLayout);
+
 
             } else {
                 element.addToView(context, rowLayout);
@@ -48,12 +51,13 @@ public class LayoutCreater {
         if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
         }
-        rowLayout.setPadding(0, 20, 0, 20);
+        rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
             LinearLayout comRow = new LinearLayout(context);
             commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0, 20, 0, 20);
+            comRow.setPadding(0, 30, 0, 30);
+            comRow.setGravity(Gravity.CENTER);
             pageLayout.addView(comRow);
             hasComBut = false;
         }
