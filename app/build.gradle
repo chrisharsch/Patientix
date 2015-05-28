@@ -20,11 +20,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('src/main/libs/pen-v3.1.4.jar')
     compile files('src/main/libs/sdk-v1.0.0.jar')
     compile files('src/main/libs/apacheds-all-1.5.5.jar')
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.9.5"
+    compile 'junit:junit:4.12'
 }
