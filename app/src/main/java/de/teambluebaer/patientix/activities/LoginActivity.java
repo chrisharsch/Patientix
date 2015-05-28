@@ -19,6 +19,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 
 /**
@@ -68,21 +69,21 @@ public class LoginActivity extends Activity {
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-/*
+
         if (mWifi.isConnected()) {
             if(passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
                 Log.d("Login successful: ", responseCode + "");
-               */ Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 finish();
-          /*  }else{
+            }else{
                 Toast.makeText(this,"Falscher PIN!!!",Toast.LENGTH_LONG).show();
             }
 
 
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
-        }*/
+        }
 
     }
 
