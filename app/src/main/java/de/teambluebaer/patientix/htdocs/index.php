@@ -14,23 +14,63 @@ $app->post('/formula', function () use ($app, $db){
     
     if(isset($_POST["tabletID"]) && !empty($_POST["tabletID"])) {
         $tabletID = $_POST["tabletID"];
+
+
+        $app->response->write("<root><metadata>");
+
+        #Get FormID for this tablet
         $result = $db->query("SELECT formID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
         $formID = $result->fetch_assoc()["formID"];
+        if($result->num_rows==1){
+
+        #Get PatientID for this tablet
+        $result = $db->query("SELECT patientID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
+        $patientID = $result->fetch_assoc()["patientID"];
+        $app->response->write('<pID>'.$patientID.'</pID>');
+
+        #Get Extern PatientID
+        #$result = $db->query("SELECT patientIDExt FROM Patients WHERE patientID = '$patientID'");
+        #$writing = $result->fetch_assoc()["patientIDExt"];
+        #$app->response->write('<pExamID>'.$writing.'</pExamID>');
+
+        #Get First Name of Patient
+        $result = $db->query("SELECT patientFirstName FROM Patients WHERE patientID = '$patientID'");
+        $writing = $result->fetch_assoc()["patientFirstName"];
+        $app->response->write('<pFirstName>'.$writing.'</pFirstName>');
+                   
+        #Get Last Name of Patient
+        $result = $db->query("SELECT patientName FROM Patients WHERE patientID = '$patientID'");
+        $writing = $result->fetch_assoc()["patientName"];
+        $app->response->write('<pLastName>'.$writing.'</pLastName>');
+
+        #Get birth date of Patient
+        $result = $db->query("SELECT birthDate FROM Patients WHERE patientID = '$patientID'");
+        $writing = $result->fetch_assoc()["birthDate"];
+        $app->response->write('<pDate>'.$writing.'</pDate>');
+
+
+
+
+        #Get Formname for this Tabelt
+        $result = $db->query("SELECT formName FROM Forms WHERE formID = $formID");
+        $writing = $result->fetch_assoc()["formName"];
+        $app->response->write('<name>'.$writing.'</name></metadata><formData>');
+
         $result = $db->query("SELECT XML FROM Pages WHERE formID = $formID");
-        if($result->num_rows > 0) {
+        
             $app->response->setStatus(200);
             while($row = $result->fetch_assoc()) {
                 $app->response->write($row["XML"]);
 
             }
-            
+            $app->response->write("</formData></root>");
             $app->response->getBody();
-        }
-        else {
-            $app->response->setStatus(404);
-            echo json_encode('No Data found');
-        }
+        
+    }else{
+        $app->response->setStatus(404);
+        echo json_encode('No Data found');
     }
+}
 });
 
 $app->post('/filledformula', function() use ($app, $db){

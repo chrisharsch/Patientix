@@ -13,10 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-
 import java.security.MessageDigest;
-import java.util.ArrayList;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -28,29 +25,25 @@ import de.teambluebaer.patientix.helper.Flasher;
 public class LoginActivity extends Activity {
 
     private Button buttonLogin;
-    private EditText editName = null;
     private EditText editPassword = null;
     Integer responseCode;
-    private ArrayList<NameValuePair> parameterMap = new ArrayList();
 
     /**
      * In this method is defined what happens on create of the Activity:
      * Set Layout, remove titlebar, keyboard open
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Standard parameter
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_login);
 
-        // Keyboard open when touch editfield
+        // Closes the keyboard on creat of the input field
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);
@@ -107,26 +100,5 @@ public class LoginActivity extends Activity {
         }
         return null;
     }
-
-    /**
-     *
-     */
-    private void checkResponseCode() {
-        switch (responseCode) {
-            default:
-                Toast.makeText(this, "Fehlercode: " + responseCode + " melden sie sich beim Systemadministrator", Toast.LENGTH_LONG).show();
-                break;
-            case 503:
-                Toast.makeText(this, "Server nicht erreichbar", Toast.LENGTH_LONG).show();
-                break;
-            case 401:
-                Toast.makeText(this, "Login-Daten falsch", Toast.LENGTH_LONG).show();
-                break;
-            case 200:
-                Toast.makeText(this, "Login erfolgreich", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
 
 }

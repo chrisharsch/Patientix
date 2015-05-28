@@ -36,7 +36,7 @@ public class FormActivity extends Activity {
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
 
-private ScrollView scrollView;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +77,7 @@ private ScrollView scrollView;
 
     }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Button um von FormActivity zu Overview und dann zu SignatureActivity zu kommen!
-    // Braucht man oder nicht???
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     public void onClickButton(View v) {
         Flasher.flash(buttonOk, "1x3");
 
@@ -96,7 +93,7 @@ private ScrollView scrollView;
      */
     public void onClickNextButton(View v) {
         Flasher.flash(buttonContinue, "1x3");
-        scrollView.scrollTo(0,0);
+        scrollView.scrollTo(0, 0);
         if (!lastPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -113,7 +110,7 @@ private ScrollView scrollView;
      */
     public void onClickBackButton(View v) {
         Flasher.flash(buttonBack, "1x3");
-        scrollView.scrollTo(0,0);
+        scrollView.scrollTo(0, 0);
         if (!firstPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
             numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
@@ -137,7 +134,7 @@ private ScrollView scrollView;
             // TODO now a Layout (content) questionText.setTextSize(75);
 
             Constants.zoomed = true;
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(),content);
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
             buttonZoom.setText("-");
 
         } else {

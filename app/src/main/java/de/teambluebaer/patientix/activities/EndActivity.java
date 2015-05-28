@@ -2,8 +2,6 @@ package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -23,11 +21,13 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 
 /**
- * Endscreen with screen lock
+ * This Activity shows the endscreen there the patient is afford
+ * to bring the tablet back. In this Activity the filled formula
+ * is send to the server.
  */
 
 /**
- * Created by Maren on 16.05.2015.
+ * Created by Chris on 16.05.2015.
  */
 public class EndActivity extends Activity {
 
@@ -44,17 +44,13 @@ public class EndActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_end);
 
-
-
-
         String xml = Constants.globalMetaandForm.toXMLString();
 
         //set um parameterMap for RestPost to send formula data
-        parameterMap.add(new BasicNameValuePair("isFormula", isFormula()+""));
+        parameterMap.add(new BasicNameValuePair("isFormula", isFormula() + ""));
         parameterMap.add(new BasicNameValuePair("formula", xml));
         parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
         parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
-
 
         new SendFormula().execute();
     }
@@ -66,9 +62,13 @@ public class EndActivity extends Activity {
      * or worng formula data
      */
     private class SendFormula extends AsyncTask<String, Void, String> {
+        /**
+         *
+         * @param params default parameters
+         * @return
+         */
         @Override
         protected String doInBackground(String... params) {
-            //setup restmethod to use
             responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
             while (responseCode != 200) {
                 responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
@@ -78,7 +78,7 @@ public class EndActivity extends Activity {
                             Toast.makeText(EndActivity.this, "Keine oder Fehlerhafte Formulardaten!", Toast.LENGTH_LONG).show();
                         }
                     });
-                    Log.d("response", responseCode + "");
+                    Log.d("ResponseCode", responseCode + "");
                     break;
                 }
             }
@@ -90,25 +90,25 @@ public class EndActivity extends Activity {
                 });
             }
 
-            Log.d("response", responseCode + "");
-            Log.d("response", RestfulHelper.responseString);
+            Log.d("ResponseCode", responseCode + "");
             return null;
         }
-
-
     }
+
+    /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the functionality of the button is disabled.
+     */
     @Override
     public void onBackPressed() {
-
     }
 
     /**
      * Method to get the MACAddress of the device
+     *
      * @return String of the MACAddress of the device
      */
     private String getMacAddress() {
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         return info.getMacAddress();
@@ -117,15 +117,14 @@ public class EndActivity extends Activity {
     /**
      * This method checks if there is a filled formula and
      * return true if there is one else it return false
+     *
      * @return Boolean true or false
      */
-    private boolean isFormula(){
+    private boolean isFormula() {
         if (Constants.globalMetaandForm.toXMLString().length() > 1) {
             return true;
         } else {
             return false;
         }
-
-
     }
 }
