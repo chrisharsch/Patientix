@@ -30,14 +30,12 @@ public class FormActivity extends Activity {
     private Button buttonContinue;
     private Button buttonBack;
     private Button buttonZoom;
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private Button buttonOk;
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     private LinearLayout content;
     private TextView numberOfPages;
-
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
+
 private ScrollView scrollView;
 
     @Override
