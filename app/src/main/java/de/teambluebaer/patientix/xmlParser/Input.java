@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -60,6 +61,16 @@ public class Input implements Element, Commentar {
         EditText input = new EditText(context);
         label.setText(inputText);
         input.setHint(hint);
+
+
+
+        TextView mtraCom = new TextView(context);
+        mtraCom.setText(mtraCommentar);
+        mtraCom.setTextColor(Color.GREEN);
+        TextView docCom = new TextView(context);
+        docCom.setText(doctorCommentar);
+        docCom.setTextColor(Color.RED);
+
         if(patientInput != null && !patientInput.isEmpty()){
             input.setText(patientInput);
         }
@@ -67,6 +78,8 @@ public class Input implements Element, Commentar {
 
         layout.addView(label);
         layout.addView(input);
+        //layout.addView(mtraCom);
+        //layout.addView(docCom);
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -84,9 +97,13 @@ public class Input implements Element, Commentar {
         if (Constants.zoomed) {
             label.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
         } else {
             label.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
 
     }
@@ -126,6 +143,7 @@ public class Input implements Element, Commentar {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
                     } else {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+
                     }
                 }
             });

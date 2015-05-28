@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
@@ -68,11 +70,22 @@ public class Radio implements Element, Commentar {
         layout.addView(radio);
     }
 
-    public void addToView(Context context, RadioGroup radiogroup) {
+    public void addToView(Context context, RadioGroup radiogroup, LinearLayout layout) {
         RadioButton radio = new RadioButton(context);
         radio.setText(radioText);
         radiogroup.addView(radio);
         radio.setChecked(checked);
+
+        TextView mtraCom = new TextView(context);
+        mtraCom.setText(mtraCommentar);
+        mtraCom.setTextColor(Color.GREEN);
+        TextView docCom = new TextView(context);
+        docCom.setText(doctorCommentar);
+        docCom.setTextColor(Color.RED);
+        //radiogroup.addView(mtraCom);
+        //radiogroup.addView(docCom);
+
+
         radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -81,8 +94,12 @@ public class Radio implements Element, Commentar {
         });
         if(Constants.zoomed){
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
         }else{
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
     }
 

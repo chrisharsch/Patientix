@@ -1,7 +1,6 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -11,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
@@ -67,12 +65,14 @@ public class Checkbox implements Element, Commentar {
         checkBox.setChecked(checked);
         layout.addView(checkBox);
 
-        TextView mtraCom = new TextView(context);
+        /*TextView mtraCom = new TextView(context);
         mtraCom.setText(mtraCommentar);
         mtraCom.setTextColor(Color.GREEN);
         TextView docCom = new TextView(context);
         docCom.setText(doctorCommentar);
         docCom.setTextColor(Color.RED);
+        layout.addView(mtraCom);
+        layout.addView(docCom);*/
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,12 +82,12 @@ public class Checkbox implements Element, Commentar {
         });
         if(Constants.zoomed){
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
         }else{
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
         }
     }
 
@@ -95,6 +95,8 @@ public class Checkbox implements Element, Commentar {
     public void addCommentarField(Context context, LinearLayout layout) {
         final LinearLayout linearLayout = layout;
         final Context comContext = context;
+
+
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
@@ -162,7 +164,7 @@ public class Checkbox implements Element, Commentar {
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<checkbox/";
+        xmlString = xmlString + "<checkbox/ ";
         xmlString = xmlString + "text=\"" + this.checkboxText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
         xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
