@@ -68,7 +68,6 @@ public class LayoutCreater {
         List<Row> rows = page.getRows();
         for (Row row : rows) {
             CreateRowLayout(context, row, pageLayout);
-
         }
 
     }

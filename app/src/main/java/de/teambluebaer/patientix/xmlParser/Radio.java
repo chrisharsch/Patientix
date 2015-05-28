@@ -38,22 +38,22 @@ public class Radio implements Element, Commentar {
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText, String patientCommentar, String mtraCommentar, String doctorCommentar) {
+    public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
         this.radioText = radioText;
         this.checked = false;
 
-        if (patientCommentar != null && !patientCommentar.isEmpty()) {
+        if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
         } else {
             this.patientCommentar = "";
         }
-        if (mtraCommentar != null && !mtraCommentar.isEmpty()) {
+        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             this.mtraCommentar = mtraCommentar;
         } else {
 
             this.mtraCommentar = "";
         }
-        if (doctorCommentar != null && !doctorCommentar.isEmpty()) {
+        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
             this.doctorCommentar = doctorCommentar;
         } else {
             this.doctorCommentar = "";
@@ -80,11 +80,12 @@ public class Radio implements Element, Commentar {
                 checked = isChecked;
             }
         });
-        if (Constants.zoomed) {
+        if(Constants.zoomed){
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-        } else {
+            
+        }else{
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
@@ -107,6 +108,7 @@ public class Radio implements Element, Commentar {
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+              
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
