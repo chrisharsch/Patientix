@@ -59,6 +59,7 @@ public class EndActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_end);
 
+        endtext = (TextView) findViewById(R.id.textEnd);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, getApplicationContext());
 
