@@ -9,8 +9,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -36,6 +38,7 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
  */
 public class EndActivity extends Activity {
 
+    TextView endtext;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
     RestfulHelper restfulHelper = new RestfulHelper();
@@ -46,13 +49,16 @@ public class EndActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        super.onCreate(savedInstanceState);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_end);
+
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, getApplicationContext());
 
@@ -69,6 +75,15 @@ public class EndActivity extends Activity {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
         }
 
+        endtext.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
     }
 
 
