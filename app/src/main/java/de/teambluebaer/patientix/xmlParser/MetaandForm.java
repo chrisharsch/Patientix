@@ -1,7 +1,5 @@
 package de.teambluebaer.patientix.xmlParser;
 
-import de.teambluebaer.patientix.helper.Constants;
-
 /**
  * Created by Simon on 07.05.2015.
  *
@@ -68,7 +66,7 @@ public class MetaandForm {
         xmlString = xmlString + "<root>";
         xmlString = xmlString + this.meta.toXMLString();
         xmlString = xmlString + this.form.toXMLString();
-        xmlString = xmlString + this.signature;
+        xmlString = xmlString + "<sign text=\""+this.signature +"\" />";
         xmlString = xmlString + "</root>";
 
         return xmlString;
