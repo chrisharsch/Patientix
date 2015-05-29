@@ -11,21 +11,42 @@ import android.widget.LinearLayout;
  */
 public class WhiteSpace implements Element{
 
+    private String param;
     /**
     * Constructor
     */
     public WhiteSpace(){
-
+        param = "";
     }
+
+
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        // Do nothing
+
     }
 
     public String toXMLString() {
         return "";
     }
 
+    public String getParam(){
+        return param;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WhiteSpace that = (WhiteSpace) o;
+
+        return !(param != null ? !param.equals(that.param) : that.param != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return param != null ? param.hashCode() : 0;
+    }
 }
