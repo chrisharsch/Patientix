@@ -35,9 +35,9 @@ import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
 public class StartActivity extends Activity {
 
-    private TextView patientName;
-    private TextView patientID;
-    private TextView exameName;
+    private TextView textViewPatientName;
+    private TextView textViewPatientBirth;
+    private TextView textViewExameName;
     private Button buttonStart;
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
@@ -61,9 +61,9 @@ public class StartActivity extends Activity {
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);
-        patientName = (TextView) findViewById(R.id.patientname);
-        patientID = (TextView) findViewById(R.id.patientid);
-        exameName = (TextView) findViewById(R.id.textExamination);
+        textViewPatientName = (TextView) findViewById(R.id.patientname);
+        textViewPatientBirth = (TextView) findViewById(R.id.patientid);
+        textViewExameName = (TextView) findViewById(R.id.textExamination);
 
     }
 
@@ -100,6 +100,8 @@ public class StartActivity extends Activity {
         //send the request to server
         RestfulHelper restfulHelper = new RestfulHelper();
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
+
+        //changing some things on the layout
         if (responseCode == 200) {
             try {
                 String xmlString = restfulHelper.responseString;
@@ -107,16 +109,15 @@ public class StartActivity extends Activity {
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
-                patientID.setText(Constants.globalMetaandForm.getMeta().getPatientID());
                 String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
                         + Constants.globalMetaandForm.getMeta().getPatientFirstName();
-
+                String birthDate="";
                 if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
-                    nameSegment = nameSegment + " " + getbirthDate();
+                    birthDate = getbirthDate();
                 }
-
-                patientName.setText(nameSegment);
-                exameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+                textViewPatientBirth.setText(birthDate);
+                textViewPatientName.setText(nameSegment);
+                textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
             } catch (Exception e) {
@@ -131,7 +132,7 @@ public class StartActivity extends Activity {
     }
 
     /**
-     * This Method refactor the date spelling.
+     * This Method refactors the spelling of the date.
      *
      * @return String of german formated date.
      */

@@ -83,7 +83,7 @@
         android:layout_height="70dip"
         android:background="@drawable/button1x3normal"
         android:clickable="false"
-        android:onClick="onClickButton"
+        android:onClick="onClickButtonOk"
         android:text="@string/buttonOk"
         android:textColor="#fffafa"
         android:textSize="40sp"

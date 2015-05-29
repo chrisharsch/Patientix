@@ -35,6 +35,10 @@ public class EndActivity extends Activity {
     private int responseCode;
     RestfulHelper restfulHelper = new RestfulHelper();
 
+    /**
+     *
+     * @param savedInstanceState default parameter
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +67,11 @@ public class EndActivity extends Activity {
      */
     private class SendFormula extends AsyncTask<String, Void, String> {
         /**
-         *
+         * Everything in this method happens in the background and in here
+         * the formula data is send to the server as long as they arrive
+         * and the right response code is send back.
          * @param params default parameters
-         * @return
+         * @return null because not needed
          */
         @Override
         protected String doInBackground(String... params) {
@@ -89,7 +95,6 @@ public class EndActivity extends Activity {
                     }
                 });
             }
-
             Log.d("ResponseCode", responseCode + "");
             return null;
         }

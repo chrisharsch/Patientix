@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.lang.Thread.sleep;
 
@@ -33,10 +34,8 @@ public class RestfulHelper extends Activity {
     private final String SERVER_URL = "http://141.19.145.237/";
     //private final String SERVER_URL = "http://192.168.1.7/";
     private final String POST_LOGIN = "index.php/login";
-    private final String POST_LOGOUT = "api/person/logout";
     private final String POST_FORMULA = "index.php/formula";
     private final String POST_FILLED_FORMULA = "index.php/filledformula";
-
     private String POST_URL;
 
     //Respsone Output
@@ -46,7 +45,6 @@ public class RestfulHelper extends Activity {
     public byte[] responseArray;
     private static volatile HttpClient client;
     private static volatile HttpPost post;
-
     private final boolean DEBUG = false;
 
 
@@ -55,9 +53,9 @@ public class RestfulHelper extends Activity {
      * It must be a new Thread to send the data, otherwise u'll get an NetworkAuthentication-Error
      * The join operation simulates a wait for main-thread, otherwise, the main will run up
      *
-     * @param method
-     * @param parameterMap
-     * @return
+     * @param method       Is the End of the URL at which the request will be send
+     * @param parameterMap ArrayList with parameters for the request
+     * @return int of the responseCode
      */
     public int executeRequest(final String method, final ArrayList<NameValuePair> parameterMap) {
         Thread networkThread = new Thread() {
@@ -110,19 +108,15 @@ public class RestfulHelper extends Activity {
             responseCode = response.getStatusLine().getStatusCode();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            Log.d("Fehler: ", "1");
             Log.d("Fehler: ", String.valueOf(true));
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            Log.d("Fehler: ", "2");
             Log.d("Fehler: ", String.valueOf(true));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            Log.d("Fehler: ", "3");
             Log.d("Fehler: ", String.valueOf(true));
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("Fehler: ", "4");
             responseCode = 503;
             Log.d("Fehler: ", String.valueOf(true));
         }
@@ -140,13 +134,16 @@ public class RestfulHelper extends Activity {
             POST_URL = SERVER_URL + POST_LOGIN;
         } else if (restMethod.equals("formula")) {
             POST_URL = SERVER_URL + POST_FORMULA;
-        } else if (restMethod.equals("logout")) {
-            POST_URL = SERVER_URL + POST_LOGOUT;
         } else if (restMethod.equals("filledformula")) {
             POST_URL = SERVER_URL + POST_FILLED_FORMULA;
         }
     }
 
+    /**
+     *  This method builds the response String out of the byte Array
+     * @param array Response Array
+     * @return Response String
+     */
 
     public String getStringFromInputStream(byte[] array) {
         BufferedReader br = null;
@@ -173,4 +170,49 @@ public class RestfulHelper extends Activity {
         return sb.toString();
     }
 
+    /**
+     * Equals method to check if this class equals another
+     * @param o Object to check sameness
+     * @return true for the same Object false for not the same
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RestfulHelper that = (RestfulHelper) o;
+
+        if (DEBUG != that.DEBUG) return false;
+        if (SERVER_URL != null ? !SERVER_URL.equals(that.SERVER_URL) : that.SERVER_URL != null)
+            return false;
+        if (POST_LOGIN != null ? !POST_LOGIN.equals(that.POST_LOGIN) : that.POST_LOGIN != null)
+            return false;
+        if (POST_FORMULA != null ? !POST_FORMULA.equals(that.POST_FORMULA) : that.POST_FORMULA != null)
+            return false;
+        if (POST_FILLED_FORMULA != null ? !POST_FILLED_FORMULA.equals(that.POST_FILLED_FORMULA) : that.POST_FILLED_FORMULA != null)
+            return false;
+        if (POST_URL != null ? !POST_URL.equals(that.POST_URL) : that.POST_URL != null)
+            return false;
+        if (response != null ? !response.equals(that.response) : that.response != null)
+            return false;
+        return Arrays.equals(responseArray, that.responseArray);
+
+    }
+
+    /**
+     * Hashcode generator of this class
+     * @return int Hashcode
+     */
+    @Override
+    public int hashCode() {
+        int result = SERVER_URL != null ? SERVER_URL.hashCode() : 0;
+        result = 31 * result + (POST_LOGIN != null ? POST_LOGIN.hashCode() : 0);
+        result = 31 * result + (POST_FORMULA != null ? POST_FORMULA.hashCode() : 0);
+        result = 31 * result + (POST_FILLED_FORMULA != null ? POST_FILLED_FORMULA.hashCode() : 0);
+        result = 31 * result + (POST_URL != null ? POST_URL.hashCode() : 0);
+        result = 31 * result + (response != null ? response.hashCode() : 0);
+        result = 31 * result + (responseArray != null ? Arrays.hashCode(responseArray) : 0);
+        result = 31 * result + (DEBUG ? 1 : 0);
+        return result;
+    }
 }

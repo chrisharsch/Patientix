@@ -69,6 +69,7 @@ public class OverviewActivity extends Activity {
     /**
      * This method zooms the Content of the pages and sets the
      * ZoomButton Text matching to the zoomlevel
+     *
      * @param v Parameter to change something in view
      */
     public void onClickZoomButton(View v) {

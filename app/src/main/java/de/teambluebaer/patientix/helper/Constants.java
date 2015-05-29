@@ -3,10 +3,7 @@ package de.teambluebaer.patientix.helper;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
- *This class is used to represent the columns for the overview
- * activity. There are just 2 columns, but you can add more columns
- * if you want. If you want to add more columns you also have to
- * prepare the code of OverviewActivity.java and activity_overview.xml
+ * This class for the Global variables or the Constant ones.
  */
 public class Constants {
 

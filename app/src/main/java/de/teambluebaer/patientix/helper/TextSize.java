@@ -9,6 +9,11 @@ public enum TextSize {
     public final float normalSize;
     public final float zoomedSize;
 
+    /**
+     * Private method to define the textsizes
+     * @param normSize float of the normal size of the text
+     * @param zoomSize float of the zoomedsize of the text
+     */
     private TextSize(float normSize,float zoomSize){
         normalSize = normSize;
         zoomedSize = zoomSize;
