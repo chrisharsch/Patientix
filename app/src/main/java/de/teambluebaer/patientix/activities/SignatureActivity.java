@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.os.Environment;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -97,6 +99,18 @@ public class SignatureActivity extends Activity {
             finish();
         }
 
+        // Create Spen View
+        mSpenSurfaceView = new SpenSurfaceView(mContext);
+        if (mSpenSurfaceView == null) {
+            Toast.makeText(mContext, "Cannot create new SpenView.",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        mSpenSurfaceView.setZOrderOnTop(true);
+        mSpenSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
+        mSpenSurfaceView.setZoomable(false);
+
         final RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
 
         // Create PenSettingView
@@ -122,27 +136,32 @@ public class SignatureActivity extends Activity {
         spenViewLayout.addView(mPenSettingView);
         spenViewLayout.addView(mEraserSettingView);
 
-        // Create Spen View
-        mSpenSurfaceView = new SpenSurfaceView(mContext);
-        if (mSpenSurfaceView == null) {
-            Toast.makeText(mContext, "Cannot create new SpenView.",
-                    Toast.LENGTH_SHORT).show();
-            finish();
-        }
         spenViewLayout.addView(mSpenSurfaceView);
+
         mPenSettingView.setCanvasView(mSpenSurfaceView);
         mEraserSettingView.setCanvasView(mSpenSurfaceView);
-        mSpenSurfaceView.setZOrderOnTop(true);
-        mSpenSurfaceView.setZoomable(false);
 
-        // Get the dimension of the device screen.
-        Display display = getWindowManager().getDefaultDisplay();
-        Rect rect = new Rect();
-        display.getRectSize(rect);
+
         // Create SpenNoteDoc
+        final ViewTreeObserver observer = spenViewLayout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                createSpenNoteDoc(spenViewLayout);
+                spenViewLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param spenViewLayout
+     */
+    private void createSpenNoteDoc(View spenViewLayout) {
         try {
             mSpenNoteDoc =
-                    new SpenNoteDoc(mContext, rect.width(), rect.height());
+                    new SpenNoteDoc(mContext, spenViewLayout.getWidth(), spenViewLayout.getHeight());
         } catch (IOException e) {
             Toast.makeText(mContext, "Cannot create new NoteDoc.",
                     Toast.LENGTH_SHORT).show();
@@ -152,19 +171,13 @@ public class SignatureActivity extends Activity {
             e.printStackTrace();
             finish();
         }
+
         // Add a Page to NoteDoc, get an instance, and set it to the member variable.
         mSpenPageDoc = mSpenNoteDoc.appendPage();
         mSpenPageDoc.setBackgroundColor(0xFFD6E6F5);
         mSpenPageDoc.clearHistory();
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
-
-        if(isSpenFeatureEnabled == false) {
-            mSpenSurfaceView.setToolTypeAction(SpenSurfaceView.TOOL_FINGER, SpenSurfaceView.ACTION_STROKE);
-            Toast.makeText(mContext,
-                    "Device does not support Spen. \n You can draw stroke by finger.",
-                    Toast.LENGTH_SHORT).show();
-        }
 
         initSettingInfo();
 
@@ -181,22 +194,13 @@ public class SignatureActivity extends Activity {
         selectButton(mPenBtn);
 
         mSpenPageDoc.startRecord();
-
-        if (isSpenFeatureEnabled == false) {
-            mToolType = SpenSurfaceView.TOOL_FINGER;
-            mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_STROKE);
-            Toast.makeText(mContext, "Device does not support Spen. \n You can draw stroke by finger",
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void initSettingInfo() {
         // Initialize Pen settings
         SpenSettingPenInfo penInfo = new SpenSettingPenInfo();
-        penInfo.color = Color.BLACK;
+        penInfo.color = Color.BLUE;
         penInfo.size = 10;
-        // mSpenSurfaceView.setPenSettingInfo(penInfo);
-        // mPenSettingView.setInfo(penInfo);
 
         // Initialize Eraser settings
         SpenSettingEraserInfo eraserInfo = new SpenSettingEraserInfo();
