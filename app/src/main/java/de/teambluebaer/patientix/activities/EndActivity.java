@@ -2,13 +2,16 @@ package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -33,6 +36,7 @@ public class EndActivity extends Activity {
 
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
+    TextView text;
     RestfulHelper restfulHelper = new RestfulHelper();
 
     /**
@@ -40,12 +44,15 @@ public class EndActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_end);
+        super.onCreate(savedInstanceState);
+
+        text = (TextView) findViewById(R.id.textEnd);
+
 
         String xml = Constants.globalMetaandForm.toXMLString();
 
@@ -56,6 +63,17 @@ public class EndActivity extends Activity {
         parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
 
         new SendFormula().execute();
+
+        text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
+
 
     }
 

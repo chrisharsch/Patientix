@@ -64,6 +64,7 @@ public class OverviewActivity extends Activity {
         Flasher.flash(buttonReady, "1x3");
         Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

@@ -65,9 +65,12 @@ public class LoginActivity extends Activity {
                 finish();
             } else {
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
+                editPassword.setText("");
             }
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
+            editPassword.setText("");
+
         }
     }
 
