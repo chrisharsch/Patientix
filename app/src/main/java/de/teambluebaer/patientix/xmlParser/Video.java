@@ -27,7 +27,7 @@ public class Video implements Element {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<video ";
+        xmlString = xmlString + "<video";
         xmlString = xmlString + "src=\"" + this.videoSource + "\" ";
         xmlString = xmlString + "/>";
 

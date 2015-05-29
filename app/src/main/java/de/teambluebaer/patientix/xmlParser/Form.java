@@ -26,7 +26,7 @@ public class Form {
 
     }
 
-     /**
+    /**
      * adds new Page to an Form
      * @param newPage Page that you want to add
      */

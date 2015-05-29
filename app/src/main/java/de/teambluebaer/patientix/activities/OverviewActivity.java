@@ -103,6 +103,16 @@ public class OverviewActivity extends Activity {
     }
 
     /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the functionality of the button is disabled.
+     */
+    @Override
+    public void onBackPressed() {
+
+    }
+
+
+    /**
      * This method kills all system dialogs if they are shown
      *
      * @param hasFocus

@@ -57,7 +57,7 @@ public class JavaStrucBuilder extends DefaultHandler{
 
     @Override
     public void startElement(String uri, String localName, String qName,
-                              Attributes attributes) {
+                             Attributes attributes) {
         if(qName.equals("page")){
             currendPage = new Page();
         }else if (qName.equals("row")){

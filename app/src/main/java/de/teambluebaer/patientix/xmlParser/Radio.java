@@ -84,7 +84,7 @@ public class Radio implements Element, Commentar {
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            
+
         }else{
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
@@ -108,7 +108,7 @@ public class Radio implements Element, Commentar {
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-              
+
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
@@ -166,12 +166,12 @@ public class Radio implements Element, Commentar {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<radiobutton ";
+        xmlString = xmlString + "<radiobutton";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment=\"" + this.patientCommentar + "\" ";
-        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
+        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "/>";
 
         return xmlString;
