@@ -129,7 +129,11 @@ public class RestfulHelper extends Activity {
      * @param restMethod Method which to be set
      */
     private void setURLForRequest(String restMethod) {
-        Log.d("RESTMETHOD", restMethod);
+        try {
+            Log.d("RESTMETHOD", restMethod);
+        }catch(Exception e){
+            System.err.print(e.toString());
+        }
         if (restMethod.equals("login")) {
             POST_URL = SERVER_URL + POST_LOGIN;
         } else if (restMethod.equals("formula")) {
@@ -146,7 +150,7 @@ public class RestfulHelper extends Activity {
      * @return Response String
      */
 
-    public String getStringFromInputStream(byte[] array) {
+    private String getStringFromInputStream(byte[] array) {
         BufferedReader br = null;
         InputStream is = null;
         StringBuilder sb = new StringBuilder();
