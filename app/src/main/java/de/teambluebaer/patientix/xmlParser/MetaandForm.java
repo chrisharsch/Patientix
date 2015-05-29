@@ -24,7 +24,7 @@ public class MetaandForm {
      * set MetaData of a <code>MetaAnfForm</code> Object
      * @param meta <code>MetaData</code> you want to add
      */
-    protected void setMeta(MetaData meta){
+    public void setMeta(MetaData meta){
         this.meta = meta;
     }
 
@@ -32,7 +32,7 @@ public class MetaandForm {
      * set Form of a <code>MetaAnfForm</code> Object
      * @param form <code>Form</code> you want to add
      */
-    protected void setForm(Form form){
+    public void setForm(Form form){
         this.form = form;
     }
 

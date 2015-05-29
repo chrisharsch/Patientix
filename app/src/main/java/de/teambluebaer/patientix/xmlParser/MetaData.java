@@ -20,7 +20,11 @@ public class MetaData {
      */
 
     public MetaData() {
-        this.setPatientBithDate("Unbekannt");
+        this.patientBithDate = "Unbekannt";
+        this.patientID = "";
+        this.patientFirstName = "";
+        this.patientLastName = "";
+        this.exameName = "";
     }
 
 
@@ -47,6 +51,7 @@ public class MetaData {
     public String toXMLString(){
         String xmlString = new String();
         xmlString = xmlString + "<meta>";
+        xmlString = xmlString + "<pID>" + patientID + "</pID>";
         xmlString = xmlString + "<pFirstName>" + patientFirstName + "</pFirstName>";
         xmlString = xmlString + "<pLastName>" + patientLastName + "</pLastName>";
         xmlString = xmlString + "<pDate>" + patientBithDate + "</pDate>";

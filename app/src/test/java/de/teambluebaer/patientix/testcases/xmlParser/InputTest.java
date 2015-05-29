@@ -14,7 +14,7 @@ public class InputTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Input input = new Input("","HIER WAS EINGEBEN","HÄÄ","","");
+        input = new Input("","HIER WAS EINGEBEN","HÄÄ","","");
     }
 
     public void testConstructor() {
@@ -27,6 +27,8 @@ public class InputTest extends TestCase {
     }
 
     public void testToXMLString() throws Exception {
-
+        String inputXML = input.toXMLString();
+        String testXML = "<input text=\"HIER WAS EINGEBEN\" patientInput=\"\" comment=\"HÄÄ\" mtraComment=\"\" docComment=\"\" />";
+        assertEquals(testXML,inputXML);
     }
 }

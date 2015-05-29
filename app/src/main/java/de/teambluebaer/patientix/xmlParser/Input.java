@@ -183,11 +183,12 @@ public class Input implements Element, Commentar {
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<input";
+        xmlString = xmlString + "<input ";
         xmlString = xmlString + "text=\"" + this.inputText + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
-        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "patientInput=\"" + this.patientInput + "\" ";
+        xmlString = xmlString + "comment=\"" + this.patientCommentar +"\" ";
+        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "/>";
 
         return xmlString;
