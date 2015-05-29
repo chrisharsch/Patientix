@@ -23,6 +23,6 @@ public class ImageTest extends TestCase{
     }
 
     public void testToXMLString(){
-        assertEquals("<picture/ src=\"TESTSRC\" >",image.toXMLString());
+        assertEquals("<picture src=\"TESTSRC\" />",image.toXMLString());
     }
 }

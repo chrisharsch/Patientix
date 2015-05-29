@@ -1,8 +1,6 @@
 package de.teambluebaer.patientix.xmlParser;
 
 
-import android.util.Log;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -95,7 +93,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("name")){
             isName = true;
         }else{
-            Log.d("JavaStrucBuilder","Doesn't write something for "+ qName);
+            //Log.d("JavaStrucBuilder","Doesn't write something for "+ qName);
         }
     }
 

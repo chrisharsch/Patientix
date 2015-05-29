@@ -27,14 +27,31 @@ public class Video implements Element {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<video/";
+        xmlString = xmlString + "<video";
         xmlString = xmlString + "src=\"" + this.videoSource + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
 
     public String getVideoSource() {
         return videoSource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Video video = (Video) o;
+
+        return !(videoSource != null ? !videoSource.equals(video.videoSource) : video.videoSource != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return videoSource != null ? videoSource.hashCode() : 0;
     }
 }

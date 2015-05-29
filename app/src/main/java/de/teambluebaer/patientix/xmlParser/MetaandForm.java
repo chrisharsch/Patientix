@@ -61,4 +61,23 @@ public class MetaandForm {
 
         return xmlString;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MetaandForm that = (MetaandForm) o;
+
+        if (meta != null ? !meta.equals(that.meta) : that.meta != null) return false;
+        return !(form != null ? !form.equals(that.form) : that.form != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = meta != null ? meta.hashCode() : 0;
+        result = 31 * result + (form != null ? form.hashCode() : 0);
+        return result;
+    }
 }

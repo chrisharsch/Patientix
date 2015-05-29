@@ -26,4 +26,6 @@ public class WhiteSpace implements Element{
     public String toXMLString() {
         return "";
     }
+
+
 }

@@ -166,13 +166,13 @@ public class Radio implements Element, Commentar {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<radiobutton/";
+        xmlString = xmlString + "<radiobutton";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
         xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
         xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
         xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
@@ -197,5 +197,31 @@ public class Radio implements Element, Commentar {
         return doctorCommentar;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Radio radio = (Radio) o;
+
+        if (checked != radio.checked) return false;
+        if (radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null)
+            return false;
+        if (patientCommentar != null ? !patientCommentar.equals(radio.patientCommentar) : radio.patientCommentar != null)
+            return false;
+        if (mtraCommentar != null ? !mtraCommentar.equals(radio.mtraCommentar) : radio.mtraCommentar != null)
+            return false;
+        return !(doctorCommentar != null ? !doctorCommentar.equals(radio.doctorCommentar) : radio.doctorCommentar != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = radioText != null ? radioText.hashCode() : 0;
+        result = 31 * result + (checked ? 1 : 0);
+        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
+        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
+        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
+        return result;
+    }
 }
