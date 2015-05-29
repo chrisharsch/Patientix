@@ -166,12 +166,12 @@ public class Radio implements Element, Commentar {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<radiobutton";
+        xmlString = xmlString + "<radiobutton ";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
-        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "comment=\"" + this.patientCommentar + "\" ";
+        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "/>";
 
         return xmlString;
