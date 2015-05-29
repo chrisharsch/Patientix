@@ -20,7 +20,8 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 
 /**
- * This class is for the MTRA Login
+ * This Activity displays the Login for the Docs or the MTRA.
+ * Here they can enter their pin to access to the APP.
  */
 public class LoginActivity extends Activity {
 
@@ -30,7 +31,7 @@ public class LoginActivity extends Activity {
 
     /**
      * In this method is defined what happens on create of the Activity:
-     * Set Layout, remove titlebar, keyboard open
+     * Set Layout and remove titlebar
      *
      * @param savedInstanceState Standard parameter
      */
@@ -40,60 +41,59 @@ public class LoginActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_login);
-
-        // Closes the keyboard on creat of the input field
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
     }
 
     /**
-     * Check the login credentials from MTRA
+     * On press of the "Login" button, the users can access to the APP
+     * with their PIN and after the StartActivity will be loaded.
      *
-     * @param v
+     * @param v default parameter to change something of the view
      */
     public void onClickLoginButton(View v) {
         Flasher.flash(buttonLogin, "1x3");
-
-        //create parameterMap to add parameters of the request
-
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
         if (mWifi.isConnected()) {
-            if(passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+            if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
                 Log.d("Login successful: ", responseCode + "");
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 finish();
-            }else{
-                Toast.makeText(this,"Falscher PIN!!!",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
             }
-
-
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
         }
-
     }
 
-
+    /**
+     * This method converts the bytes of String to hex
+     *
+     * @param data byte Array to convert
+     * @return String of hexcode
+     */
     private String convertByteToHex(byte data[]) {
         StringBuffer hexData = new StringBuffer();
         for (int byteIndex = 0; byteIndex < data.length; byteIndex++)
             hexData.append(Integer.toString((data[byteIndex] & 0xff) + 0x100, 16).substring(1));
-
         return hexData.toString();
     }
 
-    private String passwordHash(String textToHash){
+    /**
+     * This method is used to hash the password or pin
+     *
+     * @param textToHash String of text to hash
+     * @return String which is hashed
+     */
+    private String passwordHash(String textToHash) {
         try {
             final MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
             sha512.update(textToHash.getBytes());
-
             return convertByteToHex(sha512.digest());
         } catch (Exception e) {
             Log.d("HashFail", e.toString());

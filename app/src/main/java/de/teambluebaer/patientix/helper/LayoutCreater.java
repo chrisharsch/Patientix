@@ -45,8 +45,6 @@ public class LayoutCreater {
                 hasComBut = true;
                 commentar = (Commentar) element;
             }
-
-
         }
         if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
