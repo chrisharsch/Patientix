@@ -348,7 +348,7 @@ public class SignatureActivity extends Activity {
      * @return String
      */
     public static String encodeTobase64(Bitmap image) {
-        Bitmap immagex=image;
+        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
