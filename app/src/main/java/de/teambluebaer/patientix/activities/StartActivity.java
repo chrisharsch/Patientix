@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,11 +18,14 @@ import org.apache.http.message.BasicNameValuePair;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
@@ -42,6 +46,7 @@ public class StartActivity extends Activity {
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
      * OnCreation of the Activity this method runs and removes the titlebar and
@@ -56,8 +61,11 @@ public class StartActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         setContentView(R.layout.activity_start);
+        Constants.CURRENTACTIVITY = this;
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);
@@ -124,6 +132,7 @@ public class StartActivity extends Activity {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
             }
+            Constants.ISSEND=false;
         } else if (404 == responseCode) {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {
@@ -151,12 +160,32 @@ public class StartActivity extends Activity {
     }
 
     /**
-     * This method defines what happens when you press on the hardkey back on the Tablet.
-     * In this case the functionality of the button is disabled.
+     * This method kills all system dialogs if they are shown
+     *
+     * @param hasFocus
      */
     @Override
-    public void onBackPressed() {
-
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
     }
 
+    /**
+     * This method disables the volumes keys
+     *
+     * @param event Listens on Keyinput event
+     * @return Calls super class if key is allowed
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (blockedKeys.contains(event.getKeyCode())) {
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
 }

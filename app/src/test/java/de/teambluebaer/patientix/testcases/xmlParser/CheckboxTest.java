@@ -17,14 +17,14 @@ public class CheckboxTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        checkbox = new Checkbox("Ja", "Was heisst das?", "nix", "das sie das haben");
+        checkbox = new Checkbox("Ja", "Was heiﬂt das?", "nix", "das sie das haben");
 
     }
 
 
     public void testConstructor(){
         assertEquals("Ja", checkbox.getCheckboxText());
-        assertEquals("Was heisst das?", checkbox.getPatientCommentar());
+        assertEquals("Was heiﬂt das?", checkbox.getPatientCommentar());
         assertEquals("nix", checkbox.getMtraCommentar());
         assertEquals("das sie das haben", checkbox.getDoctorCommentar());
         assertEquals(false, checkbox.isChecked());
@@ -32,7 +32,7 @@ public class CheckboxTest extends TestCase {
 
 
     public void testToXMLString (){
-        String xml = "<checkbox text=\"Ja\" checked=\"false\" comment\"Was heisst das?\" mtraComment\"nix\" " +
+        String xml = "<checkbox text=\"Ja\" checked=\"false\" comment\"Was heiﬂt das?\" mtraComment\"nix\" " +
                 "docComment\"das sie das haben\" />";
         assertEquals(xml ,checkbox.toXMLString());
     }

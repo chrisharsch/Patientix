@@ -1,11 +1,14 @@
 package de.teambluebaer.patientix.helper;
 
+import android.app.Activity;
+
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
  * This class for the Global variables or the Constant ones.
  */
 public class Constants {
+    public static boolean ISSEND = false;
     public static final String FIRST_COLUMN = "First";
     public static final String SECOND_COLUMN = "Second";
     public static final String TABLET_ID = "3";
@@ -14,4 +17,5 @@ public class Constants {
     public static MetaandForm globalMetaandForm;
     public static boolean zoomed = false;
     public static boolean currendPageIsanswert;
+    public static Activity CURRENTACTIVITY;
 }

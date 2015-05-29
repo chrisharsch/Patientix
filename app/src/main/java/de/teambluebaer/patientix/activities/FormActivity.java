@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,10 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -33,6 +39,7 @@ public class FormActivity extends Activity {
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
     private ScrollView scrollView;
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
 
     /**
@@ -47,7 +54,10 @@ public class FormActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_form);
+        Constants.CURRENTACTIVITY = this;
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
@@ -65,10 +75,15 @@ public class FormActivity extends Activity {
         content = (LinearLayout) findViewById(R.id.content);
         metaandForm = Constants.globalMetaandForm;
         layoutCreater = new LayoutCreater();
-        layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
-        numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-        numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
-
+        try {
+            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
+            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+        } catch (NullPointerException e) {
+            Intent intent = new Intent(FormActivity.this, StartActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     /**
@@ -141,15 +156,6 @@ public class FormActivity extends Activity {
     }
 
     /**
-     * This method defines what happens when you press on the hardkey back on the Tablet.
-     * In this case the functionality of the button is disabled.
-     */
-    @Override
-    public void onBackPressed() {
-
-    }
-
-    /**
      * This method checks if there is the first page shown so the
      * button "Zurück" is disabled.
      *
@@ -188,4 +194,33 @@ public class FormActivity extends Activity {
         return false;
     }
 
+    /**
+     * This method kills all system dialogs if they are shown
+     *
+     * @param hasFocus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
+
+    /**
+     * This method disables the volumes keys
+     *
+     * @param event Listens on Keyinput event
+     * @return Calls super class if key is allowed
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (blockedKeys.contains(event.getKeyCode())) {
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
 }

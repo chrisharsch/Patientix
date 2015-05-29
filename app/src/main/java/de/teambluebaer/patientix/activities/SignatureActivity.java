@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -31,15 +34,22 @@ import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This class is for saving the signature from patient.
  */
+
 /**
  * Created by Maren on 16.05.2015.
  */
@@ -56,6 +66,9 @@ public class SignatureActivity extends Activity {
     private Button buttonDone;
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
+    private MediaScannerConnection msConn = null;
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -66,14 +79,22 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //Titlebar removed
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Set View
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_signature);
+
+        if (!isFormula()) {
+            Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        Constants.CURRENTACTIVITY = this;
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
         mContext = this;
 
         // Initialize Spen
@@ -83,7 +104,7 @@ public class SignatureActivity extends Activity {
             spenPackage.initialize(this);
             isSpenFeatureEnabled = spenPackage.isFeatureEnabled(Spen.DEVICE_PEN);
         } catch (SsdkUnsupportedException e) {
-            if( processUnsupportedException(e) == true) {
+            if (processUnsupportedException(e) == true) {
                 return;
             }
         } catch (Exception e1) {
@@ -145,10 +166,10 @@ public class SignatureActivity extends Activity {
                 spenViewLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
     }
 
     /**
-     *  Erstellt das Layout der Unterschrift
      * @param spenViewLayout
      */
     private void createSpenNoteDoc(View spenViewLayout) {
@@ -263,12 +284,12 @@ public class SignatureActivity extends Activity {
 
             Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
             startActivity(intent);
-            finish();
         }
     };
 
     /**
      * select the pen or the eraser
+     *
      * @param v
      */
     private void selectButton(View v) {
@@ -294,8 +315,7 @@ public class SignatureActivity extends Activity {
      * Save the signature in the gallery directory on the tablet
      */
     private void captureSpenSurfaceView() {
-
-        /*  Set save directory for a captured image.
+        // Set save directory for a captured image.
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
         File fileCacheItem = new File(filePath);
         if (!fileCacheItem.exists()) {
@@ -304,7 +324,7 @@ public class SignatureActivity extends Activity {
                 return;
             }
         }
-        filePath = fileCacheItem.getPath() + "/CaptureImg.png";         */
+        filePath = fileCacheItem.getPath() + "/CaptureImg.png";
 
         // Capture an image and save it as bitmap.
         Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
@@ -312,11 +332,11 @@ public class SignatureActivity extends Activity {
         OutputStream out = null;
         try {
             // Save a captured bitmap image to the directory.
-            // out = new FileOutputStream(filePath);
-            // imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out = new FileOutputStream(filePath);
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 
             // Save signature to a Base64 encode String
-            Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
+            //encodeTobase64(imgBitmap);
 
             Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
@@ -329,6 +349,7 @@ public class SignatureActivity extends Activity {
                     out.close();
                 }
 
+                scanImage(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -337,11 +358,6 @@ public class SignatureActivity extends Activity {
         imgBitmap.recycle();
     }
 
-    /**
-     * Gibt einen String von der Unterschrift für das XML-Formular zurück
-     * @param image
-     * @return String
-     */
     public static String encodeTobase64(Bitmap image) {
         Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -352,13 +368,34 @@ public class SignatureActivity extends Activity {
         return imageEncoded;
     }
 
+    private void scanImage(final String imageFileName) {
+        msConn = new MediaScannerConnection(mContext, new MediaScannerConnection.MediaScannerConnectionClient() {
+            @Override
+            public void onMediaScannerConnected() {
+                try {
+                    msConn.scanFile(imageFileName, null);
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Please wait for store image file.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+                msConn.disconnect();
+                msConn = null;
+            }
+        });
+        msConn.connect();
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
     }
 
     /**
-     *  Handle the Exceptions
+     * Handle the Exceptions
+     *
      * @param e
      * @return
      */
@@ -372,18 +409,17 @@ public class SignatureActivity extends Activity {
             Toast.makeText(mContext, "This device does not support Spen.",
                     Toast.LENGTH_SHORT).show();
             finish();
-        }
-        else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
+        } else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
             // If SpenSDK APK is not installed.
-            showAlertDialog( "You need to install additional Spen software"
-                    +" to use this application."
+            showAlertDialog("You need to install additional Spen software"
+                    + " to use this application."
                     + "You will be taken to the installation screen."
                     + "Restart this application after the software has been installed."
                     , true);
         } else if (errType
                 == SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED) {
             // SpenSDK APK must be updated.
-            showAlertDialog( "You need to update your Spen software "
+            showAlertDialog("You need to update your Spen software "
                     + "to use this application."
                     + " You will be taken to the installation screen."
                     + " Restart this application after the software has been updated."
@@ -391,8 +427,8 @@ public class SignatureActivity extends Activity {
         } else if (errType
                 == SsdkUnsupportedException.LIBRARY_UPDATE_IS_RECOMMENDED) {
             // Update of SpenSDK APK to an available new version is recommended.
-            showAlertDialog( "We recommend that you update your Spen software"
-                    +" before using this application."
+            showAlertDialog("We recommend that you update your Spen software"
+                    + " before using this application."
                     + " You will be taken to the installation screen."
                     + " Restart this application after the software has been updated."
                     , false);
@@ -403,6 +439,7 @@ public class SignatureActivity extends Activity {
 
     /**
      * Show alert for the exceptions
+     *
      * @param msg
      * @param closeActivity
      */
@@ -435,7 +472,7 @@ public class SignatureActivity extends Activity {
                             @Override
                             public void onClick(
                                     DialogInterface dialog, int which) {
-                                if(closeActivity == true) {
+                                if (closeActivity == true) {
                                     // Terminate the activity if APK is not installed.
                                     finish();
                                 }
@@ -445,7 +482,7 @@ public class SignatureActivity extends Activity {
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-                        if(closeActivity == true) {
+                        if (closeActivity == true) {
                             // Terminate the activity if APK is not installed.
                             finish();
                         }
@@ -488,5 +525,55 @@ public class SignatureActivity extends Activity {
             }
             mSpenNoteDoc = null;
         }
-    };
+    }
+
+    ;
+
+    /**
+     * This method checks if there is a filled formula and
+     * return true if there is one else it return false
+     *
+     * @return Boolean true or false
+     */
+    private boolean isFormula() {
+        try {
+            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    /**
+     * This method kills all system dialogs if they are shown
+     *
+     * @param hasFocus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
+
+    /**
+     * This method disables the volumes keys
+     *
+     * @param event Listens on Keyinput event
+     * @return Calls super class if key is allowed
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (blockedKeys.contains(event.getKeyCode())) {
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
 }

@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,10 +15,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This Activity displays the Login for the Docs or the MTRA.
@@ -28,6 +33,7 @@ public class LoginActivity extends Activity {
     private Button buttonLogin;
     private EditText editPassword = null;
     Integer responseCode;
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -41,7 +47,10 @@ public class LoginActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_login);
+        Constants.CURRENTACTIVITY = this;
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);
 
@@ -65,12 +74,9 @@ public class LoginActivity extends Activity {
                 finish();
             } else {
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
-                editPassword.setText("");
             }
         } else {
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
-            editPassword.setText("");
-
         }
     }
 
@@ -104,4 +110,59 @@ public class LoginActivity extends Activity {
         return null;
     }
 
+    /**
+     * Deactive kioskmode with press on exit button if you
+     * entered the PIN-Code
+     *
+     * @param v Parameter to change something in view
+     */
+    public void onClickButtonExit(View v) {
+        if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+            PrefUtils.setKioskModeActive(false, getApplicationContext());
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    /**
+     * This method defines what happens when you press on the hardkey back on the Tablet.
+     * In this case the functionality of the button is disabled.
+     */
+    @Override
+    public void onBackPressed() {
+
+    }
+
+
+    /**
+     * This method kills all system dialogs if they are shown
+     *
+     * @param hasFocus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
+
+    /**
+     * This method disables the volumes keys
+     *
+     * @param event Listens on Keyinput event
+     * @return Calls super class if key is allowed
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (blockedKeys.contains(event.getKeyCode())) {
+            return true;
+        } else {
+            return super.dispatchKeyEvent(event);
+        }
+    }
 }

@@ -73,12 +73,11 @@ public class RestfulHelper extends Activity {
             try {
                 sleep(1000);
             } catch (Exception e) {
-
+                Log.d("SleepExeption", e.toString());
             }
         } catch (InterruptedException e) {
             return 503;
         }
-
         return responseCode;
     }
 

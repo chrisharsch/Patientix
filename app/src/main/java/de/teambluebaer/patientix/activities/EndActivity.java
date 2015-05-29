@@ -8,20 +8,22 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.RestfulHelper;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This Activity shows the endscreen there the patient is afford
@@ -36,44 +38,36 @@ public class EndActivity extends Activity {
 
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
-    TextView text;
     RestfulHelper restfulHelper = new RestfulHelper();
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
      * @param savedInstanceState default parameter
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_end);
-        super.onCreate(savedInstanceState);
+        Constants.CURRENTACTIVITY = this;
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
 
-        text = (TextView) findViewById(R.id.textEnd);
+        if (isFormula()) {
+            String xml = Constants.globalMetaandForm.toXMLString();
 
-
-        String xml = Constants.globalMetaandForm.toXMLString();
-
-        //set um parameterMap for RestPost to send formula data
-        parameterMap.add(new BasicNameValuePair("isFormula", isFormula() + ""));
-        parameterMap.add(new BasicNameValuePair("formula", xml));
-        parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
-        parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
-
-        new SendFormula().execute();
-
-        text.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-        });
-
+            //set um parameterMap for RestPost to send formula data
+            parameterMap.add(new BasicNameValuePair("isFormula", isFormula() + ""));
+            parameterMap.add(new BasicNameValuePair("formula", xml));
+            parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
+            parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
+            new SendFormula().execute();
+        } else {
+            Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -95,36 +89,38 @@ public class EndActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
-            while (responseCode != 200) {
-                responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
-                if (responseCode == 404) {
+            if (!Constants.ISSEND) {
+                while (responseCode != 200) {
+                    responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
+                    if (responseCode == 404) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(EndActivity.this, "Keine oder Fehlerhafte Formulardaten!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        Log.d("ResponseCode", responseCode + "");
+                        break;
+                    }
+                }
+                if (responseCode == 200) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(EndActivity.this, "Keine oder Fehlerhafte Formulardaten!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
                         }
                     });
-                    Log.d("ResponseCode", responseCode + "");
-                    break;
                 }
-            }
-            if (responseCode == 200) {
+                Log.d("ResponseCode", responseCode + "");
+                Constants.ISSEND = true;
+            } else {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EndActivity.this, "Formular wurde bereits gesendet.", Toast.LENGTH_LONG).show();
                     }
                 });
             }
-            Log.d("ResponseCode", responseCode + "");
+
             return null;
         }
-    }
-
-    /**
-     * This method defines what happens when you press on the hardkey back on the Tablet.
-     * In this case the functionality of the button is disabled.
-     */
-    @Override
-    public void onBackPressed() {
     }
 
     /**
@@ -145,10 +141,44 @@ public class EndActivity extends Activity {
      * @return Boolean true or false
      */
     private boolean isFormula() {
-        if (Constants.globalMetaandForm.toXMLString().length() > 1) {
+        try {
+            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    /**
+     * This method kills all system dialogs if they are shown
+     *
+     * @param hasFocus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
+
+    /**
+     * This method disables the volumes keys
+     *
+     * @param event Listens on Keyinput event
+     * @return Calls super class if key is allowed
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (blockedKeys.contains(event.getKeyCode())) {
             return true;
         } else {
-            return false;
+            return super.dispatchKeyEvent(event);
         }
     }
 }

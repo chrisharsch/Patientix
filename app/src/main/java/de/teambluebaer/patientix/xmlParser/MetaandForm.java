@@ -12,13 +12,12 @@ public class MetaandForm {
 
     private MetaData meta;
     private Form form;
-    private String signature;
 
     /**
      * Constructor
      */
     public MetaandForm() {
-        signature = "";
+
     }
 
     /**
@@ -53,20 +52,11 @@ public class MetaandForm {
         return this.meta;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
     public String toXMLString(){
         String xmlString = new String();
         xmlString = xmlString + "<root>";
         xmlString = xmlString + this.meta.toXMLString();
         xmlString = xmlString + this.form.toXMLString();
-        xmlString = xmlString + "<sign text=\""+this.signature +"\" />";
         xmlString = xmlString + "</root>";
 
         return xmlString;
