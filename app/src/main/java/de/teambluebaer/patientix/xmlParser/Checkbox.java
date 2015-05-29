@@ -170,13 +170,13 @@ public class Checkbox implements Element, Commentar {
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<checkbox/ ";
+        xmlString = xmlString + "<checkbox ";
         xmlString = xmlString + "text=\"" + this.checkboxText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
         xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
         xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
         xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
@@ -199,5 +199,33 @@ public class Checkbox implements Element, Commentar {
 
     public String getDoctorCommentar() {
         return doctorCommentar;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Checkbox checkbox = (Checkbox) o;
+
+        if (checked != checkbox.checked) return false;
+        if (checkboxText != null ? !checkboxText.equals(checkbox.checkboxText) : checkbox.checkboxText != null)
+            return false;
+        if (patientCommentar != null ? !patientCommentar.equals(checkbox.patientCommentar) : checkbox.patientCommentar != null)
+            return false;
+        if (mtraCommentar != null ? !mtraCommentar.equals(checkbox.mtraCommentar) : checkbox.mtraCommentar != null)
+            return false;
+        return !(doctorCommentar != null ? !doctorCommentar.equals(checkbox.doctorCommentar) : checkbox.doctorCommentar != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = checkboxText != null ? checkboxText.hashCode() : 0;
+        result = 31 * result + (checked ? 1 : 0);
+        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
+        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
+        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
+        return result;
     }
 }

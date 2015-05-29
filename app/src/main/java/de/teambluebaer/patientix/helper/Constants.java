@@ -14,5 +14,6 @@ public class Constants {
     public static String PATIENTID = "";
     public static MetaandForm globalMetaandForm;
     public static boolean zoomed = false;
+    public static boolean currendPageIsanswert;
 
 }

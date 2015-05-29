@@ -29,14 +29,30 @@ public class Image implements Element {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<picture/";
+        xmlString = xmlString + "<picture ";
         xmlString = xmlString + "src=\"" + this.imageSource + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
 
     public String getImageSource() {
         return imageSource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        return !(imageSource != null ? !imageSource.equals(image.imageSource) : image.imageSource != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return imageSource != null ? imageSource.hashCode() : 0;
     }
 }

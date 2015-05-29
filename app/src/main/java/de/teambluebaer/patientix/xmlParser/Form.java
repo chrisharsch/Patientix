@@ -83,4 +83,23 @@ public class Form {
         return xmlString;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Form form = (Form) o;
+
+        if (pageList != null ? !pageList.equals(form.pageList) : form.pageList != null)
+            return false;
+        return !(iterator != null ? !iterator.equals(form.iterator) : form.iterator != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pageList != null ? pageList.hashCode() : 0;
+        result = 31 * result + (iterator != null ? iterator.hashCode() : 0);
+        return result;
+    }
 }

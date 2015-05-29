@@ -183,17 +183,69 @@ public class Input implements Element, Commentar {
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<checkbox/";
+        xmlString = xmlString + "<input ";
         xmlString = xmlString + "text=\"" + this.inputText + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
-        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "patientInput=\"" + this.patientInput + "\" ";
+        xmlString = xmlString + "comment=\"" + this.patientCommentar +"\" ";
+        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
 
     public String getInputText() {
         return inputText;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Input input = (Input) o;
+
+        if (hint != null ? !hint.equals(input.hint) : input.hint != null) return false;
+        if (inputText != null ? !inputText.equals(input.inputText) : input.inputText != null)
+            return false;
+        if (patientInput != null ? !patientInput.equals(input.patientInput) : input.patientInput != null)
+            return false;
+        if (patientCommentar != null ? !patientCommentar.equals(input.patientCommentar) : input.patientCommentar != null)
+            return false;
+        if (mtraCommentar != null ? !mtraCommentar.equals(input.mtraCommentar) : input.mtraCommentar != null)
+            return false;
+        return !(doctorCommentar != null ? !doctorCommentar.equals(input.doctorCommentar) : input.doctorCommentar != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hint != null ? hint.hashCode() : 0;
+        result = 31 * result + (inputText != null ? inputText.hashCode() : 0);
+        result = 31 * result + (patientInput != null ? patientInput.hashCode() : 0);
+        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
+        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
+        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
+        return result;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public String getPatientInput() {
+        return patientInput;
+    }
+
+    public String getPatientCommentar() {
+        return patientCommentar;
+    }
+
+    public String getMtraCommentar() {
+        return mtraCommentar;
+    }
+
+    public String getDoctorCommentar() {
+        return doctorCommentar;
     }
 }

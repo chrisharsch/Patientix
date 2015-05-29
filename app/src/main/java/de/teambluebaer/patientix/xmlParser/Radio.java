@@ -38,22 +38,22 @@ public class Radio implements Element, Commentar {
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText, String patientCommentar, String mtraCommentar, String doctorCommentar) {
+    public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
         this.radioText = radioText;
         this.checked = false;
 
-        if (patientCommentar != null && !patientCommentar.isEmpty()) {
+        if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
         } else {
             this.patientCommentar = "";
         }
-        if (mtraCommentar != null && !mtraCommentar.isEmpty()) {
+        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             this.mtraCommentar = mtraCommentar;
         } else {
 
             this.mtraCommentar = "";
         }
-        if (doctorCommentar != null && !doctorCommentar.isEmpty()) {
+        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
             this.doctorCommentar = doctorCommentar;
         } else {
             this.doctorCommentar = "";
@@ -80,11 +80,12 @@ public class Radio implements Element, Commentar {
                 checked = isChecked;
             }
         });
-        if (Constants.zoomed) {
+        if(Constants.zoomed){
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-        } else {
+            
+        }else{
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
@@ -107,6 +108,7 @@ public class Radio implements Element, Commentar {
             comButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+              
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
@@ -164,13 +166,13 @@ public class Radio implements Element, Commentar {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<radiobutton/";
+        xmlString = xmlString + "<radiobutton";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
         xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
         xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
         xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
     }
@@ -195,5 +197,31 @@ public class Radio implements Element, Commentar {
         return doctorCommentar;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Radio radio = (Radio) o;
+
+        if (checked != radio.checked) return false;
+        if (radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null)
+            return false;
+        if (patientCommentar != null ? !patientCommentar.equals(radio.patientCommentar) : radio.patientCommentar != null)
+            return false;
+        if (mtraCommentar != null ? !mtraCommentar.equals(radio.mtraCommentar) : radio.mtraCommentar != null)
+            return false;
+        return !(doctorCommentar != null ? !doctorCommentar.equals(radio.doctorCommentar) : radio.doctorCommentar != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = radioText != null ? radioText.hashCode() : 0;
+        result = 31 * result + (checked ? 1 : 0);
+        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
+        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
+        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
+        return result;
+    }
 }

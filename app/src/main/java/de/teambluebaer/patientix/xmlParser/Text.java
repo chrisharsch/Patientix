@@ -53,11 +53,30 @@ public class Text implements Element {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<text/";
+        xmlString = xmlString + "<text";
         xmlString = xmlString + "text=\"" + this.text + "\" ";
         xmlString = xmlString + "size=\"" + this.size + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Text text1 = (Text) o;
+
+        if (text != null ? !text.equals(text1.text) : text1.text != null) return false;
+        return size == text1.size;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = text != null ? text.hashCode() : 0;
+        result = 31 * result + (size != null ? size.hashCode() : 0);
+        return result;
     }
 }

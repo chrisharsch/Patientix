@@ -13,6 +13,7 @@ import java.util.List;
 public class Page {
     private List<Row> rowList;
 
+
     /**
      * constructor
      */
@@ -49,6 +50,21 @@ public class Page {
         return xmlString;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o != null && o instanceof Page){
+            Page page = (Page)o;
+            return this.rowList.equals(page.getRows());
+        }else{
+            return false;
+        }
     }
+
+    @Override
+    public int hashCode() {
+
+        return rowList != null ? rowList.hashCode() : 0;
+    }
+}
 
 

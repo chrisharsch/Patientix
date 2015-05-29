@@ -32,10 +32,26 @@ public class Sound implements Element {
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<audio/";
+        xmlString = xmlString + "<audio";
         xmlString = xmlString + "src=\"" + this.soundSource + "\" ";
-        xmlString = xmlString + ">";
+        xmlString = xmlString + "/>";
 
         return xmlString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sound sound = (Sound) o;
+
+        return !(soundSource != null ? !soundSource.equals(sound.soundSource) : sound.soundSource != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return soundSource != null ? soundSource.hashCode() : 0;
     }
 }

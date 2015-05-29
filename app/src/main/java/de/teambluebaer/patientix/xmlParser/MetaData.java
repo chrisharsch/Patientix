@@ -20,7 +20,11 @@ public class MetaData {
      */
 
     public MetaData() {
-        this.setPatientBithDate("Unbekannt");
+        this.patientBithDate = "Unbekannt";
+        this.patientID = "";
+        this.patientFirstName = "";
+        this.patientLastName = "";
+        this.exameName = "";
     }
 
 
@@ -47,6 +51,7 @@ public class MetaData {
     public String toXMLString(){
         String xmlString = new String();
         xmlString = xmlString + "<meta>";
+        xmlString = xmlString + "<pID>" + patientID + "</pID>";
         xmlString = xmlString + "<pFirstName>" + patientFirstName + "</pFirstName>";
         xmlString = xmlString + "<pLastName>" + patientLastName + "</pLastName>";
         xmlString = xmlString + "<pDate>" + patientBithDate + "</pDate>";
@@ -75,5 +80,35 @@ public class MetaData {
 
     public String getExameName() {
         return exameName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MetaData metaData = (MetaData) o;
+
+        if (patientID != null ? !patientID.equals(metaData.patientID) : metaData.patientID != null)
+            return false;
+        if (patientFirstName != null ? !patientFirstName.equals(metaData.patientFirstName) : metaData.patientFirstName != null)
+            return false;
+        if (patientLastName != null ? !patientLastName.equals(metaData.patientLastName) : metaData.patientLastName != null)
+            return false;
+        if (patientBithDate != null ? !patientBithDate.equals(metaData.patientBithDate) : metaData.patientBithDate != null)
+            return false;
+        return !(exameName != null ? !exameName.equals(metaData.exameName) : metaData.exameName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = patientID != null ? patientID.hashCode() : 0;
+        result = 31 * result + (patientFirstName != null ? patientFirstName.hashCode() : 0);
+        result = 31 * result + (patientLastName != null ? patientLastName.hashCode() : 0);
+        result = 31 * result + (patientBithDate != null ? patientBithDate.hashCode() : 0);
+        result = 31 * result + (exameName != null ? exameName.hashCode() : 0);
+        return result;
     }
 }

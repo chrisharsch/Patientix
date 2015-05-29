@@ -39,4 +39,21 @@ public class Row {
 
         return xmlString;
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Row row = (Row) o;
+
+        return !(elementList != null ? !elementList.equals(row.elementList) : row.elementList != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return elementList != null ? elementList.hashCode() : 0;
+    }
 }
