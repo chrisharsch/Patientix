@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 
 /**
  * This class is for saving the signature from patient.
@@ -61,7 +62,6 @@ public class SignatureActivity extends Activity {
     private Button buttonDone;
 
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
-    private MediaScannerConnection msConn = null;
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -151,11 +151,10 @@ public class SignatureActivity extends Activity {
                 spenViewLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-
     }
 
     /**
-     *
+     *  Erstellt das Layout der Unterschrift
      * @param spenViewLayout
      */
     private void createSpenNoteDoc(View spenViewLayout) {
@@ -300,7 +299,8 @@ public class SignatureActivity extends Activity {
      * Save the signature in the gallery directory on the tablet
      */
     private void captureSpenSurfaceView() {
-        // Set save directory for a captured image.
+
+        /*  Set save directory for a captured image.
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
         File fileCacheItem = new File(filePath);
         if (!fileCacheItem.exists()) {
@@ -309,7 +309,7 @@ public class SignatureActivity extends Activity {
                 return;
             }
         }
-        filePath = fileCacheItem.getPath() + "/CaptureImg.png";
+        filePath = fileCacheItem.getPath() + "/CaptureImg.png";         */
 
         // Capture an image and save it as bitmap.
         Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
@@ -317,11 +317,11 @@ public class SignatureActivity extends Activity {
         OutputStream out = null;
         try {
             // Save a captured bitmap image to the directory.
-            out = new FileOutputStream(filePath);
-            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            // out = new FileOutputStream(filePath);
+            // imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 
             // Save signature to a Base64 encode String
-            //encodeTobase64(imgBitmap);
+            Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
 
             Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
@@ -334,7 +334,6 @@ public class SignatureActivity extends Activity {
                     out.close();
                 }
 
-                scanImage(filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -343,6 +342,11 @@ public class SignatureActivity extends Activity {
         imgBitmap.recycle();
     }
 
+    /**
+     * Gibt einen String von der Unterschrift für das XML-Formular zurück
+     * @param image
+     * @return String
+     */
     public static String encodeTobase64(Bitmap image) {
         Bitmap immagex=image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -351,26 +355,6 @@ public class SignatureActivity extends Activity {
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
         return imageEncoded;
-    }
-
-    private void scanImage(final String imageFileName) {
-        msConn = new MediaScannerConnection(mContext, new MediaScannerConnection.MediaScannerConnectionClient() {
-            @Override
-            public void onMediaScannerConnected() {
-                try {
-                    msConn.scanFile(imageFileName, null);
-                } catch (Exception e) {
-                    Toast.makeText(mContext, "Please wait for store image file.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onScanCompleted(String path, Uri uri) {
-                msConn.disconnect();
-                msConn = null;
-            }
-        });
-        msConn.connect();
     }
 
     @Override
