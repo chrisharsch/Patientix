@@ -111,7 +111,7 @@ public class StartActivity extends Activity {
 
                 String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
                         + Constants.globalMetaandForm.getMeta().getPatientFirstName();
-                String birthDate="";
+                String birthDate = "";
                 if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
                     birthDate = getbirthDate();
                 }

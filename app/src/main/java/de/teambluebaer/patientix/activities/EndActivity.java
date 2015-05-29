@@ -36,7 +36,6 @@ public class EndActivity extends Activity {
     RestfulHelper restfulHelper = new RestfulHelper();
 
     /**
-     *
      * @param savedInstanceState default parameter
      */
     @Override
@@ -57,6 +56,7 @@ public class EndActivity extends Activity {
         parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
 
         new SendFormula().execute();
+
     }
 
 
@@ -70,6 +70,7 @@ public class EndActivity extends Activity {
          * Everything in this method happens in the background and in here
          * the formula data is send to the server as long as they arrive
          * and the right response code is send back.
+         *
          * @param params default parameters
          * @return null because not needed
          */

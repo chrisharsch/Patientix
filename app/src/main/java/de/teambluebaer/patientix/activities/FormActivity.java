@@ -34,6 +34,7 @@ public class FormActivity extends Activity {
     private MetaandForm metaandForm;
     private ScrollView scrollView;
 
+
     /**
      * This method creates the layout of the Activity, sets the fullscreenmode and
      * removes the titlebar. In here also the Views are referenced.

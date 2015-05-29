@@ -140,7 +140,8 @@ public class RestfulHelper extends Activity {
     }
 
     /**
-     *  This method builds the response String out of the byte Array
+     * This method builds the response String out of the byte Array
+     *
      * @param array Response Array
      * @return Response String
      */
@@ -172,6 +173,7 @@ public class RestfulHelper extends Activity {
 
     /**
      * Equals method to check if this class equals another
+     *
      * @param o Object to check sameness
      * @return true for the same Object false for not the same
      */
@@ -201,6 +203,7 @@ public class RestfulHelper extends Activity {
 
     /**
      * Hashcode generator of this class
+     *
      * @return int Hashcode
      */
     @Override

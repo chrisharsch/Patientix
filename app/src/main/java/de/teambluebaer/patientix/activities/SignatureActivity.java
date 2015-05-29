@@ -52,10 +52,8 @@ public class SignatureActivity extends Activity {
     private SpenNoteDoc mSpenNoteDoc;
     private SpenPageDoc mSpenPageDoc;
     private SpenSurfaceView mSpenSurfaceView;
-
     private SpenSettingPenLayout mPenSettingView;
     private SpenSettingEraserLayout mEraserSettingView;
-
     private ImageView mPenBtn;
     private ImageView mEraserBtn;
     private Button buttonDone;
