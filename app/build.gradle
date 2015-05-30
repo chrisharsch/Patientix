@@ -24,10 +24,13 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.jayway.restassured:xml-path:2.4.1'
     compile files('src/main/libs/pen-v3.1.4.jar')
     compile files('src/main/libs/sdk-v1.0.0.jar')
     compile files('src/main/libs/apacheds-all-1.5.5.jar')
     testCompile 'junit:junit:4.12'
+    testCompile 'com.jayway.restassured:json-schema-validator:2.4.1'
+    testCompile 'com.jayway.restassured:spring-mock-mvc:2.4.1'
     testCompile 'org.hamcrest:hamcrest-core:1.1'
     testCompile 'org.hamcrest:hamcrest-library:1.1'
     testCompile 'org.hamcrest:hamcrest-integration:1.1'
@@ -36,4 +39,5 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     compile files('src/main/libs/robolectric-3.0-rc3.jar')
+
 }
