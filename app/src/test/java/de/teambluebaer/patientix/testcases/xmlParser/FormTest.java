@@ -49,6 +49,7 @@ public class FormTest extends TestCase{
     }
 
     public void testToXMLString(){
+
         assertEquals("<form></form>",form2.toXMLString());
     }
 }

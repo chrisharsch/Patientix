@@ -36,7 +36,9 @@ import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
  * After the download the data will be checked an you will get feedback
  * what is happened.
  */
-
+/**
+ * Created by Maren on 29.04.2015.
+ */
 public class StartActivity extends Activity {
 
     private TextView textViewPatientName;

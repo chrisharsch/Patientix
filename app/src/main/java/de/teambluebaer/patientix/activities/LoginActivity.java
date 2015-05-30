@@ -28,6 +28,9 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
  * This Activity displays the Login for the Docs or the MTRA.
  * Here they can enter their pin to access to the APP.
  */
+/**
+ * Created by Maren on 06.05.2015.
+ */
 public class LoginActivity extends Activity {
 
     private Button buttonLogin;
