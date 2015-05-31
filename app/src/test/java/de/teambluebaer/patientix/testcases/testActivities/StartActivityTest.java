@@ -14,6 +14,8 @@ import de.teambluebaer.patientix.BuildConfig;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.activities.StartActivity;
 
+import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
+
 // import static org.junit.Assert.assertThat;
 
 

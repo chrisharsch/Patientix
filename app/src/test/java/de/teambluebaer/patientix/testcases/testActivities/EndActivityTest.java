@@ -1,7 +1,6 @@
 package de.teambluebaer.patientix.testcases.testActivities;
 
 import android.content.Intent;
-import android.widget.TextView;
 
 import de.teambluebaer.patientix.activities.EndActivity;
 
@@ -31,7 +30,7 @@ public class EndActivityTest extends android.test.ActivityUnitTestCase<EndActivi
         endactivity = getActivity();
     }
 
-    /*      Für Button aber nicht Textfeld (hat aber onClick)
+    /*      Fï¿½r Button aber nicht Textfeld (hat aber onClick)
     public void testLayout() {
         text = de.teambluebaer.patientix.activities.EndActivity.R.id.textEnd;
         assertNotNull(endactivity.findViewById(text));

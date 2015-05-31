@@ -2,102 +2,53 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\src\main\libs\pen-v3.1.4.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0c011352ab147b0edbd1f324305a8be6625f223e">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\pen-v3.1.4-a52d3457f15ba97f8b93d80211cd3c867c01548e.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-e14b12bb69c7c1be144322cbb359db9d21da699c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-9def75aad74e654bb6ae38c2d46f198793fc6da5.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\com.jayway.restassured\xml-path\2.4.1\310fee9c6bdc9197134a74f4454f9c1d9cd7f34b\xml-path-2.4.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="310fee9c6bdc9197134a74f4454f9c1d9cd7f34b">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\xml-path-2.4.1-0a8f991c2f9a7882cbe8c8e61b80a7f8aa782c75.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.3.2\90a3822c38ec8c996e84c16a3477ef632cbc87a3\commons-lang3-3.3.2.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\commons-lang3-3.3.2-a2deb74c86858bee57cea18657c425932e80ec81.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\org.codehaus.groovy\groovy-xml\2.4.3\a31a3b90246936d0f72b9055a975e5058b9f5648\groovy-xml-2.4.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a31a3b90246936d0f72b9055a975e5058b9f5648">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\groovy-xml-2.4.3-9cf26b0275131240b06f43ab0cf4879ab4187b11.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\src\main\libs\sdk-v1.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e2ce3786b6e9519934c4a54aaaaf39525bf4486c">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\sdk-v1.0.0-c90ca62f0a0da19736faa1876c942f1a1a537b25.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\classes-15ffeea73df4cdec261a2bf46d70baa1fba645cf.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\classes-eadb7ac2bd50b26c11ef6015f45b46f819a2dd22.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\org.codehaus.groovy\groovy\2.4.3\9c8664435dd00c5316a344eea4b86dc46601d416\groovy-2.4.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9c8664435dd00c5316a344eea4b86dc46601d416">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\groovy-2.4.3-1d2eb3ff5ceecdbfac4010ea0b74e1726e673671.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\com.jayway.restassured\rest-assured-common\2.4.1\5138d0cb2d73a3a11e76bd0f83c01af472cd3c1a\rest-assured-common-2.4.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5138d0cb2d73a3a11e76bd0f83c01af472cd3c1a">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\rest-assured-common-2.4.1-21dd7eb65969968ec01c2bdf2095e6434b52961b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\.gradle\caches\modules-2\files-2.1\org.ccil.cowan.tagsoup\tagsoup\1.2.1\5584627487e984c03456266d3f8802eb85a9ce97\tagsoup-1.2.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5584627487e984c03456266d3f8802eb85a9ce97">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\tagsoup-1.2.1-0183c0d5a1f1c68d47b01224dcf5ec8230b246ef.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\src\main\libs\apacheds-all-1.5.5.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f5b7ce73d6a3cd8a221ca90bdd0c6bbbe914480d">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\apacheds-all-1.5.5-f61da32067578b0760ff0cb37566039aebb8942b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Chris\AndroidStudioProjects\Patientix\app\src\main\libs\robolectric-3.0-rc3.jar"
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/robolectric-3.0-rc3.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="69ca2fe8ed0f43a8e69b5d20788d94c2c89c4490">
-        <dex dex="C:\Users\Chris\AndroidStudioProjects\Patientix\app\build\intermediates\pre-dexed\debug\robolectric-3.0-rc3-d7a740866f1ceb0128d66613b7175636bd64745c.jar" />
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/robolectric-3.0-rc3-33bdcc97bcce6bb7230e51fdae0252335eadf1b8.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-xml/2.4.3/a31a3b90246936d0f72b9055a975e5058b9f5648/groovy-xml-2.4.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a31a3b90246936d0f72b9055a975e5058b9f5648">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/groovy-xml-2.4.3-d8096b3fd09b749d05983d47226dfa6a8739256f.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/2.4.3/9c8664435dd00c5316a344eea4b86dc46601d416/groovy-2.4.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9c8664435dd00c5316a344eea4b86dc46601d416">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/groovy-2.4.3-44fe24f13bf0be9fc7c145873445a45453714f65.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-dfb09892b08149622e67698edf111af80425997d.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/org.ccil.cowan.tagsoup/tagsoup/1.2.1/5584627487e984c03456266d3f8802eb85a9ce97/tagsoup-1.2.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5584627487e984c03456266d3f8802eb85a9ce97">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/tagsoup-1.2.1-3046bae3a6c63d4754c43f76f22b7795975c05c9.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/com.jayway.restassured/xml-path/2.4.1/310fee9c6bdc9197134a74f4454f9c1d9cd7f34b/xml-path-2.4.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="310fee9c6bdc9197134a74f4454f9c1d9cd7f34b">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/xml-path-2.4.1-e3f70bc34ea764e666cf1425f997116136623f06.jar" />
+    </item>
+    <item
+        jar="/Users/chris/.gradle/caches/modules-2/files-2.1/com.jayway.restassured/rest-assured-common/2.4.1/5138d0cb2d73a3a11e76bd0f83c01af472cd3c1a/rest-assured-common-2.4.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5138d0cb2d73a3a11e76bd0f83c01af472cd3c1a">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/rest-assured-common-2.4.1-6b7b9cafc5c500ec6dd54f6ac6e39160dd9a67c1.jar" />
     </item>
 
 </items>
