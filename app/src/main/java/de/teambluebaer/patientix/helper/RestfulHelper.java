@@ -28,7 +28,6 @@ import static java.lang.Thread.sleep;
  */
 public class RestfulHelper extends Activity {
 
-
     //URL's
     //private final String SERVER_URL ="http://192.168.43.168/"
     private final String SERVER_URL = "http://192.168.178.40/";
