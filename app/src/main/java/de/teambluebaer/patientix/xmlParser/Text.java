@@ -53,9 +53,15 @@ public class Text implements Element {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<text";
+        xmlString = xmlString + "<text ";
         xmlString = xmlString + "text=\"" + this.text + "\" ";
-        xmlString = xmlString + "size=\"" + this.size + "\" ";
+        if(size.equals(TextSize.TITEL)){
+            xmlString = xmlString + "size=\"20\" ";
+        }else if(size.equals(TextSize.SUBTITEL)){
+            xmlString = xmlString + "size=\"15\" ";
+        }else {
+            xmlString = xmlString + "size=\"14\" ";
+        }
         xmlString = xmlString + "/>";
 
         return xmlString;
@@ -78,5 +84,13 @@ public class Text implements Element {
         int result = text != null ? text.hashCode() : 0;
         result = 31 * result + (size != null ? size.hashCode() : 0);
         return result;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public TextSize getSize() {
+        return size;
     }
 }

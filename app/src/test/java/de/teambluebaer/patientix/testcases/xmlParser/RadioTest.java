@@ -12,7 +12,7 @@ public class RadioTest extends TestCase {
     Radio radio;
 
     public void setUp() throws Exception {
-        radio = new Radio("Ja","","","");
+        radio = new Radio("Ja","false","","","","true");
     }
 
     public void testConstructor(){
@@ -26,7 +26,7 @@ public class RadioTest extends TestCase {
     public void testToXMLString() throws Exception {
 
         String radioXML = radio.toXMLString();
-        String testXML = "<radiobutton text=\"Ja\" checked=\"false\" comment=\"\" mtraComment=\"\" docComment=\"\" />";
+        String testXML = "<radiobutton text=\"Ja\" checked=\"false\" comment=\"\" mtraComment=\"\" docComment=\"\" highlight=\"true\" />";
         assertEquals(testXML,radioXML);
 
     }
