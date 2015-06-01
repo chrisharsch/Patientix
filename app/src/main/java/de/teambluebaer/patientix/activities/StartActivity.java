@@ -117,7 +117,9 @@ public class StartActivity extends Activity {
                 String xmlString = restfulHelper.responseString;
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
+                Log.d("FileSave", "Datei gespeichert in Java Struc");
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
+
 
                 String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
                         + Constants.globalMetaandForm.getMeta().getPatientFirstName();
@@ -125,6 +127,7 @@ public class StartActivity extends Activity {
                 if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
                     birthDate = getbirthDate();
                 }
+
                 textViewPatientBirth.setText(birthDate);
                 textViewPatientName.setText(nameSegment);
                 textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
