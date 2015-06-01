@@ -23,7 +23,7 @@ public class KioskService extends Service {
     private boolean running = false;
 
     /**
-     * This method makes a Log message that the Kiosk Mode is disabled
+     * This method makes a Log message that the Kiosk-Mode is disabled
      */
     @Override
     public void onDestroy() {
@@ -35,8 +35,8 @@ public class KioskService extends Service {
     /**
      *
      * @param intent intent to show
-     * @param flags
-     * @param startId
+     * @param flags flags to set
+     * @param startId not used just because of override
      * @return
      */
     @Override
@@ -66,21 +66,20 @@ public class KioskService extends Service {
     }
 
     /**
-     *
+     * This method handles the Kiosk-Mode and try to restore the app if
+     * it is in the background and and activated
      */
     private void handleKioskMode() {
-        // is Kiosk Mode active?
         if(PrefUtils.isKioskModeActive(ctx)) {
-            // is App in background?
             if(isInBackground()) {
-                restoreApp(); // restore!
+                restoreApp();
             }
         }
     }
 
     /**
-     *
-     * @return
+     * This method checks if the app runs in the background
+     * @return true for app in background
      */
     private boolean isInBackground() {
         ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
@@ -91,7 +90,7 @@ public class KioskService extends Service {
     }
 
     /**
-     * This method restores
+     * This method restores the App to the last Activity
      */
     private void restoreApp() {
         // Restart activity
@@ -101,9 +100,9 @@ public class KioskService extends Service {
     }
 
     /**
-     *
-     * @param intent
-     * @return
+     * This Method is just use to disable the super function
+     * @param intent nor used
+     * @return everytime null
      */
     @Override
     public IBinder onBind(Intent intent) {

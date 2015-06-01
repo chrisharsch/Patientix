@@ -10,8 +10,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.security.MessageDigest;
@@ -54,6 +56,16 @@ public class LoginActivity extends Activity {
         PrefUtils.setKioskModeActive(true, getApplicationContext());
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);
+        editPassword.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            onClickLoginButton(v);
+                        }
+                        return true;
+                    }
+                });
 
     }
 

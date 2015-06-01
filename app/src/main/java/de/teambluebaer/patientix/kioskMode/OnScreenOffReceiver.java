@@ -7,17 +7,15 @@ import android.content.Intent;
 public class OnScreenOffReceiver extends BroadcastReceiver {
 
     /**
-     *
-     * @param context
-     * @param intent
+     * This method registers that the screen is off.
+     * @param context of the current activity
+     * @param intent of the current activity
      */
     @Override
     public void onReceive(Context context, Intent intent) {
         if(Intent.ACTION_SCREEN_OFF.equals(intent.getAction())){
             AppContext ctx = (AppContext) context.getApplicationContext();
-            // is Kiosk Mode active?
             if(PrefUtils.isKioskModeActive(ctx)) {
-               // wakeUpDevice(ctx);
             }
         }
     }
