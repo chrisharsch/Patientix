@@ -20,11 +20,6 @@ public class MetaData {
      */
 
     public MetaData() {
-        this.patientBithDate = "Unbekannt";
-        this.patientID = "";
-        this.patientFirstName = "";
-        this.patientLastName = "";
-        this.exameName = "";
     }
 
 
@@ -33,15 +28,27 @@ public class MetaData {
     }
 
     public void setPatientFirstName(String patientFirstName){
-        this.patientFirstName = patientFirstName;
+        if(patientFirstName != null && !patientFirstName.isEmpty()){
+            this.patientFirstName = patientFirstName;
+        } else {
+            this.patientFirstName = "";
+        }
     }
 
     public void setPatientLastName(String patientLastName){
-        this.patientLastName = patientLastName;
+        if(patientLastName != null && !patientLastName.isEmpty()){
+            this.patientLastName = patientLastName;
+        } else {
+            this.patientLastName = "";
+        }
     }
 
     public void setPatientBithDate(String patientBithDate){
-        this.patientBithDate = patientBithDate;
+        if(patientBithDate != null && !patientBithDate.isEmpty()){
+            this.patientBithDate = patientBithDate;
+        } else {
+            this.patientBithDate = "Unbekannt";
+        }
     }
 
     public void setexameName(String exameName){
