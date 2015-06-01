@@ -36,7 +36,8 @@ public class JavaStrucBuilder extends DefaultHandler{
         SAXParserFactory spf = SAXParserFactory.newInstance();
 
         SAXParser saxParser = spf.newSAXParser();
-        saxParser.parse(new InputSource(new java.io.StringReader("<doc>" + xmlString + "</doc>")), this);
+        saxParser.parse(new InputSource(new java.io.StringReader(xmlString)), this);
+
         return metaandForm;
     }
 

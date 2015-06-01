@@ -36,8 +36,21 @@ public class AnswerChecker {
                         }else if(element instanceof Input){
                             //optional Imput ??
                         }
+                        if(everythingIsAnswert) {
+                            break;
+                        }
                     }
+                    if(!everythingIsAnswert){
+                        break;
+                    }
+
                 }
+                if(!everythingIsAnswert) {
+                    break;
+                }
+            }
+            if(!everythingIsAnswert) {
+                break;
             }
         }
         return everythingIsAnswert;

@@ -42,7 +42,7 @@ public class Checkbox implements Element, Commentar {
     public Checkbox(String checkboxText, String checked, String patientCommentar, String mtraCommentar,
                     String doctorCommentar, String highlight) {
         this.checkboxText = checkboxText;
-        this.checked = checked.equals("true");
+        this.checked = checked.equals("1");
 
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;

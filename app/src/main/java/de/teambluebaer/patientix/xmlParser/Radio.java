@@ -42,7 +42,7 @@ public class Radio implements Element, Commentar {
     public Radio(String radioText, String checked, String patientCommentar, String mtraCommentar,
                  String doctorCommentar, String highlight) {
         this.radioText = radioText;
-        this.checked = checked.equals("true");
+        this.checked = checked.equals("1");
 
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
