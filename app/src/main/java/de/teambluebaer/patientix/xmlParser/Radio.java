@@ -31,6 +31,7 @@ public class Radio implements Element, Commentar {
     private String patientCommentar;
     private String mtraCommentar;
     private String doctorCommentar;
+    private boolean highlight;
 
 
     /**
@@ -38,9 +39,10 @@ public class Radio implements Element, Commentar {
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText,String patientCommentar, String mtraCommentar, String doctorCommentar) {
+    public Radio(String radioText, String checked, String patientCommentar, String mtraCommentar,
+                 String doctorCommentar, String highlight) {
         this.radioText = radioText;
-        this.checked = false;
+        this.checked = checked.equals("true");
 
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
@@ -58,7 +60,7 @@ public class Radio implements Element, Commentar {
         } else {
             this.doctorCommentar = "";
         }
-
+        this.highlight = (highlight.equals("true"));
     }
 
     @Override
@@ -166,12 +168,13 @@ public class Radio implements Element, Commentar {
 
     public String toXMLString() {
         String xmlString = new String();
-        xmlString = xmlString + "<radiobutton";
+        xmlString = xmlString + "<radiobutton ";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar + "\" ";
-        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "comment=\"" + this.patientCommentar + "\" ";
+        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
+        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 
         return xmlString;

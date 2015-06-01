@@ -57,7 +57,7 @@ public class JavaStrucBuilder extends DefaultHandler{
 
     @Override
     public void startElement(String uri, String localName, String qName,
-                             Attributes attributes) {
+                              Attributes attributes) {
         if(qName.equals("page")){
             currendPage = new Page();
         }else if (qName.equals("row")){
@@ -65,11 +65,13 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("text")){
             currendRow.addElement(new Text(attributes.getValue("text"),attributes.getValue("size")));
         }else if(qName.equals("checkbox")){
-            currendRow.addElement(new Checkbox(attributes.getValue("text"),attributes.getValue("comment"),
-                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
+            currendRow.addElement(new Checkbox(attributes.getValue("text"), attributes.getValue("checked")
+                    ,attributes.getValue("comment"), attributes.getValue("mtraComment"),
+                    attributes.getValue("docComment"),attributes.getValue("highlight")));
         }else if(qName.equals("radiobutton")){
-            currendRow.addElement(new Radio(attributes.getValue("text"),attributes.getValue("comment"),
-                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
+            currendRow.addElement(new Radio(attributes.getValue("text"), attributes.getValue("checked"),
+                    attributes.getValue("comment"), attributes.getValue("mtraComment"),
+                    attributes.getValue("docComment"),attributes.getValue("highlight")));
 
         }else if(qName.equals("image")){
             currendRow.addElement(new Image(attributes.getValue("src")));
@@ -79,7 +81,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             currendRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
             currendRow.addElement(new Input(attributes.getValue("patientInput"),attributes.getValue("text"), attributes.getValue("comment"),
-                    attributes.getValue("mtraComment"),attributes.getValue("docComment")));
+                    attributes.getValue("mtraComment"),attributes.getValue("docComment"),attributes.getValue("highlight")));
 
 
         }else if(qName.equals("pID")){

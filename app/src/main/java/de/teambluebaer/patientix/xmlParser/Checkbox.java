@@ -30,6 +30,7 @@ public class Checkbox implements Element, Commentar {
     private String patientCommentar;
     private String mtraCommentar;
     private String doctorCommentar;
+    private boolean highlight;
 
 
 
@@ -38,9 +39,10 @@ public class Checkbox implements Element, Commentar {
      *
      * @param checkboxText represents the showen Answer to this Checkbox
      */
-    public Checkbox(String checkboxText, String patientCommentar, String mtraCommentar, String doctorCommentar) {
+    public Checkbox(String checkboxText, String checked, String patientCommentar, String mtraCommentar,
+                    String doctorCommentar, String highlight) {
         this.checkboxText = checkboxText;
-        this.checked = false;
+        this.checked = checked.equals("true");
 
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
@@ -57,6 +59,8 @@ public class Checkbox implements Element, Commentar {
         } else {
             this.doctorCommentar = "";
         }
+
+        this.highlight = (highlight.equals("true"));
 
     }
 
@@ -176,6 +180,7 @@ public class Checkbox implements Element, Commentar {
         xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
         xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
         xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 
         return xmlString;
