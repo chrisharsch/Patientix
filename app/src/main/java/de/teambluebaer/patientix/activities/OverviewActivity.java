@@ -9,12 +9,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.AnswerChecker;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
@@ -78,8 +80,13 @@ public class OverviewActivity extends Activity {
      */
     public void onClickContinueButton(View v) {
         Flasher.flash(buttonReady, "1x3");
-        Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
-        startActivity(intent);
+
+        if(AnswerChecker.isEverythingAnswert()) {
+            Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Bitte füllen sie alle Fragen aus", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
