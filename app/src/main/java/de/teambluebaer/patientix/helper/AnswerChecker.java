@@ -7,10 +7,16 @@ import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
  * Created by Simon on 01.06.2015.
+ *
+ * this Class holds a Method to check if every radiogroup jn the currnd Form has a answer choosen
  */
 public class AnswerChecker {
 
 
+    /**
+     * Checks the in Constants.globalMetaandForm saved Form for answered Radiobuttons
+     * @return boolean is true if every Radiogroup in the currend form is answered
+     */
     public static boolean isEverythingAnswert() {
 
         boolean everythingIsAnswert = true;
