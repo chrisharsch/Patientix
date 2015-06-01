@@ -1,8 +1,6 @@
 package de.teambluebaer.patientix.helper;
 
-import de.teambluebaer.patientix.xmlParser.Checkbox;
 import de.teambluebaer.patientix.xmlParser.Element;
-import de.teambluebaer.patientix.xmlParser.Input;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
@@ -13,49 +11,34 @@ import de.teambluebaer.patientix.xmlParser.Row;
 public class AnswerChecker {
 
 
-
-    public static boolean isEverythingAnswert(){
+    public static boolean isEverythingAnswert() {
 
         boolean everythingIsAnswert = true;
-        for (Page page:Constants.globalMetaandForm.getForm().getPageList()){
-            if(!everythingIsAnswert) {
+        for (Page page : Constants.globalMetaandForm.getForm().getPageList()) {
+            if (!everythingIsAnswert) {
                 break;
             }
-            for(Row row: page.getRows()){
-                if(!everythingIsAnswert){
+            for (Row row : page.getRows()) {
+                if (!everythingIsAnswert) {
                     break;
                 }
-                if(!row.getElements().contains(Element.class)){
-                    for(Element element:row.getElements()){
-                        if(element instanceof Radio){
-                            Radio radio =(Radio)element;
-                            if(radio.isChecked()){
-                                everythingIsAnswert = true;
-                                break;
-                            }else{
-                                everythingIsAnswert = false;
-                            }
-
-                        }else if(element instanceof Checkbox){
-                            //Checkbox dont have to be checked
-
-                        }else if(element instanceof Input){
-                            //optional Imput ??
-                        }
-                        if(everythingIsAnswert) {
+                for (Element element : row.getElements()) {
+                    if (element instanceof Radio) {
+                        Radio radio = (Radio) element;
+                        if (radio.isChecked()) {
+                            everythingIsAnswert = true;
                             break;
+                        } else {
+                            everythingIsAnswert = false;
                         }
                     }
-
-
+                    if (everythingIsAnswert && element instanceof Radio) {
+                        break;
+                    }
                 }
 
             }
-
-
         }
         return everythingIsAnswert;
     }
-
-
 }
