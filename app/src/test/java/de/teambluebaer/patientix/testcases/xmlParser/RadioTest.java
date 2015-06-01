@@ -12,7 +12,7 @@ public class RadioTest extends TestCase {
     Radio radio;
 
     public void setUp() throws Exception {
-        radio = new Radio("Ja","false","","","","true");
+        radio = new Radio("Ja","false","","","","1");
     }
 
     public void testConstructor(){

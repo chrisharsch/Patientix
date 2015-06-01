@@ -8,11 +8,11 @@ package de.teambluebaer.patientix.xmlParser;
  */
 public class MetaData {
 
-    private String patientID;
-    private String patientFirstName;
-    private String patientLastName;
-    private String patientBithDate;
-    private String exameName;
+    private String patientID  = "";
+    private String patientFirstName = "";
+    private String patientLastName = "";
+    private String patientBithDate = "Unbekannt";
+    private String exameName = "";
 
 
     /**
