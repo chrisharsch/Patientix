@@ -54,8 +54,12 @@ public class Input implements Element, Commentar {
         } else {
             this.doctorCommentar = "";
         }
+        if(highlight != null && !highlight.isEmpty()){
+            this.highlight = (highlight.equals("1"));
+        } else {
+            this.highlight = false;
+        }
 
-        this.highlight = (highlight.equals("true"));
     }
 
     @Override

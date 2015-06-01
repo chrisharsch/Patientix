@@ -114,14 +114,10 @@ public class StartActivity extends Activity {
         //changing some things on the layout
         Log.d("ResponseCode", responseCode + "");
         if (responseCode == 200) {
-            //try {
+            try {
             String xmlString = restfulHelper.responseString;
             JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-            try {
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
-            } catch (Exception e) {
-                Log.d("Exeption", e.toString());
-            }
             Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
             textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
@@ -135,10 +131,10 @@ public class StartActivity extends Activity {
             textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
             buttonStart.setVisibility(View.VISIBLE);
             buttonStart.setClickable(true);
-            //} catch (Exception e) {
-            // Log.d("FileSaveExeption", e.toString());
+            } catch (Exception e) {
+             Log.d("FileSaveExeption", e.toString());
             Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
-            //}
+            }
             Constants.ISSEND = false;
         } else if (404 == responseCode) {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();

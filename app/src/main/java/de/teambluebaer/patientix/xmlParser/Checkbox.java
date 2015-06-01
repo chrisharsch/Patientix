@@ -60,7 +60,11 @@ public class Checkbox implements Element, Commentar {
             this.doctorCommentar = "";
         }
 
-        this.highlight = (highlight.equals("true"));
+        if(highlight != null && !highlight.isEmpty()){
+            this.highlight = (highlight.equals("1"));
+        } else {
+            this.highlight = false;
+        }
 
     }
 

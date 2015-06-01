@@ -41,9 +41,17 @@ public class Radio implements Element, Commentar {
      */
     public Radio(String radioText, String checked, String patientCommentar, String mtraCommentar,
                  String doctorCommentar, String highlight) {
-        this.radioText = radioText;
-        this.checked = checked.equals("1");
 
+        if(checked != null && !checked.isEmpty()){
+            this.checked = checked.equals("1");
+        } else {
+            this.checked = false;
+        }
+        if(radioText != null && !radioText.isEmpty()){
+            this.radioText = radioText;
+        } else {
+            this.radioText = "";
+        }
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
         } else {
@@ -60,7 +68,11 @@ public class Radio implements Element, Commentar {
         } else {
             this.doctorCommentar = "";
         }
-        this.highlight = (highlight.equals("true"));
+        if(highlight != null && !highlight.isEmpty()){
+            this.highlight = (highlight.equals("1"));
+        } else {
+            this.highlight = false;
+        }
     }
 
     @Override
