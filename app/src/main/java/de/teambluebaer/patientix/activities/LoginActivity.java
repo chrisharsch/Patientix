@@ -28,9 +28,7 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
  * This Activity displays the Login for the Docs or the MTRA.
  * Here they can enter their pin to access to the APP.
  */
-/**
- * Created by Maren on 06.05.2015.
- */
+
 public class LoginActivity extends Activity {
 
     private Button buttonLogin;
@@ -76,9 +74,11 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
                 finish();
             } else {
+                editPassword.setText("");
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
             }
         } else {
+            editPassword.setText("");
             Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
         }
     }
@@ -124,6 +124,7 @@ public class LoginActivity extends Activity {
             PrefUtils.setKioskModeActive(false, getApplicationContext());
             System.exit(0);
         } else {
+            editPassword.setText("");
             Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
         }
 

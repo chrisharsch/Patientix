@@ -8,6 +8,11 @@ import de.teambluebaer.patientix.activities.LoginActivity;
 
 public class BootReceiver extends BroadcastReceiver {
 
+    /**
+     *
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent myIntent = new Intent(context, LoginActivity.class);

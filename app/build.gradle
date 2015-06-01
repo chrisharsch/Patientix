@@ -31,7 +31,6 @@ dependencies {
     compile files('src/main/libs/pen-v3.1.4.jar')
     compile files('src/main/libs/sdk-v1.0.0.jar')
     compile files('src/main/libs/apacheds-all-1.5.5.jar')
-    testCompile 'com.jayway.restassured:rest-assured:2.4.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-core:1.1'
     testCompile 'org.hamcrest:hamcrest-library:1.1'

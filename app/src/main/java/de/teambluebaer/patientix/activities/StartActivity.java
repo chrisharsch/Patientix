@@ -112,32 +112,34 @@ public class StartActivity extends Activity {
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
 
         //changing some things on the layout
+        Log.d("ResponseCode", responseCode + "");
         if (responseCode == 200) {
+            //try {
+            String xmlString = restfulHelper.responseString;
+            JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
             try {
-                String xmlString = restfulHelper.responseString;
-                JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
-                Log.d("FileSave", "Datei gespeichert in Java Struc");
-                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
-
-
-                String nameSegment = Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
-                        + Constants.globalMetaandForm.getMeta().getPatientFirstName();
-                String birthDate = "";
-                if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
-                    birthDate = getbirthDate();
-                }
-
-                textViewPatientBirth.setText(birthDate);
-                textViewPatientName.setText(nameSegment);
-                textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
-                buttonStart.setVisibility(View.VISIBLE);
-                buttonStart.setClickable(true);
             } catch (Exception e) {
-                Log.d("FileSaveExeption", e.toString());
-                Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
+                Log.d("Exeption", e.toString());
             }
-            Constants.ISSEND=false;
+            Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
+
+            textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
+                    + Constants.globalMetaandForm.getMeta().getPatientFirstName());
+            String birthDate = "";
+            if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
+                birthDate = getbirthDate();
+            }
+            textViewPatientBirth.setText(birthDate);
+
+            textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+            buttonStart.setVisibility(View.VISIBLE);
+            buttonStart.setClickable(true);
+            //} catch (Exception e) {
+            // Log.d("FileSaveExeption", e.toString());
+            Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
+            //}
+            Constants.ISSEND = false;
         } else if (404 == responseCode) {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {

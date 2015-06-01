@@ -15,13 +15,16 @@ import de.teambluebaer.patientix.helper.Constants;
 
 public class KioskService extends Service {
 
-    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(1); // periodic interval to check in seconds -> 1 seconds
+    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 1 seconds
     private static final String TAG = KioskService.class.getSimpleName();
 
     private Thread t = null;
     private Context ctx = null;
     private boolean running = false;
 
+    /**
+     * This method makes a Log message that the Kiosk Mode is disabled
+     */
     @Override
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
@@ -29,6 +32,13 @@ public class KioskService extends Service {
         super.onDestroy();
     }
 
+    /**
+     *
+     * @param intent intent to show
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Starting service 'KioskService'");
@@ -55,6 +65,9 @@ public class KioskService extends Service {
         return Service.START_NOT_STICKY;
     }
 
+    /**
+     *
+     */
     private void handleKioskMode() {
         // is Kiosk Mode active?
         if(PrefUtils.isKioskModeActive(ctx)) {
@@ -65,6 +78,10 @@ public class KioskService extends Service {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean isInBackground() {
         ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -73,6 +90,9 @@ public class KioskService extends Service {
         return (!ctx.getApplicationContext().getPackageName().equals(componentInfo.getPackageName()));
     }
 
+    /**
+     * This method restores
+     */
     private void restoreApp() {
         // Restart activity
         Intent i = new Intent(ctx, Constants.CURRENTACTIVITY.getClass());
@@ -80,6 +100,11 @@ public class KioskService extends Service {
         ctx.startActivity(i);
     }
 
+    /**
+     *
+     * @param intent
+     * @return
+     */
     @Override
     public IBinder onBind(Intent intent) {
         return null;

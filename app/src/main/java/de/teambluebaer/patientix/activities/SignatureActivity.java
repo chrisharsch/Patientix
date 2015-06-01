@@ -45,9 +45,6 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
 /**
  * This class is for saving the signature from patient.
  */
-/**
- * Created by Maren on 16.05.2015.
- */
 public class SignatureActivity extends Activity {
 
     private Context mContext;

@@ -27,9 +27,6 @@ import de.teambluebaer.patientix.xmlParser.MetaandForm;
  * This Activity displays the formula to fill for the patient
  * in page elements
  */
-/**
- * Created by Maren on 03.05.2015.
- */
 public class FormActivity extends Activity {
 
     private Button buttonContinue;
