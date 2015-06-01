@@ -18,7 +18,13 @@ public class AnswerChecker {
 
         boolean everythingIsAnswert = true;
         for (Page page:Constants.globalMetaandForm.getForm().getPageList()){
+            if(!everythingIsAnswert) {
+                break;
+            }
             for(Row row: page.getRows()){
+                if(!everythingIsAnswert){
+                    break;
+                }
                 if(!row.getElements().contains(Element.class)){
                     for(Element element:row.getElements()){
                         if(element instanceof Radio){
@@ -40,18 +46,13 @@ public class AnswerChecker {
                             break;
                         }
                     }
-                    if(!everythingIsAnswert){
-                        break;
-                    }
+
 
                 }
-                if(!everythingIsAnswert) {
-                    break;
-                }
+
             }
-            if(!everythingIsAnswert) {
-                break;
-            }
+
+
         }
         return everythingIsAnswert;
     }
