@@ -40,7 +40,6 @@ import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This class is for saving the signature from patient.
@@ -83,10 +82,9 @@ public class SignatureActivity extends Activity {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);
             finish();
-            System.exit(0);
         }
         Constants.CURRENTACTIVITY = this;
-        PrefUtils.setKioskModeActive(true, getApplicationContext());
+       // PrefUtils.setKioskModeActive(true, getApplicationContext());
         mContext = this;
 
 

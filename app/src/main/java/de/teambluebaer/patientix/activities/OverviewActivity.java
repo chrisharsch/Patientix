@@ -20,7 +20,6 @@ import de.teambluebaer.patientix.helper.AnswerChecker;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This Activity displays the overview of all questions.
@@ -50,7 +49,7 @@ public class OverviewActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_overview);
         Constants.CURRENTACTIVITY = this;
-        PrefUtils.setKioskModeActive(true, getApplicationContext());
+       // PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         //Reference Variables
         list = (LinearLayout) findViewById(R.id.list);
@@ -63,7 +62,6 @@ public class OverviewActivity extends Activity {
             Intent intent = new Intent(OverviewActivity.this, StartActivity.class);
             startActivity(intent);
             finish();
-            System.exit(0);
         }
 
         //Check if the page is zoomed or not

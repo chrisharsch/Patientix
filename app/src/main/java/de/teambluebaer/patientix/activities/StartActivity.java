@@ -25,7 +25,6 @@ import java.util.List;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
@@ -67,7 +66,7 @@ public class StartActivity extends Activity {
 
         setContentView(R.layout.activity_start);
         Constants.CURRENTACTIVITY = this;
-        PrefUtils.setKioskModeActive(true, getApplicationContext());
+       // PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);

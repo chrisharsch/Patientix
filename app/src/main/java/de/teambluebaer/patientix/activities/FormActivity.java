@@ -20,7 +20,6 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -56,7 +55,7 @@ public class FormActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_form);
         Constants.CURRENTACTIVITY = this;
-        PrefUtils.setKioskModeActive(true, getApplicationContext());
+       // PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
@@ -81,7 +80,6 @@ public class FormActivity extends Activity {
         } catch (NullPointerException e) {
             Intent intent = new Intent(FormActivity.this, StartActivity.class);
             startActivity(intent);
-            System.exit(0);
             finish();
         }
     }
