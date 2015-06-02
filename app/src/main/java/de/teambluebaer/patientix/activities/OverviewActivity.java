@@ -90,7 +90,7 @@ public class OverviewActivity extends Activity {
         Flasher.flash(buttonReady, "1x3");
 
         if(AnswerChecker.isEverythingAnswert()) {
-            Intent intent = new Intent(OverviewActivity.this, EndActivity.class);
+            Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
             finish();

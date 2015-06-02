@@ -73,16 +73,7 @@ public class EndActivity extends Activity {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
         }
 
-        endtext.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                startActivity(intent);
-                PrefUtils.setKioskModeActive(false,EndActivity.this);
-                finish();
-                return true;
-            }
-        });
+
     }
 
 
@@ -132,7 +123,16 @@ public class EndActivity extends Activity {
                     }
                 });
             }
-
+            endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    PrefUtils.setKioskModeActive(false,EndActivity.this);
+                    finish();
+                    return true;
+                }
+            });
             return null;
         }
     }
