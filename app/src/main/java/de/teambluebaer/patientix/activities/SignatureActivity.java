@@ -82,6 +82,7 @@ public class SignatureActivity extends Activity {
         if (!isFormula()) {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false,this);
             finish();
         }
 
@@ -104,6 +105,7 @@ public class SignatureActivity extends Activity {
             Toast.makeText(mContext, "Cannot initialize Spen.",
                     Toast.LENGTH_SHORT).show();
             e1.printStackTrace();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 

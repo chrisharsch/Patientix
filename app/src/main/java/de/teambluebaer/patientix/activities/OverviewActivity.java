@@ -68,6 +68,7 @@ public class OverviewActivity extends Activity {
         } catch (NullPointerException e) {
             Intent intent = new Intent(OverviewActivity.this, StartActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 

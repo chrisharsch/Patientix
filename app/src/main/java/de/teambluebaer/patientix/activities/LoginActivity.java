@@ -1,6 +1,8 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -36,7 +38,7 @@ public class LoginActivity extends Activity {
     private Button buttonLogin;
     private EditText editPassword = null;
     Integer responseCode;
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_HOME, KeyEvent.KEYCODE_MENU));
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -53,10 +55,13 @@ public class LoginActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_login);
         Constants.CURRENTACTIVITY = this;
+
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         PrefUtils.setKioskModeActive(true, this);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);
-
         editPassword.setOnEditorActionListener(
                 new EditText.OnEditorActionListener() {
                     @Override
@@ -85,6 +90,7 @@ public class LoginActivity extends Activity {
                 Log.d("Login successful: ", responseCode + "");
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
+                PrefUtils.setKioskModeActive(false, this);
                 finish();
             } else {
                 editPassword.setText("");
@@ -135,11 +141,11 @@ public class LoginActivity extends Activity {
     public void onClickButtonExit(View v) {
         if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
             PrefUtils.setKioskModeActive(false, Constants.CURRENTACTIVITY);
-            PrefUtils.setKioskModeActive(false,this);
-                for(Activity activity: Constants.LISTOFACTIVITIES){
-                    PrefUtils.setKioskModeActive(false,activity);
-                }
-                System.exit(0);
+            PrefUtils.setKioskModeActive(false, this);
+            for (Activity activity : Constants.LISTOFACTIVITIES) {
+                PrefUtils.setKioskModeActive(false, activity);
+            }
+            System.exit(0);
         } else {
             editPassword.setText("");
             Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();

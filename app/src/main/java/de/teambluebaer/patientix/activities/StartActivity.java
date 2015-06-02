@@ -26,6 +26,7 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;

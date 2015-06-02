@@ -2,6 +2,8 @@ package de.teambluebaer.patientix.helper;
 
 import android.app.Activity;
 
+import java.util.LinkedList;
+
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -19,4 +21,5 @@ public class Constants {
     public static boolean currendPageIsanswert;
     public static Activity CURRENTACTIVITY;
     public static boolean resign;
+    public static LinkedList<Activity> LISTOFACTIVITIES = new LinkedList();
 }

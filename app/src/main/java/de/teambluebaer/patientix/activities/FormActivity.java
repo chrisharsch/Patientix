@@ -58,12 +58,13 @@ public class FormActivity extends Activity {
         if (!isFormula()) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 
         Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
-        PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, this);
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
@@ -104,6 +105,7 @@ public class FormActivity extends Activity {
         Flasher.flash(buttonOk, "1x3");
         Intent intent = new Intent(FormActivity.this, OverviewActivity.class);
         startActivity(intent);
+        PrefUtils.setKioskModeActive(false,this);
         finish();
     }
 
