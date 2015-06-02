@@ -24,7 +24,7 @@ public class CheckboxTest extends TestCase {
 
     public void testConstructor(){
         assertEquals("Ja", checkbox.getCheckboxText());
-        assertEquals("Was hei�t das?", checkbox.getPatientCommentar());
+        assertEquals("Was heißt das?", checkbox.getPatientCommentar());
         assertEquals("nix", checkbox.getMtraCommentar());
         assertEquals("das sie das haben", checkbox.getDoctorCommentar());
         assertEquals(false, checkbox.isChecked());
@@ -32,7 +32,7 @@ public class CheckboxTest extends TestCase {
 
 
     public void testToXMLString (){
-        String xml = "<checkbox text=\"Ja\" checked=\"false\" comment\"Was hei�t das?\" mtraComment\"nix\" " +
+        String xml = "<checkbox text=\"Ja\" checked=\"false\" comment\"Was heißt das?\" mtraComment\"nix\" " +
                 "docComment\"das sie das haben\" highlight=\"false\" />";
         assertEquals(xml ,checkbox.toXMLString());
     }

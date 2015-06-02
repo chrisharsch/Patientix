@@ -89,8 +89,10 @@ public class Radio implements Element, Commentar {
     public void addToView(Context context, RadioGroup radiogroup) {
         RadioButton radio = new RadioButton(context);
         radio.setText(radioText);
+        radio.setButtonDrawable(R.drawable.radio);
         radiogroup.addView(radio);
         radio.setChecked(checked);
+        radio.setMinWidth(300);
         radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {

@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
     private Button buttonLogin;
     private EditText editPassword = null;
     Integer responseCode;
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_HOME, KeyEvent.KEYCODE_MENU));
 
     /**
      * In this method is defined what happens on create of the Activity:
