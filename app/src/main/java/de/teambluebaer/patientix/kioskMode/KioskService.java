@@ -41,6 +41,7 @@ public class KioskService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Starting service 'KioskService'");
+        Log.i(TAG, intent.toString());
         running = true;
         ctx = this;
 
