@@ -1,4 +1,4 @@
-DROP DATABASE UMMMobilePatients;
+DROP DATABASE IF EXISTS UMMMobilePatients;
 
 CREATE DATABASE UMMMobilePatients
 DEFAULT CHARACTER SET utf8
@@ -8,8 +8,14 @@ USE UMMMobilePatients;
 
 CREATE TABLE IF NOT EXISTS Forms (
     formID int(10) PRIMARY KEY AUTO_INCREMENT,
+    formShortName varchar(10) NOT NULL,
     formDate DATETIME NOT NULL,
     formName varchar(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Sections (
+ 	sectionID int(10) PRIMARY KEY,
+    sectionName varchar(50)
 );
 
 CREATE TABLE IF NOT EXISTS Pages (
@@ -21,7 +27,9 @@ CREATE TABLE IF NOT EXISTS Pages (
 
 CREATE TABLE IF NOT EXISTS Tablets (
     tabletID int(10) PRIMARY KEY AUTO_INCREMENT,
-    MACAddress varchar(20) NOT NULL
+    tabletName varchar(20) NOT NULL,
+    MACAddress varchar(20) NOT NULL,
+    IPAddress varchar(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Patients (
@@ -33,10 +41,31 @@ CREATE TABLE IF NOT EXISTS Patients (
     birthDate DATE
 );
 
+CREATE TABLE IF NOT EXISTS Users (
+    userID int(10) PRIMARY KEY AUTO_INCREMENT,
+    userTitle varchar(20),
+    userFirstName varchar(25) NOT NULL,
+    userLastName varchar(25) NOT NULL,
+    userName varchar(10) UNIQUE NOT NULL,
+    userPW varchar(128) NOT NULL,
+    userType int(1) NOT NULL,
+    lost int(1) NOT NULL DEFAULT 0,
+    code varchar(12) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Codes (
+    codeID int(10) PRIMARY KEY AUTO_INCREMENT,
+    code varchar(10) NOT NULL,
+    sectionID int(10) NOT NULL,
+    formID int(10) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS OpenPatients (
     openID int(10) PRIMARY KEY AUTO_INCREMENT,
     patientID int(10) NOT NULL,
-    FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE
+    sectionID int(10) NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ScheduledPatients (
@@ -45,9 +74,11 @@ CREATE TABLE IF NOT EXISTS ScheduledPatients (
     regDate DATETIME NOT NULL,
     tabletID int(10) NOT NULL,
     formID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS MTRADocuments (
@@ -56,16 +87,10 @@ CREATE TABLE IF NOT EXISTS MTRADocuments (
     XML varchar(100000) NOT NULL,
     regDate DATETIME NOT NULL default current_timestamp,
     formID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS Users (
-    userID int(10) PRIMARY KEY AUTO_INCREMENT,
-    userName varchar(50) UNIQUE NOT NULL,
-    userPW varchar(128) NOT NULL,
-    userType int(1) NOT NULL,
-    lost int(1) NOT NULL DEFAULT 0
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS DocDocuments (
@@ -75,9 +100,41 @@ CREATE TABLE IF NOT EXISTS DocDocuments (
     regDate DATETIME NOT NULL,
     formID int(10) NOT NULL,
     MTRAID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (MTRAID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (MTRAID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ResigningPatients (
+    resignID int(10) PRIMARY KEY AUTO_INCREMENT,
+    patientID int(10) NOT NULL,
+    XML varchar(100000) NOT NULL,
+    regDate DATETIME NOT NULL,
+    formID int(10) NOT NULL,
+    docID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ScheduledResigningPatients (
+    resignScheduledID int(10) PRIMARY KEY AUTO_INCREMENT,
+    patientID int(10) NOT NULL,
+    XML varchar(100000) NOT NULL,
+    regDate DATETIME NOT NULL,
+    formID int(10) NOT NULL,
+    docID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
+    tabletID int(10) NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS PDFs (
@@ -87,9 +144,11 @@ CREATE TABLE IF NOT EXISTS PDFs (
     PDF MEDIUMBLOB NOT NULL,
     formID int(10) NOT NULL,
     DocID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Actions (
@@ -107,153 +166,59 @@ CREATE TABLE IF NOT EXISTS Login (
 	PRIMARY KEY (timestamp, userID)
 );
 
-INSERT INTO Users(userID, userName, userPW, userType) Values
-    (1, "Arzt", "70e1d82c05bb1528feb1bb95d3754748a704c1173f1adb4f05bdb1505503be4ae89110cc60ce80ee6d77ec72a31f7883f5e567a39e59441ed8c740612554bb6d", 0),
-    (2, "MTRA", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 1),
-    (3, "Admin", "887375daec62a9f02d32a63c9e14c7641a9a8a42e4fa8f6590eb928d9744b57bb5057a1d227e4d40ef911ac030590bbce2bfdb78103ff0b79094cee8425601f5", 2),
-    (4, "MTRA2", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 2);
+INSERT INTO Sections(sectionID, sectionName) Values
+	(1, "CT"),
+	(2, "MRT"),
+	(3, "PET-CT");
 
-INSERT INTO Forms(formID, formDate, formName) Values
-    (1, NOW(), "CT Aufklärung"),
-    (2, NOW(), "MRT Aufklärung"),
-    (3, NOW(), "PET/CT Einverständnis");
+INSERT INTO Users(userID, userTitle, userFirstName, userLastName, userName, userPW, userType) Values
+    (1, "Prof. Dr. ", "Arzt","Müller", "Arzt", "70e1d82c05bb1528feb1bb95d3754748a704c1173f1adb4f05bdb1505503be4ae89110cc60ce80ee6d77ec72a31f7883f5e567a39e59441ed8c740612554bb6d", 0),
+    (2,"", "MTRA", "Meyer", "MTRA", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 1),
+    (3, "", "Admin", "Schulz", "Admin", "887375daec62a9f02d32a63c9e14c7641a9a8a42e4fa8f6590eb928d9744b57bb5057a1d227e4d40ef911ac030590bbce2bfdb78103ff0b79094cee8425601f5", 2),
+    (4, "Dr.", "MTRA2", "Mustermann", "MTRA2", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 2);
+
+INSERT INTO Forms(formID, formShortName, formDate, formName) Values
+    (1, "CT", NOW(), "CT Aufklärung"),
+    (2, "MRT", NOW(), "MRT Aufklärung"),
+    (3, "PET-CT", NOW(), "PET/CT Einverständnis");
 
 INSERT INTO Pages(pageID, XML, formID) Values
-    (1,'<root>
-                <metadata>
-<pID>00000</pID>
-<pFirstName>Paxi</pFirstName>
-<pLastName>Hartmann</pLastName>
-<pDate> 20.04.1902</pDate>
-                    <name>CT Patienteninformation</name>
-                </metadata>
-                <formData>',1),
-    (2,'<page>
-                    <row>
-                        <text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text>
-                    </row>
-                    <row>
-                        <text text="Was ist Computertomographie?" size="15"></text>
-                    </row>
-                    <row>
-                        <text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text>
-                    </row>
-                    <row>
-                        <text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text>
-                    </row>
-                    <row>
-                        <text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund.
-        Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen.
-        In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken.
-        Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text>
-                    </row>
-                </page>', 1),
-    (3,'
+    (1, '<page><row><text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text></row><row><text text="Was ist Computertomographie?" size="15"></text></row><row><text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text></row><row><text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text></row><row><text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text></row></page>', 1),
+    (2, '<page><row><text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text></row><row><text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text></row><row><text text="Wie lange dauert die Untersuchung?" size="15"></text></row><row><text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text></row><row><text text="Wie läuft die Untersuchung ab?" size="15"></text></row><row><text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text></row></page>', 1),
+    (4, '<page><row><text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (5, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (6, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (7, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (8, '<page><row><text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (9, '<page><row><text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (10, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (14, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (15, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (16, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (17, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (18, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (19, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (20, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (21, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (22, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (23, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (28, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (29, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (30, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (31, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (32, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (33, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (34, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (35, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (36, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (37, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3);
 
-<page>
-                    <row>
-                        <text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text>
-                    </row>
-                    <row>
-                        <text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text>
-                    </row>
-                    <row>
-                        <text text="Wie lange dauert die Untersuchung?" size="15"></text>
-                    </row>
-                    <row>
-                        <text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text>
-                    </row>
-                    <row>
-                        <text text="Wie läuft die Untersuchung ab?" size="15"></text>
-                    </row>
-                    <row>
-                        <text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text>
-                    </row>
-                </page>', 1),
-    (4,'
-<page><row><input text="Name, Vorname"></input></row></page><page>
-                    <row>
-
-    <text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-    </page>',1),
-    (5,'<page>
-                    <row>
-                        <text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                   </page>',1),
-                   (6,'<page>
-                    <row>
-                        <text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                    </page>',1),
-                    (7,'<page>
-                    <row>
-                        <text text="Besteht eine Schilddrüsenüberfunktion?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                    </page>',1),
-                    (8,'<page>
-                    <row>
-                        <text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                    </page>',1),
-                    (9,'<page>
-                    <row>
-                        <text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                    </page>',1),
-                    (10,'<page>
-                    <row>
-                        <text text="Könnten Sie schwanger sein oder stillen Sie?" size="15"></text>
-                        </row>
-                    <row>
-<radiobutton text="Ja"></radiobutton>
-                        <radiobutton text="Nein"></radiobutton>
-                    </row>
-                </page>', 1),
-    (11,'<page>
-                    <row>
-                        <text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein." size="15"></text>
-                    </row>
-                    <row>
-<radiobutton text="Ich möchte eine Kopie erhalten"></radiobutton>
-                        <radiobutton text="Ich wünsche keine Kopie"></radiobutton>
-                    </row>
-
-                </page>
-</formData>
-            </root>', 1);
-
-INSERT INTO Tablets(tabletID, MACAddress) Values
-    (1, "CC:07:AB:B8:E5:83"),
-    (2, "DE:AD:BE:EF:10:25"),
-    (3, "DE:AD:BE:EF:10:26"),
-    (4, "DE:AD:BE:EF:10:27"),
-    (5, "DE:AD:BE:EF:10:28");
+INSERT INTO Tablets(tabletID, tabletName, MACAddress, IPAddress) Values
+    (1, "Samsung Galaxy Note 10.1", "CC:07:AB:B8:E5:83", "194.95.162.121"),
+    (2, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:25", "194.95.162.222"),
+    (3, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:26", "194.96.162.121"),
+    (4, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:27", "194.95.162.121"),
+    (5, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:28", "194.97.162.121");
 
 INSERT INTO Patients(patientID, patientFirstName, patientName, patientIDExt, regDate, birthDate) VALUES
     (1, "Liselotte", "Wetzel", 8378375385, "2015-05-20 23:59:59", "1980-12-10"),
@@ -272,24 +237,24 @@ INSERT INTO Patients(patientID, patientFirstName, patientName, patientIDExt, reg
     (14, "Benno Rupert", "Graner", 236463, "2015-05-20 23:59:59", "1960-05-10"),
     (15, "Günter Detlef", "Lafrenz", 236346347, "2015-05-20 23:59:59", "1965-04-10");
 
-INSERT INTO OpenPatients(openID, patientID) Values
-    (1, 14),
-    (2, 15),
-    (3, 2),
-    (4, 4),
-    (5, 6),
-    (6, 7),
-    (7, 11),
-    (8, 12),
-    (9, 13);
+INSERT INTO OpenPatients(openID, patientID, sectionID) Values
+    (1, 14, 2),
+    (2, 15, 3),
+    (3, 2, 3),
+    (4, 4, 1),
+    (5, 6, 1),
+    (6, 7, 2),
+    (7, 11, 3),
+    (8, 12, 1),
+    (9, 13, 1);
 
-INSERT INTO ScheduledPatients(scheduledID, patientID, regDate, tabletID, formID) Values
-    (1, 3, "2015-05-21 23:59:59", 1, 2),
-    (2, 8, "2015-05-21 23:59:59", 2, 2),
-    (3, 9, "2015-05-21 23:59:59", 3, 1),
-    (4, 10, "2015-05-21 23:59:59", 4, 3);
+INSERT INTO ScheduledPatients(scheduledID, patientID, regDate, tabletID, formID, sectionID) Values
+    (1, 3, "2015-05-21 23:59:59", 1, 2, 2),
+    (2, 8, "2015-05-21 23:59:59", 2, 2, 2),
+    (3, 9, "2015-05-21 23:59:59", 3, 1, 1),
+    (4, 10, "2015-05-21 23:59:59", 4, 3, 3);
 
-INSERT INTO MTRADocuments(documentID, patientID, XML, regDate, formID) Values
+INSERT INTO MTRADocuments(documentID, patientID, XML, regDate, formID, sectionID) Values
     (1, 1, '<root>
             	<meta>
             		<pID>1</pID>
@@ -425,9 +390,9 @@ INSERT INTO MTRADocuments(documentID, patientID, XML, regDate, formID) Values
             			</row>
             		</page>
             	</formData>
-            </root>', "2015-05-21 23:59:59", 1);
+            </root>', "2015-05-21 23:59:59", 1, 1);
 
-INSERT INTO DocDocuments(documentID, patientID, XML, regDate, formID, MTRAID) Values
+INSERT INTO DocDocuments(documentID, patientID, XML, regDate, formID, MTRAID, sectionID) Values
     (1, 5, '<root>
                        	<meta>
                        		<pID>5</pID>
@@ -563,4 +528,173 @@ INSERT INTO DocDocuments(documentID, patientID, XML, regDate, formID, MTRAID) Va
                        			</row>
                        		</page>
                        	</formData>
-                       </root>', "2015-05-21 23:59:59", 3, 2);
+                       </root>', "2015-05-21 23:59:59", 3, 2, 3);
+
+INSERT INTO Codes (code, sectionID, formID) VALUES
+("R0CG.SCHO", 1, 1),
+("R0CG.PLAS", 1, 1),
+("R0CG.HB", 1, 1),
+("R0CG.TB", 1, 1),
+("R0CG.BST", 1, 1),
+("ROCHT.HALS", 1, 1),
+("ROCHT.THO", 1, 1),
+("ROCHT.HT", 1, 1),
+("ROCHT.LE", 1, 1),
+("ROCHT.CHPA", 1, 1),
+("R0CG.OBB", 1, 1),
+("R0CG.OB", 1, 1),
+("R0CG.BECK", 1, 1),
+("R0CG.PANK", 1, 1),
+("R0CG.NIER", 1, 1),
+("R0CG.LITH", 1, 1),
+("R0CG.CHPA", 1, 1),
+("R0CG.KALK", 1, 1),
+("R0CG.ANG", 1, 1),
+("R0CG.HIRN", 1, 1),
+("R0CG.HALS", 1, 1),
+("R0CG.HIHA", 1, 1),
+("R0CG.THOR", 1, 1),
+("R0CG.ABD", 1, 1),
+("R0CG.BBA", 1, 1),
+("R0CG.VENO", 1, 1),
+("R0CG.HIRN", 1, 1),
+("R0CG.ORB", 1, 1),
+("R0CG.GES", 1, 1),
+("R0CG.FELS", 1, 1),
+("R0CG.H", 1, 1),
+("R0CG.B", 1, 1),
+("R0CG.L", 1, 1),
+("R0CG.BMD", 1, 1),
+("R0CG.HAND", 1, 1),
+("R0CG.OEX", 1, 1),
+("R0CG.FUSS", 1, 1),
+("R0CG.UEX", 1, 1),
+("R0CG.ACHS", 1, 1),
+("R0CG.SCHM", 1, 1),
+("R0CG.FAC", 1, 1),
+("R0CG.ALK", 1, 1),
+("R0CG.LUNG", 1, 1),
+("R0CG.ABD", 1, 1),
+("R0CG.KNO", 1, 1),
+("R0CG.RITA", 1, 1),
+("R0CG.DRLU", 1, 1),
+("R0CG.DRAB", 1, 1),
+("R0CG.DRAIN", 1, 1),
+("R0CG.VT", 1, 1),
+("R0CG.THO", 1, 1),
+("R0CG.OB", 1, 1),
+("R0CG.SCH", 1, 1),
+("R0CG.WS", 1, 1),
+("R0CG.HIRN", 2, 1),
+("R0CG.STRO", 2, 1),
+("R0CG.PLAN", 2, 1),
+("R0CG.ORB", 2, 1),
+("R0CG.NNH", 2, 1),
+("R0CG.AN", 2, 1),
+("R0CG.HYPO", 2, 1),
+("R0CG.GEF", 2, 1),
+("R0CG.HALS", 2, 1),
+("R0CG.CARO", 2, 1),
+("R0CG.THOR", 2, 1),
+("R0CG.PUL", 2, 1),
+("R0CG.MAM", 2, 1),
+("R0CG.IS", 2, 1),
+("R0CG.VOL", 2, 1),
+("R0CG.STR", 2, 1),
+("R0CG.MP", 2, 1),
+("R0CG.ISO", 2, 1),
+("R0CG.PLAS", 2, 1),
+("R0CG.MET", 2, 1),
+("R0CG.FOK", 2, 1),
+("R0CG.MAS", 2, 1),
+("R0CG.SCRE", 2, 1),
+("R0CG.OB", 2, 1),
+("R0CG.OB", 2, 1),
+("R0CG.BECK", 2, 1),
+("R0CG.LEB", 2, 1),
+("R0CG.PRIM", 2, 1),
+("R0CG.LEFE", 2, 1),
+("R0CG.PANK", 2, 1),
+("R0CG.MRCP", 2, 1),
+("R0CG.NIER", 2, 1),
+("R0CG.AUG", 2, 1),
+("R0CG.PROS", 2, 1),
+("R0CG.HOD", 2, 1),
+("R0CG.REK", 2, 1),
+("R0CG.COLO", 2, 1),
+("R0CG.FAEK", 2, 1),
+("R0CG.SELL", 2, 1),
+("R0CG.DYN", 2, 1),
+("R0CG.ANG", 2, 1),
+("R0CG.HWS", 2, 1),
+("R0CG.BWS", 2, 1),
+("R0CG.LWS", 2, 1),
+("R0CG.TS", 2, 1),
+("R0CG.ISG", 2, 1),
+("R0CG.MYE", 2, 1),
+("R0CG.SG", 2, 1),
+("R0CG.ASG", 2, 1),
+("R0CG.OA", 2, 1),
+("R0CG.EB", 2, 1),
+("R0CG.UA", 2, 1),
+("R0CG.HAN", 2, 1),
+("R0CG.HG", 2, 1),
+("R0CG.FI", 2, 1),
+("R0CG.HUE", 2, 1),
+("R0CG.AHUE", 2, 1),
+("R0CG.OS", 2, 1),
+("R0CG.US", 2, 1),
+("R0CG.KG", 2, 1),
+("R0CG.SG", 2, 1),
+("R0CG.FU", 2, 1),
+("R0CG.HIRN", 2, 1),
+("R0CG.CARO", 2, 1),
+("R0CG.PUL", 2, 1),
+("R0CG.NIE", 2, 1),
+("R0CG.ABD", 2, 1),
+("R0CG.AORT", 2, 1),
+("R0CG.BBA", 2, 1),
+("R0CG.GK", 2, 1),
+("R0CG.EXT", 2, 1),
+("R0CG.HIRN", 2, 1),
+("R0CG.THOR", 2, 1),
+("R0CG.ABD", 2, 1),
+("R0CG.BECK", 2, 1),
+("R0CG.IU", 2, 1),
+("R0CG.MSK", 2, 1),
+("R0CG.CDH", 2, 1),
+("R0CG.GK", 3, 1),
+("R0CG.CH", 3, 1),
+("R0CG.HIR", 3, 1),
+("R0CG.HIR2", 3, 1),
+("R0CG.HIR3", 3, 1),
+("R0CG.KN", 3, 1),
+("R0CG.KN2", 3, 1),
+("R0CG.KN3", 3, 1),
+("R0CG.SDTC", 3, 1),
+("R0CG.SDJ", 3, 1),
+("R0CG.NSD", 3, 1),
+("R0CG.SEQ", 3, 1),
+("R0CG.TPL", 3, 1),
+("R0CG.PERF", 3, 1),
+("R0CG.GES", 3, 1),
+("R0CG.MYR", 3, 1),
+("R0CG.MYB", 3, 1),
+("R0CG.DAT", 3, 1),
+("R0CG.IBZM", 3, 1),
+("R0CG.HMPA", 3, 1),
+("R0CG.LIQ", 3, 1),
+("R0CG.2", 3, 1),
+("R0CG.REZ", 3, 1),
+("R0CG.1", 3, 1),
+("R0CG.ME", 3, 1),
+("R0CG.EP", 3, 1),
+("R0CG.LE", 3, 1),
+("R0CG.SP", 3, 1),
+("R0CG.SIMA", 3, 1),
+("R0CG.SIRT", 3, 1),
+("R0CG.TU", 3, 1),
+("R0CG.GA", 3, 1),
+("R0CG.ME", 3, 1),
+("R0CG.MA", 3, 1),
+("R0CG.AND", 3, 1);

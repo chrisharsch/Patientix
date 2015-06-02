@@ -35,6 +35,7 @@ import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
  * After the download the data will be checked an you will get feedback
  * what is happened.
  */
+
 /**
  * Created by Maren on 29.04.2015.
  */
@@ -47,7 +48,7 @@ public class StartActivity extends Activity {
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_HOME, KeyEvent.KEYCODE_MENU));
 
     /**
      * OnCreation of the Activity this method runs and removes the titlebar and
@@ -66,7 +67,7 @@ public class StartActivity extends Activity {
 
         setContentView(R.layout.activity_start);
         Constants.CURRENTACTIVITY = this;
-       // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        // PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);
@@ -114,25 +115,25 @@ public class StartActivity extends Activity {
         Log.d("ResponseCode", responseCode + "");
         if (responseCode == 200) {
             try {
-            String xmlString = restfulHelper.responseString;
-            JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
+                String xmlString = restfulHelper.responseString;
+                JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
-            Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
-            textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
-                    + Constants.globalMetaandForm.getMeta().getPatientFirstName());
-            String birthDate = "";
-            if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
-                birthDate = getbirthDate();
-            }
-            textViewPatientBirth.setText(birthDate);
+                textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
+                        + Constants.globalMetaandForm.getMeta().getPatientFirstName());
+                String birthDate = "";
+                if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
+                    birthDate = getbirthDate();
+                }
+                textViewPatientBirth.setText(birthDate);
 
-            textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
-            buttonStart.setVisibility(View.VISIBLE);
-            buttonStart.setClickable(true);
+                textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+                buttonStart.setVisibility(View.VISIBLE);
+                buttonStart.setClickable(true);
             } catch (Exception e) {
-             Log.d("FileSaveExeption", e.toString());
-            Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
+                Log.d("FileSaveExeption", e.toString());
+                Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
             }
             Constants.ISSEND = false;
         } else if (404 == responseCode) {
