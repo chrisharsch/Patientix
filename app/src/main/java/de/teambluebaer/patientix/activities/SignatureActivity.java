@@ -83,6 +83,7 @@ public class SignatureActivity extends Activity {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);
             finish();
+            System.exit(0);
         }
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, getApplicationContext());

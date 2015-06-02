@@ -5,10 +5,6 @@ $app = new \Slim\Slim();
 $db = new mysqli("localhost", "root", "", "UMMMobilePatients");
 $db->set_charset("utf8");
 
-#$db = mysqli_init();
-#$db->options(MYSLI_INIT_COMMAND, 'SET NAMES \'utf8\'');
-#$db->real_connect("localhost", "root", "", "UMMMobilePatients");
-
 
 $app->post('/formula', function () use ($app, $db){
     
@@ -16,12 +12,14 @@ $app->post('/formula', function () use ($app, $db){
         $tabletID = $_POST["tabletID"];
 
 
-        $app->response->write("<root><metadata>");
+        
 
         #Get FormID for this tablet
         $result = $db->query("SELECT formID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
         $formID = $result->fetch_assoc()["formID"];
         if($result->num_rows==1){
+
+        $app->response->write("<root><meta>");
 
         #Get PatientID for this tablet
         $result = $db->query("SELECT patientID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
@@ -29,9 +27,9 @@ $app->post('/formula', function () use ($app, $db){
         $app->response->write('<pID>'.$patientID.'</pID>');
 
         #Get Extern PatientID
-        #$result = $db->query("SELECT patientIDExt FROM Patients WHERE patientID = '$patientID'");
-        #$writing = $result->fetch_assoc()["patientIDExt"];
-        #$app->response->write('<pExamID>'.$writing.'</pExamID>');
+        $result = $db->query("SELECT patientIDExt FROM Patients WHERE patientID = '$patientID'");
+        $writing = $result->fetch_assoc()["patientIDExt"];
+        $app->response->write('<pExamID>'.$writing.'</pExamID>');
 
         #Get First Name of Patient
         $result = $db->query("SELECT patientFirstName FROM Patients WHERE patientID = '$patientID'");
@@ -48,13 +46,10 @@ $app->post('/formula', function () use ($app, $db){
         $writing = $result->fetch_assoc()["birthDate"];
         $app->response->write('<pDate>'.$writing.'</pDate>');
 
-
-
-
         #Get Formname for this Tabelt
         $result = $db->query("SELECT formName FROM Forms WHERE formID = $formID");
         $writing = $result->fetch_assoc()["formName"];
-        $app->response->write('<name>'.$writing.'</name></metadata><formData>');
+        $app->response->write('<name>'.$writing.'</name></meta><form>');
 
         $result = $db->query("SELECT XML FROM Pages WHERE formID = $formID");
         
@@ -63,13 +58,16 @@ $app->post('/formula', function () use ($app, $db){
                 $app->response->write($row["XML"]);
 
             }
-            $app->response->write("</formData></root>");
+            $app->response->write("</form></root>");
             $app->response->getBody();
         
     }else{
         $app->response->setStatus(404);
-        echo json_encode('No Data found');
+        echo 'No data found';
     }
+}else{
+    $app->response->setStatus(400);
+    echo 'Wrong parameters';
 }
 });
 
@@ -80,8 +78,6 @@ $app->post('/filledformula', function() use ($app, $db){
         $macaddress = $_POST["macaddress"];
         $patientID = $_POST["patientID"];
    
-       # string $regDate = date('Y-m-d h:m:s');
-        $app->response->write($formula);
 
         $result = $db->query("SELECT formID FROM ScheduledPatients WHERE patientID = '".$patientID."'");
         $formID = $result->fetch_assoc()["formID"];
@@ -91,17 +87,21 @@ $app->post('/filledformula', function() use ($app, $db){
         $formula = addslashes($formula);
 
         if($result->num_rows == 1) {
-            if($isFormula == true){
+            if($isFormula == "true"){
                 $db->query("INSERT INTO MTRADocuments(formID, XML, patientID) VALUES ('$formID','$formula','$patientID');");
                 $app->response->setStatus(200);
+                echo 'Formula saved';
             }else{
-                $app->response->setStatus(404);
+                $app->response->setStatus(406);
+                echo 'No formula data';
             }
         }else{
-                $app->response->setStatus(405);
+                $app->response->setStatus(400);
+                echo 'Wrong MACAddress';
         }
     }else{
-        $app->response->setStatus(406);
+        $app->response->setStatus(400);
+        echo 'Wrong parameters received';
     }
 });
 

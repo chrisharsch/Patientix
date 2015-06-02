@@ -28,14 +28,13 @@ public class KioskService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
-        running =false;
+        running = false;
         super.onDestroy();
     }
 
     /**
-     *
-     * @param intent intent to show
-     * @param flags flags to set
+     * @param intent  intent to show
+     * @param flags   flags to set
      * @param startId not used just because of override
      * @return
      */
@@ -56,7 +55,7 @@ public class KioskService extends Service {
                     } catch (InterruptedException e) {
                         Log.i(TAG, "Thread interrupted: 'KioskService'");
                     }
-                }while(running);
+                } while (running);
                 stopSelf();
             }
         });
@@ -70,8 +69,8 @@ public class KioskService extends Service {
      * it is in the background and and activated
      */
     private void handleKioskMode() {
-        if(PrefUtils.isKioskModeActive(ctx)) {
-            if(isInBackground()) {
+        if (PrefUtils.isKioskModeActive(ctx)) {
+            if (isInBackground()) {
                 restoreApp();
             }
         }
@@ -79,6 +78,7 @@ public class KioskService extends Service {
 
     /**
      * This method checks if the app runs in the background
+     *
      * @return true for app in background
      */
     private boolean isInBackground() {
@@ -94,6 +94,7 @@ public class KioskService extends Service {
      */
     private void restoreApp() {
         // Restart activity
+        Log.d("App","Restarted");
         Intent i = new Intent(ctx, Constants.CURRENTACTIVITY.getClass());
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(i);
@@ -101,6 +102,7 @@ public class KioskService extends Service {
 
     /**
      * This Method is just use to disable the super function
+     *
      * @param intent nor used
      * @return everytime null
      */

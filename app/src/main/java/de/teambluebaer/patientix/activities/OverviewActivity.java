@@ -63,6 +63,7 @@ public class OverviewActivity extends Activity {
             Intent intent = new Intent(OverviewActivity.this, StartActivity.class);
             startActivity(intent);
             finish();
+            System.exit(0);
         }
 
         //Check if the page is zoomed or not

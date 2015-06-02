@@ -80,6 +80,9 @@ public class Radio implements Element, Commentar {
         RadioButton radio = new RadioButton(context);
         radio.setText(radioText);
         radio.setChecked(checked);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(20, 0, 20, 0);
+        radio.setLayoutParams(lp);
         layout.addView(radio);
     }
 

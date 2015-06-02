@@ -1,6 +1,8 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -133,8 +135,23 @@ public class LoginActivity extends Activity {
      */
     public void onClickButtonExit(View v) {
         if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
-            PrefUtils.setKioskModeActive(false, getApplicationContext());
-            System.exit(0);
+            PrefUtils.setKioskModeActive(false, getApplication());
+            String nameOfProcess = "de.teambluebaer.patientix";
+            ActivityManager manager = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> listOfProcesses = manager.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo process : listOfProcesses)
+            {
+                if (process.processName.contains(nameOfProcess))
+                {
+                    Log.e("Proccess" , process.processName + " : " + process.pid);
+                    android.os.Process.killProcess(process.pid);
+                    android.os.Process.sendSignal(process.pid, android.os.Process.SIGNAL_KILL);
+                    manager.killBackgroundProcesses(process.processName);
+
+                }
+                System.exit(0);
+            }
+
         } else {
             editPassword.setText("");
             Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();

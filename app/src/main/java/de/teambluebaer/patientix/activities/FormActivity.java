@@ -81,6 +81,7 @@ public class FormActivity extends Activity {
         } catch (NullPointerException e) {
             Intent intent = new Intent(FormActivity.this, StartActivity.class);
             startActivity(intent);
+            System.exit(0);
             finish();
         }
     }
