@@ -98,11 +98,6 @@ public class EndActivity extends Activity {
                 while (responseCode != 200) {
                     responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
                     if (responseCode == 404) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(EndActivity.this, "Keine oder Fehlerhafte Formulardaten!", Toast.LENGTH_LONG).show();
-                            }
-                        });
                         Log.d("ResponseCode", responseCode + "");
                         break;
                     }
@@ -111,6 +106,16 @@ public class EndActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
+                            endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                    finish();
+                                    return true;
+                                }
+                            });
                         }
                     });
                 }
@@ -120,19 +125,20 @@ public class EndActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(EndActivity.this, "Formular wurde bereits gesendet.", Toast.LENGTH_LONG).show();
+                        endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                finish();
+                                return true;
+                            }
+                        });
                     }
                 });
             }
-            endtext.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    PrefUtils.setKioskModeActive(false,EndActivity.this);
-                    finish();
-                    return true;
-                }
-            });
+
             return null;
         }
     }

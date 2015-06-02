@@ -284,6 +284,8 @@ public class SignatureActivity extends Activity {
 
             Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, SignatureActivity.this);
+            finish();
         }
     };
 
