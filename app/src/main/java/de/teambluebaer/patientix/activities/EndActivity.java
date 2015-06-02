@@ -25,6 +25,7 @@ import java.util.List;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.RestfulHelper;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This Activity shows the endscreen there the patient is afford
@@ -57,7 +58,7 @@ public class EndActivity extends Activity {
 
         endtext = (TextView) findViewById(R.id.textEnd);
         Constants.CURRENTACTIVITY = this;
-       // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, this);
 
         if (isFormula()) {
             String xml = Constants.globalMetaandForm.toXMLString();
@@ -77,6 +78,7 @@ public class EndActivity extends Activity {
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                 startActivity(intent);
+                PrefUtils.setKioskModeActive(false,EndActivity.this);
                 finish();
                 return true;
             }

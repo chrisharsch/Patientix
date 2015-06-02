@@ -40,6 +40,7 @@ import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This class is for saving the signature from patient.
@@ -77,14 +78,15 @@ public class SignatureActivity extends Activity {
         //Set View
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_signature);
-
+        Constants.LISTOFACTIVITIES.add(this);
         if (!isFormula()) {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);
             finish();
         }
+
         Constants.CURRENTACTIVITY = this;
-       // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, this);
         mContext = this;
 
 
@@ -110,6 +112,7 @@ public class SignatureActivity extends Activity {
         if (mSpenSurfaceView == null) {
             Toast.makeText(mContext, "Cannot create new SpenView.",
                     Toast.LENGTH_SHORT).show();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 
@@ -127,6 +130,7 @@ public class SignatureActivity extends Activity {
         }
         if (mPenSettingView == null) {
             Toast.makeText(mContext, "Cannot create new PenSettingView.", Toast.LENGTH_SHORT).show();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
         // Create EraserSettingView
@@ -137,6 +141,7 @@ public class SignatureActivity extends Activity {
         }
         if (mEraserSettingView == null) {
             Toast.makeText(mContext, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
         spenViewLayout.addView(mPenSettingView);
@@ -171,9 +176,11 @@ public class SignatureActivity extends Activity {
             Toast.makeText(mContext, "Cannot create new NoteDoc.",
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         } catch (Exception e) {
             e.printStackTrace();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 
@@ -382,6 +389,7 @@ public class SignatureActivity extends Activity {
                 || errType == SsdkUnsupportedException.DEVICE_NOT_SUPPORTED) {
             Toast.makeText(mContext, "This device does not support Spen.",
                     Toast.LENGTH_SHORT).show();
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
         else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
@@ -438,6 +446,7 @@ public class SignatureActivity extends Activity {
                                 startActivity(intent);
 
                                 dialog.dismiss();
+                                PrefUtils.setKioskModeActive(false, SignatureActivity.this);
                                 finish();
                             }
                         })
@@ -448,6 +457,7 @@ public class SignatureActivity extends Activity {
                                     DialogInterface dialog, int which) {
                                 if(closeActivity == true) {
                                     // Terminate the activity if APK is not installed.
+                                    PrefUtils.setKioskModeActive(false, SignatureActivity.this);
                                     finish();
                                 }
                                 dialog.dismiss();
@@ -458,6 +468,7 @@ public class SignatureActivity extends Activity {
                     public void onCancel(DialogInterface dialog) {
                         if(closeActivity == true) {
                             // Terminate the activity if APK is not installed.
+                            PrefUtils.setKioskModeActive(false, SignatureActivity.this);
                             finish();
                         }
                     }

@@ -20,6 +20,7 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.MetaandForm;
 
 /**
@@ -54,8 +55,15 @@ public class FormActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_form);
+        if (!isFormula()) {
+            Intent intent = new Intent(this, StartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
-       // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, getApplicationContext());
 
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
@@ -69,6 +77,7 @@ public class FormActivity extends Activity {
         buttonOk.setClickable(false);
         buttonOk.setVisibility(View.INVISIBLE);
 
+
         //set the pageLayout for the content
         content = (LinearLayout) findViewById(R.id.content);
         metaandForm = Constants.globalMetaandForm;
@@ -80,6 +89,7 @@ public class FormActivity extends Activity {
         } catch (NullPointerException e) {
             Intent intent = new Intent(FormActivity.this, StartActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
     }
@@ -190,6 +200,23 @@ public class FormActivity extends Activity {
         buttonOk.setClickable(false);
 
         return false;
+    }
+    /**
+     * This method checks if there is a filled formula and
+     * return true if there is one else it return false
+     *
+     * @return Boolean true or false
+     */
+    private boolean isFormula() {
+        try {
+            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     /**

@@ -20,6 +20,7 @@ import de.teambluebaer.patientix.helper.AnswerChecker;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * This Activity displays the overview of all questions.
@@ -49,8 +50,14 @@ public class OverviewActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_overview);
         Constants.CURRENTACTIVITY = this;
-       // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, this);
 
+        if (!isFormula()) {
+            Intent intent = new Intent(this, StartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        Constants.LISTOFACTIVITIES.add(this);
         //Reference Variables
         list = (LinearLayout) findViewById(R.id.list);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
@@ -83,6 +90,8 @@ public class OverviewActivity extends Activity {
         if(AnswerChecker.isEverythingAnswert()) {
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
+            finish();
         }else{
             Toast.makeText(this, "Bitte füllen sie alle Fragen aus", Toast.LENGTH_LONG).show();
         }
@@ -105,6 +114,24 @@ public class OverviewActivity extends Activity {
             layoutCreater.CreatListLayout(this, list);
             buttonZoom.setText("+");
 
+        }
+    }
+
+    /**
+     * This method checks if there is a filled formula and
+     * return true if there is one else it return false
+     *
+     * @return Boolean true or false
+     */
+    private boolean isFormula() {
+        try {
+            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
         }
     }
 
@@ -147,4 +174,5 @@ public class OverviewActivity extends Activity {
             return super.dispatchKeyEvent(event);
         }
     }
+
 }

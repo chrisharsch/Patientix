@@ -44,7 +44,6 @@ public class KioskService extends Service {
         Log.i(TAG, intent.toString());
         running = true;
         ctx = this;
-
         // start a thread that periodically checks if your app is in the foreground
         t = new Thread(new Runnable() {
             @Override

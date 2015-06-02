@@ -26,6 +26,7 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
@@ -67,7 +68,7 @@ public class StartActivity extends Activity {
 
         setContentView(R.layout.activity_start);
         Constants.CURRENTACTIVITY = this;
-        // PrefUtils.setKioskModeActive(true, getApplicationContext());
+        PrefUtils.setKioskModeActive(true, this);
 
         buttonStart = (Button) findViewById(R.id.startbtn);
         buttonUpdate = (Button) findViewById(R.id.updatebutton);
@@ -87,6 +88,7 @@ public class StartActivity extends Activity {
         Flasher.flash(buttonStart, "1x3");
         Intent intent = new Intent(StartActivity.this, FormActivity.class);
         startActivity(intent);
+        PrefUtils.setKioskModeActive(false, this);
         finish();
     }
 
