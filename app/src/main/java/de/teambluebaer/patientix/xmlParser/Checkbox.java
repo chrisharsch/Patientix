@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -72,17 +73,11 @@ public class Checkbox implements Element, Commentar {
     public void addToView(Context context, final LinearLayout layout) {
         CheckBox checkBox = new CheckBox(context);
         checkBox.setText(checkboxText);
+        checkBox.setButtonDrawable(R.drawable.radio);
         checkBox.setChecked(checked);
         layout.addView(checkBox);
 
-        /*TextView mtraCom = new TextView(context);
-        mtraCom.setText(mtraCommentar);
-        mtraCom.setTextColor(Color.GREEN);
-        TextView docCom = new TextView(context);
-        docCom.setText(doctorCommentar);
-        docCom.setTextColor(Color.RED);
-        layout.addView(mtraCom);
-        layout.addView(docCom);*/
+
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -92,12 +87,10 @@ public class Checkbox implements Element, Commentar {
         });
         if(Constants.zoomed){
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
-            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+
         }else{
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            //mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            //docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+
         }
     }
 
@@ -174,6 +167,17 @@ public class Checkbox implements Element, Commentar {
 
 
 
+    }
+
+    public void showAllComments(Context context, LinearLayout layout) {
+        if(patientCommentar != null && !patientCommentar.isEmpty()){
+            TextView patCom = new TextView(context);
+            patCom.setText(this.patientCommentar);
+            layout.addView(patCom);
+        }else if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+            TextView mtraCom = new TextView(context);
+
+        }
     }
 
     public String toXMLString(){

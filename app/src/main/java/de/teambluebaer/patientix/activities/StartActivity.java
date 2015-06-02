@@ -26,7 +26,6 @@ import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
@@ -86,10 +85,18 @@ public class StartActivity extends Activity {
      */
     public void onClickStartButton(View v) {
         Flasher.flash(buttonStart, "1x3");
-        Intent intent = new Intent(StartActivity.this, FormActivity.class);
-        startActivity(intent);
-        PrefUtils.setKioskModeActive(false, this);
-        finish();
+        if(Constants.resign){
+            Intent intent = new Intent(StartActivity.this, OverviewActivity.class);
+            startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
+            finish();
+        }else{
+            Intent intent = new Intent(StartActivity.this, FormActivity.class);
+            startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
+            finish();
+        }
+
     }
 
     /**
