@@ -55,6 +55,7 @@ public class OverviewActivity extends Activity {
         if (!isFormula()) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
         Constants.LISTOFACTIVITIES.add(this);
@@ -89,7 +90,7 @@ public class OverviewActivity extends Activity {
         Flasher.flash(buttonReady, "1x3");
 
         if(AnswerChecker.isEverythingAnswert()) {
-            Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
+            Intent intent = new Intent(OverviewActivity.this, EndActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
             finish();

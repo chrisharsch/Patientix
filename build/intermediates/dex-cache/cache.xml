@@ -2,39 +2,39 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\src\main\libs\apacheds-all-1.5.5.jar"
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/apacheds-all-1.5.5.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="f5b7ce73d6a3cd8a221ca90bdd0c6bbbe914480d">
-        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\apacheds-all-1.5.5-b196a673f8c5e1d91b302193555e6f2a237ae56b.jar" />
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/apacheds-all-1.5.5-96978ee68a74c8dc958423f1bb88bfc4d5170fb5.jar" />
     </item>
     <item
-        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\classes-b412b7023204ae4685a23bb5d54c809c5bd97921.jar" />
-    </item>
-    <item
-        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\src\main\libs\robolectric-3.0-rc3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="69ca2fe8ed0f43a8e69b5d20788d94c2c89c4490">
-        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\robolectric-3.0-rc3-fb116063cf06361e9d7473afa96cf8c92f1cef7b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\src\main\libs\pen-v3.1.4.jar"
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/pen-v3.1.4.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="0c011352ab147b0edbd1f324305a8be6625f223e">
-        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\pen-v3.1.4-d890592095e8df25b60f49c103cda0fc57647808.jar" />
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/pen-v3.1.4-ded133b095af2100608ec2be2f4247420646f781.jar" />
     </item>
     <item
-        jar="C:\Users\Maren\Documents\GitHub\Patientix\app\src\main\libs\sdk-v1.0.0.jar"
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/robolectric-3.0-rc3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="69ca2fe8ed0f43a8e69b5d20788d94c2c89c4490">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/robolectric-3.0-rc3-33bdcc97bcce6bb7230e51fdae0252335eadf1b8.jar" />
+    </item>
+    <item
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/sdk-v1.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="e2ce3786b6e9519934c4a54aaaaf39525bf4486c">
-        <dex dex="C:\Users\Maren\Documents\GitHub\Patientix\app\build\intermediates\pre-dexed\debug\sdk-v1.0.0-fc605bee6799f499d092868386a3dc20a75af838.jar" />
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/sdk-v1.0.0-c4e069540597682653608f0ba81fd0c5a4499695.jar" />
+    </item>
+    <item
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/classes-1a43604ecb42948f0674ca174c7e2c9aac7dec0c.jar" />
     </item>
 
 </items>
