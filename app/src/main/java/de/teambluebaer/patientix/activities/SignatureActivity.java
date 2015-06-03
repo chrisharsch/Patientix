@@ -118,9 +118,7 @@ public class SignatureActivity extends Activity {
             PrefUtils.setKioskModeActive(false, this);
             finish();
         }
-
         mSpenSurfaceView.setZOrderOnTop(true);
-        mSpenSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
         mSpenSurfaceView.setZoomable(false);
 
         final RelativeLayout spenViewLayout = (RelativeLayout) findViewById(R.id.spenViewLayout);
@@ -515,7 +513,7 @@ public class SignatureActivity extends Activity {
             }
             mSpenNoteDoc = null;
         }
-    };
+    }
     /**
      * This method checks if there is a filled formula and
      * return true if there is one else it return false

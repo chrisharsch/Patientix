@@ -79,6 +79,7 @@ public class OverviewActivity extends Activity {
         } else {
             buttonZoom.setText("-");
         }
+
     }
 
     /**

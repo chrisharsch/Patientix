@@ -1,7 +1,36 @@
 package de.teambluebaer.patientix.xmlParser;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.view.Display;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.samsung.android.sdk.SsdkUnsupportedException;
+import com.samsung.android.sdk.pen.Spen;
+import com.samsung.android.sdk.pen.SpenSettingEraserInfo;
+import com.samsung.android.sdk.pen.SpenSettingPenInfo;
+import com.samsung.android.sdk.pen.document.SpenNoteDoc;
+import com.samsung.android.sdk.pen.document.SpenPageDoc;
+import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
+import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
+import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
+
+import java.io.IOException;
+
+import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.activities.EndActivity;
+import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -13,18 +42,41 @@ import android.widget.LinearLayout;
 public class Image implements Element {
     private String imageSource;
 
+    private SpenNoteDoc mSpenNoteDoc;
+    private SpenPageDoc mSpenPageDoc;
+    private SpenSurfaceView mSpenSurfaceView;
+    private SpenSettingPenLayout mPenSettingView;
+    private SpenSettingEraserLayout mEraserSettingView;
+    private ImageView mPenBtn;
+    private ImageView mEraserBtn;
+    private int mToolType = SpenSurfaceView.TOOL_SPEN;
+
     /**
      * Constructor
+     *
      * @param src URL-String represents Location of the Image you want to add
      */
-    public Image(String src){
+    public Image(String src) {
+
         imageSource = src;
+
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
         //TODO How to get Image by URL
 
+        final RelativeLayout spenViewLayout = new RelativeLayout(context);
+        layout.addView(spenViewLayout);
+
+        sPenGenerate(context, spenViewLayout);
+
+        if (imageSource != null) {
+
+            // wird in createSpenNoteDoc schon gesetzt?
+            //spenViewLayout.setBackground(Bild setzen);
+
+        }
     }
 
     public String toXMLString() {
@@ -38,6 +90,280 @@ public class Image implements Element {
 
     public String getImageSource() {
         return imageSource;
+    }
+
+
+    public void sPenGenerate(Context context, final RelativeLayout spenViewLayout) {
+
+        // Initialize Spen
+        boolean isSpenFeatureEnabled = false;
+        Spen spenPackage = new Spen();
+        try {
+            spenPackage.initialize(context);
+            isSpenFeatureEnabled = spenPackage.isFeatureEnabled(Spen.DEVICE_PEN);
+        } catch (SsdkUnsupportedException e) {
+            if (processUnsupportedException(e, context) == true) {
+                return;
+            }
+        } catch (Exception e1) {
+            Toast.makeText(context, "Cannot initialize Spen.",
+                    Toast.LENGTH_SHORT).show();
+            e1.printStackTrace();
+        }
+
+        // Create Spen View
+        mSpenSurfaceView = new SpenSurfaceView(context);
+        if (mSpenSurfaceView == null) {
+            Toast.makeText(context, "Cannot create new SpenView.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        mSpenSurfaceView.setZOrderOnTop(true);
+        mSpenSurfaceView.setZoomable(false);
+
+        // Create PenSettingView
+        mPenSettingView = new SpenSettingPenLayout(context, new String(), spenViewLayout);
+
+        if (mPenSettingView == null) {
+            Toast.makeText(context, "Cannot create new PenSettingView.", Toast.LENGTH_SHORT).show();
+        }
+        // Create EraserSettingView
+        mEraserSettingView = new SpenSettingEraserLayout(context, new String(), spenViewLayout);
+
+        if (mEraserSettingView == null) {
+            Toast.makeText(context, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
+        }
+        spenViewLayout.addView(mPenSettingView);
+        spenViewLayout.addView(mEraserSettingView);
+
+        spenViewLayout.addView(mSpenSurfaceView);
+
+        mPenSettingView.setCanvasView(mSpenSurfaceView);
+        mEraserSettingView.setCanvasView(mSpenSurfaceView);
+
+    }
+
+    /**
+     *  Erstellt das Layout der Unterschrift
+     * @param spenViewLayout
+     */
+    private void createSpenNoteDoc(View spenViewLayout, Context context) {
+        try {
+            mSpenNoteDoc =
+                    new SpenNoteDoc(context, spenViewLayout.getWidth(), spenViewLayout.getHeight());
+        } catch (IOException e) {
+            Toast.makeText(context, "Cannot create new NoteDoc.",
+                    Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Add a Page to NoteDoc, get an instance, and set it to the member variable.
+        mSpenPageDoc = mSpenNoteDoc.appendPage();
+        mSpenPageDoc.setBackgroundColor(0xFFD6E6F5);
+        mSpenPageDoc.clearHistory();
+        // Set PageDoc to View.
+        mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
+
+        initSettingInfo();
+
+        // Set a button
+        mPenBtn = (ImageView) spenViewLayout.findViewById(R.id.penBtn);
+        mPenBtn.setOnClickListener(mPenBtnClickListener);
+
+        mEraserBtn = (ImageView) spenViewLayout.findViewById(R.id.eraserBtn);
+        mEraserBtn.setOnClickListener(mEraserBtnClickListener);
+
+        selectButton(mPenBtn);
+
+        mSpenPageDoc.startRecord();
+    }
+
+    private void initSettingInfo() {
+        // Initialize Pen settings
+        SpenSettingPenInfo penInfo = new SpenSettingPenInfo();
+        penInfo.color = Color.BLUE;
+        penInfo.size = 10;
+
+        // Initialize Eraser settings
+        SpenSettingEraserInfo eraserInfo = new SpenSettingEraserInfo();
+        eraserInfo.size = 100;
+        mSpenSurfaceView.setEraserSettingInfo(eraserInfo);
+        mEraserSettingView.setInfo(eraserInfo);
+    }
+
+    /**
+     * Use the pen when click the symbol
+     */
+    private final View.OnClickListener mPenBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // When Spen is in stroke (pen) mode
+            if (mSpenSurfaceView.getToolTypeAction(mToolType) == SpenSurfaceView.ACTION_STROKE) {
+                // If PenSettingView is open, close it.
+                if (mPenSettingView.isShown()) {
+                    mPenSettingView.setVisibility(View.GONE);
+                    // If PenSettingView is not open, open it.
+                } else {
+                    mPenSettingView.setViewMode(SpenSettingPenLayout.VIEW_MODE_EXTENSION);
+                    mPenSettingView.setVisibility(View.VISIBLE);
+                }
+                // If Spen is not in stroke (pen) mode, change it to stroke mode.
+            } else {
+                selectButton(mPenBtn);
+                mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_STROKE);
+            }
+        }
+    };
+
+    /**
+     * Use the eraser when click the symbol
+     */
+    private final View.OnClickListener mEraserBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // When Spen is in eraser mode
+            if (mSpenSurfaceView.getToolTypeAction(mToolType) == SpenSurfaceView.ACTION_ERASER) {
+                // If EraserSettingView is open, close it.
+                if (mEraserSettingView.isShown()) {
+                    mEraserSettingView.setVisibility(View.GONE);
+                    // If EraserSettingView is not open, open it.
+                } else {
+                    mEraserSettingView.setViewMode(SpenSettingEraserLayout.VIEW_MODE_NORMAL);
+                    mEraserSettingView.setVisibility(View.VISIBLE);
+                }
+                // If Spen is not in eraser mode, change it to eraser mode.
+            } else {
+                selectButton(mEraserBtn);
+                mSpenSurfaceView.setToolTypeAction(mToolType, SpenSurfaceView.ACTION_ERASER);
+            }
+        }
+    };
+
+    /**
+     * select the pen or the eraser
+     * @param v
+     */
+    private void selectButton(View v) {
+        // Enable or disable the button according to the current mode.
+        mPenBtn.setSelected(false);
+        mEraserBtn.setSelected(false);
+
+        v.setSelected(true);
+
+        closeSettingView();
+    }
+
+    /**
+     * close the view from the settings (pen or eraser)
+     */
+    private void closeSettingView() {
+        // Close all the setting views.
+        mEraserSettingView.setVisibility(SpenSurfaceView.GONE);
+        mPenSettingView.setVisibility(SpenSurfaceView.GONE);
+    }
+
+
+    /**
+     * Handle the Exceptions
+     *
+     * @param e
+     * @return
+     */
+    private boolean processUnsupportedException(SsdkUnsupportedException e, Context context) {
+
+        e.printStackTrace();
+        int errType = e.getType();
+        // If the device is not a Samsung device or if the device does not support Pen.
+        if (errType == SsdkUnsupportedException.VENDOR_NOT_SUPPORTED
+                || errType == SsdkUnsupportedException.DEVICE_NOT_SUPPORTED) {
+            Toast.makeText(context, "This device does not support Spen.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
+            // If SpenSDK APK is not installed.
+            showAlertDialog("You need to install additional Spen software"
+                    + " to use this application."
+                    + "You will be taken to the installation screen."
+                    + "Restart this application after the software has been installed."
+                    , true, context);
+        } else if (errType
+                == SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED) {
+            // SpenSDK APK must be updated.
+            showAlertDialog("You need to update your Spen software "
+                    + "to use this application."
+                    + " You will be taken to the installation screen."
+                    + " Restart this application after the software has been updated."
+                    , true, context);
+        } else if (errType
+                == SsdkUnsupportedException.LIBRARY_UPDATE_IS_RECOMMENDED) {
+            // Update of SpenSDK APK to an available new version is recommended.
+            showAlertDialog("We recommend that you update your Spen software"
+                    + " before using this application."
+                    + " You will be taken to the installation screen."
+                    + " Restart this application after the software has been updated."
+                    , false, context);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Show alert for the exceptions
+     *
+     * @param msg
+     * @param closeActivity
+     */
+    private void showAlertDialog(String msg, final boolean closeActivity, Context context) {
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+        dlg.setTitle("Upgrade Notification")
+                .setMessage(msg)
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(
+                                    DialogInterface dialog, int which) {
+                                // Go to the market website and install/update APK.
+                                Uri uri = Uri.parse("market://details?id="
+                                        + Spen.SPEN_NATIVE_PACKAGE_NAME);
+
+                                dialog.dismiss();
+                            }
+                        });
+        dlg = null;
+    }
+
+    /**
+     * Release the memory allocations
+     */
+    protected void onDestroy() {
+        //mToast.cancel();
+        if (mSpenNoteDoc != null && mSpenPageDoc.isRecording()) {
+            mSpenPageDoc.stopRecord();
+        }
+
+        if (mPenSettingView != null) {
+            mPenSettingView.close();
+        }
+        if (mEraserSettingView != null) {
+            mEraserSettingView.close();
+        }
+        if (mSpenSurfaceView != null) {
+            if (mSpenSurfaceView.getReplayState() == SpenSurfaceView.REPLAY_STATE_PLAYING) {
+                mSpenSurfaceView.stopReplay();
+            }
+            mSpenSurfaceView.close();
+            mSpenSurfaceView = null;
+        }
+
+        if (mSpenNoteDoc != null) {
+            try {
+                mSpenNoteDoc.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mSpenNoteDoc = null;
+        }
     }
 
     @Override

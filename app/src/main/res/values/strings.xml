@@ -43,5 +43,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="textZoom">Schrift zu klein?</string>
     <string name="textOverview">Übersicht aller Fragen</string>
+    <string name="title_activity_doc_overview">DocOverviewActivity</string>
 
 </resources>

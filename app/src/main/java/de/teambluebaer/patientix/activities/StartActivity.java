@@ -77,7 +77,6 @@ public class StartActivity extends Activity {
         textViewPatientName = (TextView) findViewById(R.id.patientname);
         textViewPatientBirth = (TextView) findViewById(R.id.patientid);
         textViewExameName = (TextView) findViewById(R.id.textExamination);
-
     }
 
     /**
@@ -99,7 +98,6 @@ public class StartActivity extends Activity {
             PrefUtils.setKioskModeActive(false, this);
             finish();
         }
-
     }
 
     /**
