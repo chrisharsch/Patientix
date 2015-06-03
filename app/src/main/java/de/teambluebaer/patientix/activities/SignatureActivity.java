@@ -341,7 +341,7 @@ public class SignatureActivity extends Activity {
             // Save signature to a Base64 encode String
             Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
 
-            Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
             e.printStackTrace();

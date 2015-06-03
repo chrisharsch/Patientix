@@ -56,15 +56,12 @@ public class KioskService extends Service {
             public void run() {
                 do {
                     handleKioskMode();
-                    Log.d("sleep", "handleaufruf");
                     try {
                         sleep(INTERVAL);
-                        Log.d("sleep", "haia");
                     } catch (InterruptedException e) {
                         Log.i(TAG, "Thread interrupted: 'KioskService'");
                     }
                 } while (running);
-                Log.d("sleep", "while");
                 stopSelf();
             }
         });
@@ -79,9 +76,7 @@ public class KioskService extends Service {
      */
     private void handleKioskMode() {
         if (PrefUtils.isKioskModeActive(ctx)) {
-            Log.d("sleep", "kioskmodeactive");
             if (isInBackground()) {
-                Log.d("sleep", "backgroundcheck");
                 restoreApp();
             }
         }
@@ -105,12 +100,12 @@ public class KioskService extends Service {
      */
     private void restoreApp() {
         if (TORESTART) {
-            Log.d("App", "Restarted");
+            Log.i(TAG, "app restarted'");
             Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         } else {
-            Log.d("App", "Restored");
+            Log.i(TAG, "app restored'");
             startActivity(CURRENTACTIVITY.getIntent());
         }
     }
