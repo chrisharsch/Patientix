@@ -101,12 +101,12 @@ public abstract class Commentar {
     public void showAllComments(Context context, LinearLayout layout) {
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             TextView patCom = new TextView(context);
-            patCom.setText(this.patientCommentar);
+            patCom.setText("Patient: " + this.patientCommentar);
             layout.addView(patCom);
             if (Constants.zoomed) {
-                patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+                patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
-                patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             }
         }
         if(mtraCommentar != null && !mtraCommentar.isEmpty()){
@@ -115,9 +115,9 @@ public abstract class Commentar {
             layout.addView(mtraCom);
             mtraCom.setTextColor(Color.GREEN);
             if (Constants.zoomed) {
-                mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+                mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
-                mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             }
         }
         if(doctorCommentar != null && !doctorCommentar.isEmpty()){
@@ -126,9 +126,9 @@ public abstract class Commentar {
             layout.addView(docCom);
             docCom.setTextColor(Color.RED);
             if (Constants.zoomed) {
-                docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+                docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
-                docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
+                docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             }
         }
     }
