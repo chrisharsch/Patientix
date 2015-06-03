@@ -66,6 +66,8 @@ public class StartActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
+
+        Constants.TORESTART = false;
         setContentView(R.layout.activity_start);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);

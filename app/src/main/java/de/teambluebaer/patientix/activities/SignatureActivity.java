@@ -79,6 +79,7 @@ public class SignatureActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_signature);
         Constants.LISTOFACTIVITIES.add(this);
+        Constants.TORESTART = true;
         if (!isFormula()) {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);

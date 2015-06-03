@@ -54,9 +54,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         Constants.CURRENTACTIVITY = this;
 
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
+        Constants.TORESTART = false;
         PrefUtils.setKioskModeActive(true, this);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         editPassword = (EditText) findViewById(R.id.editPassword);

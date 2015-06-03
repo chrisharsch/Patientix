@@ -59,6 +59,7 @@ public class EndActivity extends Activity {
         endtext = (TextView) findViewById(R.id.textEnd);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
+        Constants.TORESTART = false;
 
         if (isFormula()) {
             String xml = Constants.globalMetaandForm.toXMLString();

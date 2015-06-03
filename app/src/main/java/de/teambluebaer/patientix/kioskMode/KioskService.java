@@ -11,7 +11,10 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import de.teambluebaer.patientix.helper.Constants;
+
 import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
+import static de.teambluebaer.patientix.helper.Constants.TORESTART;
 import static java.lang.Thread.sleep;
 
 public class KioskService extends Service {
@@ -30,7 +33,8 @@ public class KioskService extends Service {
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
         running = false;
-        restartApp();
+        Constants.TORESTART = true;
+        restoreApp();
         super.onDestroy();
     }
 
@@ -51,15 +55,16 @@ public class KioskService extends Service {
             @Override
             public void run() {
                 do {
-                        handleKioskMode();
+                    handleKioskMode();
                     Log.d("sleep", "handleaufruf");
                     try {
                         sleep(INTERVAL);
-                        Log.d("sleep","haia");
+                        Log.d("sleep", "haia");
                     } catch (InterruptedException e) {
                         Log.i(TAG, "Thread interrupted: 'KioskService'");
                     }
-                } while (running); Log.d("sleep","while");
+                } while (running);
+                Log.d("sleep", "while");
                 stopSelf();
             }
         });
@@ -74,9 +79,9 @@ public class KioskService extends Service {
      */
     private void handleKioskMode() {
         if (PrefUtils.isKioskModeActive(ctx)) {
-            Log.d("sleep","kioskmodeactive");
+            Log.d("sleep", "kioskmodeactive");
             if (isInBackground()) {
-                Log.d("sleep","backgroundcheck");
+                Log.d("sleep", "backgroundcheck");
                 restoreApp();
             }
         }
@@ -99,15 +104,17 @@ public class KioskService extends Service {
      * This method restores the App to the last Activity
      */
     private void restoreApp() {
-        Log.d("App", "Restored");
-        startActivity(CURRENTACTIVITY.getIntent());
+        if (TORESTART) {
+            Log.d("App", "Restarted");
+            Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } else {
+            Log.d("App", "Restored");
+            startActivity(CURRENTACTIVITY.getIntent());
+        }
     }
-    private void restartApp(){
-        Log.d("App", "Restored");
-        Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-    }
+
 
     /**
      * This Method is just use to disable the super function

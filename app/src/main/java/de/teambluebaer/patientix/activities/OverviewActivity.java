@@ -51,7 +51,7 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
-
+        Constants.TORESTART = true;
         if (!isFormula()) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);

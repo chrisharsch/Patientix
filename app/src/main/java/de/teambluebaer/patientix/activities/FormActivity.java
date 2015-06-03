@@ -55,6 +55,7 @@ public class FormActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_form);
+        Constants.TORESTART = true;
         if (!isFormula()) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);
