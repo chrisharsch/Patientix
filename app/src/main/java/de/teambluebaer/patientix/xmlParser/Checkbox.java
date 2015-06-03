@@ -1,15 +1,9 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,12 +19,9 @@ import de.teambluebaer.patientix.helper.TextSize;
  * @see Row
  * @see Element
  */
-public class Checkbox implements Element, Commentar {
+public class Checkbox extends Commentar implements Element{
     private String checkboxText;
     private boolean checked;
-    private String patientCommentar;
-    private String mtraCommentar;
-    private String doctorCommentar;
     private boolean highlight;
 
 
@@ -85,6 +76,11 @@ public class Checkbox implements Element, Commentar {
                 checked = isChecked;
             }
         });
+
+        if(Constants.resign){
+            checkBox.setClickable(false);
+        }
+
         if(Constants.zoomed){
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
 
@@ -94,80 +90,6 @@ public class Checkbox implements Element, Commentar {
         }
     }
 
-    @Override
-    public void addCommentarField(Context context, LinearLayout layout) {
-        final LinearLayout linearLayout = layout;
-        final Context comContext = context;
-
-
-        if (patientCommentar.isEmpty()) {
-            final Button comButton = new Button(context);
-            comButton.setText("Kommentar hinzufügen");
-            comButton.setBackgroundResource(R.drawable.button1x5normal);
-            comButton.setLayoutParams(new LinearLayout.LayoutParams(760, 152));
-            comButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
-            comButton.setTextColor(Color.parseColor("#fffafa"));
-            comButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            comButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    comButton.setVisibility(View.GONE);
-                    comButton.setClickable(false);
-                    EditText comment = new EditText(comContext);
-                    comment.setHint("Hier Kommentar eingeben");
-                    linearLayout.addView(comment);
-                    comment.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            patientCommentar = charSequence.toString();
-                        }
-                    });
-                    if(Constants.zoomed){
-                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-                    }else{
-                        comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-                    }
-                }
-            });
-            linearLayout.addView(comButton);
-
-        } else {
-            EditText comment = new EditText(comContext);
-            comment.setText(patientCommentar);
-            linearLayout.addView(comment);
-            comment.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    patientCommentar = charSequence.toString();
-                }
-            });
-            if(Constants.zoomed){
-                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX,TextSize.SUBTITEL.zoomedSize);
-            }else{
-                comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
-            }
-        }
-
-
-
-    }
 
     public void showAllComments(Context context, LinearLayout layout) {
         if(patientCommentar != null && !patientCommentar.isEmpty()){
@@ -176,7 +98,12 @@ public class Checkbox implements Element, Commentar {
             layout.addView(patCom);
         }else if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             TextView mtraCom = new TextView(context);
-
+            mtraCom.setText(this.mtraCommentar);
+            layout.addView(mtraCom);
+        }else if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+            TextView docCom = new TextView(context);
+            docCom.setText(this.doctorCommentar);
+            layout.addView(docCom);
         }
     }
 

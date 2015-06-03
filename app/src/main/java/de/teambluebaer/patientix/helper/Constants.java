@@ -20,6 +20,6 @@ public class Constants {
     public static boolean zoomed = false;
     public static boolean currendPageIsanswert;
     public static Activity CURRENTACTIVITY;
-    public static boolean resign;
-    public static LinkedList<Activity> LISTOFACTIVITIES = new LinkedList();
+    public static LinkedList<Activity> LISTOFACTIVITIES;
+    public static boolean resign = false;
 }

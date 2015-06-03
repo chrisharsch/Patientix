@@ -52,12 +52,17 @@ public class LayoutCreater {
         rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
-            LinearLayout comRow = new LinearLayout(context);
-            commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0, 30, 0, 30);
-            comRow.setGravity(Gravity.CENTER);
-            pageLayout.addView(comRow);
-            hasComBut = false;
+            if(Constants.resign){
+                commentar.showAllComments(context, rowLayout);
+            }else{
+                LinearLayout comRow = new LinearLayout(context);
+                commentar.addCommentarField(context, comRow);
+                comRow.setPadding(0, 30, 0, 30);
+                comRow.setGravity(Gravity.CENTER);
+                pageLayout.addView(comRow);
+                hasComBut = false;
+            }
+
         }
     }
 
@@ -71,14 +76,20 @@ public class LayoutCreater {
     }
 
     public void CreatListLayout(Context context, LinearLayout layout) {
-        layout.removeAllViews();
-        List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
-        for (Page page : pageList) {
-            List<Row> rows = page.getRows();
-            for (Row row : rows) {
-                CreateRowLayout(context, row, layout);
+        if(Constants.resign){
+            layout.removeAllViews();
+
+        }else{
+            layout.removeAllViews();
+            List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
+            for (Page page : pageList) {
+                List<Row> rows = page.getRows();
+                for (Row row : rows) {
+                    CreateRowLayout(context, row, layout);
+                }
             }
         }
+
     }
 
     public boolean isHasComBut() {

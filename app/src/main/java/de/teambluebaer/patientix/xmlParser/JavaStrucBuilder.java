@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import de.teambluebaer.patientix.helper.Constants;
+
 
 /**
  * Created by Simon on 06.05.2015.
@@ -80,9 +82,14 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("video")){
             currendRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
-            currendRow.addElement(new Input(attributes.getValue("patientInput"),attributes.getValue("text"), attributes.getValue("comment"),
-                    attributes.getValue("mtraComment"),attributes.getValue("docComment"),attributes.getValue("highlight")));
-
+            currendRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"), attributes.getValue("comment"),
+                    attributes.getValue("mtraComment"), attributes.getValue("docComment"), attributes.getValue("highlight")));
+        }else if(qName.equals("meta")){
+            if(attributes.getValue("resign") != null && !attributes.getValue("resign").isEmpty()){
+                Constants.resign = true;
+            }else{
+                Constants.resign = false;
+            }
 
         }else if(qName.equals("pID")){
             isPID = true;

@@ -4,7 +4,6 @@
         android:drawable="@drawable/radio_hover" />
     <item android:state_checked="false" android:state_window_focused="false"
         android:drawable="@drawable/radio_normal" />
-
     <item android:state_checked="true" android:state_focused="true"
         android:drawable="@drawable/radio_hover" />
     <item android:state_checked="false" android:state_focused="true"
