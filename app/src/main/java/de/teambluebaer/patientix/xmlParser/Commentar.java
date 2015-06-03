@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.xmlParser;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
@@ -42,6 +43,7 @@ public abstract class Commentar {
                     comButton.setVisibility(View.GONE);
                     comButton.setClickable(false);
                     EditText comment = new EditText(comContext);
+                    comment.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
                     comment.setHint("Hier Kommentar eingeben");
                     linearLayout.addView(comment);
                     comment.addTextChangedListener(new TextWatcher() {
