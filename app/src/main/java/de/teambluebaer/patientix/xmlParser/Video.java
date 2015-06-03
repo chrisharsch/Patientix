@@ -1,7 +1,11 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -22,7 +26,19 @@ public class Video implements Element {
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        //TODO How to add Video by URL
+
+        Log.d("src", videoSource);
+        VideoView video = new VideoView(context);
+        layout.addView(video);
+        MediaController mc = new MediaController(layout.getContext());
+        mc.setAnchorView(video);
+        mc.setMediaPlayer(video);
+        Uri uri=Uri.parse(videoSource);
+        video.setMediaController(mc);
+        video.setVideoURI(uri);
+        video.start();
+
+
     }
 
     public String toXMLString() {

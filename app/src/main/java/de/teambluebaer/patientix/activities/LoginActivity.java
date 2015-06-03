@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
     Integer responseCode;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
+
     /**
      * In this method is defined what happens on create of the Activity:
      * Set Layout and remove titlebar
