@@ -2,6 +2,7 @@ package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -72,11 +73,12 @@ public class StartActivity extends Activity {
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
 
-        buttonStart = (Button) findViewById(R.id.startbtn);
-        buttonUpdate = (Button) findViewById(R.id.updatebutton);
-        textViewPatientName = (TextView) findViewById(R.id.patientname);
-        textViewPatientBirth = (TextView) findViewById(R.id.patientid);
-        textViewExameName = (TextView) findViewById(R.id.textExamination);
+        buttonStart = (Button) findViewById(R.id.buttonStart);
+        buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
+        textViewPatientName = (TextView) findViewById(R.id.textViewPatientName);
+        textViewPatientBirth = (TextView) findViewById(R.id.textViewPatientBirthDate);
+        textViewExameName = (TextView) findViewById(R.id.textViewExamination);
+
     }
 
     /**
@@ -98,6 +100,7 @@ public class StartActivity extends Activity {
             PrefUtils.setKioskModeActive(false, this);
             finish();
         }
+
     }
 
     /**
@@ -133,11 +136,14 @@ public class StartActivity extends Activity {
 
                 textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
                         + Constants.globalMetaandForm.getMeta().getPatientFirstName());
+                textViewPatientName.setBackgroundColor(Color.parseColor("#ffffff"));
+                textViewPatientBirth.setBackgroundColor(Color.parseColor("#ffffff"));
+                textViewExameName.setBackgroundColor(Color.parseColor("#ffffff"));
                 String birthDate = "";
                 if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
                     birthDate = getbirthDate();
                 }
-                textViewPatientBirth.setText(birthDate);
+                textViewPatientBirth.setText("Geb. "+ birthDate);
 
                 textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
                 buttonStart.setVisibility(View.VISIBLE);

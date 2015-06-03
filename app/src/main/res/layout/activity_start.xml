@@ -42,7 +42,7 @@
         android:text="@string/update"
         android:layout_width="380dip"
         android:layout_height="70dip"
-        android:id="@+id/updatebutton"
+        android:id="@+id/buttonUpdate"
         android:textSize="40sp"
         android:layout_marginTop="61dp"
         android:layout_alignParentTop="true"
@@ -56,7 +56,7 @@
     <Button
         android:layout_width="180dip"
         android:layout_height="60dip"
-        android:id="@+id/startbtn"
+        android:id="@+id/buttonStart"
         android:textSize="40sp"
         android:background="@drawable/button1x3normal"
         android:text="Start"
@@ -71,15 +71,16 @@
 
     <!-- Patient textfield -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="850dip"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/patientname"
-        android:id="@+id/patientname"
+        android:id="@+id/textViewPatientName"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="71dp"
-        android:textSize="40sp"/>
+        android:layout_marginTop="30dp"
+        android:textSize="40sp"
+        android:gravity="center" />
 
     <!-- Patient ID field-->
     <TextView
@@ -87,23 +88,25 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/patientid"
-        android:id="@+id/patientid"
+        android:id="@+id/textViewPatientBirthDate"
         android:textSize="40sp"
-        android:layout_below="@+id/patientname"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textViewPatientName"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="20dp" />
 
     <!-- Examination field -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="850dip"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/textExamination"
-        android:id="@+id/textExamination"
-        android:layout_below="@+id/patientid"
+        android:id="@+id/textViewExamination"
+        android:layout_below="@+id/textViewPatientBirthDate"
         android:gravity="center"
         android:textSize="40sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="20dp" />
 
     <!-- Title: Patientenaufklärung für -->
     <TextView
@@ -115,9 +118,9 @@
         android:gravity="center"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:layout_below="@+id/updatebutton"
+        android:layout_below="@+id/buttonUpdate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="50dp"
         />
 
 </RelativeLayout>
