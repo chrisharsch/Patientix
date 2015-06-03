@@ -17,9 +17,12 @@ $app->post('/formula', function () use ($app, $db){
         #Get FormID for this tablet
         $result = $db->query("SELECT formID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
         $formID = $result->fetch_assoc()["formID"];
+
+        $resultTwo = $db->query("SELECT formID FROM ScheduledResingingPatients WHERE tabletID = '$tabletID'")
+
         if($result->num_rows==1){
 
-        $app->response->write("<root><meta>");
+        $app->response->write("<root><meta resign='0'>");
 
         #Get PatientID for this tablet
         $result = $db->query("SELECT patientID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
@@ -61,11 +64,22 @@ $app->post('/formula', function () use ($app, $db){
             $app->response->write("</form></root>");
             $app->response->getBody();
         
+        }else if($resultTwo->num_rows==1){
+
+            $result = $db->query("SELECT XML FROM ScheduledResingingPatients WHERE formID = $formID");
+        
+            $app->response->setStatus(200);
+            while($row = $result->fetch_assoc()) {
+                $app->response->write($row["XML"]);
+
+            }
+            $app->response->getBody();
+        
+        }else{
+            $app->response->setStatus(404);
+            echo 'No data found';
+        }
     }else{
-        $app->response->setStatus(404);
-        echo 'No data found';
-    }
-}else{
     $app->response->setStatus(400);
     echo 'Wrong parameters';
 }
@@ -83,12 +97,15 @@ $app->post('/filledformula', function() use ($app, $db){
         $formID = $result->fetch_assoc()["formID"];
         $result = $db->query("SELECT tabletID FROM Tablets WHERE MACAddress = '".$macaddress."'");
 
+        $resultTwo = $db->query("SELECT sectionID FROM ScheduledPatients WHERE patientID = '".$patientID."'");
+        $sectionID = $resultTwo->fetch_assoc()["sectionID"];
+        
         $formula = trim($formula);
         $formula = addslashes($formula);
 
         if($result->num_rows == 1) {
             if($isFormula == "true"){
-                $db->query("INSERT INTO MTRADocuments(formID, XML, patientID) VALUES ('$formID','$formula','$patientID');");
+                $db->query("INSERT INTO MTRADocuments(formID, XML, patientID, sectionID) VALUES ('$formID','$formula','$patientID','$sectionID');");
                 $app->response->setStatus(200);
                 echo 'Formula saved';
             }else{
