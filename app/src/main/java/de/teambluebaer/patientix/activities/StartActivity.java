@@ -180,6 +180,10 @@ public class StartActivity extends Activity {
      */
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+        startActivity(intent);
+        PrefUtils.setKioskModeActive(false, this);
+        finish();
 
     }
 
