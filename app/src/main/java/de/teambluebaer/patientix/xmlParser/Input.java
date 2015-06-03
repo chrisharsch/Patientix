@@ -29,14 +29,19 @@ public class Input extends Commentar implements Element {
      * Constructor
      */
     public Input(String patientImput, String inputText, String patientCommentar, String mtraCommentar, String doctorCommentar, String highlight) {
+
         this.inputText = inputText;
+
         this.patientInput = patientImput;
+
         this.hint = "bitte Hier eingeben";
+
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
         } else {
             this.patientCommentar = "";
         }
+
         if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             this.mtraCommentar = mtraCommentar;
         } else {
@@ -48,7 +53,7 @@ public class Input extends Commentar implements Element {
             this.doctorCommentar = "";
         }
         if(highlight != null && !highlight.isEmpty()){
-            this.highlight = (highlight.equals("1"));
+            this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
             this.highlight = false;
         }

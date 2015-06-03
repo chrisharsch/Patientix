@@ -111,7 +111,7 @@ public abstract class Commentar {
         }
         if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             TextView mtraCom = new TextView(context);
-            mtraCom.setText(this.mtraCommentar);
+            mtraCom.setText("MTRA: " +this.mtraCommentar);
             layout.addView(mtraCom);
             mtraCom.setTextColor(Color.GREEN);
             if (Constants.zoomed) {
@@ -122,7 +122,7 @@ public abstract class Commentar {
         }
         if(doctorCommentar != null && !doctorCommentar.isEmpty()){
             TextView docCom = new TextView(context);
-            docCom.setText(this.doctorCommentar);
+            docCom.setText("Arzt: " + this.doctorCommentar);
             layout.addView(docCom);
             docCom.setTextColor(Color.RED);
             if (Constants.zoomed) {

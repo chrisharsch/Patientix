@@ -53,12 +53,7 @@ public class LayoutCreater {
         pageLayout.addView(rowLayout);
         if (hasComBut) {
             if(Constants.resign){
-                //LinearLayout comRow = new LinearLayout(context);
-                //comRow.setOrientation(LinearLayout.VERTICAL);
-                //comRow.setPadding(0, 30, 0, 30);
-                //comRow.setGravity(Gravity.CENTER);
                 commentar.showAllComments(context, pageLayout);
-                //pageLayout.addView(comRow);
                 hasComBut = false;
             }else{
                 LinearLayout comRow = new LinearLayout(context);

@@ -34,7 +34,7 @@ public class Radio extends Commentar implements Element {
                  String doctorCommentar, String highlight) {
 
         if(checked != null && !checked.isEmpty()){
-            this.checked = checked.equals("1");
+            this.checked = (checked.equals("1")|checked.equals("true"));
         } else {
             this.checked = false;
         }
@@ -60,7 +60,7 @@ public class Radio extends Commentar implements Element {
             this.doctorCommentar = "";
         }
         if(highlight != null && !highlight.isEmpty()){
-            this.highlight = (highlight.equals("1"));
+            this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
             this.highlight = false;
         }

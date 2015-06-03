@@ -33,7 +33,7 @@ public class Checkbox extends Commentar implements Element{
     public Checkbox(String checkboxText, String checked, String patientCommentar, String mtraCommentar,
                     String doctorCommentar, String highlight) {
         this.checkboxText = checkboxText;
-        this.checked = checked.equals("1");
+        this.checked = (checked.equals("1")|checked.equals("true"));
 
         if(patientCommentar != null && !patientCommentar.isEmpty()){
             this.patientCommentar = patientCommentar;
@@ -52,7 +52,7 @@ public class Checkbox extends Commentar implements Element{
         }
 
         if(highlight != null && !highlight.isEmpty()){
-            this.highlight = (highlight.equals("1"));
+            this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
             this.highlight = false;
         }

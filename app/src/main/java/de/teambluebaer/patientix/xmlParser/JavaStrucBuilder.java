@@ -86,10 +86,10 @@ public class JavaStrucBuilder extends DefaultHandler{
             currendRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"), attributes.getValue("comment"),
                     attributes.getValue("mtraComment"), attributes.getValue("docComment"), attributes.getValue("highlight")));
         }else if(qName.equals("meta")){
-            if(attributes.getValue("resign") != null && !attributes.getValue("resign").isEmpty()){
-                Constants.resign = true;
-            }else{
+            if(attributes.getValue("resign") != null){
                 Constants.resign = false;
+            }else{
+                Constants.resign = true;
             }
 
         }else if(qName.equals("pID")){
@@ -137,7 +137,7 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if (isName){
             meta.setexameName(new String(ch, start, length));
         }else if (ispExamID){
-            meta.setpExamID (new String(ch, start, length));
+            meta.setpExamID(new String(ch, start, length));
         }
     }
 
