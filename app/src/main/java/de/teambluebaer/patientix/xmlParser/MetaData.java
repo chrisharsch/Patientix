@@ -13,6 +13,7 @@ public class MetaData {
     private String patientLastName = "";
     private String patientBithDate = "Unbekannt";
     private String exameName = "";
+    private String pExamID = "";
 
 
     /**
@@ -51,6 +52,10 @@ public class MetaData {
         }
     }
 
+    public void setpExamID(String pExamID) {
+        this.pExamID = pExamID;
+    }
+
     public void setexameName(String exameName){
         this.exameName = exameName;
     }
@@ -63,6 +68,7 @@ public class MetaData {
         xmlString = xmlString + "<pLastName>" + patientLastName + "</pLastName>";
         xmlString = xmlString + "<pDate>" + patientBithDate + "</pDate>";
         xmlString = xmlString + "<name>" + exameName + "</name>";
+        xmlString = xmlString + "<pExamID>" + pExamID + "</pExamID>";
         xmlString = xmlString + "</meta>";
 
         return xmlString;

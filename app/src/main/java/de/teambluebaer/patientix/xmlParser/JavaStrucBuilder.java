@@ -32,6 +32,7 @@ public class JavaStrucBuilder extends DefaultHandler{
     boolean isPLN = false;
     boolean ispDate = false;
     boolean isName = false;
+    boolean ispExamID = false;
 
     public MetaandForm buildStruc(String xmlString) throws IOException, SAXException, ParserConfigurationException {
 
@@ -101,8 +102,8 @@ public class JavaStrucBuilder extends DefaultHandler{
             ispDate = true;
         }else if(qName.equals("name")){
             isName = true;
-        }else{
-            //Log.d("JavaStrucBuilder","Doesn't write something for "+ qName);
+        }else if(qName.equals("pExamID")){
+            ispExamID = true;
         }
     }
 
@@ -119,6 +120,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             isPLN = false;
             ispDate = false;
             isName = false;
+            ispExamID = false;
         }
     }
 
@@ -134,6 +136,8 @@ public class JavaStrucBuilder extends DefaultHandler{
             meta.setPatientBithDate(new String(ch, start, length));
         }else if (isName){
             meta.setexameName(new String(ch, start, length));
+        }else if (ispExamID){
+            meta.setpExamID (new String(ch, start, length));
         }
     }
 

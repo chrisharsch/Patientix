@@ -25,7 +25,6 @@ public class Checkbox extends Commentar implements Element{
     private boolean highlight;
 
 
-
     /**
      * Constructor
      *

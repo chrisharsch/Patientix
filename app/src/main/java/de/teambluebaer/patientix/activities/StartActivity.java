@@ -140,7 +140,6 @@ public class StartActivity extends Activity {
                 textViewPatientBirth.setText(birthDate);
 
                 textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
-
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
             } catch (Exception e) {

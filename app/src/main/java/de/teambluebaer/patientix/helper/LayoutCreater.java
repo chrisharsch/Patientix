@@ -52,16 +52,22 @@ public class LayoutCreater {
         rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
-           /* if(Constants.resign){
-                commentar.showAllComments(context, rowLayout);
-            }else{*/
-            LinearLayout comRow = new LinearLayout(context);
-            commentar.addCommentarField(context, comRow);
-            comRow.setPadding(0, 30, 0, 30);
-            comRow.setGravity(Gravity.CENTER);
-            pageLayout.addView(comRow);
-            hasComBut = false;
-            //  }
+            if(Constants.resign){
+                //LinearLayout comRow = new LinearLayout(context);
+                //comRow.setOrientation(LinearLayout.VERTICAL);
+                //comRow.setPadding(0, 30, 0, 30);
+                //comRow.setGravity(Gravity.CENTER);
+                commentar.showAllComments(context, pageLayout);
+                //pageLayout.addView(comRow);
+                hasComBut = false;
+            }else{
+                LinearLayout comRow = new LinearLayout(context);
+                commentar.addCommentarField(context, comRow);
+                comRow.setPadding(0, 30, 0, 30);
+                comRow.setGravity(Gravity.CENTER);
+                pageLayout.addView(comRow);
+                hasComBut = false;
+            }
 
         }
     }
@@ -76,25 +82,21 @@ public class LayoutCreater {
     }
 
     public void CreatListLayout(Context context, LinearLayout layout) {
-        if (Constants.resign) {
+
+
+
             layout.removeAllViews();
             List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
             for (Page page : pageList) {
-                List<Row> rows = page.getRows();
-                for (Row row : rows) {
-                    CreateRowLayout(context, row, layout);
-                }
+                //if(page.getRows().contains(Commentar.class)){
+                    List<Row> rows = page.getRows();
+                    for (Row row : rows) {
+                        CreateRowLayout(context, row, layout);
+                    }
+                //}
             }
-        } else {
-            layout.removeAllViews();
-            List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
-            for (Page page : pageList) {
-                List<Row> rows = page.getRows();
-                for (Row row : rows) {
-                    CreateRowLayout(context, row, layout);
-                }
-            }
-        }
+
+
     }
 
     public boolean isHasComBut() {

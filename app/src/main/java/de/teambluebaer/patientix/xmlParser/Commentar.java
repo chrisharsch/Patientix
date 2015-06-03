@@ -106,7 +106,8 @@ public abstract class Commentar {
             } else {
                 patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             }
-        }else if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+        }
+        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
             TextView mtraCom = new TextView(context);
             mtraCom.setText(this.mtraCommentar);
             layout.addView(mtraCom);
@@ -116,7 +117,8 @@ public abstract class Commentar {
             } else {
                 mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
             }
-        }else if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+        }
+        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
             TextView docCom = new TextView(context);
             docCom.setText(this.doctorCommentar);
             layout.addView(docCom);
@@ -129,9 +131,3 @@ public abstract class Commentar {
         }
     }
 }
-//TextView mtraCom = new TextView(context);
-//mtraCom.setText(mtraCommentar);
-//mtraCom.setTextColor(Color.GREEN);
-//TextView docCom = new TextView(context);
-//docCom.setText(doctorCommentar);
-//docCom.setTextColor(Color.RED);
