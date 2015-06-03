@@ -49,7 +49,7 @@ public class StartActivity extends Activity {
     private Button buttonUpdate;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_HOME, KeyEvent.KEYCODE_MENU));
+    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
      * OnCreation of the Activity this method runs and removes the titlebar and
@@ -126,6 +126,7 @@ public class StartActivity extends Activity {
         if (responseCode == 200) {
             try {
                 String xmlString = restfulHelper.responseString;
+                Log.d("ResponseString: ",restfulHelper.responseString);
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
@@ -139,6 +140,7 @@ public class StartActivity extends Activity {
                 textViewPatientBirth.setText(birthDate);
 
                 textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
             } catch (Exception e) {

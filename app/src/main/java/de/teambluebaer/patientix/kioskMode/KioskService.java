@@ -11,11 +11,12 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import de.teambluebaer.patientix.helper.Constants;
+import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
+import static java.lang.Thread.sleep;
 
 public class KioskService extends Service {
 
-    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 1 seconds
+    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(3); // periodic interval to check in seconds -> 3 seconds
     private static final String TAG = KioskService.class.getSimpleName();
 
     private Thread t = null;
@@ -29,6 +30,7 @@ public class KioskService extends Service {
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
         running = false;
+        restartApp();
         super.onDestroy();
     }
 
@@ -49,13 +51,15 @@ public class KioskService extends Service {
             @Override
             public void run() {
                 do {
-                    handleKioskMode();
+                        handleKioskMode();
+                    Log.d("sleep", "handleaufruf");
                     try {
-                        Thread.sleep(INTERVAL);
+                        sleep(INTERVAL);
+                        Log.d("sleep","haia");
                     } catch (InterruptedException e) {
                         Log.i(TAG, "Thread interrupted: 'KioskService'");
                     }
-                } while (running);
+                } while (running); Log.d("sleep","while");
                 stopSelf();
             }
         });
@@ -70,7 +74,9 @@ public class KioskService extends Service {
      */
     private void handleKioskMode() {
         if (PrefUtils.isKioskModeActive(ctx)) {
+            Log.d("sleep","kioskmodeactive");
             if (isInBackground()) {
+                Log.d("sleep","backgroundcheck");
                 restoreApp();
             }
         }
@@ -93,11 +99,14 @@ public class KioskService extends Service {
      * This method restores the App to the last Activity
      */
     private void restoreApp() {
-        // Restart activity
-        Log.d("App","Restarted");
-        Intent i = new Intent(ctx, Constants.CURRENTACTIVITY.getClass());
+        Log.d("App", "Restored");
+        startActivity(CURRENTACTIVITY.getIntent());
+    }
+    private void restartApp(){
+        Log.d("App", "Restored");
+        Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ctx.startActivity(i);
+        startActivity(i);
     }
 
     /**

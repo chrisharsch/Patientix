@@ -12,13 +12,11 @@ $app->post('/formula', function () use ($app, $db){
         $tabletID = $_POST["tabletID"];
 
 
-        
-
         #Get FormID for this tablet
         $result = $db->query("SELECT formID FROM ScheduledPatients WHERE tabletID = '$tabletID'");
         $formID = $result->fetch_assoc()["formID"];
 
-        $resultTwo = $db->query("SELECT formID FROM ScheduledResingingPatients WHERE tabletID = '$tabletID'")
+        $resultTwo = $db->query("SELECT formID FROM ScheduledResingingPatients WHERE tabletID = '$tabletID'");
 
         if($result->num_rows==1){
 

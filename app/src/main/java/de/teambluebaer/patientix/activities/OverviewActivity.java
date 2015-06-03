@@ -89,7 +89,7 @@ public class OverviewActivity extends Activity {
     public void onClickContinueButton(View v) {
         Flasher.flash(buttonReady, "1x3");
 
-        if(AnswerChecker.isEverythingAnswert()) {
+        if(Constants.resign | AnswerChecker.isEverythingAnswert()) {
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);

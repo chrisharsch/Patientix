@@ -101,11 +101,32 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * This method converts the bytes of String to hex
+     * Deactive kioskmode with press on exit button if you
+     * entered the PIN-Code
      *
-     * @param data byte Array to convert
-     * @return String of hexcode
+     * @param v Parameter to change something in view
      */
+    public void onClickButtonExit(View v) {
+        if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+            PrefUtils.setKioskModeActive(false, Constants.CURRENTACTIVITY);
+            PrefUtils.setKioskModeActive(false, this);
+            for (Activity activity : Constants.LISTOFACTIVITIES) {
+                PrefUtils.setKioskModeActive(false, activity);
+                activity.finish();
+            }
+            System.exit(0);
+        } else {
+            editPassword.setText("");
+            Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
+        }
+    }
+        /**
+         * This method converts the bytes of String to hex
+         *
+         * @param data byte Array to convert
+         * @return String of hexcode
+         */
+
     private String convertByteToHex(byte data[]) {
         StringBuffer hexData = new StringBuffer();
         for (int byteIndex = 0; byteIndex < data.length; byteIndex++)
@@ -130,26 +151,8 @@ public class LoginActivity extends Activity {
         return null;
     }
 
-    /**
-     * Deactive kioskmode with press on exit button if you
-     * entered the PIN-Code
-     *
-     * @param v Parameter to change something in view
-     */
-    public void onClickButtonExit(View v) {
-        if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
-            PrefUtils.setKioskModeActive(false, Constants.CURRENTACTIVITY);
-            PrefUtils.setKioskModeActive(false, this);
-            for (Activity activity : Constants.LISTOFACTIVITIES) {
-                PrefUtils.setKioskModeActive(false, activity);
-            }
-            System.exit(0);
-        } else {
-            editPassword.setText("");
-            Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
-        }
 
-    }
+
 
     /**
      * This method defines what happens when you press on the hardkey back on the Tablet.
