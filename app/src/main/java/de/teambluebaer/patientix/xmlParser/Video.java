@@ -1,15 +1,16 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 /**
  * Created by Simon on 06.05.2015.
- Represents a Video File that could insert into a <code>Row</code>
+ * Represents a Video File that could insert into a <code>Row</code>
+ *
  * @see Row
  * @see Element
  */
@@ -18,25 +19,33 @@ public class Video implements Element {
 
     /**
      * Constructor
+     *
      * @param src URL-String represents Location of the Video you want to add
      */
-    public Video(String src){
+    public Video(String src) {
         videoSource = src;
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
 
-        Log.d("src", videoSource);
+        RelativeLayout rl = new RelativeLayout(context);
+        rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+
+
+        //Uri myUri = Uri.parse(videoSource);
         VideoView video = new VideoView(context);
-        layout.addView(video);
-        MediaController mc = new MediaController(layout.getContext());
-        mc.setAnchorView(video);
-        mc.setMediaPlayer(video);
-        Uri uri=Uri.parse(videoSource);
-        video.setMediaController(mc);
-        video.setVideoURI(uri);
+        // video.setVideoURI(myUri);
+        video.setLayoutParams(new FrameLayout.LayoutParams(550, 550));
+        video.setVideoPath(
+                videoSource);
+        MediaController mediaController = new
+                MediaController(context);
+        mediaController.setAnchorView(video);
+        video.setMediaController(mediaController);
         video.start();
+        rl.addView(video);
+        layout.addView(rl);
 
 
     }
