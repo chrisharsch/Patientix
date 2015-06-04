@@ -12,6 +12,7 @@ import de.teambluebaer.patientix.xmlParser.Element;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
+import de.teambluebaer.patientix.xmlParser.Video;
 
 /**
  * Created by Simon on 08.05.2015.
@@ -84,10 +85,14 @@ public class LayoutCreater {
             List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
             for (Page page : pageList) {
                 //if(page.getRows().contains(Commentar.class)){
+                if(page.getRows() instanceof Video) {
+                    //do nothing
+                }else{
                     List<Row> rows = page.getRows();
                     for (Row row : rows) {
                         CreateRowLayout(context, row, layout);
                     }
+                }
                 //}
             }
 
