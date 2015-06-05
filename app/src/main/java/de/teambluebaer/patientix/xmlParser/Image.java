@@ -58,50 +58,18 @@ public class Image implements Element {
         }else{
             imageSource = "";
         }
-
-
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
         //TODO How to get Image by URL
 
-
-
         if (!imageSource.isEmpty()) {
             WebView image = new WebView(context);
             image.setBackgroundColor(0);
             image.loadDataWithBaseURL("","<img src='"+ imageSource +"'/>","text/html", "UTF-8", "");
             layout.addView(image);
-
-
-
-            //ImageView imageView = new ImageView(context);
-            //imageView.setImageURI(Uri.parse(imageSource));
-
         }
-
-        /*// Layout außen
-        LinearLayout wrapperLayout = new LinearLayout(context);
-        wrapperLayout.setOrientation(LinearLayout.VERTICAL);
-
-        // Layout für Buttons
-        RelativeLayout buttonsLayout = new RelativeLayout(context);
-        wrapperLayout.addView(buttonsLayout);
-
-        // SpenView Layout
-        final RelativeLayout spenLayout = new RelativeLayout(context);
-        wrapperLayout.addView(spenLayout);
-
-        sPenGenerate(context, spenLayout, buttonsLayout);
-
-
-
-            // d in spenViewLayout speichern!
-
-            // wird in createSpenNoteDoc schon gesetzt?
-            //spenViewLayout.setBackground(Bild setzen);*/
-
     }
 
     public String toXMLString() {

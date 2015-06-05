@@ -48,8 +48,6 @@ public class Video implements Element {
         rl.addView(video);
         layout.addView(rl);
 
-
-
     }
 
     public String toXMLString() {
