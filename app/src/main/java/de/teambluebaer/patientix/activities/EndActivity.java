@@ -65,10 +65,9 @@ public class EndActivity extends Activity {
             String xml = Constants.globalMetaandForm.toXMLString();
 
             //set um parameterMap for RestPost to send formula data
-            parameterMap.add(new BasicNameValuePair("isFormula", isFormula() + ""));
             parameterMap.add(new BasicNameValuePair("formula", xml));
             parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
-            parameterMap.add(new BasicNameValuePair("patientID", Constants.TABLET_ID));
+            parameterMap.add(new BasicNameValuePair("patientID", Constants.globalMetaandForm.getMeta().getPatientID()));
             new SendFormula().execute();
         } else {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
