@@ -11,13 +11,15 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import de.teambluebaer.patientix.helper.Constants;
+
 import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
 import static de.teambluebaer.patientix.helper.Constants.TORESTART;
 import static java.lang.Thread.sleep;
 
 public class KioskService extends Service {
 
-    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(3); // periodic interval to check in seconds -> 3 seconds
+    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 3 seconds
     private static final String TAG = KioskService.class.getSimpleName();
 
     private Thread t = null;
@@ -30,10 +32,9 @@ public class KioskService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
-        Log.i(TAG, "app restarted'");
-        Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
+        running = false;
+        Constants.TORESTART = true;
+        restoreApp();
         super.onDestroy();
     }
 

@@ -31,22 +31,23 @@ public class Video implements Element {
     public void addToView(Context context, LinearLayout layout) {
 
         RelativeLayout rl = new RelativeLayout(context);
-        rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        rl.setLayoutParams(new RelativeLayout.LayoutParams(1980, 1000));
         VideoView video = new VideoView(context);
         rl.setGravity(Gravity.CENTER);
-        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1900, 1080);
+        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1980, 1000);
         layoutParameter.gravity = Gravity.CENTER;
         video.setLayoutParams(layoutParameter);
         video.setVideoPath(videoSource);
         MediaController mediaController = new MediaController(video.getContext());
         mediaController.setAnchorView(video);
-
+        mediaController.setMediaPlayer(video);
         video.requestFocus();
         video.setMediaController(mediaController);
         video.start();
-
+        mediaController.show();
         rl.addView(video);
         layout.addView(rl);
+
 
 
     }

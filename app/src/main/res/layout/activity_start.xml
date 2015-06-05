@@ -14,6 +14,7 @@
         android:background="@drawable/bannerklein"
         android:id="@+id/linearLayoutBannerLeft"
         android:orientation="horizontal">
+
     </LinearLayout>
 
     <!-- Banner left -->

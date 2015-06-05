@@ -8,6 +8,8 @@ import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
+import de.teambluebaer.patientix.R;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -29,16 +31,20 @@ public class Sound implements Element {
     @Override
     public void addToView(Context context, LinearLayout layout) {
         RelativeLayout rl = new RelativeLayout(context);
-        rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        VideoView video = new VideoView(context);
+        RelativeLayout.LayoutParams layoutParametersOne = new RelativeLayout.LayoutParams(500, 500);
+        layoutParametersOne.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        rl.setLayoutParams(layoutParametersOne);
         rl.setGravity(Gravity.CENTER);
-        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1900, 300);
+
+        VideoView video = new VideoView(context);
+        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(500, 500);
+
         layoutParameter.gravity = Gravity.CENTER;
+        video.setBackgroundResource(R.drawable.sound);
         video.setLayoutParams(layoutParameter);
         video.setVideoPath(soundSource);
-        MediaController mediaController = new MediaController(context);
+        MediaController mediaController =  new MediaController(context);
         mediaController.setAnchorView(video);
-
         video.requestFocus();
         video.setMediaController(mediaController);
         video.start();
