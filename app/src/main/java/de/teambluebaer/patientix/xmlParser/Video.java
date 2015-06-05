@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -31,19 +32,19 @@ public class Video implements Element {
 
         RelativeLayout rl = new RelativeLayout(context);
         rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-
-
-        //Uri myUri = Uri.parse(videoSource);
         VideoView video = new VideoView(context);
-        // video.setVideoURI(myUri);
-        video.setLayoutParams(new FrameLayout.LayoutParams(550, 550));
-        video.setVideoPath(
-                videoSource);
-        MediaController mediaController = new
-                MediaController(context);
+        rl.setGravity(Gravity.CENTER);
+        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1900, 1080);
+        layoutParameter.gravity = Gravity.CENTER;
+        video.setLayoutParams(layoutParameter);
+        video.setVideoPath(videoSource);
+        MediaController mediaController = new MediaController(video.getContext());
         mediaController.setAnchorView(video);
+
+        video.requestFocus();
         video.setMediaController(mediaController);
         video.start();
+
         rl.addView(video);
         layout.addView(rl);
 

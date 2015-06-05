@@ -34,8 +34,6 @@ public class OverviewActivity extends Activity {
     private LayoutCreater layoutCreater;
     private Button buttonZoom;
 
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
-
     /**
      * In this method is defined what happens on create of the Activity:
      * Set Layout, remove titlebar
@@ -160,21 +158,6 @@ public class OverviewActivity extends Activity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
-        }
-    }
-
-    /**
-     * This method disables the volumes keys
-     *
-     * @param event Listens on Keyinput event
-     * @return Calls super class if key is allowed
-     */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (blockedKeys.contains(event.getKeyCode())) {
-            return true;
-        } else {
-            return super.dispatchKeyEvent(event);
         }
     }
 
