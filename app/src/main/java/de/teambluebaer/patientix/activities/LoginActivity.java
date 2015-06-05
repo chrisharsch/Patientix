@@ -1,9 +1,12 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -37,6 +42,7 @@ public class LoginActivity extends Activity {
     private EditText editPassword = null;
     Integer responseCode;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    private ArrayList<NameValuePair> parameterMap = new ArrayList();
 
 
     /**
@@ -85,6 +91,23 @@ public class LoginActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+              /* IP-Addresse Vergeben:
+
+                parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
+
+
+                //send the request to server
+                RestfulHelper restfulHelper = new RestfulHelper();
+                responseCode = restfulHelper.executeRequest("getIP", parameterMap);
+                if(responseCode == 200) {
+                    android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_USE_STATIC_IP, "1");
+                    android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_IP, restfulHelper.responseString);
+                    android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_NETMASK, "255.255.255.0");
+                    android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_DNS1, "192.168.0.254");
+                    android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_GATEWAY, "192.168.0.254");
+                }else{
+                    Toast.makeText(this,"Fehler bei der Addressvergabe des Tablets Fehlercode: "+ responseCode,Toast.LENGTH_LONG).show();
+                }*/
                 Log.d("Login successful: ", responseCode + "");
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
@@ -151,7 +174,16 @@ public class LoginActivity extends Activity {
         return null;
     }
 
-
+    /**
+     * Method to get the MACAddress of the device
+     *
+     * @return String of the MACAddress of the device
+     */
+    private String getMacAddress() {
+        WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = manager.getConnectionInfo();
+        return info.getMacAddress();
+    }
 
 
     /**
