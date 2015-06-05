@@ -72,7 +72,7 @@ public class Page {
         boolean relevant = false;
         for(Row row:rowList){
             for(Element element:row.getElements()){
-                if(element instanceof Commentar){
+                if(element instanceof Editable){
                     relevant = true;
                 }else if(element instanceof Image && Constants.resign){
                     relevant = true;
