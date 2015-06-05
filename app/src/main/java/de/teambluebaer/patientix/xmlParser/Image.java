@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 
 import de.teambluebaer.patientix.R;
@@ -58,7 +59,12 @@ public class Image implements Element {
      */
     public Image(String src) {
 
-        imageSource = src;
+        if(src != null && !src.isEmpty()){
+            imageSource = src;
+        }else{
+            imageSource = "";
+        }
+
 
     }
 
@@ -66,7 +72,16 @@ public class Image implements Element {
     public void addToView(Context context, LinearLayout layout) {
         //TODO How to get Image by URL
 
-        // Layout au�en
+
+
+        if (!imageSource.isEmpty()) {
+
+            ImageView imageView = new ImageView(context);
+            imageView.setImageURI(Uri.parse(imageSource));
+            layout.addView(imageView);
+        }
+
+        /*// Layout au�en
         LinearLayout wrapperLayout = new LinearLayout(context);
         wrapperLayout.setOrientation(LinearLayout.VERTICAL);
 
@@ -80,13 +95,13 @@ public class Image implements Element {
 
         sPenGenerate(context, spenLayout, buttonsLayout);
 
-        if (getImageSource(context) != null) {
+
 
             // d in spenViewLayout speichern!
 
             // wird in createSpenNoteDoc schon gesetzt?
-            //spenViewLayout.setBackground(Bild setzen);
-        }
+            //spenViewLayout.setBackground(Bild setzen);*/
+
     }
 
     public String toXMLString() {
@@ -96,39 +111,6 @@ public class Image implements Element {
         xmlString = xmlString + "/>";
 
         return xmlString;
-    }
-
-    public String getImageSource(Context context) {
-
-        /*
-        URL url = new URL(address);
-        InputStream is = (InputStream) url.getContent();
-        Drawable d = Drawable.createFromStream(is, "src");  */
-
-/*
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Niere.jpg";
-        File fileCacheItem = new File(filePath);
-        if (!fileCacheItem.exists()) {
-            if (!fileCacheItem.mkdirs()) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        }
-        InputStream is = null;
-        try {
-            is = new FileInputStream(filePath);
-        } catch (IOException e1) {
-           e1.printStackTrace();
-        }
-        Drawable d = Drawable.createFromStream(is, "Niere.jpg");    */
-
-        // Brauch ich eine Bitmap?
-        //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-
-        // was mach ich mit d?
-        // speichern in drawable und dann ziehen und setzen?
-
-        return null;
     }
 
     public void sPenGenerate(Context context, final RelativeLayout spenLayout, RelativeLayout buttonsLayout) {
@@ -182,7 +164,7 @@ public class Image implements Element {
 
     /**
      *  Erstellt das Layout
-     * @param spenViewLayout
+     * @param spenLayout
      */
     private void createSpenNoteDoc(View spenLayout, Context context) {
         try {
