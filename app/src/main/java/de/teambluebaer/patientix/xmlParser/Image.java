@@ -3,14 +3,11 @@ package de.teambluebaer.patientix.xmlParser;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.Display;
+import android.os.Environment;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,17 +23,20 @@ import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import de.teambluebaer.patientix.R;
-import de.teambluebaer.patientix.activities.EndActivity;
-import de.teambluebaer.patientix.kioskMode.PrefUtils;
+
 
 /**
  * Created by Simon on 06.05.2015.
  *
  * Represents a Image that could insert into a <code>Row</code>
- * @see Row
+ * @see
  * @see Element
  */
 public class Image implements Element {
@@ -66,16 +66,26 @@ public class Image implements Element {
     public void addToView(Context context, LinearLayout layout) {
         //TODO How to get Image by URL
 
-        final RelativeLayout spenViewLayout = new RelativeLayout(context);
-        layout.addView(spenViewLayout);
+        // Layout au�en
+        LinearLayout wrapperLayout = new LinearLayout(context);
+        wrapperLayout.setOrientation(LinearLayout.VERTICAL);
 
-        sPenGenerate(context, spenViewLayout);
+        // Layout f�r Buttons
+        RelativeLayout buttonsLayout = new RelativeLayout(context);
+        wrapperLayout.addView(buttonsLayout);
 
-        if (imageSource != null) {
+        // SpenView Layout
+        final RelativeLayout spenLayout = new RelativeLayout(context);
+        wrapperLayout.addView(spenLayout);
+
+        sPenGenerate(context, spenLayout, buttonsLayout);
+
+        if (getImageSource(context) != null) {
+
+            // d in spenViewLayout speichern!
 
             // wird in createSpenNoteDoc schon gesetzt?
             //spenViewLayout.setBackground(Bild setzen);
-
         }
     }
 
@@ -88,12 +98,40 @@ public class Image implements Element {
         return xmlString;
     }
 
-    public String getImageSource() {
-        return imageSource;
+    public String getImageSource(Context context) {
+
+        /*
+        URL url = new URL(address);
+        InputStream is = (InputStream) url.getContent();
+        Drawable d = Drawable.createFromStream(is, "src");  */
+
+/*
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Niere.jpg";
+        File fileCacheItem = new File(filePath);
+        if (!fileCacheItem.exists()) {
+            if (!fileCacheItem.mkdirs()) {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+        InputStream is = null;
+        try {
+            is = new FileInputStream(filePath);
+        } catch (IOException e1) {
+           e1.printStackTrace();
+        }
+        Drawable d = Drawable.createFromStream(is, "Niere.jpg");    */
+
+        // Brauch ich eine Bitmap?
+        //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+
+        // was mach ich mit d?
+        // speichern in drawable und dann ziehen und setzen?
+
+        return null;
     }
 
-
-    public void sPenGenerate(Context context, final RelativeLayout spenViewLayout) {
+    public void sPenGenerate(Context context, final RelativeLayout spenLayout, RelativeLayout buttonsLayout) {
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -121,21 +159,21 @@ public class Image implements Element {
         mSpenSurfaceView.setZoomable(false);
 
         // Create PenSettingView
-        mPenSettingView = new SpenSettingPenLayout(context, new String(), spenViewLayout);
+        mPenSettingView = new SpenSettingPenLayout(context, new String(), buttonsLayout);
 
         if (mPenSettingView == null) {
             Toast.makeText(context, "Cannot create new PenSettingView.", Toast.LENGTH_SHORT).show();
         }
         // Create EraserSettingView
-        mEraserSettingView = new SpenSettingEraserLayout(context, new String(), spenViewLayout);
+        mEraserSettingView = new SpenSettingEraserLayout(context, new String(), buttonsLayout);
 
         if (mEraserSettingView == null) {
             Toast.makeText(context, "Cannot create new EraserSettingView.", Toast.LENGTH_SHORT).show();
         }
-        spenViewLayout.addView(mPenSettingView);
-        spenViewLayout.addView(mEraserSettingView);
+        buttonsLayout.addView(mPenSettingView);
+        buttonsLayout.addView(mEraserSettingView);
 
-        spenViewLayout.addView(mSpenSurfaceView);
+        buttonsLayout.addView(mSpenSurfaceView);
 
         mPenSettingView.setCanvasView(mSpenSurfaceView);
         mEraserSettingView.setCanvasView(mSpenSurfaceView);
@@ -143,13 +181,13 @@ public class Image implements Element {
     }
 
     /**
-     *  Erstellt das Layout der Unterschrift
+     *  Erstellt das Layout
      * @param spenViewLayout
      */
-    private void createSpenNoteDoc(View spenViewLayout, Context context) {
+    private void createSpenNoteDoc(View spenLayout, Context context) {
         try {
             mSpenNoteDoc =
-                    new SpenNoteDoc(context, spenViewLayout.getWidth(), spenViewLayout.getHeight());
+                    new SpenNoteDoc(context, spenLayout.getWidth(), spenLayout.getHeight());
         } catch (IOException e) {
             Toast.makeText(context, "Cannot create new NoteDoc.",
                     Toast.LENGTH_SHORT).show();
@@ -168,10 +206,10 @@ public class Image implements Element {
         initSettingInfo();
 
         // Set a button
-        mPenBtn = (ImageView) spenViewLayout.findViewById(R.id.penBtn);
+        mPenBtn = (ImageView) spenLayout.findViewById(R.id.penBtn);
         mPenBtn.setOnClickListener(mPenBtnClickListener);
 
-        mEraserBtn = (ImageView) spenViewLayout.findViewById(R.id.eraserBtn);
+        mEraserBtn = (ImageView) spenLayout.findViewById(R.id.eraserBtn);
         mEraserBtn.setOnClickListener(mEraserBtnClickListener);
 
         selectButton(mPenBtn);
@@ -262,7 +300,6 @@ public class Image implements Element {
         mEraserSettingView.setVisibility(SpenSurfaceView.GONE);
         mPenSettingView.setVisibility(SpenSurfaceView.GONE);
     }
-
 
     /**
      * Handle the Exceptions
@@ -382,3 +419,4 @@ public class Image implements Element {
         return imageSource != null ? imageSource.hashCode() : 0;
     }
 }
+

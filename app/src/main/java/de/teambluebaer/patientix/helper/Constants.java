@@ -23,4 +23,5 @@ public class Constants {
     public static LinkedList<Activity> LISTOFACTIVITIES = new LinkedList<>();
     public static boolean resign = false;
     public static boolean TORESTART = false;
+    public static String EMPTYSIGNATURE = "";
 }

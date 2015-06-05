@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -27,7 +28,9 @@ import com.samsung.android.sdk.pen.SpenSettingEraserInfo;
 import com.samsung.android.sdk.pen.SpenSettingPenInfo;
 import com.samsung.android.sdk.pen.document.SpenNoteDoc;
 import com.samsung.android.sdk.pen.document.SpenPageDoc;
+import com.samsung.android.sdk.pen.engine.SpenPenChangeListener;
 import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
+import com.samsung.android.sdk.pen.plugin.interfaces.SpenPenInterface;
 import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
@@ -153,7 +156,6 @@ public class SignatureActivity extends Activity {
         mPenSettingView.setCanvasView(mSpenSurfaceView);
         mEraserSettingView.setCanvasView(mSpenSurfaceView);
 
-
         // Create SpenNoteDoc
         final ViewTreeObserver observer = spenViewLayout.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -191,6 +193,9 @@ public class SignatureActivity extends Activity {
         mSpenPageDoc.clearHistory();
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
+
+        Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
+        Constants.EMPTYSIGNATURE = (encodeTobase64(imgBitmap));
 
         initSettingInfo();
 
@@ -278,15 +283,45 @@ public class SignatureActivity extends Activity {
         public void onClick(View v) {
             closeSettingView();
             buttonDone.setEnabled(false);
-            captureSpenSurfaceView();
-            buttonDone.setEnabled(true);
+            Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
 
-            Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
-            startActivity(intent);
-            PrefUtils.setKioskModeActive(false, SignatureActivity.this);
-            finish();
+
+            if(Constants.EMPTYSIGNATURE.equals(encodeTobase64(imgBitmap))) {
+                Toast.makeText(mContext, "Bitte unterschreiben Sie", Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_SHORT).show();
+
+                OutputStream out = null;
+                try {
+                    // Save signature to a Base64 encode String
+                    Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                imgBitmap.recycle();
+
+                Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
+                startActivity(intent);
+
+                PrefUtils.setKioskModeActive(false, SignatureActivity.this);
+                finish();
+            }
+
+            buttonDone.setEnabled(true);
         }
     };
+
+
 
     /**
      * select the pen or the eraser
@@ -312,64 +347,17 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * Save the signature in the gallery directory on the tablet
-     */
-    private void captureSpenSurfaceView() {
-
-        /*  Set save directory for a captured image.
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SPen/images";
-        File fileCacheItem = new File(filePath);
-        if (!fileCacheItem.exists()) {
-            if (!fileCacheItem.mkdirs()) {
-                Toast.makeText(mContext, "Save Path Creation Error", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-        filePath = fileCacheItem.getPath() + "/CaptureImg.png";         */
-
-        // Capture an image and save it as bitmap.
-        Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
-
-        OutputStream out = null;
-        try {
-            // Save a captured bitmap image to the directory.
-            // out = new FileOutputStream(filePath);
-            // imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-            // Save signature to a Base64 encode String
-            Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
-
-            Toast.makeText(mContext, "Unterschrift wurde gespeichert", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        imgBitmap.recycle();
-    }
-
-    /**
      * Gibt einen String von der Unterschrift für das XML-Formular zurück
      * @param image
      * @return String
      */
     public static String encodeTobase64(Bitmap image) {
-        Bitmap immagex=image;
+        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-
+        Log.d("SignaturString", imageEncoded);
         return imageEncoded;
     }
 
