@@ -19,7 +19,7 @@ import de.teambluebaer.patientix.helper.TextSize;
  * @see Row
  * @see Element
  */
-public class Radio extends Commentar implements Element {
+public class Radio implements Element,Editable {
     private String radioText;
     private boolean checked;
     private boolean highlight;
@@ -30,8 +30,7 @@ public class Radio extends Commentar implements Element {
      *
      * @param radioText represents the showen Answer to this Radio Button
      */
-    public Radio(String radioText, String checked, String patientCommentar, String mtraCommentar,
-                 String doctorCommentar, String highlight) {
+    public Radio(String radioText, String checked, String highlight) {
 
         if(checked != null && !checked.isEmpty()){
             this.checked = (checked.equals("1")|checked.equals("true"));
@@ -42,22 +41,6 @@ public class Radio extends Commentar implements Element {
             this.radioText = radioText;
         } else {
             this.radioText = "";
-        }
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
-            this.patientCommentar = patientCommentar;
-        } else {
-            this.patientCommentar = "";
-        }
-        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
-            this.mtraCommentar = mtraCommentar;
-        } else {
-
-            this.mtraCommentar = "";
-        }
-        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
-            this.doctorCommentar = doctorCommentar;
-        } else {
-            this.doctorCommentar = "";
         }
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
@@ -106,9 +89,6 @@ public class Radio extends Commentar implements Element {
         xmlString = xmlString + "<radiobutton ";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment=\"" + this.patientCommentar + "\" ";
-        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 
@@ -123,18 +103,6 @@ public class Radio extends Commentar implements Element {
         return checked;
     }
 
-    public String getPatientCommentar() {
-        return patientCommentar;
-    }
-
-    public String getMtraCommentar() {
-        return mtraCommentar;
-    }
-
-    public String getDoctorCommentar() {
-        return doctorCommentar;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,13 +111,9 @@ public class Radio extends Commentar implements Element {
         Radio radio = (Radio) o;
 
         if (checked != radio.checked) return false;
-        if (radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null)
-            return false;
-        if (patientCommentar != null ? !patientCommentar.equals(radio.patientCommentar) : radio.patientCommentar != null)
-            return false;
-        if (mtraCommentar != null ? !mtraCommentar.equals(radio.mtraCommentar) : radio.mtraCommentar != null)
-            return false;
-        return !(doctorCommentar != null ? !doctorCommentar.equals(radio.doctorCommentar) : radio.doctorCommentar != null);
+        return (radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null);
+
+
 
     }
 
@@ -157,9 +121,6 @@ public class Radio extends Commentar implements Element {
     public int hashCode() {
         int result = radioText != null ? radioText.hashCode() : 0;
         result = 31 * result + (checked ? 1 : 0);
-        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
-        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
-        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
         return result;
     }
 }

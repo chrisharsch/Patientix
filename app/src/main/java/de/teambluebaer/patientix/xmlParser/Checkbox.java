@@ -5,7 +5,6 @@ import android.util.TypedValue;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -19,7 +18,7 @@ import de.teambluebaer.patientix.helper.TextSize;
  * @see Row
  * @see Element
  */
-public class Checkbox extends Commentar implements Element{
+public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Editable {
     private String checkboxText;
     private boolean checked;
     private boolean highlight;
@@ -30,26 +29,10 @@ public class Checkbox extends Commentar implements Element{
      *
      * @param checkboxText represents the showen Answer to this Checkbox
      */
-    public Checkbox(String checkboxText, String checked, String patientCommentar, String mtraCommentar,
-                    String doctorCommentar, String highlight) {
+    public Checkbox(String checkboxText, String checked, String highlight) {
         this.checkboxText = checkboxText;
         this.checked = (checked.equals("1")|checked.equals("true"));
 
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
-            this.patientCommentar = patientCommentar;
-        } else {
-            this.patientCommentar = "";
-        }
-        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
-            this.mtraCommentar = mtraCommentar;
-        } else {
-            this.mtraCommentar = "";
-        }
-        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
-            this.doctorCommentar = doctorCommentar;
-        } else {
-            this.doctorCommentar = "";
-        }
 
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
@@ -90,30 +73,13 @@ public class Checkbox extends Commentar implements Element{
     }
 
 
-    public void showAllComments(Context context, LinearLayout layout) {
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
-            TextView patCom = new TextView(context);
-            patCom.setText(this.patientCommentar);
-            layout.addView(patCom);
-        }else if(mtraCommentar != null && !mtraCommentar.isEmpty()){
-            TextView mtraCom = new TextView(context);
-            mtraCom.setText(this.mtraCommentar);
-            layout.addView(mtraCom);
-        }else if(doctorCommentar != null && !doctorCommentar.isEmpty()){
-            TextView docCom = new TextView(context);
-            docCom.setText(this.doctorCommentar);
-            layout.addView(docCom);
-        }
-    }
+
 
     public String toXMLString(){
         String xmlString = new String();
         xmlString = xmlString + "<checkbox ";
         xmlString = xmlString + "text=\"" + this.checkboxText + "\" ";
         xmlString = xmlString + "checked=\"" + this.checked + "\" ";
-        xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
-        xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 
@@ -128,18 +94,6 @@ public class Checkbox extends Commentar implements Element{
         return checked;
     }
 
-    public String getPatientCommentar() {
-        return patientCommentar;
-    }
-
-    public String getMtraCommentar() {
-        return mtraCommentar;
-    }
-
-    public String getDoctorCommentar() {
-        return doctorCommentar;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,23 +102,13 @@ public class Checkbox extends Commentar implements Element{
         Checkbox checkbox = (Checkbox) o;
 
         if (checked != checkbox.checked) return false;
-        if (checkboxText != null ? !checkboxText.equals(checkbox.checkboxText) : checkbox.checkboxText != null)
-            return false;
-        if (patientCommentar != null ? !patientCommentar.equals(checkbox.patientCommentar) : checkbox.patientCommentar != null)
-            return false;
-        if (mtraCommentar != null ? !mtraCommentar.equals(checkbox.mtraCommentar) : checkbox.mtraCommentar != null)
-            return false;
-        return !(doctorCommentar != null ? !doctorCommentar.equals(checkbox.doctorCommentar) : checkbox.doctorCommentar != null);
-
+        return (checkboxText != null ? !checkboxText.equals(checkbox.checkboxText) : checkbox.checkboxText != null);
     }
 
     @Override
     public int hashCode() {
         int result = checkboxText != null ? checkboxText.hashCode() : 0;
         result = 31 * result + (checked ? 1 : 0);
-        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
-        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
-        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
         return result;
     }
 }

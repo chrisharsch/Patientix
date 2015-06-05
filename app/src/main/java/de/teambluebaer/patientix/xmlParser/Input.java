@@ -19,7 +19,7 @@ import de.teambluebaer.patientix.helper.TextSize;
  * @see Row
  * @see Element
  */
-public class Input extends Commentar implements Element {
+public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Editable {
     private String hint;
     private String inputText;
     private String patientInput;
@@ -28,25 +28,10 @@ public class Input extends Commentar implements Element {
     /**
      * Constructor
      */
-    public Input(String patientImput, String inputText, String patientCommentar, String mtraCommentar, String doctorCommentar, String highlight) {
+    public Input(String patientImput, String inputText, String highlight) {
         this.inputText = inputText;
         this.patientInput = patientImput;
         this.hint = "bitte Hier eingeben";
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
-            this.patientCommentar = patientCommentar;
-        } else {
-            this.patientCommentar = "";
-        }
-        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
-            this.mtraCommentar = mtraCommentar;
-        } else {
-            this.mtraCommentar = "";
-        }
-        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
-            this.doctorCommentar = doctorCommentar;
-        } else {
-            this.doctorCommentar = "";
-        }
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
@@ -109,9 +94,6 @@ public class Input extends Commentar implements Element {
         xmlString = xmlString + "<input ";
         xmlString = xmlString + "text=\"" + this.inputText + "\" ";
         xmlString = xmlString + "patientInput=\"" + this.patientInput + "\" ";
-        xmlString = xmlString + "comment=\"" + this.patientCommentar +"\" ";
-        xmlString = xmlString + "mtraComment=\"" + this.mtraCommentar + "\" ";
-        xmlString = xmlString + "docComment=\"" + this.doctorCommentar + "\" ";
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 
@@ -132,14 +114,7 @@ public class Input extends Commentar implements Element {
         if (hint != null ? !hint.equals(input.hint) : input.hint != null) return false;
         if (inputText != null ? !inputText.equals(input.inputText) : input.inputText != null)
             return false;
-        if (patientInput != null ? !patientInput.equals(input.patientInput) : input.patientInput != null)
-            return false;
-        if (patientCommentar != null ? !patientCommentar.equals(input.patientCommentar) : input.patientCommentar != null)
-            return false;
-        if (mtraCommentar != null ? !mtraCommentar.equals(input.mtraCommentar) : input.mtraCommentar != null)
-            return false;
-        return !(doctorCommentar != null ? !doctorCommentar.equals(input.doctorCommentar) : input.doctorCommentar != null);
-
+        return (patientInput != null ? !patientInput.equals(input.patientInput) : input.patientInput != null);
     }
 
     @Override
@@ -147,9 +122,6 @@ public class Input extends Commentar implements Element {
         int result = hint != null ? hint.hashCode() : 0;
         result = 31 * result + (inputText != null ? inputText.hashCode() : 0);
         result = 31 * result + (patientInput != null ? patientInput.hashCode() : 0);
-        result = 31 * result + (patientCommentar != null ? patientCommentar.hashCode() : 0);
-        result = 31 * result + (mtraCommentar != null ? mtraCommentar.hashCode() : 0);
-        result = 31 * result + (doctorCommentar != null ? doctorCommentar.hashCode() : 0);
         return result;
     }
 
@@ -161,15 +133,4 @@ public class Input extends Commentar implements Element {
         return patientInput;
     }
 
-    public String getPatientCommentar() {
-        return patientCommentar;
-    }
-
-    public String getMtraCommentar() {
-        return mtraCommentar;
-    }
-
-    public String getDoctorCommentar() {
-        return doctorCommentar;
-    }
 }

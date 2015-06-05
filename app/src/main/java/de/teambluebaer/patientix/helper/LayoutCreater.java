@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 import java.util.List;
 
 import de.teambluebaer.patientix.xmlParser.Commentar;
+import de.teambluebaer.patientix.xmlParser.Editable;
 import de.teambluebaer.patientix.xmlParser.Element;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
@@ -41,9 +42,9 @@ public class LayoutCreater {
             } else {
                 element.addToView(context, rowLayout);
             }
-            if (element instanceof Commentar && !hasComBut) {
+            if (element instanceof Editable && !hasComBut) {
                 hasComBut = true;
-                commentar = (Commentar) element;
+                commentar = row;
             }
         }
         if (radioGroup.getChildCount() != 0) {

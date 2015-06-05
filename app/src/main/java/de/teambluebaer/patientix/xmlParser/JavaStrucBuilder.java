@@ -64,17 +64,16 @@ public class JavaStrucBuilder extends DefaultHandler{
         if(qName.equals("page")){
             currendPage = new Page();
         }else if (qName.equals("row")){
-            currendRow = new Row();
+            currendRow = new Row(attributes.getValue("comment"),attributes.getValue("mtraComment"),
+                    attributes.getValue("docComment"));
         }else if(qName.equals("text")){
             currendRow.addElement(new Text(attributes.getValue("text"),attributes.getValue("size")));
         }else if(qName.equals("checkbox")){
             currendRow.addElement(new Checkbox(attributes.getValue("text"), attributes.getValue("checked")
-                    ,attributes.getValue("comment"), attributes.getValue("mtraComment"),
-                    attributes.getValue("docComment"),attributes.getValue("highlight")));
+                    ,attributes.getValue("highlight")));
         }else if(qName.equals("radiobutton")){
             currendRow.addElement(new Radio(attributes.getValue("text"), attributes.getValue("checked"),
-                    attributes.getValue("comment"), attributes.getValue("mtraComment"),
-                    attributes.getValue("docComment"),attributes.getValue("highlight")));
+                     attributes.getValue("highlight")));
 
         }else if(qName.equals("image")){
             currendRow.addElement(new Image(attributes.getValue("src")));
@@ -83,8 +82,8 @@ public class JavaStrucBuilder extends DefaultHandler{
         }else if(qName.equals("video")){
             currendRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
-            currendRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"), attributes.getValue("comment"),
-                    attributes.getValue("mtraComment"), attributes.getValue("docComment"), attributes.getValue("highlight")));
+            currendRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"),
+                    attributes.getValue("highlight")));
         }else if(qName.equals("meta")){
             if(attributes.getValue("resign") != null){
                 Constants.resign = false;

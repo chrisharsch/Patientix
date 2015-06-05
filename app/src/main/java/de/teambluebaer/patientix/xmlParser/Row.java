@@ -6,14 +6,30 @@ import java.util.List;
 /**
  * Created by Simon on 06.05.2015.
  */
-public class Row {
+public class Row extends Commentar{
     private List<Element> elementList;
 
     /**
      * Constructor
      */
-    public Row() {
+    public Row(String patientCommentar, String mtraCommentar,
+               String doctorCommentar) {
         elementList = new ArrayList<Element>();
+        if(patientCommentar != null && !patientCommentar.isEmpty()){
+            this.patientCommentar = patientCommentar;
+        } else {
+            this.patientCommentar = "";
+        }
+        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+            this.mtraCommentar = mtraCommentar;
+        } else {
+            this.mtraCommentar = "";
+        }
+        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+            this.doctorCommentar = doctorCommentar;
+        } else {
+            this.doctorCommentar = "";
+        }
     }
 
     public List<Element> getElements() {
