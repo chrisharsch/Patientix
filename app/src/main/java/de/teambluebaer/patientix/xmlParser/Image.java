@@ -4,10 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Environment;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,12 +22,7 @@ import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
 import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 
 import de.teambluebaer.patientix.R;
 
@@ -75,17 +69,23 @@ public class Image implements Element {
 
 
         if (!imageSource.isEmpty()) {
+            WebView image = new WebView(context);
+            image.setBackgroundColor(0);
+            image.loadDataWithBaseURL("","<img src='"+ imageSource +"'/>","text/html", "UTF-8", "");
+            layout.addView(image);
 
-            ImageView imageView = new ImageView(context);
-            imageView.setImageURI(Uri.parse(imageSource));
-            layout.addView(imageView);
+
+
+            //ImageView imageView = new ImageView(context);
+            //imageView.setImageURI(Uri.parse(imageSource));
+
         }
 
-        /*// Layout au�en
+        /*// Layout außen
         LinearLayout wrapperLayout = new LinearLayout(context);
         wrapperLayout.setOrientation(LinearLayout.VERTICAL);
 
-        // Layout f�r Buttons
+        // Layout für Buttons
         RelativeLayout buttonsLayout = new RelativeLayout(context);
         wrapperLayout.addView(buttonsLayout);
 

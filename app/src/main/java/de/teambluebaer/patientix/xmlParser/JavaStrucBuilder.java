@@ -75,7 +75,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             currendRow.addElement(new Radio(attributes.getValue("text"), attributes.getValue("checked"),
                      attributes.getValue("highlight")));
 
-        }else if(qName.equals("image")){
+        }else if(qName.equals("picture")){
             currendRow.addElement(new Image(attributes.getValue("src")));
         }else if(qName.equals("sound")){
             currendRow.addElement(new Sound(attributes.getValue("src")));
