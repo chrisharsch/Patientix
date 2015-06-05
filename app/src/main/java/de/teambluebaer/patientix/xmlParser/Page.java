@@ -3,6 +3,8 @@ package de.teambluebaer.patientix.xmlParser;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.teambluebaer.patientix.helper.Constants;
+
 /**
  * Created by Simon on 06.05.2015.
  *
@@ -64,6 +66,26 @@ public class Page {
     public int hashCode() {
 
         return rowList != null ? rowList.hashCode() : 0;
+    }
+
+    public boolean isRelevant(){
+        boolean relevant = false;
+        for(Row row:rowList){
+            for(Element element:row.getElements()){
+                if(element instanceof Commentar){
+                    relevant = true;
+                }else if(element instanceof Image && Constants.resign){
+                    relevant = true;
+                }
+                if(relevant){
+                    break;
+                }
+            }
+            if(relevant){
+                break;
+            }
+        }
+        return relevant;
     }
 }
 
