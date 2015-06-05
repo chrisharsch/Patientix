@@ -29,7 +29,8 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
      *
      * @param checkboxText represents the showen Answer to this Checkbox
      */
-    public Checkbox(String checkboxText, String checked, String highlight) {
+    public Checkbox(String checkboxText, String checked, String patientCommentar, String mtraCommentar,
+                    String doctorCommentar, String highlight) {
         this.checkboxText = checkboxText;
         this.checked = (checked.equals("1")|checked.equals("true"));
 
@@ -93,6 +94,7 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
     public boolean isChecked() {
         return checked;
     }
+
 
     @Override
     public boolean equals(Object o) {

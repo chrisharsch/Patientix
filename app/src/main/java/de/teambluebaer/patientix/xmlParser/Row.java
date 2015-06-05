@@ -47,7 +47,17 @@ public class Row extends Commentar{
 
     public String toXMLString(){
         String xmlString = new String();
-        xmlString = xmlString + "<row>";
+        xmlString = xmlString + "<row";
+        if(!patientCommentar.isEmpty()){
+            xmlString = xmlString + "comment\"" + this.patientCommentar +"\" ";
+        }
+        if(!mtraCommentar.isEmpty()){
+            xmlString = xmlString + "mtraComment\"" + this.mtraCommentar + "\" ";
+        }
+        if(!doctorCommentar.isEmpty()){
+            xmlString = xmlString + "docComment\"" + this.doctorCommentar + "\" ";
+        }
+        xmlString = xmlString + ">";
         for(Element element : elementList){
             xmlString = xmlString + element.toXMLString();
         }
