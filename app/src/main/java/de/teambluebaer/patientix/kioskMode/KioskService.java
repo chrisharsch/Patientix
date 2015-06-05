@@ -11,8 +11,6 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import de.teambluebaer.patientix.helper.Constants;
-
 import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
 import static de.teambluebaer.patientix.helper.Constants.TORESTART;
 import static java.lang.Thread.sleep;
@@ -32,9 +30,10 @@ public class KioskService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Stopping service 'KioskService'");
-        running = false;
-        Constants.TORESTART = true;
-        restoreApp();
+        Log.i(TAG, "app restarted'");
+        Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
         super.onDestroy();
     }
 

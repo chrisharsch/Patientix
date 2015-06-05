@@ -32,7 +32,7 @@ public abstract class Commentar {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
             comButton.setBackgroundResource(R.drawable.button1x5normal);
-            comButton.setLayoutParams(new LinearLayout.LayoutParams(760, 152));
+            comButton.setLayoutParams(new LinearLayout.LayoutParams( 760, 152));
             comButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             comButton.setTextColor(Color.parseColor("#fffafa"));
             comButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -99,7 +99,7 @@ public abstract class Commentar {
 
 
     public void showAllComments(Context context, LinearLayout layout) {
-        if(patientCommentar != null && !patientCommentar.isEmpty()){
+        if (patientCommentar != null && !patientCommentar.isEmpty()) {
             TextView patCom = new TextView(context);
             patCom.setText("Patient: " + this.patientCommentar);
             layout.addView(patCom);
@@ -109,9 +109,9 @@ public abstract class Commentar {
                 patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             }
         }
-        if(mtraCommentar != null && !mtraCommentar.isEmpty()){
+        if (mtraCommentar != null && !mtraCommentar.isEmpty()) {
             TextView mtraCom = new TextView(context);
-            mtraCom.setText("MTRA: " +this.mtraCommentar);
+            mtraCom.setText("MTRA: " + this.mtraCommentar);
             layout.addView(mtraCom);
             mtraCom.setTextColor(Color.GREEN);
             if (Constants.zoomed) {
@@ -120,7 +120,7 @@ public abstract class Commentar {
                 mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             }
         }
-        if(doctorCommentar != null && !doctorCommentar.isEmpty()){
+        if (doctorCommentar != null && !doctorCommentar.isEmpty()) {
             TextView docCom = new TextView(context);
             docCom.setText("Arzt: " + this.doctorCommentar);
             layout.addView(docCom);

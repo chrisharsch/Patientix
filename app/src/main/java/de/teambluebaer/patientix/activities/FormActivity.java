@@ -3,7 +3,6 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,10 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
@@ -38,8 +33,6 @@ public class FormActivity extends Activity {
     private LayoutCreater layoutCreater;
     private MetaandForm metaandForm;
     private ScrollView scrollView;
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
-
 
     /**
      * This method creates the layout of the Activity, sets the fullscreenmode and
@@ -244,21 +237,6 @@ public class FormActivity extends Activity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
-        }
-    }
-
-    /**
-     * This method disables the volumes keys
-     *
-     * @param event Listens on Keyinput event
-     * @return Calls super class if key is allowed
-     */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (blockedKeys.contains(event.getKeyCode())) {
-            return true;
-        } else {
-            return super.dispatchKeyEvent(event);
         }
     }
 }

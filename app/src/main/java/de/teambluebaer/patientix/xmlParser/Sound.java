@@ -1,7 +1,12 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -23,7 +28,23 @@ public class Sound implements Element {
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        //TODO How to add sound by URL
+        RelativeLayout rl = new RelativeLayout(context);
+        rl.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        VideoView video = new VideoView(context);
+        rl.setGravity(Gravity.CENTER);
+        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1900, 300);
+        layoutParameter.gravity = Gravity.CENTER;
+        video.setLayoutParams(layoutParameter);
+        video.setVideoPath(soundSource);
+        MediaController mediaController = new MediaController(context);
+        mediaController.setAnchorView(video);
+
+        video.requestFocus();
+        video.setMediaController(mediaController);
+        video.start();
+
+        rl.addView(video);
+        layout.addView(rl);
     }
 
     public String getSoundSource() {

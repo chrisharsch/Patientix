@@ -71,7 +71,7 @@
 
     <!-- Patient textfield -->
     <TextView
-        android:layout_width="850dip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/patientname"
@@ -97,7 +97,7 @@
 
     <!-- Examination field -->
     <TextView
-        android:layout_width="850dip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/textExamination"
