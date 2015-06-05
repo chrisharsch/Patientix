@@ -81,11 +81,11 @@ public class Page {
                     break;
                 }
             }
-            if(relevant){
-                break;
-            }
+        if(relevant){
+            break;
         }
-        return relevant;
+    }
+    return relevant;
     }
 }
 
