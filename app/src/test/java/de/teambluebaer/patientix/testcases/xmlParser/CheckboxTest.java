@@ -17,23 +17,19 @@ public class CheckboxTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        checkbox = new Checkbox("Ja","false", "Was hei�t das?", "nix", "das sie das haben","false");
+        checkbox = new Checkbox("Ja","false","false");
 
     }
 
 
     public void testConstructor(){
         assertEquals("Ja", checkbox.getCheckboxText());
-        assertEquals("Was heißt das?", checkbox.getPatientCommentar());
-        assertEquals("nix", checkbox.getMtraCommentar());
-        assertEquals("das sie das haben", checkbox.getDoctorCommentar());
         assertEquals(false, checkbox.isChecked());
     }
 
 
     public void testToXMLString (){
-        String xml = "<checkbox text=\"Ja\" checked=\"false\" comment\"Was heißt das?\" mtraComment\"nix\" " +
-                "docComment\"das sie das haben\" highlight=\"false\" />";
+        String xml = "<checkbox text=\"Ja\" checked=\"false\" highlight=\"false\" />";
         assertEquals(xml ,checkbox.toXMLString());
     }
 

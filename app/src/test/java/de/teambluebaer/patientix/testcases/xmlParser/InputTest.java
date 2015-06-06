@@ -14,21 +14,19 @@ public class InputTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        input = new Input("","HIER WAS EINGEBEN","HÄÄ","","","false");
+        input = new Input("","HIER WAS EINGEBEN","false");
     }
 
     public void testConstructor() {
         assertEquals("HIER WAS EINGEBEN",input.getInputText());
         assertEquals("bitte Hier eingeben",input.getHint());
         assertEquals("",input.getPatientInput());
-        assertEquals("", input.getDoctorCommentar());
-        assertEquals("", input.getMtraCommentar());
-        assertEquals("HÄÄ", input.getPatientCommentar());
+
     }
 
     public void testToXMLString() throws Exception {
         String inputXML = input.toXMLString();
-        String testXML = "<input text=\"HIER WAS EINGEBEN\" patientInput=\"\" comment=\"HÄÄ\" mtraComment=\"\" docComment=\"\" highlight=\"false\" />";
+        String testXML = "<input text=\"HIER WAS EINGEBEN\" patientInput=\"\" highlight=\"false\" />";
         assertEquals(testXML,inputXML);
     }
 }

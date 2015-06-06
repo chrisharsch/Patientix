@@ -42,7 +42,7 @@ public class JavaStrucBuilderTest extends TestCase {
         assertEquals("1234",meta.getPatientID());
         //Form
         Page page = new Page();
-        Row row = new Row();
+        Row row = new Row("","","");
         Text text = new Text("DAS IST EIN TEST","20");
         row.addElement(text);
         page.addNewRow(row);

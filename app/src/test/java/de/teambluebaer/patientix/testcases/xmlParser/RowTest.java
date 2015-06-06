@@ -18,7 +18,7 @@ public class RowTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        row = new Row();
+        row = new Row("","","");
     }
 
     public void testConstructor(){

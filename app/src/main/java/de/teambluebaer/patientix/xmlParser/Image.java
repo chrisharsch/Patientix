@@ -353,6 +353,10 @@ public class Image implements Element {
         }
     }
 
+    public String getImageSource() {
+        return imageSource;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

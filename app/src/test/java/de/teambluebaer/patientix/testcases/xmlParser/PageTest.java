@@ -26,9 +26,9 @@ public class PageTest extends TestCase {
     }
 
     public void testAddNewRow(){
-        page.addNewRow(new Row());
+        page.addNewRow(new Row("","",""));
         List<Row> list = new ArrayList<Row>();
-        list.add(new Row());
+        list.add(new Row("","",""));
         assertEquals(list, page.getRows());
     }
 
