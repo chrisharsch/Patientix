@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 import java.io.IOException;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.helper.Constants;
 
 
 /**
@@ -62,14 +64,29 @@ public class Image implements Element {
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        //TODO How to get Image by URL
+
+        WebView image = new WebView(context);
+        LinearLayout wrapper = new LinearLayout(context);
+        RelativeLayout buttonsLayout = new RelativeLayout(context);
 
         if (!imageSource.isEmpty()) {
-            WebView image = new WebView(context);
             image.setBackgroundColor(0);
-            image.loadDataWithBaseURL("","<img src='"+ imageSource +"'/>","text/html", "UTF-8", "");
+            image.loadDataWithBaseURL("", "<img src='" + imageSource + "'/>", "text/html", "UTF-8", "");
             layout.addView(image);
+
+            if(Constants.resign) {
+                wrapper.addView(buttonsLayout);
+                wrapper.addView(layout);
+                sPenGenerate(context, layout, buttonsLayout);
+            }
+
+        } else {
+            layout.setBackgroundColor(0xFFD6E6F5);
+            wrapper.addView(buttonsLayout);
+            wrapper.addView(layout);
+            sPenGenerate(context, layout, buttonsLayout);
         }
+
     }
 
     public String toXMLString() {
@@ -81,7 +98,7 @@ public class Image implements Element {
         return xmlString;
     }
 
-    public void sPenGenerate(Context context, final RelativeLayout spenLayout, RelativeLayout buttonsLayout) {
+    public void sPenGenerate(final Context context, final LinearLayout layout, RelativeLayout buttonsLayout) {
 
         // Initialize Spen
         boolean isSpenFeatureEnabled = false;
@@ -123,21 +140,31 @@ public class Image implements Element {
         buttonsLayout.addView(mPenSettingView);
         buttonsLayout.addView(mEraserSettingView);
 
-        buttonsLayout.addView(mSpenSurfaceView);
+        layout.addView(mSpenSurfaceView);
 
         mPenSettingView.setCanvasView(mSpenSurfaceView);
         mEraserSettingView.setCanvasView(mSpenSurfaceView);
+
+        // Create SpenNoteDoc
+        final ViewTreeObserver observer = layout.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                createSpenNoteDoc(layout, context);
+                layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
     }
 
     /**
      *  Erstellt das Layout
-     * @param spenLayout
+     * @param layout
      */
-    private void createSpenNoteDoc(View spenLayout, Context context) {
+    private void createSpenNoteDoc(View layout, Context context) {
         try {
             mSpenNoteDoc =
-                    new SpenNoteDoc(context, spenLayout.getWidth(), spenLayout.getHeight());
+                    new SpenNoteDoc(context, layout.getWidth(), layout.getHeight());
         } catch (IOException e) {
             Toast.makeText(context, "Cannot create new NoteDoc.",
                     Toast.LENGTH_SHORT).show();
@@ -156,10 +183,10 @@ public class Image implements Element {
         initSettingInfo();
 
         // Set a button
-        mPenBtn = (ImageView) spenLayout.findViewById(R.id.penBtn);
+        mPenBtn = (ImageView) layout.findViewById(R.id.penBtn);
         mPenBtn.setOnClickListener(mPenBtnClickListener);
 
-        mEraserBtn = (ImageView) spenLayout.findViewById(R.id.eraserBtn);
+        mEraserBtn = (ImageView) layout.findViewById(R.id.eraserBtn);
         mEraserBtn.setOnClickListener(mEraserBtnClickListener);
 
         selectButton(mPenBtn);
@@ -351,10 +378,6 @@ public class Image implements Element {
             }
             mSpenNoteDoc = null;
         }
-    }
-
-    public String getImageSource() {
-        return imageSource;
     }
 
     @Override
