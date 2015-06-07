@@ -105,8 +105,14 @@ public class KioskService extends Service {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         } else {
-            Log.i(TAG, "app restored'");
-            startActivity(CURRENTACTIVITY.getIntent());
+            try {
+                Log.i(TAG, "app restored'");
+                startActivity(CURRENTACTIVITY.getIntent());
+            }catch (RuntimeException e){
+                Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
         }
     }
 
