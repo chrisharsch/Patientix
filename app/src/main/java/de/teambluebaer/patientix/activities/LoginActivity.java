@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +31,7 @@ import java.util.List;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
@@ -38,8 +43,10 @@ public class LoginActivity extends Activity {
 
     private Button buttonLogin;
     private EditText editPassword = null;
-    Integer responseCode;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    private ArrayList<NameValuePair> parameterMap = new ArrayList();
+    private int responseCode;
+    RestfulHelper restfulHelper = new RestfulHelper();
 
 
     /**
@@ -88,18 +95,20 @@ public class LoginActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
-                Log.d("Login successful: ", responseCode + "");
+                parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
-                PrefUtils.setKioskModeActive(false, this);
+                PrefUtils.setKioskModeActive(false, LoginActivity.this);
                 finish();
+                //TODO getTablet ID from the Server
+                //new GetTabletID().execute();
             } else {
                 editPassword.setText("");
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
             }
         } else {
             editPassword.setText("");
-            Toast.makeText(this, "WiFi ist abgeschaltet", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "WiFi ist abgeschaltet, bitte schalten sie das WiFi wieder ein.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -203,6 +212,52 @@ public class LoginActivity extends Activity {
             return true;
         } else {
             return super.dispatchKeyEvent(event);
+        }
+    }
+
+    /**
+     * This AsyncTask sets the TabletID in Constants that the Tablet can
+     * work wirh the System.
+     */
+    private class GetTabletID extends AsyncTask<String, Void, String> {
+        /**
+         * Everything in this method happens in the background and in here
+         * the there will be send so many Requests until the Server connection
+         * is availabe or the MacAddress isn't in the Sytem.
+         *
+         * @param params default parameters
+         * @return null because not needed
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
+
+                while (responseCode != 200) {
+                    responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
+                    if (responseCode == 404) {
+                        Log.d("ResponseCode", responseCode + "");
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, "Login fehlgeschalgen dieses Tablet ist nicht im System.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        break;
+                }
+                if (responseCode == 200) {
+                    Constants.TABLET_ID = RestfulHelper.responseString;
+                    Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                    startActivity(intent);
+                    PrefUtils.setKioskModeActive(false, LoginActivity.this);
+                    finish();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, "Login erfolgreich.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                Log.d("ResponseCode", responseCode + "");
+            }
+            return null;
         }
     }
 }
