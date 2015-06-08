@@ -79,7 +79,12 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
         String xmlString = new String();
         xmlString = xmlString + "<checkbox ";
         xmlString = xmlString + "text=\"" + this.checkboxText + "\" ";
-        xmlString = xmlString + "checked=\"" + this.checked + "\" ";
+        if(checked){
+            xmlString = xmlString + "checked=\"" + 1 + "\" ";
+        }else{
+            xmlString = xmlString + "checked=\"" + 0 + "\" ";
+        }
+
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 

@@ -44,7 +44,7 @@ public class Video implements Element {
         video.requestFocus();
         video.setMediaController(mediaController);
         video.start();
-        mediaController.show();
+//        mediaController.show();
         rl.addView(video);
         layout.addView(rl);
 

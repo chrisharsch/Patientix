@@ -88,7 +88,11 @@ public class Radio implements Element,Editable {
         String xmlString = new String();
         xmlString = xmlString + "<radiobutton ";
         xmlString = xmlString + "text=\"" + this.radioText + "\" ";
-        xmlString = xmlString + "checked=\"" + this.checked + "\" ";
+        if(checked){
+            xmlString = xmlString + "checked=\"" + 1 + "\" ";
+        }else {
+            xmlString = xmlString + "checked=\"" + 0 + "\" ";
+        }
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 

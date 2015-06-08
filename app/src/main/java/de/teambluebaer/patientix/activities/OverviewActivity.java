@@ -45,6 +45,7 @@ public class OverviewActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_overview);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
@@ -94,7 +95,7 @@ public class OverviewActivity extends Activity {
                     for(Element element:row.getElements()){
                         if(element instanceof Image){
                             Image image = (Image)element;
-                            image.saveImage(this);
+//                            image.saveImage(this);
                         }
                     }
                 }

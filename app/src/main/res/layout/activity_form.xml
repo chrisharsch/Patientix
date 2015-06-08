@@ -95,7 +95,7 @@
 
     <!-- Scroll View for the text -->
     <ScrollView
-        android:id="@+id/ScrollViewOverview"
+        android:id="@+id/ScrollViewForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/imageViewLeftSide"

@@ -93,7 +93,7 @@ public class JavaStrucBuilder extends DefaultHandler{
             currentRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"),
                     attributes.getValue("highlight")));
         }else if(qName.equals("meta")){
-            if(attributes.getValue("RESIGN") != null){
+            if(attributes.getValue("resign") != null){
                 Constants.RESIGN = false;
             }else{
                 Constants.RESIGN = true;

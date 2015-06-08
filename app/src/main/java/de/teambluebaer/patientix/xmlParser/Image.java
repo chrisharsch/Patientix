@@ -78,7 +78,7 @@ public class Image implements Element {
 
             if(Constants.RESIGN) {
                 wrapper.addView(buttonsLayout);
-                sPenGenerate(context, layout, buttonsLayout);
+                //sPenGenerate(context, layout, buttonsLayout);
             }
             wrapper.addView(image);
             layout.addView(wrapper);
@@ -88,7 +88,7 @@ public class Image implements Element {
                 wrapper.setBackgroundColor(0xFFD6E6F5);
                 wrapper.addView(buttonsLayout);
                 wrapper.addView(image);
-                sPenGenerate(context, layout, buttonsLayout);
+              //  sPenGenerate(context, layout, buttonsLayout);
                 layout.addView(wrapper);
             }
 

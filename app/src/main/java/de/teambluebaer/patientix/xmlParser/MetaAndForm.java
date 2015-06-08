@@ -67,7 +67,7 @@ public class MetaAndForm {
         xmlString = xmlString + "<root>";
         xmlString = xmlString + this.meta.toXMLString();
         xmlString = xmlString + this.form.toXMLString();
-        xmlString = xmlString + "<sign text=\""+this.signature +"\" />";
+        xmlString = xmlString + "<sign image=\""+this.signature +"\" />";
         xmlString = xmlString + "</root>";
 
         return xmlString;

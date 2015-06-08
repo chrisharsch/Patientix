@@ -30,7 +30,12 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
      */
     public Input(String patientImput, String inputText, String highlight) {
         this.inputText = inputText;
-        this.patientInput = patientImput;
+        if(patientImput == null){
+            this.patientInput="";
+        }else{
+            this.patientInput = patientImput;
+        }
+
         this.hint = "bitte Hier eingeben";
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));

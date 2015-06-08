@@ -95,12 +95,12 @@ public class LoginActivity extends Activity {
         if (mWifi.isConnected()) {
             if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
                 parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
-                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                /*Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 PrefUtils.setKioskModeActive(false, LoginActivity.this);
-                finish();
+                finish();*/
                 //TODO getTablet ID from the Server
-                //new GetTabletID().execute();
+                new GetTabletID().execute();
             } else {
                 editTextPassword.setText("");
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();

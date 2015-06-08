@@ -149,6 +149,7 @@ public class StartActivity extends Activity {
                 textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
+                Log.d("ResponseString", restfulHelper.responseString);
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
