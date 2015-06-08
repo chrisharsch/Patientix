@@ -234,6 +234,8 @@ public class LoginActivity extends Activity {
 
             while (responseCode != 200) {
                 responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
+                Log.d("ResponseCode", responseCode + "");
+                Log.d("ResponseString", restfulHelper.responseString);
                 if (responseCode == 404) {
                     Log.d("ResponseCode", responseCode + "");
                     runOnUiThread(new Runnable() {
