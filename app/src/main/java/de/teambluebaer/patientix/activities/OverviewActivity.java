@@ -1,7 +1,9 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +13,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +27,7 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
+import de.teambluebaer.patientix.xmlParser.Image;
 
 /**
  * This Activity displays the overview of all questions.
@@ -89,6 +96,9 @@ public class OverviewActivity extends Activity {
         Flasher.flash(buttonReady, "1x3");
 
         if(Constants.resign | AnswerChecker.isEverythingAnswert()) {
+
+            Image.saveImage();
+
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
@@ -160,5 +170,6 @@ public class OverviewActivity extends Activity {
             sendBroadcast(closeDialog);
         }
     }
+
 
 }

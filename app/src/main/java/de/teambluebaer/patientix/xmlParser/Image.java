@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.xmlParser;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
@@ -24,8 +25,10 @@ import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import de.teambluebaer.patientix.R;
+import de.teambluebaer.patientix.activities.SignatureActivity;
 import de.teambluebaer.patientix.helper.Constants;
 
 
@@ -154,7 +157,6 @@ public class Image implements Element {
                 layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-
     }
 
     /**
@@ -254,6 +256,32 @@ public class Image implements Element {
             }
         }
     };
+
+    public void saveImage(Context context){
+
+        Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
+
+        Toast.makeText(context, "Bild wurde gespeichert", Toast.LENGTH_SHORT).show();
+
+        OutputStream out = null;
+            try {
+                // Save signature to a Base64 encode String
+                Constants.globalMetaandForm.setSignature(SignatureActivity.encodeTobase64(imgBitmap));
+            } catch (Exception e) {
+                Toast.makeText(context, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        imgBitmap.recycle();
+    }
+
 
     /**
      * select the pen or the eraser
