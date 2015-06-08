@@ -9,9 +9,9 @@ import de.teambluebaer.patientix.xmlParser.MetaandForm;
 /**
  * Created by Simon on 29.05.2015.
  */
-public class MetaandFormTest extends TestCase {
+public class MetaAndFormTest extends TestCase {
 
-    MetaandForm metaandForm;
+    MetaAndForm metaAndForm;
     Form form;
     MetaData meta;
 
@@ -20,12 +20,12 @@ public class MetaandFormTest extends TestCase {
         metaandForm = new MetaandForm();
         meta = new MetaData();
         form = new Form();
-        metaandForm.setForm(form);
-        metaandForm.setMeta(meta);
+        metaAndForm.setForm(form);
+        metaAndForm.setMeta(meta);
     }
 
     public void testToXMLString() throws Exception {
-        String inputXML = metaandForm.toXMLString();
+        String inputXML = metaAndForm.toXMLString();
         String testXML = "<root><meta><pID></pID><pFirstName></pFirstName><pLastName></pLastName><pDate>Unbekannt</pDate>" +
                 "<name></name><pExamID></pExamID></meta><form></form><sign text=\"\" /></root>";
         assertEquals(testXML,inputXML);
