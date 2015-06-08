@@ -276,8 +276,12 @@ public class SignatureActivity extends Activity {
      * calls the saving methode captureSpenSurfaceView
      */
     public final View.OnClickListener mCaptureBtnClickListener = new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
+
+            mSpenPageDoc.setBackgroundColor(0xFFFFFF);
+
             closeSettingView();
             buttonDone.setEnabled(false);
             Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
