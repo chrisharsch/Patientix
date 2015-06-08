@@ -54,6 +54,14 @@ public class JavaStrucBuilder extends DefaultHandler{
 
     @Override
     public void endDocument() throws SAXException {
+        if(Constants.resign){
+            Page page = new Page();
+            Row row = new Row("","","");
+            Image image = new Image("");
+            row.addElement(image);
+            page.addNewRow(row);
+            form.addPage(page);
+        }
 
     }
 

@@ -109,6 +109,21 @@ public class EndActivity extends Activity {
                     responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
                     if (responseCode == 404) {
                         Log.d("ResponseCode", responseCode + "");
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(EndActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
+                                endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                                    @Override
+                                    public boolean onLongClick(View v) {
+                                        Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                        PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                        finish();
+                                        return true;
+                                    }
+                                });
+                            }
+                        });
                         break;
                     }
                 }

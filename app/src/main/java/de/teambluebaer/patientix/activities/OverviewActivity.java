@@ -1,11 +1,8 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,21 +10,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.AnswerChecker;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
+import de.teambluebaer.patientix.xmlParser.Element;
 import de.teambluebaer.patientix.xmlParser.Image;
+import de.teambluebaer.patientix.xmlParser.Page;
+import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
  * This Activity displays the overview of all questions.
@@ -97,7 +89,17 @@ public class OverviewActivity extends Activity {
 
         if(Constants.resign | AnswerChecker.isEverythingAnswert()) {
 
-            Image.saveImage();
+            for(Page page:Constants.globalMetaandForm.getForm().getPageList()){
+                for(Row row:page.getRows()){
+                    for(Element element:row.getElements()){
+                        if(element instanceof Image){
+                            Image image = (Image)element;
+                            image.saveImage(this);
+                        }
+                    }
+                }
+
+            }
 
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);

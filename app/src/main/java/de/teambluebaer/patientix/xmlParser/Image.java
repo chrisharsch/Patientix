@@ -259,6 +259,7 @@ public class Image implements Element {
 
     public void saveImage(Context context){
 
+
         Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
 
         Toast.makeText(context, "Bild wurde gespeichert", Toast.LENGTH_SHORT).show();
