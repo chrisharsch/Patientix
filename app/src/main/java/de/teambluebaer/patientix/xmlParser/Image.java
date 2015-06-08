@@ -75,20 +75,25 @@ public class Image implements Element {
         if (!imageSource.isEmpty()) {
             image.setBackgroundColor(0);
             image.loadDataWithBaseURL("", "<img src='" + imageSource + "'/>", "text/html", "UTF-8", "");
-            layout.addView(image);
 
             if(Constants.resign) {
                 wrapper.addView(buttonsLayout);
-                wrapper.addView(layout);
                 sPenGenerate(context, layout, buttonsLayout);
             }
+            wrapper.addView(image);
+            layout.addView(wrapper);
 
         } else {
-            layout.setBackgroundColor(0xFFD6E6F5);
-            wrapper.addView(buttonsLayout);
-            wrapper.addView(layout);
-            sPenGenerate(context, layout, buttonsLayout);
+            if(Constants.resign){
+                wrapper.setBackgroundColor(0xFFD6E6F5);
+                wrapper.addView(buttonsLayout);
+                wrapper.addView(image);
+                sPenGenerate(context, layout, buttonsLayout);
+                layout.addView(wrapper);
+            }
+
         }
+
 
     }
 
