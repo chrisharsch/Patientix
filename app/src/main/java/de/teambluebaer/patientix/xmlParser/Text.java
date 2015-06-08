@@ -42,7 +42,7 @@ public class Text implements Element {
     public void addToView(Context context, LinearLayout layout) {
         TextView textView = new TextView(context);
         textView.setText(text);
-        if(Constants.zoomed){
+        if(Constants.ZOOMED){
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size.zoomedSize);
         }else{
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size.normalSize);

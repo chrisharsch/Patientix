@@ -60,7 +60,7 @@ public abstract class Commentar {
                             patientCommentar = charSequence.toString();
                         }
                     });
-                    if (Constants.zoomed) {
+                    if (Constants.ZOOMED) {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
                     } else {
                         comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
@@ -88,7 +88,7 @@ public abstract class Commentar {
                     patientCommentar = charSequence.toString();
                 }
             });
-            if (Constants.zoomed) {
+            if (Constants.ZOOMED) {
                 comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             } else {
                 comment.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.normalSize);
@@ -103,7 +103,7 @@ public abstract class Commentar {
             TextView patCom = new TextView(context);
             patCom.setText("Patient: " + this.patientCommentar);
             layout.addView(patCom);
-            if (Constants.zoomed) {
+            if (Constants.ZOOMED) {
                 patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
                 patCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
@@ -114,7 +114,7 @@ public abstract class Commentar {
             mtraCom.setText("MTRA: " + this.mtraCommentar);
             layout.addView(mtraCom);
             mtraCom.setTextColor(Color.GREEN);
-            if (Constants.zoomed) {
+            if (Constants.ZOOMED) {
                 mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
                 mtraCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
@@ -125,7 +125,7 @@ public abstract class Commentar {
             docCom.setText("Arzt: " + this.doctorCommentar);
             layout.addView(docCom);
             docCom.setTextColor(Color.RED);
-            if (Constants.zoomed) {
+            if (Constants.ZOOMED) {
                 docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.zoomedSize);
             } else {
                 docCom.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);

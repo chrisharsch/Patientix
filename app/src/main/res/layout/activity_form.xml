@@ -14,7 +14,7 @@
         android:id="@+id/textZoom"
         android:textSize="60sp"
         android:layout_marginLeft="425dip"
-        android:layout_above="@+id/ScrollViewOverview" />
+        android:layout_above="@+id/ScrollViewForm" />
 
     <!-- Zoom Button -->
     <Button
@@ -27,7 +27,7 @@
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"
-        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_above="@+id/ScrollViewForm"
         android:layout_centerHorizontal="true" />
 
     <!-- Continue Button -->
@@ -42,7 +42,7 @@
         android:textSize="40sp"
         android:visibility="visible"
         android:layout_toRightOf="@+id/imageViewLeftSide"
-        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_below="@+id/ScrollViewForm"
         android:layout_marginLeft="700dip"
         android:layout_marginTop="10dip"
         />
@@ -58,7 +58,7 @@
         android:textColor="#fffafa"
         android:textSize="40sp"
         android:layout_toRightOf="@+id/imageViewLeftSide"
-        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_below="@+id/ScrollViewForm"
         android:layout_marginLeft="180dip"
         android:layout_marginTop="10dip"
         />
@@ -88,7 +88,7 @@
         android:textColor="#fffafa"
         android:textSize="40sp"
         android:layout_toRightOf="@+id/imageViewLeftSide"
-        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_below="@+id/ScrollViewForm"
         android:layout_marginLeft="700dip"
         android:layout_marginTop="10dip"
         />

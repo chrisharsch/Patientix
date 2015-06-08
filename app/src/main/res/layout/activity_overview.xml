@@ -17,7 +17,7 @@
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"
-        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_above="@+id/ScrollViewForm"
         android:layout_alignEnd="@+id/imageViewLeftSide" />
 
     <!-- Scroll View for the text -->
@@ -53,7 +53,7 @@
         android:text="@string/buttonContinue"
         android:textColor="#fffafa"
         android:textSize="40sp"
-        android:layout_below="@+id/ScrollViewOverview"
+        android:layout_below="@+id/ScrollViewForm"
         android:layout_centerHorizontal="true"
         android:longClickable="true" />
 
@@ -84,7 +84,7 @@
         android:text="@string/textOverview"
         android:id="@+id/textOverview"
         android:textSize="60sp"
-        android:layout_above="@+id/ScrollViewOverview"
+        android:layout_above="@+id/ScrollViewForm"
         android:layout_centerHorizontal="true"
         android:singleLine="true" />
 

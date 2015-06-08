@@ -59,11 +59,11 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
             }
         });
 
-        if(Constants.resign){
+        if(Constants.RESIGN){
             checkBox.setClickable(false);
         }
 
-        if(Constants.zoomed){
+        if(Constants.ZOOMED){
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
 
         }else{

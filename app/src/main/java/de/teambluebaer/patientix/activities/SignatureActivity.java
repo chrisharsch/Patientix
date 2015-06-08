@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -28,9 +27,7 @@ import com.samsung.android.sdk.pen.SpenSettingEraserInfo;
 import com.samsung.android.sdk.pen.SpenSettingPenInfo;
 import com.samsung.android.sdk.pen.document.SpenNoteDoc;
 import com.samsung.android.sdk.pen.document.SpenPageDoc;
-import com.samsung.android.sdk.pen.engine.SpenPenChangeListener;
 import com.samsung.android.sdk.pen.engine.SpenSurfaceView;
-import com.samsung.android.sdk.pen.plugin.interfaces.SpenPenInterface;
 import com.samsung.android.sdk.pen.settingui.SpenSettingEraserLayout;
 import com.samsung.android.sdk.pen.settingui.SpenSettingPenLayout;
 
@@ -295,7 +292,7 @@ public class SignatureActivity extends Activity {
                 OutputStream out = null;
                 try {
                     // Save signature to a Base64 encode String
-                    Constants.globalMetaandForm.setSignature(encodeTobase64(imgBitmap));
+                    Constants.GLOBALMETAANDFORM.setSignature(encodeTobase64(imgBitmap));
                 } catch (Exception e) {
                     Toast.makeText(mContext, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -510,7 +507,7 @@ public class SignatureActivity extends Activity {
      */
     private boolean isFormula() {
         try {
-            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+            if (!Constants.GLOBALMETAANDFORM.toXMLString().isEmpty()) {
                 return true;
             } else {
                 return false;

@@ -24,9 +24,9 @@ public class JavaStrucBuilder extends DefaultHandler{
 
     Form form;
     MetaData meta;
-    MetaandForm metaandForm;
-    Page currendPage;
-    Row currendRow;
+    MetaAndForm metaAndForm;
+    Page currentPage;
+    Row currentRow;
     boolean isPID = false;
     boolean isPFN = false;
     boolean isPLN = false;
@@ -34,27 +34,27 @@ public class JavaStrucBuilder extends DefaultHandler{
     boolean isName = false;
     boolean ispExamID = false;
 
-    public MetaandForm buildStruc(String xmlString) throws IOException, SAXException, ParserConfigurationException {
+    public MetaAndForm buildStruc(String xmlString) throws IOException, SAXException, ParserConfigurationException {
 
         SAXParserFactory spf = SAXParserFactory.newInstance();
 
         SAXParser saxParser = spf.newSAXParser();
         saxParser.parse(new InputSource(new java.io.StringReader("<doc>" + xmlString + "</doc>")), this);
-        return metaandForm;
+        return metaAndForm;
     }
 
     @Override
     public void startDocument() throws SAXException {
         form = new Form();
         meta = new MetaData();
-        metaandForm = new MetaandForm();
-        metaandForm.setForm(form);
-        metaandForm.setMeta(meta);
+        metaAndForm = new MetaAndForm();
+        metaAndForm.setForm(form);
+        metaAndForm.setMeta(meta);
     }
 
     @Override
     public void endDocument() throws SAXException {
-        if(Constants.resign){
+        if(Constants.RESIGN){
             Page page = new Page();
             Row row = new Row("","","");
             Image image = new Image("");
@@ -70,33 +70,33 @@ public class JavaStrucBuilder extends DefaultHandler{
     public void startElement(String uri, String localName, String qName,
                               Attributes attributes) {
         if(qName.equals("page")){
-            currendPage = new Page();
+            currentPage = new Page();
         }else if (qName.equals("row")){
-            currendRow = new Row(attributes.getValue("comment"),attributes.getValue("mtraComment"),
+            currentRow = new Row(attributes.getValue("comment"),attributes.getValue("mtraComment"),
                     attributes.getValue("docComment"));
         }else if(qName.equals("text")){
-            currendRow.addElement(new Text(attributes.getValue("text"),attributes.getValue("size")));
+            currentRow.addElement(new Text(attributes.getValue("text"), attributes.getValue("size")));
         }else if(qName.equals("checkbox")){
-            currendRow.addElement(new Checkbox(attributes.getValue("text"), attributes.getValue("checked")
-                    ,attributes.getValue("highlight")));
+            currentRow.addElement(new Checkbox(attributes.getValue("text"), attributes.getValue("checked")
+                    , attributes.getValue("highlight")));
         }else if(qName.equals("radiobutton")){
-            currendRow.addElement(new Radio(attributes.getValue("text"), attributes.getValue("checked"),
-                     attributes.getValue("highlight")));
+            currentRow.addElement(new Radio(attributes.getValue("text"), attributes.getValue("checked"),
+                    attributes.getValue("highlight")));
 
         }else if(qName.equals("picture")){
-            currendRow.addElement(new Image(attributes.getValue("src")));
+            currentRow.addElement(new Image(attributes.getValue("src")));
         }else if(qName.equals("sound")){
-            currendRow.addElement(new Sound(attributes.getValue("src")));
+            currentRow.addElement(new Sound(attributes.getValue("src")));
         }else if(qName.equals("video")){
-            currendRow.addElement(new Video(attributes.getValue("src")));
+            currentRow.addElement(new Video(attributes.getValue("src")));
         }else if(qName.equals("input")) {
-            currendRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"),
+            currentRow.addElement(new Input(attributes.getValue("patientInput"), attributes.getValue("text"),
                     attributes.getValue("highlight")));
         }else if(qName.equals("meta")){
-            if(attributes.getValue("resign") != null){
-                Constants.resign = false;
+            if(attributes.getValue("RESIGN") != null){
+                Constants.RESIGN = false;
             }else{
-                Constants.resign = true;
+                Constants.RESIGN = true;
             }
 
         }else if(qName.equals("pID")){
@@ -117,9 +117,9 @@ public class JavaStrucBuilder extends DefaultHandler{
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if(qName.equals("page")){
-            form.addPage(currendPage);
+            form.addPage(currentPage);
         }else if (qName.equals("row")) {
-            currendPage.addNewRow(currendRow);
+            currentPage.addNewRow(currentRow);
 
         }else {
             isPID = false;
@@ -157,16 +157,16 @@ public class JavaStrucBuilder extends DefaultHandler{
         return meta;
     }
 
-    public MetaandForm getMetaandForm() {
-        return metaandForm;
+    public MetaAndForm getMetaAndForm() {
+        return metaAndForm;
     }
 
-    public Page getCurrendPage() {
-        return currendPage;
+    public Page getCurrentPage() {
+        return currentPage;
     }
 
-    public Row getCurrendRow() {
-        return currendRow;
+    public Row getCurrentRow() {
+        return currentRow;
     }
 
     public boolean isPID() {

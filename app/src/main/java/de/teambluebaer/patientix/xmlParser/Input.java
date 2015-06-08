@@ -71,14 +71,14 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
             }
         });
 
-        if(Constants.resign){
+        if(Constants.RESIGN){
             input.setClickable(false);
             input.setCursorVisible(false);
             input.setFocusable(false);
         }
 
 
-        if (Constants.zoomed) {
+        if (Constants.ZOOMED) {
             label.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
             input.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
         } else {

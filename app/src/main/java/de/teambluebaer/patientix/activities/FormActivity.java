@@ -16,7 +16,7 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
+import de.teambluebaer.patientix.xmlParser.MetaAndForm;
 
 /**
  * This Activity displays the formula to fill for the patient
@@ -29,10 +29,10 @@ public class FormActivity extends Activity {
     private Button buttonZoom;
     private Button buttonOk;
     private LinearLayout content;
-    private TextView numberOfPages;
+    private TextView textViewNumberOfPages;
     private LayoutCreater layoutCreater;
-    private MetaandForm metaandForm;
-    private ScrollView scrollView;
+    private MetaAndForm metaAndForm;
+    private ScrollView scrollViewForm;
 
     /**
      * This method creates the layout of the Activity, sets the fullscreenmode and
@@ -63,7 +63,7 @@ public class FormActivity extends Activity {
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
-        scrollView = (ScrollView) findViewById(R.id.ScrollViewOverview);
+        scrollViewForm = (ScrollView) findViewById(R.id.ScrollViewForm);
         buttonOk = (Button) findViewById(R.id.buttonOk);
 
         //Disable back button at first page
@@ -75,12 +75,12 @@ public class FormActivity extends Activity {
 
         //set the pageLayout for the content
         content = (LinearLayout) findViewById(R.id.content);
-        metaandForm = Constants.globalMetaandForm;
+        metaAndForm = Constants.GLOBALMETAANDFORM;
         layoutCreater = new LayoutCreater();
         try {
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getFirstPage(), content);
-            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+            layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getFirstPage(), content);
+            textViewNumberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+            textViewNumberOfPages.setText(metaAndForm.getForm().getCurrentPageText());
         } catch (NullPointerException e) {
             Intent intent = new Intent(FormActivity.this, StartActivity.class);
             startActivity(intent);
@@ -111,11 +111,11 @@ public class FormActivity extends Activity {
      */
     public void onClickNextButton(View v) {
         Flasher.flash(buttonContinue, "1x3");
-        scrollView.scrollTo(0, 0);
+        scrollViewForm.scrollTo(0, 0);
         if (!lastPageCheck()) {
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getNextPage(), content);
-            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+            layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getNextPage(), content);
+            textViewNumberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+            textViewNumberOfPages.setText(metaAndForm.getForm().getCurrentPageText());
         }
         lastPageCheck();
     }
@@ -128,11 +128,11 @@ public class FormActivity extends Activity {
      */
     public void onClickBackButton(View v) {
         Flasher.flash(buttonBack, "1x3");
-        scrollView.scrollTo(0, 0);
+        scrollViewForm.scrollTo(0, 0);
         if (!firstPageCheck()) {
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getPreviousPage(), content);
-            numberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
-            numberOfPages.setText(metaandForm.getForm().getCurrentPageText());
+            layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getPreviousPage(), content);
+            textViewNumberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
+            textViewNumberOfPages.setText(metaAndForm.getForm().getCurrentPageText());
         }
         lastPageCheck();
         firstPageCheck();
@@ -147,14 +147,14 @@ public class FormActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickZoomButton(View v) {
-        if (!Constants.zoomed) {
+        if (!Constants.ZOOMED) {
             Flasher.flash(buttonZoom, "1x1");
-            Constants.zoomed = true;
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
+            Constants.ZOOMED = true;
+            layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getcurrenPage(), content);
             buttonZoom.setText("-");
         } else {
-            Constants.zoomed = false;
-            layoutCreater.CreatPageLayout(this, metaandForm.getForm().getcurrenPage(), content);
+            Constants.ZOOMED = false;
+            layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getcurrenPage(), content);
             buttonZoom.setText("+");
         }
     }
@@ -166,7 +166,7 @@ public class FormActivity extends Activity {
      * @return true if the first page is shown
      */
     private boolean firstPageCheck() {
-        if (metaandForm.getForm().getCurrentPageNumber() == 1) {
+        if (metaAndForm.getForm().getCurrentPageNumber() == 1) {
             buttonBack.setClickable(false);
             buttonBack.setVisibility(View.INVISIBLE);
             return true;
@@ -183,7 +183,7 @@ public class FormActivity extends Activity {
      * @return true if the last page is shown
      */
     private boolean lastPageCheck() {
-        if (metaandForm.getForm().getCurrentPageNumber() == metaandForm.getForm().getLastPage()) {
+        if (metaAndForm.getForm().getCurrentPageNumber() == metaAndForm.getForm().getLastPage()) {
             buttonContinue.setClickable(false);
             buttonContinue.setVisibility(View.INVISIBLE);
             buttonOk.setClickable(true);
@@ -205,7 +205,7 @@ public class FormActivity extends Activity {
      */
     private boolean isFormula() {
         try {
-            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+            if (!Constants.GLOBALMETAANDFORM.toXMLString().isEmpty()) {
                 return true;
             } else {
                 return false;

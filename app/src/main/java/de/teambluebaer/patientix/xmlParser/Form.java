@@ -8,9 +8,9 @@ import java.util.ListIterator;
  * Created by Simon on 06.05.2015.
  *
  * Singilton, represents any kind of Form and hold <code>Pages</code>
- * and is part of <code>MetaandForm</code>
+ * and is part of <code>MetaAndForm</code>
  * @see Page
- * @see MetaandForm
+ * @see MetaAndForm
  */
 public class Form {
 

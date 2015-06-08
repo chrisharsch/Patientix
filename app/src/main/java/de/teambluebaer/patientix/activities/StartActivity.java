@@ -89,7 +89,7 @@ public class StartActivity extends Activity {
      */
     public void onClickStartButton(View v) {
         Flasher.flash(buttonStart, "1x3");
-        if(Constants.resign){
+        if(Constants.RESIGN){
             Intent intent = new Intent(StartActivity.this, OverviewActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
@@ -131,22 +131,22 @@ public class StartActivity extends Activity {
                 String xmlString = restfulHelper.responseString;
                 Log.d("ResponseString: ",restfulHelper.responseString);
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-                Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
+                Constants.GLOBALMETAANDFORM = strucBuilder.buildStruc(xmlString);
 
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
-                textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
-                        + Constants.globalMetaandForm.getMeta().getPatientFirstName());
+                textViewPatientName.setText(Constants.GLOBALMETAANDFORM.getMeta().getPatientLastName() + ", "
+                        + Constants.GLOBALMETAANDFORM.getMeta().getPatientFirstName());
                 textViewPatientName.setBackgroundColor(Color.parseColor("#ffffff"));
                 textViewPatientBirth.setBackgroundColor(Color.parseColor("#ffffff"));
                 textViewExameName.setBackgroundColor(Color.parseColor("#ffffff"));
                 String birthDate = "";
-                if (!Constants.globalMetaandForm.getMeta().getPatientBithDate().equals("Unbekannt")) {
+                if (!Constants.GLOBALMETAANDFORM.getMeta().getPatientBithDate().equals("Unbekannt")) {
                     birthDate = getbirthDate();
                 }
                 textViewPatientBirth.setText("Geb. "+ birthDate);
 
-                textViewExameName.setText(Constants.globalMetaandForm.getMeta().getExameName());
+                textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
             } catch (Exception e) {
@@ -171,7 +171,7 @@ public class StartActivity extends Activity {
         String birthDate = "";
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-            Date date = dateFormat.parse(Constants.globalMetaandForm.getMeta().getPatientBithDate());
+            Date date = dateFormat.parse(Constants.GLOBALMETAANDFORM.getMeta().getPatientBithDate());
             SimpleDateFormat dt1 = new SimpleDateFormat("dd.mm.yyyy");
             birthDate = dt1.format(date);
         } catch (ParseException ex2) {

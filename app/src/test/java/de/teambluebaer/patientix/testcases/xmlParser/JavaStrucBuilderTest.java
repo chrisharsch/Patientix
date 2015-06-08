@@ -8,7 +8,7 @@ import java.util.List;
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 import de.teambluebaer.patientix.xmlParser.MetaData;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
+import de.teambluebaer.patientix.xmlParser.MetaAndForm;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Row;
 import de.teambluebaer.patientix.xmlParser.Text;
@@ -31,9 +31,9 @@ public class JavaStrucBuilderTest extends TestCase {
     }
 
     public void testBuildStruc() throws Exception {
-        MetaandForm metaandForm = testBuilder.buildStruc(xmlTestString);
-        Form form = metaandForm.getForm();
-        MetaData meta = metaandForm.getMeta();
+        MetaAndForm metaAndForm = testBuilder.buildStruc(xmlTestString);
+        Form form = metaAndForm.getForm();
+        MetaData meta = metaAndForm.getMeta();
         //Meta
         assertEquals("MRT",meta.getExameName());
         assertEquals("12.12.2012",meta.getPatientBithDate());

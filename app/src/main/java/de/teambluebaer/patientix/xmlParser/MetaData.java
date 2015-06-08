@@ -3,8 +3,8 @@ package de.teambluebaer.patientix.xmlParser;
 /**
  * Created by Simon on 06.05.2015.
  *
- * Singleton, represents patient and exam information and is patr of <code>MetaandForm</code>
- * @see MetaandForm
+ * Singleton, represents patient and exam information and is patr of <code>MetaAndForm</code>
+ * @see MetaAndForm
  */
 public class MetaData {
 

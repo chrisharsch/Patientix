@@ -42,7 +42,7 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
 public class LoginActivity extends Activity {
 
     private Button buttonLogin;
-    private EditText editPassword = null;
+    private EditText editTextPassword = null;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
@@ -69,8 +69,8 @@ public class LoginActivity extends Activity {
         Constants.TORESTART = false;
         PrefUtils.setKioskModeActive(true, this);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
-        editPassword = (EditText) findViewById(R.id.editPassword);
-        editPassword.setOnEditorActionListener(
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextPassword.setOnEditorActionListener(
                 new EditText.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -93,7 +93,7 @@ public class LoginActivity extends Activity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
-            if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+            if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
                 parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
@@ -102,11 +102,11 @@ public class LoginActivity extends Activity {
                 //TODO getTablet ID from the Server
                 //new GetTabletID().execute();
             } else {
-                editPassword.setText("");
+                editTextPassword.setText("");
                 Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
             }
         } else {
-            editPassword.setText("");
+            editTextPassword.setText("");
             Toast.makeText(this, "WiFi ist abgeschaltet, bitte schalten sie das WiFi wieder ein.", Toast.LENGTH_LONG).show();
         }
     }
@@ -118,7 +118,7 @@ public class LoginActivity extends Activity {
      * @param v Parameter to change something in view
      */
     public void onClickButtonExit(View v) {
-        if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
+        if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
             PrefUtils.setKioskModeActive(false, Constants.CURRENTACTIVITY);
             PrefUtils.setKioskModeActive(false, this);
             for (Activity activity : Constants.LISTOFACTIVITIES) {
@@ -127,7 +127,7 @@ public class LoginActivity extends Activity {
             }
             System.exit(0);
         } else {
-            editPassword.setText("");
+            editTextPassword.setText("");
             Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
         }
     }

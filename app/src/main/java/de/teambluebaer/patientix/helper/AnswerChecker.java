@@ -14,13 +14,13 @@ public class AnswerChecker {
 
 
     /**
-     * Checks the in Constants.globalMetaandForm saved Form for answered Radiobuttons
+     * Checks the in Constants.GLOBALMETAANDFORM saved Form for answered Radiobuttons
      * @return boolean is true if every Radiogroup in the currend form is answered
      */
     public static boolean isEverythingAnswert() {
 
         boolean everythingIsAnswert = true;
-        for (Page page : Constants.globalMetaandForm.getForm().getPageList()) {
+        for (Page page : Constants.GLOBALMETAANDFORM.getForm().getPageList()) {
             if (!everythingIsAnswert) {
                 break;
             }

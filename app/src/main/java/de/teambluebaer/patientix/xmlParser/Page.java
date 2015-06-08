@@ -74,7 +74,7 @@ public class Page {
             for(Element element:row.getElements()){
                 if(element instanceof Editable){
                     relevant = true;
-                }else if(element instanceof Image && Constants.resign){
+                }else if(element instanceof Image && Constants.RESIGN){
                     relevant = true;
                 }
                 if(relevant){

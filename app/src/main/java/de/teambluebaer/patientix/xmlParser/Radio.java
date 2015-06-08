@@ -71,11 +71,11 @@ public class Radio implements Element,Editable {
             }
         });
 
-        if(Constants.resign){
+        if(Constants.RESIGN){
             radio.setClickable(false);
         }
 
-        if(Constants.zoomed){
+        if(Constants.ZOOMED){
             radio.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
 
         }else{

@@ -53,7 +53,7 @@ public class LayoutCreater {
         rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {
-            if (Constants.resign) {
+            if (Constants.RESIGN) {
                 commentar.showAllComments(context, pageLayout);
                 hasComBut = false;
             } else {
@@ -81,7 +81,7 @@ public class LayoutCreater {
 
 
         layout.removeAllViews();
-        List<Page> pageList = Constants.globalMetaandForm.getForm().getPageList();
+        List<Page> pageList = Constants.GLOBALMETAANDFORM.getForm().getPageList();
         for (Page page : pageList) {
             if (page.isRelevant()) {
 

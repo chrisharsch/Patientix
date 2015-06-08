@@ -76,7 +76,7 @@ public class Image implements Element {
             image.setBackgroundColor(0);
             image.loadDataWithBaseURL("", "<img src='" + imageSource + "'/>", "text/html", "UTF-8", "");
 
-            if(Constants.resign) {
+            if(Constants.RESIGN) {
                 wrapper.addView(buttonsLayout);
                 sPenGenerate(context, layout, buttonsLayout);
             }
@@ -84,7 +84,7 @@ public class Image implements Element {
             layout.addView(wrapper);
 
         } else {
-            if(Constants.resign){
+            if(Constants.RESIGN){
                 wrapper.setBackgroundColor(0xFFD6E6F5);
                 wrapper.addView(buttonsLayout);
                 wrapper.addView(image);
@@ -272,7 +272,7 @@ public class Image implements Element {
         OutputStream out = null;
             try {
                 // Save signature to a Base64 encode String
-                Constants.globalMetaandForm.setSignature(SignatureActivity.encodeTobase64(imgBitmap));
+                Constants.GLOBALMETAANDFORM.setSignature(SignatureActivity.encodeTobase64(imgBitmap));
             } catch (Exception e) {
                 Toast.makeText(context, "Speicherung fehlgeschlagen", Toast.LENGTH_LONG).show();
                 e.printStackTrace();

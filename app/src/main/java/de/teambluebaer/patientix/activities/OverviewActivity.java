@@ -28,8 +28,8 @@ import de.teambluebaer.patientix.xmlParser.Row;
 
 public class OverviewActivity extends Activity {
 
-    private Button buttonReady;
-    private LinearLayout list;
+    private Button buttonContinue;
+    private LinearLayout listLinearLayout;
     private LayoutCreater layoutCreater;
     private Button buttonZoom;
 
@@ -57,12 +57,12 @@ public class OverviewActivity extends Activity {
         }
         Constants.LISTOFACTIVITIES.add(this);
         //Reference Variables
-        list = (LinearLayout) findViewById(R.id.list);
+        listLinearLayout = (LinearLayout) findViewById(R.id.list);
         buttonZoom = (Button) findViewById(R.id.buttonZoom);
-        buttonReady = (Button) findViewById(R.id.buttonContinue);
+        buttonContinue = (Button) findViewById(R.id.buttonContinue);
         try {
             layoutCreater = new LayoutCreater();
-            layoutCreater.CreatListLayout(this, list);
+            layoutCreater.CreatListLayout(this, listLinearLayout);
         } catch (NullPointerException e) {
             Intent intent = new Intent(OverviewActivity.this, StartActivity.class);
             startActivity(intent);
@@ -70,8 +70,8 @@ public class OverviewActivity extends Activity {
             finish();
         }
 
-        //Check if the page is zoomed or not
-        if (!Constants.zoomed) {
+        //Check if the page is ZOOMED or not
+        if (!Constants.ZOOMED) {
             buttonZoom.setText("+");
         } else {
             buttonZoom.setText("-");
@@ -85,11 +85,11 @@ public class OverviewActivity extends Activity {
      * @param v Parameter to change something in view
      */
     public void onClickContinueButton(View v) {
-        Flasher.flash(buttonReady, "1x3");
+        Flasher.flash(buttonContinue, "1x3");
 
-        if(Constants.resign | AnswerChecker.isEverythingAnswert()) {
+        if(Constants.RESIGN | AnswerChecker.isEverythingAnswert()) {
 
-            for(Page page:Constants.globalMetaandForm.getForm().getPageList()){
+            for(Page page:Constants.GLOBALMETAANDFORM.getForm().getPageList()){
                 for(Row row:page.getRows()){
                     for(Element element:row.getElements()){
                         if(element instanceof Image){
@@ -117,14 +117,14 @@ public class OverviewActivity extends Activity {
      * @param v Parameter to change something in view
      */
     public void onClickZoomButton(View v) {
-        if (!Constants.zoomed) {
+        if (!Constants.ZOOMED) {
             Flasher.flash(buttonZoom, "1x1");
-            Constants.zoomed = true;
-            layoutCreater.CreatListLayout(this, list);
+            Constants.ZOOMED = true;
+            layoutCreater.CreatListLayout(this, listLinearLayout);
             buttonZoom.setText("-");
         } else {
-            Constants.zoomed = false;
-            layoutCreater.CreatListLayout(this, list);
+            Constants.ZOOMED = false;
+            layoutCreater.CreatListLayout(this, listLinearLayout);
             buttonZoom.setText("+");
 
         }
@@ -138,7 +138,7 @@ public class OverviewActivity extends Activity {
      */
     private boolean isFormula() {
         try {
-            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+            if (!Constants.GLOBALMETAANDFORM.toXMLString().isEmpty()) {
                 return true;
             } else {
                 return false;

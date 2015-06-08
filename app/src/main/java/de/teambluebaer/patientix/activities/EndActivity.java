@@ -35,7 +35,7 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 public class EndActivity extends Activity {
 
-    TextView endtext;
+    TextView textViewEndtext;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
     RestfulHelper restfulHelper = new RestfulHelper();
@@ -56,22 +56,22 @@ public class EndActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_end);
 
-        endtext = (TextView) findViewById(R.id.textEnd);
+        textViewEndtext = (TextView) findViewById(R.id.textViewEnd);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
         Constants.TORESTART = false;
 
         if (isFormula()) {
-            String xml = Constants.globalMetaandForm.toXMLString();
+            String xml = Constants.GLOBALMETAANDFORM.toXMLString();
 
             //set um parameterMap for RestPost to send formula data
             parameterMap.add(new BasicNameValuePair("formula", xml));
             parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
-            parameterMap.add(new BasicNameValuePair("patientID", Constants.globalMetaandForm.getMeta().getPatientID()));
+            parameterMap.add(new BasicNameValuePair("patientID", Constants.GLOBALMETAANDFORM.getMeta().getPatientID()));
             new SendFormula().execute();
         } else {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
-            endtext.setOnLongClickListener(new View.OnLongClickListener() {
+            textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Intent intent = new Intent(EndActivity.this, LoginActivity.class);
@@ -112,7 +112,7 @@ public class EndActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(EndActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
-                                endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                                textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                                     @Override
                                     public boolean onLongClick(View v) {
                                         Intent intent = new Intent(EndActivity.this, LoginActivity.class);
@@ -131,7 +131,7 @@ public class EndActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
-                            endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                            textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                                 @Override
                                 public boolean onLongClick(View v) {
                                     Intent intent = new Intent(EndActivity.this, LoginActivity.class);
@@ -150,7 +150,7 @@ public class EndActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(EndActivity.this, "Formular wurde bereits gesendet.", Toast.LENGTH_LONG).show();
-                        endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                        textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
                                 Intent intent = new Intent(EndActivity.this, LoginActivity.class);
@@ -187,7 +187,7 @@ public class EndActivity extends Activity {
      */
     private boolean isFormula() {
         try {
-            if (!Constants.globalMetaandForm.toXMLString().isEmpty()) {
+            if (!Constants.GLOBALMETAANDFORM.toXMLString().isEmpty()) {
                 return true;
             } else {
                 return false;

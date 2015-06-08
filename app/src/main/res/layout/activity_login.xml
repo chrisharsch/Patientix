@@ -52,7 +52,7 @@
         android:textColor="#fffafa"
         android:textSize="40sp"
         android:layout_above="@+id/linearLayoutAdditionRight"
-        android:layout_alignStart="@+id/editPassword" />
+        android:layout_alignStart="@+id/editTextPassword" />
 
     <!-- Universitätsklinikum Mannheim Logo -->
     <ImageView
