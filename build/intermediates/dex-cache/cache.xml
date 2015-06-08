@@ -2,6 +2,20 @@
 <items version="2" >
 
     <item
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/classes-1a43604ecb42948f0674ca174c7e2c9aac7dec0c.jar" />
+    </item>
+    <item
+        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/sdk-v1.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e2ce3786b6e9519934c4a54aaaaf39525bf4486c">
+        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/sdk-v1.0.0-c4e069540597682653608f0ba81fd0c5a4499695.jar" />
+    </item>
+    <item
         jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/pen-v3.1.4.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -21,20 +35,6 @@
         revision="22.0.1"
         sha1="69ca2fe8ed0f43a8e69b5d20788d94c2c89c4490">
         <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/robolectric-3.0-rc3-33bdcc97bcce6bb7230e51fdae0252335eadf1b8.jar" />
-    </item>
-    <item
-        jar="/Users/chris/AndroidStudioProjects/Patientix/app/src/main/libs/sdk-v1.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e2ce3786b6e9519934c4a54aaaaf39525bf4486c">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/sdk-v1.0.0-c4e069540597682653608f0ba81fd0c5a4499695.jar" />
-    </item>
-    <item
-        jar="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/Users/chris/AndroidStudioProjects/Patientix/app/build/intermediates/pre-dexed/debug/classes-1a43604ecb42948f0674ca174c7e2c9aac7dec0c.jar" />
     </item>
 
 </items>

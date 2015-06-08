@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberPassword"
         android:ems="10"
-        android:id="@+id/editPassword"
+        android:id="@+id/editTextPassword"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:hint="PIN" />
