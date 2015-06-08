@@ -94,7 +94,6 @@ public class LoginActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
-                parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
                 /*Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 PrefUtils.setKioskModeActive(false, LoginActivity.this);
@@ -230,6 +229,7 @@ public class LoginActivity extends Activity {
          */
         @Override
         protected String doInBackground(String... params) {
+            parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
             responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
 
             while (responseCode != 200) {
@@ -261,7 +261,7 @@ public class LoginActivity extends Activity {
             Log.d("ResponseCode", responseCode + "");
 
 
-        return null;
+            return null;
+        }
     }
-}
 }

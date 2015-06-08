@@ -280,8 +280,6 @@ public class SignatureActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-            mSpenPageDoc.setBackgroundColor(0xFFFFFF);
-
             closeSettingView();
             buttonDone.setEnabled(false);
             Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);

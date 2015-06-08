@@ -1,8 +1,12 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,6 +52,7 @@ public class StartActivity extends Activity {
     private TextView textViewExameName;
     private Button buttonStart;
     private Button buttonUpdate;
+    private RestfulHelper restfulHelper =new RestfulHelper();
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
@@ -79,6 +84,7 @@ public class StartActivity extends Activity {
         textViewPatientBirth = (TextView) findViewById(R.id.textViewPatientBirthDate);
         textViewExameName = (TextView) findViewById(R.id.textViewExamination);
 
+        new GetTabletID().execute();
     }
 
     /**
@@ -121,7 +127,6 @@ public class StartActivity extends Activity {
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
         //send the request to server
-        RestfulHelper restfulHelper = new RestfulHelper();
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
 
         //changing some things on the layout
@@ -149,7 +154,6 @@ public class StartActivity extends Activity {
                 textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
                 buttonStart.setVisibility(View.VISIBLE);
                 buttonStart.setClickable(true);
-                Log.d("ResponseString", restfulHelper.responseString);
             } catch (Exception e) {
                 Log.d("FileSaveExeption", e.toString());
                 Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
@@ -222,6 +226,57 @@ public class StartActivity extends Activity {
             return true;
         } else {
             return super.dispatchKeyEvent(event);
+        }
+    }
+
+
+    /**
+     * This AsyncTask sets the TabletID in Constants that the Tablet can
+     * work wirh the System.
+     */
+    private class GetTabletID extends AsyncTask<String, Void, String> {
+        private ArrayList<NameValuePair> parameterMap = new ArrayList();
+
+
+
+        /**
+         * Everything in this method happens in the background and in here
+         * the there will be send so many Requests until the Server connection
+         * is availabe or the MacAddress isn't in the Sytem.
+         *
+         * @param params default parameters
+         * @return null because not needed
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            this.parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
+            responseCode = restfulHelper.executeRequest("getTabletID", this.parameterMap);
+
+            while (responseCode != 200) {
+                responseCode = restfulHelper.executeRequest("getTabletID", this.parameterMap);
+                Log.d("ResponseCode", responseCode + "");
+                Log.d("ResponseString", restfulHelper.responseString);
+                if (responseCode == 404) {
+                    Log.d("ResponseCode", responseCode + "");
+                    break;
+                }
+            }
+            if (responseCode == 200) {
+                Constants.TABLET_ID = RestfulHelper.responseString;
+            }
+            Log.d("ResponseCode", responseCode + "");
+
+            return null;
+        }
+        /**
+         * Method to get the MACAddress of the device
+         *
+         * @return String of the MACAddress of the device
+         */
+        private String getMacAddress() {
+            WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = manager.getConnectionInfo();
+            return info.getMacAddress();
         }
     }
 }
