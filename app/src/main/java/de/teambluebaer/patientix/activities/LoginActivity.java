@@ -80,7 +80,6 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
-
     }
 
     /**
@@ -95,7 +94,7 @@ public class LoginActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             if (passwordHash(editPassword.getText().toString()).equals(Constants.PIN)) {
-                parameterMap.add(new BasicNameValuePair("macaddress", getMacAddress()));
+                parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 PrefUtils.setKioskModeActive(false, LoginActivity.this);
@@ -132,12 +131,13 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "Falscher PIN!!!", Toast.LENGTH_LONG).show();
         }
     }
-        /**
-         * This method converts the bytes of String to hex
-         *
-         * @param data byte Array to convert
-         * @return String of hexcode
-         */
+
+    /**
+     * This method converts the bytes of String to hex
+     *
+     * @param data byte Array to convert
+     * @return String of hexcode
+     */
 
     private String convertByteToHex(byte data[]) {
         StringBuffer hexData = new StringBuffer();
@@ -232,32 +232,34 @@ public class LoginActivity extends Activity {
         protected String doInBackground(String... params) {
             responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
 
-                while (responseCode != 200) {
-                    responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
-                    if (responseCode == 404) {
-                        Log.d("ResponseCode", responseCode + "");
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(LoginActivity.this, "Login fehlgeschalgen dieses Tablet ist nicht im System.", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        break;
-                }
-                if (responseCode == 200) {
-                    Constants.TABLET_ID = RestfulHelper.responseString;
-                    Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                    startActivity(intent);
-                    PrefUtils.setKioskModeActive(false, LoginActivity.this);
-                    finish();
+            while (responseCode != 200) {
+                responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
+                if (responseCode == 404) {
+                    Log.d("ResponseCode", responseCode + "");
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(LoginActivity.this, "Login erfolgreich.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Login fehlgeschalgen dieses Tablet ist nicht im System.", Toast.LENGTH_LONG).show();
                         }
                     });
+                    break;
                 }
-                Log.d("ResponseCode", responseCode + "");
             }
-            return null;
-        }
+            if (responseCode == 200) {
+                Constants.TABLET_ID = RestfulHelper.responseString;
+                Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                startActivity(intent);
+                PrefUtils.setKioskModeActive(false, LoginActivity.this);
+                finish();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "Login erfolgreich.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            Log.d("ResponseCode", responseCode + "");
+
+
+        return null;
     }
+}
 }

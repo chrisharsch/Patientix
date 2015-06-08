@@ -71,6 +71,16 @@ public class EndActivity extends Activity {
             new SendFormula().execute();
         } else {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();
+            endtext.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    PrefUtils.setKioskModeActive(false, EndActivity.this);
+                    finish();
+                    return true;
+                }
+            });
         }
 
 
@@ -93,7 +103,7 @@ public class EndActivity extends Activity {
          */
         @Override
         protected String doInBackground(String... params) {
-            responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
+
             if (!Constants.ISSEND) {
                 while (responseCode != 200) {
                     responseCode = restfulHelper.executeRequest("filledformula", parameterMap);

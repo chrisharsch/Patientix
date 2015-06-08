@@ -132,6 +132,7 @@ public class StartActivity extends Activity {
                 Log.d("ResponseString: ",restfulHelper.responseString);
                 JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                 Constants.globalMetaandForm = strucBuilder.buildStruc(xmlString);
+
                 Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
                 textViewPatientName.setText(Constants.globalMetaandForm.getMeta().getPatientLastName() + ", "
