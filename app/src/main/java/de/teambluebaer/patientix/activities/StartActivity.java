@@ -132,33 +132,38 @@ public class StartActivity extends Activity {
         //changing some things on the layout
         Log.d("ResponseCode", responseCode + "");
         if (responseCode == 200) {
-            try {
-                String xmlString = restfulHelper.responseString;
-                Log.d("ResponseString: ",restfulHelper.responseString);
-                JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
-                Constants.GLOBALMETAANDFORM = strucBuilder.buildStruc(xmlString);
+            if(!restfulHelper.responseString.isEmpty() || restfulHelper.responseString.length()<10) {
+                try {
+                    String xmlString = restfulHelper.responseString;
+                    Log.d("ResponseString: ", restfulHelper.responseString);
+                    JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
+                    Constants.GLOBALMETAANDFORM = strucBuilder.buildStruc(xmlString);
 
-                Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
 
-                textViewPatientName.setText(Constants.GLOBALMETAANDFORM.getMeta().getPatientLastName() + ", "
-                        + Constants.GLOBALMETAANDFORM.getMeta().getPatientFirstName());
-                textViewPatientName.setBackgroundColor(Color.parseColor("#ffffff"));
-                textViewPatientBirth.setBackgroundColor(Color.parseColor("#ffffff"));
-                textViewExameName.setBackgroundColor(Color.parseColor("#ffffff"));
-                String birthDate = "";
-                if (!Constants.GLOBALMETAANDFORM.getMeta().getPatientBithDate().equals("Unbekannt")) {
-                    birthDate = getbirthDate();
+                    textViewPatientName.setText(Constants.GLOBALMETAANDFORM.getMeta().getPatientLastName() + ", "
+                            + Constants.GLOBALMETAANDFORM.getMeta().getPatientFirstName());
+                    textViewPatientName.setBackgroundColor(Color.parseColor("#ffffff"));
+                    textViewPatientBirth.setBackgroundColor(Color.parseColor("#ffffff"));
+                    textViewExameName.setBackgroundColor(Color.parseColor("#ffffff"));
+                    String birthDate = "";
+                    if (!Constants.GLOBALMETAANDFORM.getMeta().getPatientBithDate().equals("Unbekannt")) {
+                        birthDate = getbirthDate();
+                    }
+                    textViewPatientBirth.setText("Geb. " + birthDate);
+
+                    textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
+                    buttonStart.setVisibility(View.VISIBLE);
+                    buttonStart.setClickable(true);
+                } catch (Exception e) {
+                    Log.d("FileSaveExeption", e.toString());
+                    Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
                 }
-                textViewPatientBirth.setText("Geb. "+ birthDate);
-
-                textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
-                buttonStart.setVisibility(View.VISIBLE);
-                buttonStart.setClickable(true);
-            } catch (Exception e) {
-                Log.d("FileSaveExeption", e.toString());
-                Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
+                Constants.ISSEND = false;
+            }else{
+                Toast.makeText(getBaseContext(), "Keine Verbindung zum Server!", Toast.LENGTH_LONG).show();
             }
-            Constants.ISSEND = false;
+
         } else if (404 == responseCode) {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {
@@ -255,7 +260,6 @@ public class StartActivity extends Activity {
             while (responseCode != 200) {
                 responseCode = restfulHelper.executeRequest("getTabletID", this.parameterMap);
                 Log.d("ResponseCode", responseCode + "");
-                Log.d("ResponseString", restfulHelper.responseString);
                 if (responseCode == 404) {
                     Log.d("ResponseCode", responseCode + "");
                     break;
