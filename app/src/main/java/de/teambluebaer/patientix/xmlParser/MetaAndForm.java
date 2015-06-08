@@ -8,7 +8,7 @@ package de.teambluebaer.patientix.xmlParser;
  * @see Form
  *
  */
-public class MetaandForm {
+public class MetaAndForm {
 
     private MetaData meta;
     private Form form;
@@ -17,7 +17,7 @@ public class MetaandForm {
     /**
      * Constructor
      */
-    public MetaandForm() {
+    public MetaAndForm() {
         signature = "";
     }
 
@@ -39,7 +39,7 @@ public class MetaandForm {
 
     /**
      * give you access to the <code>Form</code> Object of <code>MetaAnfForm</code>
-     * @return the Form of MetaandForm
+     * @return the Form of MetaAndForm
      */
     public Form getForm(){
         return this.form;
@@ -47,7 +47,7 @@ public class MetaandForm {
 
     /**
      * give you access to the <code>MetaData</code> Object of <code>MetaAnfForm</code>
-     * @return the MetaData of MetaandForm
+     * @return the MetaData of MetaAndForm
      */
     public MetaData getMeta(){
         return this.meta;
@@ -60,6 +60,7 @@ public class MetaandForm {
     public String getSignature() {
         return signature;
     }
+
 
     public String toXMLString(){
         String xmlString = new String();
@@ -77,7 +78,7 @@ public class MetaandForm {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MetaandForm that = (MetaandForm) o;
+        MetaAndForm that = (MetaAndForm) o;
 
         if (meta != null ? !meta.equals(that.meta) : that.meta != null) return false;
         return !(form != null ? !form.equals(that.form) : that.form != null);

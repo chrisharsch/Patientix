@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import de.teambluebaer.patientix.xmlParser.Form;
 import de.teambluebaer.patientix.xmlParser.MetaData;
-import de.teambluebaer.patientix.xmlParser.MetaandForm;
+import de.teambluebaer.patientix.xmlParser.MetaAndForm;
 
 /**
  * Created by Simon on 29.05.2015.
@@ -17,12 +17,13 @@ public class MetaAndFormTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        metaandForm = new MetaandForm();
+        metaAndForm = new MetaAndForm();
         meta = new MetaData();
         form = new Form();
         metaAndForm.setForm(form);
         metaAndForm.setMeta(meta);
     }
+
 
     public void testToXMLString() throws Exception {
         String inputXML = metaAndForm.toXMLString();
