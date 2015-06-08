@@ -72,6 +72,8 @@ public class Image implements Element {
         LinearLayout wrapper = new LinearLayout(context);
         RelativeLayout buttonsLayout = new RelativeLayout(context);
 
+
+
         if (!imageSource.isEmpty()) {
             image.setBackgroundColor(0);
             image.loadDataWithBaseURL("", "<img src='" + imageSource + "'/>", "text/html", "UTF-8", "");

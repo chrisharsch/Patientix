@@ -94,11 +94,6 @@ public class LoginActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
-                /*Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                startActivity(intent);
-                PrefUtils.setKioskModeActive(false, LoginActivity.this);
-                finish();*/
-                //TODO getTablet ID from the Server
                 new GetTabletID().execute();
             } else {
                 editTextPassword.setText("");
