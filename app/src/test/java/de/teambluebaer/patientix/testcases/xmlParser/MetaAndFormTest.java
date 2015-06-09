@@ -28,7 +28,7 @@ public class MetaAndFormTest extends TestCase {
     public void testToXMLString() throws Exception {
         String inputXML = metaAndForm.toXMLString();
         String testXML = "<root><meta><pID></pID><pFirstName></pFirstName><pLastName></pLastName><pDate>Unbekannt</pDate>" +
-                "<name></name><pExamID></pExamID></meta><form></form><sign text=\"\" /></root>";
+                "<name></name><pExamID></pExamID></meta><form></form><sign image=\"\" /></root>";
         assertEquals(testXML,inputXML);
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.teambluebaer.patientix.xmlParser.Page;
+import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
@@ -13,11 +14,19 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class PageTest extends TestCase {
 
-    Page page;
+    Page page,page2;
+    Row row;
+    Radio radio;
 
     @Override
     protected void setUp() throws Exception {
         page =new Page();
+        page2 = new Page();
+        row = new Row("","","");
+        radio = new Radio("Ja","1","1");
+        page2.addNewRow(row);
+        row.addElement(radio);
+
 
     }
 
@@ -36,5 +45,10 @@ public class PageTest extends TestCase {
         String pageXML = page.toXMLString();
         String testXML = "<page></page>";
         assertEquals(testXML,pageXML);
+    }
+
+    public void testIsRelevant() throws Exception {
+        assertEquals(false,page.isRelevant());
+        assertEquals(true, page2.isRelevant());
     }
 }

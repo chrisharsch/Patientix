@@ -65,6 +65,8 @@ public class Image implements Element {
         }
     }
 
+
+
     @Override
     public void addToView(Context context, LinearLayout layout) {
 
@@ -414,6 +416,10 @@ public class Image implements Element {
             }
             mSpenNoteDoc = null;
         }
+    }
+
+    public String getImageSource() {
+        return imageSource;
     }
 
     @Override
