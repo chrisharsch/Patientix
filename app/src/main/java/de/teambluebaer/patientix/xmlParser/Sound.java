@@ -25,32 +25,38 @@ public class Sound implements Element {
      * @param src URL-String represents Location of the Sound you want to add
      */
     public Sound(String src){
-        soundSource = src;
+        if(src != null && !src.isEmpty()){
+            soundSource = src;
+        }else{
+            soundSource = "";
+        }
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
-        RelativeLayout rl = new RelativeLayout(context);
-        RelativeLayout.LayoutParams layoutParametersOne = new RelativeLayout.LayoutParams(500, 500);
-        layoutParametersOne.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        rl.setLayoutParams(layoutParametersOne);
-        rl.setGravity(Gravity.CENTER);
+        if(!soundSource.isEmpty()) {
+            RelativeLayout rl = new RelativeLayout(context);
+            RelativeLayout.LayoutParams layoutParametersOne = new RelativeLayout.LayoutParams(500, 500);
+            layoutParametersOne.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            rl.setLayoutParams(layoutParametersOne);
+            rl.setGravity(Gravity.CENTER);
 
-        VideoView video = new VideoView(context);
-        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(500, 500);
+            VideoView video = new VideoView(context);
+            FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(500, 500);
 
-        layoutParameter.gravity = Gravity.CENTER;
-        video.setBackgroundResource(R.drawable.sound);
-        video.setLayoutParams(layoutParameter);
-        video.setVideoPath(soundSource);
-        MediaController mediaController =  new MediaController(context);
-        mediaController.setAnchorView(video);
-        video.requestFocus();
-        video.setMediaController(mediaController);
-        video.start();
+            layoutParameter.gravity = Gravity.CENTER;
+            video.setBackgroundResource(R.drawable.sound);
+            video.setLayoutParams(layoutParameter);
+            video.setVideoPath(soundSource);
+            MediaController mediaController = new MediaController(context);
+            mediaController.setAnchorView(video);
+            video.requestFocus();
+            video.setMediaController(mediaController);
+            video.start();
 
-        rl.addView(video);
-        layout.addView(rl);
+            rl.addView(video);
+            layout.addView(rl);
+        }
     }
 
     public String getSoundSource() {

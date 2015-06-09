@@ -107,6 +107,10 @@ public class Radio implements Element,Editable {
         return checked;
     }
 
+    public boolean isHighlight() {
+        return highlight;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

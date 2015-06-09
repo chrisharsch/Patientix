@@ -11,26 +11,36 @@ import de.teambluebaer.patientix.xmlParser.Checkbox;
  */
 public class CheckboxTest extends TestCase {
 
-    Checkbox checkbox;
+    Checkbox cbJaUncheckedUnhighlighted;
+    Checkbox cbNeinCheckedHighleighted;
     LinearLayout linearLayout;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        checkbox = new Checkbox("Ja","false","false");
+        cbJaUncheckedUnhighlighted = new Checkbox("Ja","0","false");
+        cbNeinCheckedHighleighted = new Checkbox("Nein","1","true");
 
     }
 
 
     public void testConstructor(){
-        assertEquals("Ja", checkbox.getCheckboxText());
-        assertEquals(false, checkbox.isChecked());
+        assertEquals("Ja", cbJaUncheckedUnhighlighted.getCheckboxText());
+        assertEquals(false, cbJaUncheckedUnhighlighted.isChecked());
+        assertEquals("Nein",cbNeinCheckedHighleighted.getCheckboxText());
+        assertEquals(true, cbNeinCheckedHighleighted.isChecked());
     }
 
 
     public void testToXMLString (){
-        String xml = "<checkbox text=\"Ja\" checked=\"0\" highlight=\"false\" />";
-        assertEquals(xml ,checkbox.toXMLString());
+        String xml1 = "<checkbox text=\"Ja\" checked=\"0\" highlight=\"false\" />";
+        String test1 = cbJaUncheckedUnhighlighted.toXMLString();
+        assertEquals(xml1,test1);
+        String xml2 = "<checkbox text=\"Nein\" checked=\"1\" highlight=\"true\" />";
+        String test2 = cbNeinCheckedHighleighted.toXMLString();
+        assertEquals(xml2,test2);
+
+
     }
 
         @Override

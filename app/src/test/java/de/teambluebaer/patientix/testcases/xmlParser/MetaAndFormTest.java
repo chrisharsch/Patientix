@@ -22,13 +22,14 @@ public class MetaAndFormTest extends TestCase {
         form = new Form();
         metaAndForm.setForm(form);
         metaAndForm.setMeta(meta);
+        metaAndForm.setSignature("DAS IST EINE TEST SIGNATUR");
     }
 
 
     public void testToXMLString() throws Exception {
         String inputXML = metaAndForm.toXMLString();
         String testXML = "<root><meta><pID></pID><pFirstName></pFirstName><pLastName></pLastName><pDate>Unbekannt</pDate>" +
-                "<name></name><pExamID></pExamID></meta><form></form><sign image=\"\" /></root>";
+                "<name></name><pExamID></pExamID></meta><form></form><sign image=\"DAS IST EINE TEST SIGNATUR\" /></root>";
         assertEquals(testXML,inputXML);
     }
 }

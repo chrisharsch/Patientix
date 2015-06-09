@@ -24,30 +24,35 @@ public class Video implements Element {
      * @param src URL-String represents Location of the Video you want to add
      */
     public Video(String src) {
-        videoSource = src;
+        if(src != null && !src.isEmpty()){
+            videoSource = src;
+        }else{
+            videoSource = "";
+        }
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
 
-        RelativeLayout rl = new RelativeLayout(context);
-        rl.setLayoutParams(new RelativeLayout.LayoutParams(1980, 1000));
-        VideoView video = new VideoView(context);
-        rl.setGravity(Gravity.CENTER);
-        FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1980, 1000);
-        layoutParameter.gravity = Gravity.CENTER;
-        video.setLayoutParams(layoutParameter);
-        video.setVideoPath(videoSource);
-        MediaController mediaController = new MediaController(video.getContext());
-        mediaController.setAnchorView(video);
-        mediaController.setMediaPlayer(video);
-        video.requestFocus();
-        video.setMediaController(mediaController);
-        video.start();
-//        mediaController.show();
-        rl.addView(video);
-        layout.addView(rl);
-
+        if(!videoSource.isEmpty()) {
+            RelativeLayout rl = new RelativeLayout(context);
+            rl.setLayoutParams(new RelativeLayout.LayoutParams(1980, 1000));
+            VideoView video = new VideoView(context);
+            rl.setGravity(Gravity.CENTER);
+            FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1980, 1000);
+            layoutParameter.gravity = Gravity.CENTER;
+            video.setLayoutParams(layoutParameter);
+            video.setVideoPath(videoSource);
+            MediaController mediaController = new MediaController(video.getContext());
+            mediaController.setAnchorView(video);
+            mediaController.setMediaPlayer(video);
+            video.requestFocus();
+            video.setMediaController(mediaController);
+            video.start();
+//          mediaController.show();
+            rl.addView(video);
+            layout.addView(rl);
+        }
     }
 
     public String toXMLString() {

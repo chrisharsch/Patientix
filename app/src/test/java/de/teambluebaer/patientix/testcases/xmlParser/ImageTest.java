@@ -9,20 +9,23 @@ import de.teambluebaer.patientix.xmlParser.Image;
  */
 public class ImageTest extends TestCase{
 
-    Image image;
+    Image imageWithSRC;
+    Image imageWithoutSRC;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        image = new Image("TESTSRC");
+        imageWithSRC = new Image("TESTSRC");
+        imageWithoutSRC = new Image("");
 
     }
 
     public void testConstructor(){
-        assertEquals("TESTSRC",image.getImageSource());
+        assertEquals("TESTSRC", imageWithSRC.getImageSource());
     }
 
     public void testToXMLString(){
-        assertEquals("<picture src=\"TESTSRC\" />",image.toXMLString());
+        assertEquals("<picture src=\"TESTSRC\" />", imageWithSRC.toXMLString());
+        assertEquals("<picture src=\"\" />", imageWithoutSRC.toXMLString());
     }
 }

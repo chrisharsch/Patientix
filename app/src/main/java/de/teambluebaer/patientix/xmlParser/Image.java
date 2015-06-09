@@ -70,12 +70,14 @@ public class Image implements Element {
     @Override
     public void addToView(Context context, LinearLayout layout) {
 
-        WebView image = new WebView(context);
-        LinearLayout wrapper = new LinearLayout(context);
-        RelativeLayout buttonsLayout = new RelativeLayout(context);
+        if (!imageSource.isEmpty()) {
+            WebView image = new WebView(context);
+            LinearLayout wrapper = new LinearLayout(context);
+            RelativeLayout buttonsLayout = new RelativeLayout(context);
+        }
 
 
-
+        /*
         if (!imageSource.isEmpty()) {
             image.setBackgroundColor(0);
             image.loadDataWithBaseURL("", "<img src='" + imageSource + "'/>", "text/html", "UTF-8", "");
@@ -96,7 +98,7 @@ public class Image implements Element {
                 layout.addView(wrapper);
             }
 
-        }
+        }*/
 
 
     }

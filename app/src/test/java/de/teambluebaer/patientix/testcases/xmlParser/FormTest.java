@@ -14,6 +14,7 @@ public class FormTest extends TestCase{
 
     Form form1;
     Form form2;
+    Form form3;
     Page page1;
     Page page2;
     Page page3;
@@ -28,9 +29,13 @@ public class FormTest extends TestCase{
         form1 = new Form();
         form1.addPage(page1);
         form1.addPage(page2);
-        form1.addPage(page3);
 
         form2 = new Form();
+
+        form3 = new Form();
+        form3.addPage(page3);
+
+
 
     }
 
@@ -39,17 +44,28 @@ public class FormTest extends TestCase{
     }
 
     public void testGetPages(){
-        assertEquals(page1,form1.getFirstPage());
-        assertEquals(page2,form1.getNextPage());
-        assertEquals(page1,form1.getPreviousPage());
-        assertEquals(3,form1.getLastPage());
-        assertEquals(1,form1.getCurrentPageNumber());
-        assertEquals("Seite 1 von 3",form1.getCurrentPageText());
-        assertEquals(page1,form1.getcurrenPage());
+        Page testPage = form1.getFirstPage();
+        assertEquals(page1,testPage);
+        testPage = form1.getNextPage();
+        assertEquals(page2,testPage);
+        testPage = form1.getPreviousPage();
+        assertEquals(page1, testPage);
+        int testInt = form1.getLastPage();
+        assertEquals(2,testInt);
+        testInt = form1.getCurrentPageNumber();
+        assertEquals(1,testInt);
+        String testString = form1.getCurrentPageText();
+        assertEquals("Seite 1 von 2", testString);
+        testPage = form1.getcurrenPage();
+        assertEquals(page1,testPage);
     }
 
     public void testToXMLString(){
-
-        assertEquals("<form></form>",form2.toXMLString());
+        String testXML = "<form></form>";
+        String vergleichsXML = form2.toXMLString();
+        assertEquals(testXML,vergleichsXML);
+        testXML = "<form><page></page></form>";
+        vergleichsXML = form3.toXMLString();
+        assertEquals(testXML,vergleichsXML);
     }
 }

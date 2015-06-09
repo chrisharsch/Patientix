@@ -5,6 +5,8 @@ import junit.framework.TestCase;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.teambluebaer.patientix.helper.Constants;
+import de.teambluebaer.patientix.xmlParser.Image;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
@@ -16,16 +18,16 @@ public class PageTest extends TestCase {
 
     Page page,page2;
     Row row;
-    Radio radio;
+    Image image;
 
     @Override
     protected void setUp() throws Exception {
         page =new Page();
         page2 = new Page();
         row = new Row("","","");
-        radio = new Radio("Ja","1","1");
+        image = new Image("");
         page2.addNewRow(row);
-        row.addElement(radio);
+        row.addElement(image);
 
 
     }
@@ -45,10 +47,17 @@ public class PageTest extends TestCase {
         String pageXML = page.toXMLString();
         String testXML = "<page></page>";
         assertEquals(testXML,pageXML);
+
+        pageXML = page2.toXMLString();
+        testXML = "<page><row><picture src=\"\" /></row></page>";
+        assertEquals(testXML,pageXML);
+
     }
 
     public void testIsRelevant() throws Exception {
         assertEquals(false,page.isRelevant());
+        assertEquals(false, page2.isRelevant());
+        Constants.RESIGN = true;
         assertEquals(true, page2.isRelevant());
     }
 }

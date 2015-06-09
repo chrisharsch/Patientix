@@ -9,24 +9,35 @@ import de.teambluebaer.patientix.xmlParser.Input;
  */
 public class InputTest extends TestCase {
 
-    Input input;
+    Input ipNCHintUnhiglighted;
+    Input ipCNHintHighleited;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        input = new Input("","HIER WAS EINGEBEN","false");
+        ipNCHintUnhiglighted = new Input("","HIER WAS EINGEBEN","false");
+        ipCNHintHighleited = new Input("IRGENTWAS","","true");
     }
 
     public void testConstructor() {
-        assertEquals("HIER WAS EINGEBEN",input.getInputText());
-        assertEquals("bitte Hier eingeben",input.getHint());
-        assertEquals("",input.getPatientInput());
+        assertEquals("HIER WAS EINGEBEN",ipNCHintUnhiglighted.getInputText());
+        assertEquals("bitte hier eingeben",ipNCHintUnhiglighted.getHint());
+        assertEquals("",ipNCHintUnhiglighted.getPatientInput());
+        assertEquals(false,ipNCHintUnhiglighted.isHighlight());
+
+        assertEquals("",ipCNHintHighleited.getInputText());
+        assertEquals("bitte hier eingeben",ipCNHintHighleited.getHint());
+        assertEquals("IRGENTWAS",ipCNHintHighleited.getPatientInput());
+        assertEquals(true,ipCNHintHighleited.isHighlight());
 
     }
 
     public void testToXMLString() throws Exception {
-        String inputXML = input.toXMLString();
+        String inputXML = ipNCHintUnhiglighted.toXMLString();
         String testXML = "<input text=\"HIER WAS EINGEBEN\" patientInput=\"\" highlight=\"false\" />";
+        assertEquals(testXML,inputXML);
+        inputXML = ipCNHintHighleited.toXMLString();
+        testXML = "<input text=\"\" patientInput=\"IRGENTWAS\" highlight=\"true\" />";
         assertEquals(testXML,inputXML);
     }
 }

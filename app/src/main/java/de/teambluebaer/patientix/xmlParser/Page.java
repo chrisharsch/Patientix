@@ -54,12 +54,13 @@ public class Page {
 
     @Override
     public boolean equals(Object o) {
-        if(o != null && o instanceof Page){
-            Page page = (Page)o;
-            return this.rowList.equals(page.getRows());
-        }else{
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Page page = (Page) o;
+
+        return rowList.equals(page.rowList);
+
     }
 
     @Override

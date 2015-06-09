@@ -8,12 +8,12 @@ package de.teambluebaer.patientix.xmlParser;
  */
 public class MetaData {
 
-    private String patientID  = "";
-    private String patientFirstName = "";
-    private String patientLastName = "";
-    private String patientBithDate = "Unbekannt";
-    private String exameName = "";
-    private String pExamID = "";
+    private String patientID;
+    private String patientFirstName;
+    private String patientLastName;
+    private String patientBithDate;
+    private String exameName;
+    private String pExamID;
 
 
     /**
@@ -21,6 +21,12 @@ public class MetaData {
      */
 
     public MetaData() {
+        setexameName("");
+        setPatientBithDate("");
+        setPatientFirstName("");
+        setPatientID("");
+        setPatientLastName("");
+        setpExamID("");
     }
 
 
@@ -53,11 +59,20 @@ public class MetaData {
     }
 
     public void setpExamID(String pExamID) {
-        this.pExamID = pExamID;
+
+        if(pExamID != null && !pExamID.isEmpty()){
+            this.pExamID = pExamID;
+        }else{
+            this.pExamID = "";
+        }
     }
 
     public void setexameName(String exameName){
-        this.exameName = exameName;
+        if(exameName != null && !exameName.isEmpty()){
+            this.exameName = exameName;
+        }else{
+            this.exameName = "";
+        }
     }
 
     public String toXMLString(){

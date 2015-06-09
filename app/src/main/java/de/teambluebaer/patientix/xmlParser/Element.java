@@ -26,4 +26,6 @@ public interface Element {
     public void addToView(Context context, LinearLayout layout);
 
     public String toXMLString();
+
+
 }

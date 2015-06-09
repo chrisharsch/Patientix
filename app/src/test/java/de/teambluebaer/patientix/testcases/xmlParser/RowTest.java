@@ -14,11 +14,12 @@ import de.teambluebaer.patientix.xmlParser.WhiteSpace;
  */
 public class RowTest extends TestCase {
 
-    Row row;
+    Row row,row2;
 
     @Override
     protected void setUp() throws Exception {
         row = new Row("","","");
+        row2 = new Row("1","2","3");
     }
 
     public void testConstructor(){
@@ -36,6 +37,10 @@ public class RowTest extends TestCase {
     public void testToXMLString() throws Exception {
         String rowXML = row.toXMLString();
         String testXML = "<row></row>";
+        assertEquals(testXML,rowXML);
+
+        rowXML = row2.toXMLString();
+        testXML = "<row comment=\"1\" mtraComment=\"2\" docComment=\"3\"></row>";
         assertEquals(testXML,rowXML);
     }
 }

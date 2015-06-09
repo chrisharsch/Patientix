@@ -29,14 +29,20 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
      * Constructor
      */
     public Input(String patientImput, String inputText, String highlight) {
-        this.inputText = inputText;
+
+        if(inputText != null && !inputText.isEmpty()){
+            this.inputText = inputText;
+        }else{
+            this.inputText = "";
+        }
+
         if(patientImput == null){
             this.patientInput="";
         }else{
             this.patientInput = patientImput;
         }
 
-        this.hint = "bitte Hier eingeben";
+        this.hint = "bitte hier eingeben";
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
@@ -138,4 +144,7 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
         return patientInput;
     }
 
+    public boolean isHighlight() {
+        return highlight;
+    }
 }
