@@ -29,7 +29,7 @@ public class CheckboxTest extends TestCase {
 
 
     public void testToXMLString (){
-        String xml = "<checkbox text=\"Ja\" checked=\"false\" highlight=\"false\" />";
+        String xml = "<checkbox text=\"Ja\" checked=\"0\" highlight=\"false\" />";
         assertEquals(xml ,checkbox.toXMLString());
     }
 

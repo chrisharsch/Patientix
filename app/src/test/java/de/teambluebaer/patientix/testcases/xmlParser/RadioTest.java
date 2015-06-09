@@ -23,7 +23,7 @@ public class RadioTest extends TestCase {
     public void testToXMLString() throws Exception {
 
         String radioXML = radio.toXMLString();
-        String testXML = "<radiobutton text=\"Ja\" checked=\"false\" highlight=\"true\" />";
+        String testXML = "<radiobutton text=\"Ja\" checked=\"0\" highlight=\"true\" />";
         assertEquals(testXML,radioXML);
 
     }
