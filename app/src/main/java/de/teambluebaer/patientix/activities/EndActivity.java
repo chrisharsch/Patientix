@@ -64,6 +64,7 @@ public class EndActivity extends Activity {
         if (isFormula()) {
             String xml = Constants.GLOBALMETAANDFORM.toXMLString();
 
+
             //set um parameterMap for RestPost to send formula data
             parameterMap.add(new BasicNameValuePair("formula", xml));
             parameterMap.add(new BasicNameValuePair("patientID", Constants.GLOBALMETAANDFORM.getMeta().getPatientID()));
