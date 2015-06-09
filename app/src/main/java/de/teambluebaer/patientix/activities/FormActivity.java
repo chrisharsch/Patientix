@@ -3,6 +3,7 @@ package de.teambluebaer.patientix.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -55,7 +56,7 @@ public class FormActivity extends Activity {
             PrefUtils.setKioskModeActive(false, this);
             finish();
         }
-
+        Log.d("ResponseTabletID", Constants.TABLET_ID);
         Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);

@@ -40,6 +40,7 @@ public class RestfulHelper extends Activity {
     private final String POST_FORMULA = "index.php/formula";
     private final String POST_GET_TABLET_ID = "index.php/getTabletID";
     private final String POST_FILLED_FORMULA = "index.php/filledformula";
+    private final String POST_RESIGNED_FORMULA ="index.php/resignFormula";
     private String POST_URL;
 
     //Respones Output
@@ -145,6 +146,8 @@ public class RestfulHelper extends Activity {
             POST_URL = SERVER_URL + POST_FILLED_FORMULA;
         }else if (restMethod.equals("getTabletID")) {
             POST_URL = SERVER_URL + POST_GET_TABLET_ID;
+        }else if (restMethod.equals("resignFormula")){
+            POST_URL = SERVER_URL + POST_RESIGNED_FORMULA;
         }
     }
 
