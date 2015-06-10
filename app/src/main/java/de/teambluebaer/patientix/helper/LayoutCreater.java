@@ -48,8 +48,10 @@ public class LayoutCreater {
             }
         }
         if (radioGroup.getChildCount() != 0) {
+
             rowLayout.addView(radioGroup);
         }
+
         rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {

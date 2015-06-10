@@ -473,7 +473,6 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //mToast.cancel();
         if (mSpenNoteDoc != null && mSpenPageDoc.isRecording()) {
             mSpenPageDoc.stopRecord();
         }

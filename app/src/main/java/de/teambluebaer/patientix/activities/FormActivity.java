@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,7 +26,7 @@ import de.teambluebaer.patientix.xmlParser.MetaAndForm;
  */
 public class FormActivity extends Activity {
 
-    private ImageButton helpScreen;
+    private ImageView imageViewHelpScreen;
     private Button buttonContinue;
     private Button buttonBack;
     private Button buttonZoom;
@@ -59,12 +59,12 @@ public class FormActivity extends Activity {
             finish();
         }
 
-        helpScreen = (ImageButton) findViewById(R.id.helpScreen);
-        helpScreen.setOnClickListener(new View.OnClickListener() {
+        imageViewHelpScreen = (ImageView) findViewById(R.id.imageViewHelpScreen);
+        imageViewHelpScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helpScreen.setVisibility(View.GONE);
-                helpScreen.setClickable(false);
+                imageViewHelpScreen.setVisibility(View.GONE);
+                imageViewHelpScreen.setClickable(false);
 
             }
         });
