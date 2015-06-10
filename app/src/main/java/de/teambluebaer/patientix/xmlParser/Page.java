@@ -69,6 +69,10 @@ public class Page {
         return rowList != null ? rowList.hashCode() : 0;
     }
 
+    /**
+     * is true for every Page that that contains a <code>Checkbox</code>, <code>Radio</code> und <code>Input</code>
+     * @return is true for Pages that should be showen in the Overview Activite
+     */
     public boolean isRelevant(){
         boolean relevant = false;
         for(Row row:rowList){

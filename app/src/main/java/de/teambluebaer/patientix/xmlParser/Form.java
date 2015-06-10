@@ -34,21 +34,36 @@ public class Form {
         pageList.add(newPage);
     }
 
+     /**
+     * Give back all <code>Pages</code> of a Form
+     * @return List of all <code>Pages</code> in a Form
+     */
     public List<Page> getPageList(){
         return pageList;
     }
 
+    /**
+     * Should be used to get the first Page of the Form, whene it used the first Time, also initialiset the Iterator
+     * @return the First Page of a Form
+     */
     public Page getFirstPage(){
         iterator = pageList.listIterator();
         return iterator.next();
     }
 
+    /**
+     * Always give back the next <code>Page</code> of a Form
+     * @return the next <code>Page</code> of a Form
+     */
     public Page getNextPage(){
         return iterator.next();
 
     }
 
-
+    /**
+     * Always give back the privios <code>Page</code> of a Form
+     * @return the privios <code>Page</code> of a Form
+     */
     public Page getPreviousPage(){
         iterator.previous();
         Page page = iterator.previous();
@@ -56,16 +71,34 @@ public class Form {
         return page;
     }
 
+    /**
+     * Always give back the an String, in the Form currentPage von numberOfAllPages
+     * @return the a <code>String</code> that contains the current Page number and the Number of all Pages
+     */
     public String getCurrentPageText(){
         return "Seite "+iterator.nextIndex()+ " von "+ pageList.size() ;
     }
+
+    /**
+     * give back the Number of all Pages
+     * @return Number of all Pages
+     */
     public int getLastPage(){
         return pageList.size();
     }
+
+    /**
+     * give back the current Pagenumber
+     * @return current Pagenumber
+     */
     public int getCurrentPageNumber(){
         return iterator.nextIndex();
     }
 
+    /**
+     * Always give back the current <code>Page</code> of a Form
+     * @return the current <code>Page</code> of a Form
+     */
     public Page getcurrenPage(){
         Page page = iterator.previous();
         iterator.next();
