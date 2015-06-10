@@ -57,17 +57,7 @@
         android:layout_marginTop="25dip"
         android:layout_marginLeft="25dip" />
 
-    <!--
-    <LinearLayout
-        android:id="@+id/spenViewContainer"
-        android:layout_width="780dp"
-        android:layout_height="270dp"
-        android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
 
-       // relative layout
-    </LinearLayout> -->
 
     <!-- S Pen Field -->
     <RelativeLayout

@@ -165,8 +165,8 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     *  Erstellt das Layout der Unterschrift
-     * @param spenViewLayout
+     *  Creates the Layout of the sign
+     * @param spenViewLayout Layout where the SPen can write in
      */
     private void createSpenNoteDoc(View spenViewLayout) {
         try {
@@ -273,7 +273,7 @@ public class SignatureActivity extends Activity {
     };
 
     /**
-     * calls the saving methode captureSpenSurfaceView
+     * Calls the saving method captureSpenSurfaceView
      */
     public final View.OnClickListener mCaptureBtnClickListener = new View.OnClickListener() {
 
@@ -323,7 +323,7 @@ public class SignatureActivity extends Activity {
 
 
     /**
-     * select the pen or the eraser
+     * Selects the pen or the eraser
      * @param v
      */
     private void selectButton(View v) {
@@ -337,7 +337,7 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * close the view from the settings (pen or eraser)
+     * Closes the view from the settings (pen or eraser)
      */
     private void closeSettingView() {
         // Close all the setting views.
@@ -346,9 +346,9 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * Gibt einen String von der Unterschrift für das XML-Formular zurück
-     * @param image
-     * @return String
+     * Converts an image to a bitmap
+     * @param image Image to converts
+     * @return String Bitmap of an image
      */
     public static String encodeTobase64(Bitmap image) {
         Bitmap immagex = image;

@@ -34,6 +34,8 @@ import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
+import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
+
 /**
  * This Activity displays the Login for the Docs or the MTRA.
  * Here they can enter their pin to access to the APP.
@@ -47,7 +49,6 @@ public class LoginActivity extends Activity {
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
     RestfulHelper restfulHelper = new RestfulHelper();
-
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -247,6 +248,8 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this, StartActivity.class);
                 startActivity(intent);
                 PrefUtils.setKioskModeActive(false, LoginActivity.this);
+                PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
+                CURRENTACTIVITY.finish();
                 finish();
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -255,8 +258,6 @@ public class LoginActivity extends Activity {
                 });
             }
             Log.d("ResponseCode", responseCode + "");
-
-
             return null;
         }
     }
