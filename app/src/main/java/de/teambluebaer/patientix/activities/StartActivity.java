@@ -33,6 +33,7 @@ import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
+import de.teambluebaer.patientix.xmlParser.MetaAndForm;
 
 import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
@@ -125,8 +126,16 @@ public class StartActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickUpdateButton(View v) {
+        textViewPatientName.setText("");
+        textViewPatientBirth.setText("");
+        Constants.GLOBALMETAANDFORM = new MetaAndForm();
+        buttonStart.setVisibility(View.INVISIBLE);
+        buttonStart.setClickable(false);
+
+
         Flasher.flash(buttonUpdate, "1x5");
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
+
 
         //send the request to server
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
