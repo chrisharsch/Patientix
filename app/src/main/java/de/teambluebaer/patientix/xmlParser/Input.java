@@ -122,10 +122,12 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
 
         Input input = (Input) o;
 
+        if (highlight != input.highlight) return false;
         if (hint != null ? !hint.equals(input.hint) : input.hint != null) return false;
         if (inputText != null ? !inputText.equals(input.inputText) : input.inputText != null)
             return false;
-        return (patientInput != null ? !patientInput.equals(input.patientInput) : input.patientInput != null);
+        return !(patientInput != null ? !patientInput.equals(input.patientInput) : input.patientInput != null);
+
     }
 
     @Override
@@ -133,6 +135,7 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
         int result = hint != null ? hint.hashCode() : 0;
         result = 31 * result + (inputText != null ? inputText.hashCode() : 0);
         result = 31 * result + (patientInput != null ? patientInput.hashCode() : 0);
+        result = 31 * result + (highlight ? 1 : 0);
         return result;
     }
 

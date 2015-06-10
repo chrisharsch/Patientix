@@ -8,11 +8,10 @@ import java.util.List;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.xmlParser.Checkbox;
 import de.teambluebaer.patientix.xmlParser.Form;
-import de.teambluebaer.patientix.xmlParser.Image;
 import de.teambluebaer.patientix.xmlParser.Input;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
-import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.MetaAndForm;
+import de.teambluebaer.patientix.xmlParser.MetaData;
 import de.teambluebaer.patientix.xmlParser.Page;
 import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
@@ -87,10 +86,11 @@ public class JavaStrucBuilderTest extends TestCase {
         Input input = new Input("INPUT","DAS IST EIN TEST","false");
         row.addElement(input);
         page.addNewRow(row);
-        List<Page> pageList= new ArrayList<Page>();
+        List<Page> pageList = new ArrayList<>();
         pageList.add(page);
-        //assertEquals(pageList, form.getPageList());
-        assertEquals(true,Constants.RESIGN);
+
+        assertEquals(pageList, form.getPageList());
+        assertEquals(true, Constants.RESIGN);
 
         metaAndForm = testBuilder.buildStruc(xmlTestString2);
         assertEquals(false,Constants.RESIGN);

@@ -18,7 +18,7 @@ public class CheckboxTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        cbJaUncheckedUnhighlighted = new Checkbox("Ja","0","false");
+        cbJaUncheckedUnhighlighted = new Checkbox("Ja","0",null);
         cbNeinCheckedHighleighted = new Checkbox("Nein","1","true");
 
     }

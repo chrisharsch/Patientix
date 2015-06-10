@@ -119,9 +119,8 @@ public class Radio implements Element,Editable {
         Radio radio = (Radio) o;
 
         if (checked != radio.checked) return false;
-        return (radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null);
-
-
+        if (highlight != radio.highlight) return false;
+        return !(radioText != null ? !radioText.equals(radio.radioText) : radio.radioText != null);
 
     }
 
@@ -129,6 +128,7 @@ public class Radio implements Element,Editable {
     public int hashCode() {
         int result = radioText != null ? radioText.hashCode() : 0;
         result = 31 * result + (checked ? 1 : 0);
+        result = 31 * result + (highlight ? 1 : 0);
         return result;
     }
 }

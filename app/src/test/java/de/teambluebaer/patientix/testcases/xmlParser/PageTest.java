@@ -8,7 +8,6 @@ import java.util.List;
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.xmlParser.Image;
 import de.teambluebaer.patientix.xmlParser.Page;
-import de.teambluebaer.patientix.xmlParser.Radio;
 import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
@@ -56,8 +55,10 @@ public class PageTest extends TestCase {
 
     public void testIsRelevant() throws Exception {
         assertEquals(false,page.isRelevant());
+        Constants.RESIGN = false;
         assertEquals(false, page2.isRelevant());
         Constants.RESIGN = true;
         assertEquals(true, page2.isRelevant());
+        Constants.RESIGN = false;
     }
 }
