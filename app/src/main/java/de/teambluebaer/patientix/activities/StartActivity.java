@@ -101,16 +101,12 @@ public class StartActivity extends Activity {
             Intent intent = new Intent(StartActivity.this, OverviewActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
-            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-            CURRENTACTIVITY.finish();
             finish();
         }else{
             Intent intent = new Intent(StartActivity.this, FormActivity.class);
             startActivity(intent);
-            PrefUtils.setKioskModeActive(false, this);
-            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-            CURRENTACTIVITY.finish();
-            finish();
+           // PrefUtils.setKioskModeActive(false, this);
+            //finish();
         }
 
     }
@@ -145,7 +141,9 @@ public class StartActivity extends Activity {
                     Log.d("ResponseString: ", restfulHelper.responseString);
                     JavaStrucBuilder strucBuilder = new JavaStrucBuilder();
                     Constants.GLOBALMETAANDFORM = strucBuilder.buildStruc(xmlString);
+
                     Toast.makeText(getBaseContext(), "Fragebogen wurde gespeichert!", Toast.LENGTH_SHORT).show();
+
                     textViewPatientName.setText(Constants.GLOBALMETAANDFORM.getMeta().getPatientLastName() + ", "
                             + Constants.GLOBALMETAANDFORM.getMeta().getPatientFirstName());
                     textViewPatientName.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -156,6 +154,7 @@ public class StartActivity extends Activity {
                         birthDate = getbirthDate();
                     }
                     textViewPatientBirth.setText("Geb. " + birthDate);
+
                     textViewExameName.setText(Constants.GLOBALMETAANDFORM.getMeta().getExameName());
                     buttonStart.setVisibility(View.VISIBLE);
                     buttonStart.setClickable(true);
@@ -168,6 +167,7 @@ public class StartActivity extends Activity {
             }else{
                 Toast.makeText(getBaseContext(), "Keine Verbindung zum Server!", Toast.LENGTH_LONG).show();
             }
+
         } else if (404 == responseCode) {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {

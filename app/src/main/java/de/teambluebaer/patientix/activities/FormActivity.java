@@ -112,7 +112,7 @@ public class FormActivity extends Activity {
         Flasher.flash(buttonOk, "1x3");
         Intent intent = new Intent(FormActivity.this, OverviewActivity.class);
         startActivity(intent);
-        PrefUtils.setKioskModeActive(false,this);
+        PrefUtils.setKioskModeActive(false, this);
         finish();
     }
 

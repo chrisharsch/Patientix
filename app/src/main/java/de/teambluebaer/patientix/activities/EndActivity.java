@@ -27,8 +27,6 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
-import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
-
 /**
  * This Activity shows the endscreen there the patient is afford
  * to bring the tablet back. In this Activity the filled formula
@@ -59,17 +57,13 @@ public class EndActivity extends Activity {
         setContentView(R.layout.activity_end);
 
         textViewEndtext = (TextView) findViewById(R.id.textViewEnd);
-
         Constants.TORESTART = false;
-        setContentView(R.layout.activity_start);
         Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
 
         if (isFormula()) {
             String xml = Constants.GLOBALMETAANDFORM.toXMLString();
-
-
             //set um parameterMap for RestPost to send formula data
             parameterMap.add(new BasicNameValuePair("formula", xml));
             parameterMap.add(new BasicNameValuePair("patientID", Constants.GLOBALMETAANDFORM.getMeta().getPatientID()));
@@ -84,8 +78,6 @@ public class EndActivity extends Activity {
                     Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                     startActivity(intent);
                     PrefUtils.setKioskModeActive(false, EndActivity.this);
-                    PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                    CURRENTACTIVITY.finish();
                     finish();
                     return true;
                 }
@@ -132,8 +124,6 @@ public class EndActivity extends Activity {
                                             Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                             PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                                            CURRENTACTIVITY.finish();
                                             finish();
                                             return true;
                                         }
@@ -153,8 +143,6 @@ public class EndActivity extends Activity {
                                         Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                         startActivity(intent);
                                         PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                        PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                                        CURRENTACTIVITY.finish();
                                         finish();
                                         return true;
                                     }
@@ -181,8 +169,6 @@ public class EndActivity extends Activity {
                                             Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                             PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                                            CURRENTACTIVITY.finish();
                                             finish();
                                             return true;
                                         }
@@ -202,8 +188,6 @@ public class EndActivity extends Activity {
                                         Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                         startActivity(intent);
                                         PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                        PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                                        CURRENTACTIVITY.finish();
                                         finish();
                                         return true;
                                     }
@@ -224,8 +208,6 @@ public class EndActivity extends Activity {
                                 Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                                CURRENTACTIVITY.finish();
                                 finish();
                                 return true;
                             }
