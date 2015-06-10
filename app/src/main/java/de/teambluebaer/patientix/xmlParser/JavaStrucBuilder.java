@@ -85,7 +85,7 @@ public class JavaStrucBuilder extends DefaultHandler{
 
         }else if(qName.equals("picture")){
             currentRow.addElement(new Image(attributes.getValue("src")));
-        }else if(qName.equals("sound")){
+        }else if(qName.equals("audio")){
             currentRow.addElement(new Sound(attributes.getValue("src")));
         }else if(qName.equals("video")){
             currentRow.addElement(new Video(attributes.getValue("src")));

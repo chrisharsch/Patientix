@@ -57,19 +57,18 @@ public class EndActivity extends Activity {
         setContentView(R.layout.activity_end);
 
         textViewEndtext = (TextView) findViewById(R.id.textViewEnd);
+        Constants.TORESTART = false;
+        Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
-        Constants.TORESTART = false;
 
         if (isFormula()) {
             String xml = Constants.GLOBALMETAANDFORM.toXMLString();
-
-
             //set um parameterMap for RestPost to send formula data
             parameterMap.add(new BasicNameValuePair("formula", xml));
             parameterMap.add(new BasicNameValuePair("patientID", Constants.GLOBALMETAANDFORM.getMeta().getPatientID()));
             Log.d("Response", Constants.GLOBALMETAANDFORM.getMeta().getPatientID());
-            Log.d("Response",xml);
+            Log.d("Response", xml);
             new SendFormula().execute();
         } else {
             Toast.makeText(EndActivity.this, "Kein Formular vorhanden!", Toast.LENGTH_LONG).show();

@@ -1,6 +1,7 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -28,36 +29,37 @@ public class Sound implements Element {
         if(src != null && !src.isEmpty()){
             soundSource = src;
         }else{
+
             soundSource = "";
         }
     }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
+        Log.d("hier","falsch2");
+        Log.d("hier", soundSource);
         if(!soundSource.isEmpty()) {
+            Log.d("hier", "falsch2");
             RelativeLayout rl = new RelativeLayout(context);
-            RelativeLayout.LayoutParams layoutParametersOne = new RelativeLayout.LayoutParams(500, 500);
-            layoutParametersOne.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            rl.setLayoutParams(layoutParametersOne);
+            rl.setLayoutParams(new RelativeLayout.LayoutParams(500, 500));
+            VideoView sound = new VideoView(context);
             rl.setGravity(Gravity.CENTER);
-
-            VideoView video = new VideoView(context);
             FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(500, 500);
-
             layoutParameter.gravity = Gravity.CENTER;
-            video.setBackgroundResource(R.drawable.sound);
-            video.setLayoutParams(layoutParameter);
-            video.setVideoPath(soundSource);
-            MediaController mediaController = new MediaController(context);
-            mediaController.setAnchorView(video);
-            video.requestFocus();
-            video.setMediaController(mediaController);
-            video.start();
-
-            rl.addView(video);
+            sound.setLayoutParams(layoutParameter);
+            sound.setVideoPath(soundSource);
+            sound.setBackgroundResource(R.drawable.sound);
+            MediaController mediaController = new MediaController(sound.getContext());
+            mediaController.setAnchorView(sound);
+            mediaController.setMediaPlayer(sound);
+            sound.requestFocus();
+            sound.setMediaController(mediaController);
+            sound.start();
+            rl.addView(sound);
             layout.addView(rl);
         }
     }
+
 
     public String getSoundSource() {
         return soundSource;

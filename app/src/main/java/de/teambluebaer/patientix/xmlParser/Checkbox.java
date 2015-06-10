@@ -30,10 +30,16 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
      * @param checkboxText represents the showen Answer to this Checkbox
      */
     public Checkbox(String checkboxText, String checked, String highlight) {
-        if(checkboxText != null && !checkboxText.isEmpty())
-        this.checkboxText = checkboxText;
-        this.checked = (checked.equals("1")|checked.equals("true"));
-
+        if(checkboxText != null && !checkboxText.isEmpty()){
+            this.checkboxText = checkboxText;
+        } else {
+            this.checkboxText = "";
+        }
+        if(checked != null && !checked.isEmpty()){
+            this.checked = (checked.equals("1")|checked.equals("true"));
+        } else {
+            this.checked = false;
+        }
 
         if(highlight != null && !highlight.isEmpty()){
             this.highlight = (highlight.equals("1")|highlight.equals("true"));

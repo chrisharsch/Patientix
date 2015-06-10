@@ -16,10 +16,6 @@ import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
-import de.teambluebaer.patientix.xmlParser.Element;
-import de.teambluebaer.patientix.xmlParser.Image;
-import de.teambluebaer.patientix.xmlParser.Page;
-import de.teambluebaer.patientix.xmlParser.Row;
 
 /**
  * This Activity displays the overview of all questions.
@@ -89,19 +85,6 @@ public class OverviewActivity extends Activity {
         Flasher.flash(buttonContinue, "1x3");
 
         if(Constants.RESIGN | AnswerChecker.isEverythingAnswert()) {
-
-            for(Page page:Constants.GLOBALMETAANDFORM.getForm().getPageList()){
-                for(Row row:page.getRows()){
-                    for(Element element:row.getElements()){
-                        if(element instanceof Image){
-                            Image image = (Image)element;
-//                            image.saveImage(this);
-                        }
-                    }
-                }
-
-            }
-
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);

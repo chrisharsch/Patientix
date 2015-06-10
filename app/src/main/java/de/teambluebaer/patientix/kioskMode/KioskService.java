@@ -34,7 +34,6 @@ public class KioskService extends Service {
         Log.i(TAG, "Stopping service 'KioskService'");
         running = false;
         Constants.TORESTART = true;
-        restoreApp();
         super.onDestroy();
     }
 
@@ -89,7 +88,6 @@ public class KioskService extends Service {
      */
     private boolean isInBackground() {
         ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-
         List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
         ComponentName componentInfo = taskInfo.get(0).topActivity;
         return (!ctx.getApplicationContext().getPackageName().equals(componentInfo.getPackageName()));
@@ -100,8 +98,6 @@ public class KioskService extends Service {
      */
     private void restoreApp() {
         if (TORESTART) {
-            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-            CURRENTACTIVITY.finish();
             Log.i(TAG, "app restarted'");
             Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

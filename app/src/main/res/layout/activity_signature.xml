@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.signatureHelper.SignatureActivity"
-    android:background="@drawable/inhaltsseiteapp">
+    android:background="#ffffffff">
 
     <!-- Text: Bitte unterschreiben Sie im vorgegebenen Feld -->
     <TextView
@@ -30,7 +27,8 @@
         android:background="@drawable/button1x3normal"
         android:textColor="#fffafa"
         android:layout_alignTop="@+id/eraserBtn"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dip" />
 
     <!-- Eraser Button -->
     <ImageView
@@ -44,30 +42,22 @@
         android:layout_marginLeft="1dip"
         android:layout_marginRight="1dip"
         android:layout_alignTop="@+id/penBtn"
-        android:layout_toEndOf="@+id/penBtn" />
+        android:layout_toEndOf="@+id/penBtn"
+         />
 
     <!-- Pen Button -->
     <ImageView
         android:id="@+id/penBtn"
+        android:layout_alignParentTop="true"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:layout_margin="1dip"
-        android:layout_weight="1"
         android:background="@drawable/selector_tool_bg"
         android:contentDescription="@string/description"
-        android:src="@drawable/selector_pen" />
+        android:src="@drawable/selector_pen"
+        android:layout_marginTop="25dip"
+        android:layout_marginLeft="25dip" />
 
-    <!--
-    <LinearLayout
-        android:id="@+id/spenViewContainer"
-        android:layout_width="780dp"
-        android:layout_height="270dp"
-        android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
 
-       // relative layout
-    </LinearLayout> -->
 
     <!-- S Pen Field -->
     <RelativeLayout
@@ -78,28 +68,25 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
     </RelativeLayout>
-    <!--
-    <LinearLayout
-        android:id="@+id/tool_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
+
+    <ImageView
+        android:id="@+id/imageViewLeftSide"
+        android:layout_width="200dip"
+        android:layout_height="200dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/left" />
+
+    <!-- Universitätsklinikum Logo in the right corner -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="270dp"
+        android:layout_height="95dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:src="@drawable/ummlogoklein" />
 
-        Pen View
-        Erase View
-
-        <ImageView
-            android:id="@+id/captureBtn"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dip"
-            android:layout_weight="1"
-            android:background="@drawable/selector_tool_bg"
-            android:contentDescription="@string/description"
-            android:src="@drawable/selector_capture" />
-    </LinearLayout>
-    -->
 
 </RelativeLayout>
