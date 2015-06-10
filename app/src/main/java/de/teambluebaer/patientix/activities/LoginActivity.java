@@ -64,6 +64,7 @@ public class LoginActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_login);
         Constants.CURRENTACTIVITY = this;
+        Constants.LISTOFACTIVITIES.add(this);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         Constants.TORESTART = false;
@@ -114,6 +115,7 @@ public class LoginActivity extends Activity {
     public void onClickButtonExit(View v) {
         if (passwordHash(editTextPassword.getText().toString()).equals(Constants.PIN)) {
             PrefUtils.setKioskModeActive(false, Constants.CURRENTACTIVITY);
+            Constants.CURRENTACTIVITY.finish();
             PrefUtils.setKioskModeActive(false, this);
             for (Activity activity : Constants.LISTOFACTIVITIES) {
                 PrefUtils.setKioskModeActive(false, activity);

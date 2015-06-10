@@ -79,11 +79,12 @@ public class MetaData {
         String xmlString = new String();
         xmlString = xmlString + "<meta>";
         xmlString = xmlString + "<pID>" + patientID + "</pID>";
+        xmlString = xmlString + "<pExamID>" + pExamID + "</pExamID>";
         xmlString = xmlString + "<pFirstName>" + patientFirstName + "</pFirstName>";
         xmlString = xmlString + "<pLastName>" + patientLastName + "</pLastName>";
         xmlString = xmlString + "<pDate>" + patientBithDate + "</pDate>";
         xmlString = xmlString + "<name>" + exameName + "</name>";
-        xmlString = xmlString + "<pExamID>" + pExamID + "</pExamID>";
+
         xmlString = xmlString + "</meta>";
 
         return xmlString;

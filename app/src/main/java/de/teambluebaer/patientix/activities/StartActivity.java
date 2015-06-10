@@ -34,6 +34,7 @@ import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
 
+import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
 import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
 
 /**
@@ -75,6 +76,7 @@ public class StartActivity extends Activity {
 
         Constants.TORESTART = false;
         setContentView(R.layout.activity_start);
+        Constants.LISTOFACTIVITIES.add(this);
         Constants.CURRENTACTIVITY = this;
         PrefUtils.setKioskModeActive(true, this);
 
@@ -131,7 +133,7 @@ public class StartActivity extends Activity {
 
         //changing some things on the layout
         Log.d("ResponseCode", responseCode + "");
-        Log.d("ResponseStrin",restfulHelper.responseString);
+        Log.d("ResponseString",restfulHelper.responseString);
         if (responseCode == 200) {
             if(!restfulHelper.responseString.isEmpty() || restfulHelper.responseString.length()<10) {
                 try {
@@ -201,6 +203,8 @@ public class StartActivity extends Activity {
         Intent intent = new Intent(StartActivity.this, LoginActivity.class);
         startActivity(intent);
         PrefUtils.setKioskModeActive(false, this);
+        PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
+        CURRENTACTIVITY.finish();
         finish();
 
     }

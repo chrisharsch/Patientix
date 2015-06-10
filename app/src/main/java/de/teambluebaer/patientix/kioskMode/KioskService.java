@@ -100,6 +100,8 @@ public class KioskService extends Service {
      */
     private void restoreApp() {
         if (TORESTART) {
+            PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
+            CURRENTACTIVITY.finish();
             Log.i(TAG, "app restarted'");
             Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -108,7 +110,9 @@ public class KioskService extends Service {
             try {
                 Log.i(TAG, "app restored'");
                 startActivity(CURRENTACTIVITY.getIntent());
-            }catch (RuntimeException e){
+            } catch (RuntimeException e) {
+                PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
+                CURRENTACTIVITY.finish();
                 Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
