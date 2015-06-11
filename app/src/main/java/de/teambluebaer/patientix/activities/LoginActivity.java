@@ -101,23 +101,27 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * @param path
-     * @return
+     * creates the direction for the config file
+     * @param path the path that should created
      */
-    public static boolean createDirIfNotExists(String path) {
-        boolean ret = true;
+    private void createDirIfNotExists(String path) {
+
 
         File file = new File(path);
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e("TravellerLog :: ", "Problem creating folder");
-                ret = false;
             }
         }
-        return ret;
     }
 
-    public static boolean createConfigIfNotExists(String path) {
+    /**
+     * Creates the Configfile if it not exists
+     *
+     * @param path The path where the file will be stored
+     */
+
+    private void createConfigIfNotExists(String path) {
         File file = new File(path + "/config.txt");
 
         if (!file.exists()) {
@@ -129,41 +133,47 @@ public class LoginActivity extends Activity {
                 Log.d("File", "Config.txt created");
             } catch (IOException e) {
                 Log.d("FileCreationExeption", e.toString());
-                return false;
+
             }
-            return true;
         } else {
-            BufferedReader br = null;
-            try {
-                String lineOne = "";
-                String lineTwo = "";
-                br = new BufferedReader(new FileReader(path + "/config.txt"));
-                while(!lineOne.contains("ip")){
-                    lineOne = br.readLine();
-                }
-                while (!lineTwo.contains("ping")) {
-                    lineTwo =  br.readLine();
-                }
+            getConfigData(path);
+        }
+    }
 
-                Constants.SERVER_URL = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
-                Constants.PING = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
-
-                Log.d("test", ""+Constants.PING);
-                Log.d("test", Constants.SERVER_URL);
-                Log.d("LineOne", lineOne);
-                Log.d("LineTwo", lineTwo);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (br != null) br.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+    /**
+     * Gets the data of the config file and set it up in config
+     * @param path the path where the config file is stored
+     */
+    private void getConfigData(String path) {
+        BufferedReader br = null;
+        try {
+            String lineOne = "";
+            String lineTwo = "";
+            br = new BufferedReader(new FileReader(path + "/config.txt"));
+            while (!lineOne.contains("ip")) {
+                lineOne = br.readLine();
+            }
+            while (!lineTwo.contains("ping")) {
+                lineTwo = br.readLine();
             }
 
+            Constants.SERVER_URL = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
+            Constants.PING = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
+
+            Log.d("test", "" + Constants.PING);
+            Log.d("test", Constants.SERVER_URL);
+            Log.d("LineOne", lineOne);
+            Log.d("LineTwo", lineTwo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
-        return false;
+
     }
 
     /**

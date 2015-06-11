@@ -105,8 +105,8 @@ public class StartActivity extends Activity {
         }else{
             Intent intent = new Intent(StartActivity.this, FormActivity.class);
             startActivity(intent);
-           // PrefUtils.setKioskModeActive(false, this);
-            //finish();
+            PrefUtils.setKioskModeActive(false, this);
+            finish();
         }
 
     }
