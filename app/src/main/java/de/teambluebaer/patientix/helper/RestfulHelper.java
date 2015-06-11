@@ -36,7 +36,7 @@ public class RestfulHelper extends Activity {
     //private final String SERVER_URL = "http://192.168.1.13/";
     //private final String SERVER_URL = "http://192.168.2.1/";
     //private final String SERVER_URL = "http://141.19.145.225/";
-    private String SERVER_URL = "http://141.19.145.237/";
+    private String SERVER_URL = "http://"+ Constants.SERVER_URL+"/";
     private final String POST_LOGIN = "server/index.php/login";
     private final String POST_FORMULA = "server/index.php/formula";
     private final String POST_GET_TABLET_ID = "server/index.php/getTabletID";
@@ -75,9 +75,9 @@ public class RestfulHelper extends Activity {
             networkThread.start();
             //Join main-thread with Network-Thread to share Domain-Objects
             // The network-thread get an Timeout of 1 Second, otherwise, the application will hang
-            networkThread.join(999);
+            networkThread.join(Constants.PING-1);
             try {
-                sleep(1000);
+                sleep(Constants.PING);
             } catch (Exception e) {
                 Log.d("SleepExeption", e.toString());
             }
@@ -182,14 +182,6 @@ public class RestfulHelper extends Activity {
             }
         }
         return sb.toString();
-    }
-
-    /**
-     * Sets the SERVER_URL to connect to
-     * @param ip the ip of the server
-     */
-    public void setServerUrl(String ip) {
-        this.SERVER_URL = "http://" + ip + "/";
     }
 
     /**

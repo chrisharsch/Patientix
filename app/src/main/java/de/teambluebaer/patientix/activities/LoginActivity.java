@@ -47,6 +47,7 @@ import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
  * This Activity displays the Login for the Docs or the MTRA.
  * Here they can enter their pin to access to the APP.
  */
+
 /**
  * Created by Maren on 21.05.2015.
  */
@@ -100,7 +101,6 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     *
      * @param path
      * @return
      */
@@ -132,25 +132,37 @@ public class LoginActivity extends Activity {
                 return false;
             }
             return true;
-        }else{
+        } else {
             BufferedReader br = null;
             try {
-                String sCurrentLine = "";
-                br = new BufferedReader(new FileReader(path+"/config.txt"));
-                sCurrentLine =sCurrentLine + br.readLine();
-                sCurrentLine =sCurrentLine + br.readLine();
-                    Log.d("currentLine",sCurrentLine);
+                String lineOne = "";
+                String lineTwo = "";
+                br = new BufferedReader(new FileReader(path + "/config.txt"));
+                while(!lineOne.contains("ip")){
+                    lineOne = br.readLine();
+                }
+                while (!lineTwo.contains("ping")) {
+                    lineTwo =  br.readLine();
+                }
+
+                Constants.SERVER_URL = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
+                Constants.PING = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
+
+                Log.d("test", ""+Constants.PING);
+                Log.d("test", Constants.SERVER_URL);
+                Log.d("LineOne", lineOne);
+                Log.d("LineTwo", lineTwo);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (br != null)br.close();
+                    if (br != null) br.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
 
-            }
+        }
         return false;
     }
 
