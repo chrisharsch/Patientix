@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.teambluebaer.patientix.signatureHelper.SignatureActivity"
-    android:background="#ffffffff">
+    android:background="#ffffffff"
+    android:gravity="center">
 
     <!-- Text: Bitte unterschreiben Sie im vorgegebenen Feld -->
     <TextView
@@ -15,7 +16,8 @@
         android:layout_marginTop="112dp"
         android:textSize="50sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
 
     <!-- Done Button -->
     <Button

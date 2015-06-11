@@ -38,7 +38,7 @@
         android:layout_height="70dip"
         android:background="@drawable/button1x1normal"
         android:onClick="onClickZoomButton"
-        android:text="@string/buttonZoomIn"
+        android:text="@string/buttonZoom"
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"

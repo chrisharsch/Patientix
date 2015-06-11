@@ -13,7 +13,7 @@
         android:layout_height="70dip"
         android:background="@drawable/button1x1normal"
         android:onClick="onClickZoomButton"
-        android:text="@string/buttonZoomIn"
+        android:text="@string/buttonZoom"
         android:textColor="#fffafa"
         android:textSize="50sp"
         android:layout_marginLeft="550dip"
@@ -29,8 +29,11 @@
         android:layout_below="@+id/imageViewLogo"
         android:visibility="visible"
         android:id="@+id/ScrollViewForm"
-        android:layout_margin="30dip"
-        android:fadeScrollbars="false">
+        android:fadeScrollbars="false"
+        android:layout_marginTop="60dip"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginBottom="30dip">
 
         <LinearLayout
             android:id="@+id/list"
@@ -87,4 +90,13 @@
         android:layout_above="@+id/ScrollViewForm"
         android:layout_centerHorizontal="true"
         android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hier können sie ihr Fragen nochmal bearbeiten"
+        android:id="@+id/textViewHereYouCan"
+        android:layout_below="@+id/textOverview"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp" />
 </RelativeLayout>
