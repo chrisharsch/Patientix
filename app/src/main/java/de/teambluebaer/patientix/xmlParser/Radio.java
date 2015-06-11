@@ -68,7 +68,8 @@ public class Radio implements Element,Editable {
         radio.setButtonDrawable(R.drawable.radio);
         radiogroup.addView(radio);
         radio.setChecked(checked);
-        radio.setMinWidth(300);
+
+
         radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
