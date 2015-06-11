@@ -23,7 +23,6 @@ public class Flasher {
      * @param myBtnToFlash Button which should be flashed
      * @param size         The size of the button which should be flashed
      */
-
     public static void flash(final Button myBtnToFlash, String size) {
 
         if (size.equals("1x1")) {

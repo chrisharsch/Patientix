@@ -183,8 +183,7 @@ public class StartActivity extends Activity {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
-        }
-
+      }
     }
 
     /**
@@ -221,7 +220,6 @@ public class StartActivity extends Activity {
 
     }
 
-
     /**
      * This method kills all system dialogs if they are shown
      *
@@ -252,15 +250,12 @@ public class StartActivity extends Activity {
         }
     }
 
-
     /**
      * This AsyncTask sets the TabletID in Constants that the Tablet can
      * work wirh the System.
      */
     private class GetTabletID extends AsyncTask<String, Void, String> {
         private ArrayList<NameValuePair> parameterMap = new ArrayList();
-
-
 
         /**
          * Everything in this method happens in the background and in here
@@ -290,6 +285,7 @@ public class StartActivity extends Activity {
 
             return null;
         }
+
         /**
          * Method to get the MACAddress of the device
          *

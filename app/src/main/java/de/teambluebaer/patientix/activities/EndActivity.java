@@ -45,6 +45,8 @@ public class EndActivity extends Activity {
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
     /**
+     * This method creates the layout of the Activity, sets the fullscreenmode and
+     * removes the titlebar. In here also the Views are referenced.
      * @param savedInstanceState default parameter
      */
     @Override
@@ -89,7 +91,6 @@ public class EndActivity extends Activity {
 
 
     }
-
 
     /**
      * Async Task to send the filledformula in the background

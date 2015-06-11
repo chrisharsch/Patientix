@@ -52,11 +52,15 @@ public class FormActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setContentView(R.layout.activity_form);
         Constants.TORESTART = true;
+
         if (!isFormula()) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);
@@ -121,6 +125,10 @@ public class FormActivity extends Activity {
         finish();
     }
 
+    /**
+     * Sets the herlperview when button clicked
+     * @param v
+     */
     public void onClickHelpButton(View v){
         Flasher.flash(buttonHelp, "1x3");
         imageViewHelpScreen.setVisibility(View.VISIBLE);
@@ -247,7 +255,6 @@ public class FormActivity extends Activity {
     public void onBackPressed() {
 
     }
-
 
     /**
      * This method kills all system dialogs if they are shown

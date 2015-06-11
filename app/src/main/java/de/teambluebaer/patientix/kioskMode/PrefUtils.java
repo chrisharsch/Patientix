@@ -16,7 +16,6 @@ public class PrefUtils {
      * @param context of the current Activity
      * @return true or false for the state of Kiosk-Mode
      */
-
     public static boolean isKioskModeActive(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_KIOSK_MODE, false);

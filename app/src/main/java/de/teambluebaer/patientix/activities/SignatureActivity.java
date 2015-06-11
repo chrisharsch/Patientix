@@ -214,6 +214,9 @@ public class SignatureActivity extends Activity {
         mSpenPageDoc.startRecord();
     }
 
+    /**
+     * Sets the value to Spen (fontscolor blue) and Eraser (size 100)
+     */
     private void initSettingInfo() {
         // Initialize Pen settings
         SpenSettingPenInfo penInfo = new SpenSettingPenInfo();
@@ -339,7 +342,7 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     * Closes the view from the settings (pen or eraser)
+     * Closes the view from the settings (pen and eraser)
      */
     private void closeSettingView() {
         // Close all the setting views.
@@ -519,6 +522,7 @@ public class SignatureActivity extends Activity {
             return false;
         }
     }
+
     /**
      * This method defines what happens when you press on the hardkey back on the Tablet.
      * In this case the functionality of the button is disabled.
@@ -527,7 +531,6 @@ public class SignatureActivity extends Activity {
     public void onBackPressed() {
 
     }
-
 
     /**
      * This method kills all system dialogs if they are shown

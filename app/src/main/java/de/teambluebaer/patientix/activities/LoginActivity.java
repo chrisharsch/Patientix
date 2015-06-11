@@ -72,6 +72,7 @@ public class LoginActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         setContentView(R.layout.activity_login);
         Constants.CURRENTACTIVITY = this;
         Constants.LISTOFACTIVITIES.add(this);
@@ -94,9 +95,13 @@ public class LoginActivity extends Activity {
 
         createDirIfNotExists(pathOfConfig);
         createConfigIfNotExists(pathOfConfig);
-
     }
 
+    /**
+     *
+     * @param path
+     * @return
+     */
     public static boolean createDirIfNotExists(String path) {
         boolean ret = true;
 
@@ -180,7 +185,6 @@ public class LoginActivity extends Activity {
      * @param data byte Array to convert
      * @return String of hexcode
      */
-
     private String convertByteToHex(byte data[]) {
         StringBuffer hexData = new StringBuffer();
         for (int byteIndex = 0; byteIndex < data.length; byteIndex++)

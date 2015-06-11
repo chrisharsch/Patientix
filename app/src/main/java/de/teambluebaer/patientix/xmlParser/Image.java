@@ -33,8 +33,11 @@ public class Image implements Element {
         }
     }
 
-
-
+    /**
+     * Add a image to a view
+     * @param context
+     * @param layout
+     */
     @Override
     public void addToView(Context context, LinearLayout layout) {
 
@@ -51,10 +54,12 @@ public class Image implements Element {
                 layout.addView(textView);
             }
         }
-
-
     }
 
+    /**
+     * create a XML-String
+     * @return xmlString
+     */
     public String toXMLString() {
         String xmlString = new String();
         xmlString = xmlString + "<picture ";
@@ -64,10 +69,19 @@ public class Image implements Element {
         return xmlString;
     }
 
+    /**
+     * Getter from IamgeSource
+     * @return imageSource
+     */
     public String getImageSource() {
         return imageSource;
     }
 
+    /**
+     * Compares objects
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,7 +90,6 @@ public class Image implements Element {
         Image image = (Image) o;
 
         return !(imageSource != null ? !imageSource.equals(image.imageSource) : image.imageSource != null);
-
     }
 
     @Override

@@ -156,6 +156,4 @@ public class OverviewActivity extends Activity {
             sendBroadcast(closeDialog);
         }
     }
-
-
 }
