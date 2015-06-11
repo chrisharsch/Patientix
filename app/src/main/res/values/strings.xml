@@ -45,4 +45,6 @@
     <string name="textOverview">Übersicht aller Fragen</string>
     <string name="title_activity_doc_overview">DocOverviewActivity</string>
 
+    <string name="buttonHelp">Hilfe</string>
+
 </resources>

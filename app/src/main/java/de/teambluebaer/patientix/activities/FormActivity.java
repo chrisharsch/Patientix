@@ -36,6 +36,7 @@ public class FormActivity extends Activity {
     private LayoutCreater layoutCreater;
     private MetaAndForm metaAndForm;
     private ScrollView scrollViewForm;
+    private Button buttonHelp;
 
     /**
      * This method creates the layout of the Activity, sets the fullscreenmode and
@@ -86,7 +87,7 @@ public class FormActivity extends Activity {
         buttonOk.setClickable(false);
         buttonOk.setVisibility(View.INVISIBLE);
 
-
+        buttonHelp = (Button) findViewById(R.id.buttonHelp);
         //set the pageLayout for the content
         content = (LinearLayout) findViewById(R.id.content);
         metaAndForm = Constants.GLOBALMETAANDFORM;
@@ -115,6 +116,12 @@ public class FormActivity extends Activity {
         startActivity(intent);
         PrefUtils.setKioskModeActive(false, this);
         finish();
+    }
+
+    public void onClickHelpButton(View v){
+        Flasher.flash(buttonHelp, "1x3");
+        imageViewHelpScreen.setVisibility(View.VISIBLE);
+        imageViewHelpScreen.setClickable(true);
     }
 
     /**

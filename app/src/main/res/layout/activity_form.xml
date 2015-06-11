@@ -19,6 +19,23 @@
         android:layout_marginLeft="425dip"
         android:layout_above="@+id/ScrollViewForm" />
 
+    <!-- Help Button -->
+    <Button
+        android:id="@+id/buttonHelp"
+        android:layout_width="210dip"
+        android:layout_height="70dip"
+        android:background="@drawable/button1x3normal"
+        android:onClick="onClickHelpButton"
+        android:text="@string/buttonHelp"
+        android:textColor="#fffafa"
+        android:textSize="40sp"
+        android:visibility="visible"
+        android:layout_toRightOf="@+id/imageViewLeftSide"
+        android:layout_above="@+id/ScrollViewForm"
+        android:layout_marginLeft="10dip"
+
+        />
+
     <!-- Zoom Button -->
     <Button
         android:id="@+id/buttonZoom"
