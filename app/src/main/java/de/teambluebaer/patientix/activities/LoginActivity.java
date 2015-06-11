@@ -9,6 +9,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,6 +24,10 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +48,8 @@ import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
 
 public class LoginActivity extends Activity {
 
+
+    private String pathOfConfig = Environment.getExternalStorageDirectory() + "/.patientix";
     private Button buttonLogin;
     private EditText editTextPassword = null;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
@@ -82,6 +89,42 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
+
+        createDirIfNotExists(pathOfConfig);
+        createConfigIfNotExists(pathOfConfig);
+
+    }
+
+    public static boolean createDirIfNotExists(String path) {
+        boolean ret = true;
+
+        File file = new File(path);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("TravellerLog :: ", "Problem creating folder");
+                ret = false;
+            }
+        }
+        return ret;
+    }
+
+    public static boolean createConfigIfNotExists(String path) {
+        File file = new File(path + "/config.txt");
+
+        if (!file.exists()) {
+            try {
+                OutputStream fo = new FileOutputStream(file);
+                fo.write(Constants.CONFIGURATION.getBytes());
+                fo.close();
+                file.createNewFile();
+                Log.d("File", "Config.txt created");
+            } catch (IOException e) {
+                Log.d("FileCreationExeption", e.toString());
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -237,10 +280,21 @@ public class LoginActivity extends Activity {
                     Log.d("ResponseCode", responseCode + "");
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            editTextPassword.setText("");
                             Toast.makeText(LoginActivity.this, "Login fehlgeschalgen dieses Tablet ist nicht im System.", Toast.LENGTH_LONG).show();
                         }
                     });
                     break;
+                } else if (responseCode == 503) {
+                    Log.d("ResponseCode", responseCode + "");
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            editTextPassword.setText("");
+                            Toast.makeText(LoginActivity.this, "Login fehlgeschalgen Server nicht erreichbar", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    break;
+
                 }
             }
             if (responseCode == 200) {

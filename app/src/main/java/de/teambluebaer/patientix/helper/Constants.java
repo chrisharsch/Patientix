@@ -21,4 +21,6 @@ public class Constants {
     public static boolean RESIGN = false;
     public static boolean TORESTART = false;
     public static String EMPTYSIGNATURE = "";
+    public static int PING = 2000;
+    public static final String CONFIGURATION = "serverip = \"141.19.145.237\"\nping= \"1\" -> in Sekunden(Standardwert 1 Sekunde)";
 }

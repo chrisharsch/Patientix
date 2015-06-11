@@ -19,7 +19,7 @@ import static java.lang.Thread.sleep;
 
 public class KioskService extends Service {
 
-    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 3 seconds
+    private static final long INTERVAL = TimeUnit.SECONDS.toMillis(3); // periodic interval to check in seconds -> 3 seconds
     private static final String TAG = KioskService.class.getSimpleName();
 
     private Thread t = null;
