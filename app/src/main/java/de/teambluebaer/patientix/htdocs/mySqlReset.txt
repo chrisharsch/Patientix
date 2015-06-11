@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS Forms (
 );
 
 CREATE TABLE IF NOT EXISTS Sections (
- 	sectionID int(10) PRIMARY KEY,
-    sectionName varchar(50)
+ 	  sectionID int(10) PRIMARY KEY AUTO_INCREMENT,
+    sectionName varchar(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Pages (
@@ -28,8 +28,17 @@ CREATE TABLE IF NOT EXISTS Pages (
 CREATE TABLE IF NOT EXISTS Tablets (
     tabletID int(10) PRIMARY KEY AUTO_INCREMENT,
     tabletName varchar(20) NOT NULL,
-    MACAddress varchar(20) NOT NULL,
-    IPAddress varchar(20) NOT NULL
+    MACAddress varchar(20) NOT NULL UNIQUE,
+    IPAddress varchar(20) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Codes (
+    codeID int(10) PRIMARY KEY AUTO_INCREMENT,
+    code varchar(20) NOT NULL UNIQUE,
+    sectionID int(10),
+    formID int(10),
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON UPDATE CASCADE ON DELETE SET NULL,
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS Patients (
@@ -38,7 +47,10 @@ CREATE TABLE IF NOT EXISTS Patients (
     patientName varchar(50) NOT NULL,
     patientIDExt int(10) NOT NULL,
     regDate DATETIME NOT NULL,
-    birthDate DATE
+    birthDate DATE,
+    codeID int(10) NOT NULL,
+    caseID int(10) NOT NULL,
+    FOREIGN KEY (codeID) REFERENCES Codes(codeID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Users (
@@ -49,15 +61,7 @@ CREATE TABLE IF NOT EXISTS Users (
     userName varchar(10) UNIQUE NOT NULL,
     userPW varchar(128) NOT NULL,
     userType int(1) NOT NULL,
-    lost int(1) NOT NULL DEFAULT 0,
-    code varchar(12) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS Codes (
-    codeID int(10) PRIMARY KEY AUTO_INCREMENT,
-    code varchar(10) NOT NULL,
-    sectionID int(10) NOT NULL,
-    formID int(10) NOT NULL
+    lost int(1) NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS OpenPatients (
@@ -65,7 +69,7 @@ CREATE TABLE IF NOT EXISTS OpenPatients (
     patientID int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ScheduledPatients (
@@ -76,21 +80,21 @@ CREATE TABLE IF NOT EXISTS ScheduledPatients (
     formID int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS MTRADocuments (
     documentID int(10) PRIMARY KEY AUTO_INCREMENT,
     patientID int(10) NOT NULL,
     XML varchar(100000) NOT NULL,
-    regDate DATETIME NOT NULL default current_timestamp,
+    regDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     formID int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS DocDocuments (
@@ -102,9 +106,9 @@ CREATE TABLE IF NOT EXISTS DocDocuments (
     MTRAID int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (MTRAID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (MTRAID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ResigningPatients (
@@ -113,12 +117,16 @@ CREATE TABLE IF NOT EXISTS ResigningPatients (
     XML varchar(100000) NOT NULL,
     regDate DATETIME NOT NULL,
     formID int(10) NOT NULL,
+    mtraID int(10) DEFAULT NULL,
+    mtraTimestamp int(10) DEFAULT NULL,
     docID int(10) NOT NULL,
+    docTimestamp int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (mtraID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (docID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ScheduledResigningPatients (
@@ -127,36 +135,55 @@ CREATE TABLE IF NOT EXISTS ScheduledResigningPatients (
     XML varchar(100000) NOT NULL,
     regDate DATETIME NOT NULL,
     formID int(10) NOT NULL,
+    mtraID int(10) DEFAULT NULL,
+    mtraTimestamp int(10) DEFAULT NULL,
     docID int(10) NOT NULL,
+    docTimestamp int(10) NOT NULL,
     sectionID int(10) NOT NULL,
     tabletID int(10) NOT NULL,
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (mtraID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (docID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (tabletID) REFERENCES Tablets(tabletID) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS FinishedResigningPatients (
+    finishedResignID int(10) PRIMARY KEY AUTO_INCREMENT,
+    patientID int(10) NOT NULL,
+    XML varchar(100000) NOT NULL,
+    regDate DATETIME NOT NULL,
+    mtraID int(10) DEFAULT NULL,
+    mtraTimestamp int(10) DEFAULT NULL,
+    docID int(10) NOT NULL,
+    docTimestamp int(10) NOT NULL,
+    formID int(10) NOT NULL,
+    sectionID int(10) NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (mtraID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (docID) REFERENCES Users(userID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS PDFs (
     pdfID int(10) PRIMARY KEY AUTO_INCREMENT,
     patientID int(10) NOT NULL,
     regDate DATETIME NOT NULL,
-    PDF MEDIUMBLOB NOT NULL,
-    formID int(10) NOT NULL,
-    DocID int(10) NOT NULL,
-    sectionID int(10) NOT NULL,
+    path varchar(100) NOT NULL,
+    formID int(10),/*SHIT*/
+    sectionID int(10), /*SHIT*/
     FOREIGN KEY (patientID) REFERENCES Patients(patientID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (DocID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (formID) REFERENCES Forms(formID) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (sectionID) REFERENCES Sections(sectionID) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Actions (
     actionID int(10) PRIMARY KEY AUTO_INCREMENT,
     userID int(10) NOT NULL,
     date int(10) NOT NULL,
-    action varchar(100),
-    FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE ON UPDATE CASCADE
+    action varchar(100)
 );
 
 CREATE TABLE IF NOT EXISTS Login (
@@ -171,74 +198,262 @@ INSERT INTO Sections(sectionID, sectionName) Values
 	(2, "MRT"),
 	(3, "PET-CT");
 
+INSERT INTO Forms(formID, formShortName, formDate, formName) Values
+    (1, "CT", NOW(), "CT Aufklärung"),
+    (2, "MRT", NOW(), "MRT Aufklärung"),
+    (3, "PET-CT", NOW(), "PET/CT Einverständnis"),
+	(4, "TF",NOW(),"Testformular");
+
+INSERT INTO Pages(pageID, XML, formID) Values
+    (1, '<page><row><text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text></row><row><text text="Was ist Computertomographie?" size="15"></text></row><row><text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text></row></page>', 1),
+    (2, '<page><row><text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text></row><row><text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text></row></page>', 1),
+    (3, '<page><row><text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text></row><row><text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text></row></page>', 1),
+    (4, '<page><row><text text="Wie lange dauert die Untersuchung?" size="15"></text></row><row><text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text></row></page>', 1),
+    (5, '<page><row><text text="Wie läuft die Untersuchung ab?" size="15"></text></row><row><text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text></row></page>', 1),
+    (6, '<page><row><input text="Name, Vorname"></input></row></page>', 1),
+    (7, '<page><row><text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (8, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (9, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (10, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (11, '<page><row><text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (13, '<page><row><text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (14, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
+    (15, '<page><row><text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein." size="14"></text></row><row><input text="Datum/Unterschrift Patient"></input></row></page>', 1),
+    (16, '<page><row><radiobutton text="Ich habe eine Kopie erhalten"></radiobutton><radiobutton text="Ich wünsche keine Kopie"></radiobutton></row><row><input text="Unterschrift Patient"></input></row></page>', 1),
+    (17, '<page><row><text text="Einverständnis PET - CT" size="20"></text></row><row><input text="Name, Vorname"></input></row></page>', 2),
+    (18, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (19, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (20, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (21, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (22, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (23, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (24, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (25, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (26, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (27, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
+    (28, '<page><row><input text="Anmerkungen zum Aufklärungsgespräch" size="14"></input></row></page>', 2),
+    (29, '<page><row><radiobutton text="Ich habe eine Kopie erhalten"></radiobutton><radiobutton text="Ich wünsche keine Kopie"></radiobutton></row></page>', 2),
+    (30, '<page><row><input text="Datum/Unterschrift Patient"></input></row></page>', 2),
+    (31, '<page><row><text text="Einverständnis PET - CT" size="20"></text></row><row><input text="Name, Vorname"></input></row></page>', 3),
+    (32, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (33, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (34, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (35, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (36, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (37, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (38, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (39, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (40, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (41, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
+    (42, '<page><row><input text="Anmerkungen zum Aufklärungsgespräch" size="14"></input></row></page>', 3),
+    (43, '<page><row><radiobutton text="Ich habe eine Kopie erhalten"></radiobutton><radiobutton text="Ich wünsche keine Kopie"></radiobutton></row></page>', 3),
+    (44, '<page><row><input text="Datum/Unterschrift Patient"></input></row></page>', 3),
+	(45, '<page><row><text text="Titel" size="20"/></row><row><text text="Subtitel" size="15"/></row><row><text text="Text" size="14"/></row></page>',4),
+	(46, '<page><row><text text="Input" size="20"/></row><row><input text="Input1" highlight="false"/></row><row><input text="Input2" highlight="true"/></row></page>',4),
+	(47, '<page><row><text text="Checkboxes" size="20"/></row><row><checkbox text="Checkbox1" highlight="true"/><checkbox text="Checkbox2" highlight="false"/></row></page>',4),
+	(48, '<page><row><text text="Einzelauswahl" size="20"/></row><row><radiobutton text="radio2" highlight="false"/><radiobutton text="Radio1" highlight="true"/></row></page>',4),
+	(49, '<page><row><text text="Bild" size="20"/></row><row><picture src="http://141.19.145.237/server/files/test.png"/></row></page>',4),
+	(50, '<page><row><text text="Sound" size="20"/></row><row><audio src="http://141.19.145.237/server/files/test.mp3"/></row></page>',4),
+	(51, '<page><row><text text="Video" size="20"/></row><row><video src="http://141.19.145.237/server/files/test.mp4"/></row></page>',4);
+	
+INSERT INTO Codes (code, sectionID, formID) VALUES
+    ("R0CG.SCHO", 1, 1),
+    ("R0CG.PLAS", 1, 1),
+    ("R0CG.HB", 1, 1),
+    ("R0CG.TB", 1, 1),
+    ("R0CG.BST", 1, 1),
+    ("ROCHT.HALS", 1, 1),
+    ("ROCHT.THO", 1, 1),
+    ("ROCHT.HT", 1, 1),
+    ("ROCHT.LE", 1, 1),
+    ("ROCHT.CHPA", 1, 1),
+    ("R0CA.OBB", 1, 1),
+    ("R0CA.OB", 1, 1),
+    ("R0CA.BECK", 1, 1),
+    ("R0CA.PANK", 1, 1),
+    ("R0CA.NIER", 1, 1),
+    ("R0CA.LITH", 1, 1),
+    ("R0CCV.CHPA", 1, 1),
+    ("R0CCV.KALK", 1, 1),
+    ("R0CCV.ANG", 1, 1),
+    ("R0CCV.HIRN", 1, 1),
+    ("R0CCV.HALS", 1, 1),
+    ("R0CCV.HIHA", 1, 1),
+    ("R0CCV.THOR", 1, 1),
+    ("R0CCV.ABD", 1, 1),
+    ("R0CCV.BBA", 1, 1),
+    ("R0CCV.VENO", 1, 1),
+    ("R0CS.HIRN", 1, 1),
+    ("R0CS.ORB", 1, 1),
+    ("R0CS.GES", 1, 1),
+    ("R0CS.FELS", 1, 1),
+    ("R0CWS.H", 1, 1),
+    ("R0CWS.B", 1, 1),
+    ("R0CWS.L", 1, 1),
+    ("R0CWS.BMD", 1, 1),
+    ("R0CEX.HAND", 1, 1),
+    ("R0CEX.OEX", 1, 1),
+    ("R0CEX.FUSS", 1, 1),
+    ("R0CEX.UEX", 1, 1),
+    ("R0CEX.ACHS", 1, 1),
+    ("R0CI.SCHM", 1, 1),
+    ("R0CI.FAC", 1, 1),
+    ("R0CI.ALK", 1, 1),
+    ("R0CI.LUNG", 1, 1),
+    ("R0CI.ABD", 1, 1),
+    ("R0CI.KNO", 1, 1),
+    ("R0CI.RITA", 1, 1),
+    ("R0CI.DRLU", 1, 1),
+    ("R0CI.DRAB", 1, 1),
+    ("R0CI.DRAIN", 1, 1),
+    ("R0CVT.VT", 1, 1),
+    ("R0CTR.THO", 1, 1),
+    ("R0CTR.OB", 1, 1),
+    ("R0CTR.SCH", 1, 1),
+    ("R0CTR.WS", 1, 1),
+    ("R0MS.HIRN", 2, 1),
+    ("R0MS.STRO", 2, 1),
+    ("R0MS.PLAN", 2, 1),
+    ("R0MS.ORB", 2, 1),
+    ("R0MS.NNH", 2, 1),
+    ("R0MS.AN", 2, 1),
+    ("R0MS.HYPO", 2, 1),
+    ("R0MS.GEF", 2, 1),
+    ("R0MHT.HALS", 2, 1),
+    ("R0MHT.CARO", 2, 1),
+    ("R0MHT.THOR", 2, 1),
+    ("R0MHT.PUL", 2, 1),
+    ("R0MHT.MAM", 2, 1),
+    ("R0MCV.IS", 2, 1),
+    ("R0MCV.VOL", 2, 1),
+    ("R0MCV.STR", 2, 1),
+    ("R0MCV.MP", 2, 1),
+    ("R0MCV.ISO", 2, 1),
+    ("R0MG.PLAS", 2, 1),
+    ("R0MG.MET", 2, 1),
+    ("R0MG.FOK", 2, 1),
+    ("R0MG.MAS", 2, 1),
+    ("R0MG.SCRE", 2, 1),
+    ("R0MA.OB", 2, 1),
+    ("R0MA.BECK", 2, 1),
+    ("R0MA.LEB", 2, 1),
+    ("R0MA.PRIM", 2, 1),
+    ("R0MA.LEFE", 2, 1),
+    ("R0MA.PANK", 2, 1),
+    ("R0MA.MRCP", 2, 1),
+    ("R0MA.NIER", 2, 1),
+    ("R0MA.AUG", 2, 1),
+    ("R0MA.PROS", 2, 1),
+    ("R0MA.HOD", 2, 1),
+    ("R0MA.REK", 2, 1),
+    ("R0MA.COLO", 2, 1),
+    ("R0MA.FAEK", 2, 1),
+    ("R0MA.SELL", 2, 1),
+    ("R0MA.DYN", 2, 1),
+    ("R0MA.ANG", 2, 1),
+    ("R0MWS.HWS", 2, 1),
+    ("R0MWS.BWS", 2, 1),
+    ("R0MWS.LWS", 2, 1),
+    ("R0MWS.TS", 2, 1),
+    ("R0MWS.ISG", 2, 1),
+    ("R0MWS.MYE", 2, 1),
+    ("R0MOE.SG", 2, 1),
+    ("R0MOE.ASG", 2, 1),
+    ("R0MOE.OA", 2, 1),
+    ("R0MOE.EB", 2, 1),
+    ("R0MOE.UA", 2, 1),
+    ("R0MOE.HAN", 2, 1),
+    ("R0MOE.HG", 2, 1),
+    ("R0MOE.FI", 2, 1),
+    ("R0MUE.HUE", 2, 1),
+    ("R0MUE.AHUE", 2, 1),
+    ("R0MUE.OS", 2, 1),
+    ("R0MUE.US", 2, 1),
+    ("R0MUE.KG", 2, 1),
+    ("R0MUE.SG", 2, 1),
+    ("R0MUE.FU", 2, 1),
+    ("R0MAN.HIRN", 2, 1),
+    ("R0MAN.CARO", 2, 1),
+    ("R0MAN.PUL", 2, 1),
+    ("R0MAN.NIE", 2, 1),
+    ("R0MAN.ABD", 2, 1),
+    ("R0MAN.AORT", 2, 1),
+    ("R0MAN.BBA", 2, 1),
+    ("R0MAN.GK", 2, 1),
+    ("R0MAN.EXT", 2, 1),
+    ("R0MK.HIRN", 2, 1),
+    ("R0MK.THOR", 2, 1),
+    ("R0MK.ABD", 2, 1),
+    ("R0MK.BECK", 2, 1),
+    ("R0MK.IU", 2, 1),
+    ("R0MK.MSK", 2, 1),
+    ("R0MK.CDH", 2, 1),
+    ("R0NUP.GK", 3, 1),
+    ("R0NUP.CH", 3, 1),
+    ("R0NUP.HIR", 3, 1),
+    ("R0NUP.HIR2", 3, 1),
+    ("R0NUP.HIR3", 3, 1),
+    ("R0NUK.KN", 3, 1),
+    ("R0NUK.KN2", 3, 1),
+    ("R0NUK.KN3", 3, 1),
+    ("R0NUS.SDTC", 3, 1),
+    ("R0NUS.SDJ", 3, 1),
+    ("R0NUS.NSD", 3, 1),
+    ("R0NUN.SEQ", 3, 1),
+    ("R0NUN.TPL", 3, 1),
+    ("R0NUL.PERF", 3, 1),
+    ("R0NUL.GES", 3, 1),
+    ("R0NUM.MYR", 3, 1),
+    ("R0NUM.MYB", 3, 1),
+    ("R0NUH.DAT", 3, 1),
+    ("R0NUH.IBZM", 3, 1),
+    ("R0NUH.HMPA", 3, 1),
+    ("R0NUH.LIQ", 3, 1),
+    ("R0NUTU.2", 3, 1),
+    ("R0NUTU.REZ", 3, 1),
+    ("R0NUTU.1", 3, 1),
+    ("R0NUSO.ME", 3, 1),
+    ("R0NUSO.EP", 3, 1),
+    ("R0NUSO.LE", 3, 1),
+    ("R0NUSO.SP", 3, 1),
+    ("R0NUT.SIMA", 3, 1),
+    ("R0NUT.SIRT", 3, 1),
+    ("R0NULE.TU", 3, 1),
+    ("R0NULE.GA", 3, 1),
+    ("R0NULY.ME", 3, 1),
+    ("R0NULY.MA", 3, 1),
+    ("R0NULY.AND", 3, 1);
+
 INSERT INTO Users(userID, userTitle, userFirstName, userLastName, userName, userPW, userType) Values
     (1, "Prof. Dr. ", "Arzt","Müller", "Arzt", "70e1d82c05bb1528feb1bb95d3754748a704c1173f1adb4f05bdb1505503be4ae89110cc60ce80ee6d77ec72a31f7883f5e567a39e59441ed8c740612554bb6d", 0),
     (2,"", "MTRA", "Meyer", "MTRA", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 1),
     (3, "", "Admin", "Schulz", "Admin", "887375daec62a9f02d32a63c9e14c7641a9a8a42e4fa8f6590eb928d9744b57bb5057a1d227e4d40ef911ac030590bbce2bfdb78103ff0b79094cee8425601f5", 2),
-    (4, "Dr.", "MTRA2", "Mustermann", "MTRA2", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 2);
-
-INSERT INTO Forms(formID, formShortName, formDate, formName) Values
-    (1, "CT", NOW(), "CT Aufklärung"),
-    (2, "MRT", NOW(), "MRT Aufklärung"),
-    (3, "PET-CT", NOW(), "PET/CT Einverständnis");
-
-INSERT INTO Pages(pageID, XML, formID) Values
-    (1, '<page><row><text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text></row><row><text text="Was ist Computertomographie?" size="15"></text></row><row><text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text></row><row><text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text></row><row><text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text></row></page>', 1),
-    (2, '<page><row><text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text></row><row><text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text></row><row><text text="Wie lange dauert die Untersuchung?" size="15"></text></row><row><text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text></row><row><text text="Wie läuft die Untersuchung ab?" size="15"></text></row><row><text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text></row></page>', 1),
-    (4, '<page><row><text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (5, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (6, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (7, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row><row><video src="http://www.w3schools.com/html/mov_bbb.mp4"> </video></row></page>', 1),
-    (8, '<page><row><text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (9, '<page><row><text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (10, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 1),
-    (14, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (15, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (16, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (17, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (18, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (19, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (20, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (21, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (22, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (23, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 2),
-    (28, '<page><row><text text="Wurde bei Ihnen bereits eine PET-CT Untersuchung durchgeführt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (29, '<page><row><text text="Wurden sie schon mit Strahlen behandelt (Strahlentherapie)" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (30, '<page><row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen, Kreislaufreaktionen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (31, '<page><row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (32, '<page><row><text text="Nehmen Sie Metformin ein?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (33, '<page><row><text text="Nehmen Sie regelmäßig Medikamente?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (34, '<page><row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (35, '<page><row><text text="Besteht bei Ihnen eine Allergie? " size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (36, '<page><row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-    (37, '<page><row><text text="Hatten sie in den letzten 4 Wochen Operationen?" size="14"></text></row><row><radiobutton text="Ja"></radiobutton><radiobutton text="Nein"></radiobutton></row></page>', 3),
-	(38, '<page><row><text text="Hier sehen sie ein Beispielvideo der Größe 1080p" size="20"></text></row><row><video src="http://141.19.145.237/img/test.wmv"> </video></row></page>',3),
-	(39, '<page><row><text text="Hier gibt es Beispielmusik zu hören" size="20"></text></row><row><sound src="http://141.19.145.237/img/test.mp3"> </sound></row></page>',3),
-	(40, '<page><row><picture src="http://141.19.145.237/img/niere.jpg"></picture></row></page>',3);
+    (4, "Dr.", "MTRA2", "Mustermann", "MTRA2", "488fcdd645016c4bf57d89dcb46cf85f56c8e9018b6232ba55b8b7f75f1cb88312a4e715937ae28deedadf645857ca2705c6c2baa679470afca68eb5c310372b", 1);
 
 INSERT INTO Tablets(tabletID, tabletName, MACAddress, IPAddress) Values
-    (1, "Samsung Galaxy Note 10.1", "CC:07:AB:B8:E5:83", "194.95.162.121"),
-    (2, "Samsung Galaxy Note 10.1", "08:00:27:41:03:08", "194.95.162.222"),
-    (3, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:26", "194.96.162.121"),
-    (4, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:27", "194.95.162.121"),
-    (5, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:28", "194.97.162.121");
+    (1, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:24", "194.95.162.121"),
+    (2, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:25", "194.95.162.222"),
+    (3, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:26", "194.96.162.123"),
+    (4, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:27", "194.95.162.124"),
+    (5, "Samsung Galaxy Note 10.1", "DE:AD:BE:EF:10:28", "194.97.162.125"),
+	(6, "blubb","CC:07:AB:B8:E5:83","194.97.162.126");
 
-INSERT INTO Patients(patientID, patientFirstName, patientName, patientIDExt, regDate, birthDate) VALUES
-    (1, "Liselotte", "Wetzel", 8378375385, "2015-05-20 23:59:59", "1980-12-10"),
-    (2, "Regine", "Günter", 43263463, "2015-05-20 23:59:59", "1978-05-10" ),
-    (3, "Seppel", "Wilfried", 2657457, "2015-05-20 23:59:59", "1960-07-10"),
-    (4, "Constanze", "Meike", 3437457457, "2015-05-20 23:59:59", "1960-04-10"),
-    (5, "Martina Jakob", "Schuler", 346346346, "2015-05-20 23:59:59", "1961-12-10"),
-    (6, "Gotthilf Gerda", "Schreier", 346346346, "2015-05-20 23:59:59", "1963-11-10"),
-    (7, "Karl Gottfried", "Sitz", 457457457, "2015-05-20 23:59:59", "1990-11-10"),
-    (8, "Guido Elias", "Waldfogel", 7575757545, "2015-05-20 23:59:59", "1945-12-10"),
-    (9, "Katharine Gerda", "Herschel", 343467682, "2015-05-20 23:59:59", "1980-10-10"),
-    (10, "Swanhilde Kolman", "Köhl", 1223523534, "2015-05-20 23:59:59", "1930-10-10"),
-    (11, "Auguste Ottomar", "Janz", 23623611116, "2015-05-20 23:59:59", "1932-08-10"),
-    (12, "Jeremias Leni", "Ohme", 34735458458, "2015-05-20 23:59:59", "1937-04-10"),
-    (13, "Theodor Oliver", "Holtzer", 3463745856, "2015-05-20 23:59:59", "1964-04-10"),
-    (14, "Benno Rupert", "Graner", 236463, "2015-05-20 23:59:59", "1960-05-10"),
-    (15, "Günter Detlef", "Lafrenz", 236346347, "2015-05-20 23:59:59", "1965-04-10");
+INSERT INTO Patients(patientID, patientFirstName, patientName, patientIDExt, regDate, birthDate, codeID, caseID) VALUES
+    (1, "Liselotte", "Wetzel", 8378375385, "2015-05-20 23:59:59", "1980-12-10", 1, 1000),
+    (2, "Regine", "Günter", 43263463, "2015-05-20 23:59:59", "1978-05-10", 1, 1001),
+    (3, "Seppel", "Wilfried", 2657457, "2015-05-20 23:59:59", "1960-07-10", 1, 1002),
+    (4, "Constanze", "Meike", 3437457457, "2015-05-20 23:59:59", "1960-04-10", 1, 1003),
+    (5, "Martina Jakob", "Schuler", 346346346, "2015-05-20 23:59:59", "1961-12-10", 1, 1004),
+    (6, "Gotthilf Gerda", "Schreier", 346346346, "2015-05-20 23:59:59", "1963-11-10", 1, 1005),
+    (7, "Karl Gottfried", "Sitz", 457457457, "2015-05-20 23:59:59", "1990-11-10", 2, 1006),
+    (8, "Guido Elias", "Waldfogel", 7575757545, "2015-05-20 23:59:59", "1945-12-10", 3, 1007),
+    (9, "Katharine Gerda", "Herschel", 343467682, "2015-05-20 23:59:59", "1980-10-10", 4, 1008),
+    (10, "Swanhilde Kolman", "Köhl", 1223523534, "2015-05-20 23:59:59", "1930-10-10", 5, 1009),
+    (11, "Auguste Ottomar", "Janz", 23623611116, "2015-05-20 23:59:59", "1932-08-10", 6, 1010),
+    (12, "Jeremias Leni", "Ohme", 34735458458, "2015-05-20 23:59:59", "1937-04-10", 7, 1011),
+    (13, "Theodor Oliver", "Holtzer", 3463745856, "2015-05-20 23:59:59", "1964-04-10", 8, 1012),
+    (14, "Benno Rupert", "Graner", 236463, "2015-05-20 23:59:59", "1960-05-10", 1, 1013),
+    (15, "Günter Detlef", "Lafrenz", 236346347, "2015-05-20 23:59:59", "1965-04-10", 2, 1014);
 
 INSERT INTO OpenPatients(openID, patientID, sectionID) Values
     (1, 14, 2),
@@ -255,578 +470,290 @@ INSERT INTO ScheduledPatients(scheduledID, patientID, regDate, tabletID, formID,
     (1, 3, "2015-05-21 23:59:59", 1, 2, 2),
     (2, 8, "2015-05-21 23:59:59", 2, 2, 2),
     (3, 9, "2015-05-21 23:59:59", 3, 1, 1),
-    (4, 10, "2015-05-21 23:59:59", 5, 3, 3);
+    (4, 10, "2015-05-21 23:59:59", 4, 3, 3);
 
 INSERT INTO MTRADocuments(documentID, patientID, XML, regDate, formID, sectionID) Values
     (1, 1, '<root>
-            	<meta>
-            		<pID>1</pID>
-            		<pExamID>8378375385</pExamID>
-            		<pFirstName>Liselotte</pFirstName>
-            		<pLastName>Wetzel</pLastName>
-            		<pDate>1980-12-10</pDate>
-            		<name>CT Aufklärung</name>
-            	</meta>
-            	<formData>
-            		<page>
-            			<row>
-            				<text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text>
-            			</row>
-            			<row>
-            				<text text="Was ist Computertomographie?" size="15"></text>
-            			</row>
-            			<row>
-            				<text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden
-            Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text>
-            			</row>
-            			<row>
-            				<text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text>
-            			</row>
-            			<row>
-            				<text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist
-            die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der
-            Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund.
-            Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren
-            Fällen kann es zu einem Kompartmentsyndrom führen.
-            In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei
-            Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die
-            Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken.
-            Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH
-            (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text>
-            			</row>
-            		</page>
-            		<page>
-            			<row>
-            				<text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text>
-            			</row>
-            			<row>
-            				<text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung.
-            Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem
-            Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text>
-            			</row>
-            			<row>
-            				<text text="Wie lange dauert die Untersuchung?" size="15"></text>
-            			</row>
-            			<row>
-            				<text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text>
-            			</row>
-            			<row>
-            				<text text="Wie läuft die Untersuchung ab?" size="15"></text>
-            			</row>
-            			<row>
-            				<text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit
-            dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes
-            vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text>
-            			</row>
-            		</page>
-            		<page>
-            			<row>
-            				<input text="Name, Vorname" comment="Liselotte, Wetzel"></input>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14"></text>
-            				<radiobutton checked="1" text="Ja" comment="dickbutt" checked="1"></radiobutton>
-            				<radiobutton checked="0" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14"></text>
-            				<radiobutton checked="1" text="Ja"></radiobutton>
-            				<radiobutton checked="0" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14"></text>
-            				<radiobutton checked="1" text="Ja"></radiobutton>
-            				<radiobutton checked="0" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text>
-            				<radiobutton checked="0" text="Ja"></radiobutton>
-            				<radiobutton checked="1" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14"></text>
-            				<radiobutton checked="1" text="Ja"></radiobutton>
-            				<radiobutton checked="0" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14"></text>
-            				<radiobutton checked="0" text="Ja"></radiobutton>
-            				<radiobutton checked="1" text="Nein"></radiobutton>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text>
-            				<radiobutton checked="0" text="Ja"></radiobutton>
-            				<radiobutton checked="1" text="Nein"></radiobutton>
-            			</row>
-            		</page>
-            		<page>
-            			<row>
-            				<text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein." size="14"></text>
-            			</row>
-            			<row>
-            				<input text="Datum/Unterschrift Patient" comment="21.05.2015, Liselotte Wetzel"></input>
-            			</row>
-                    </page>
-                    <page>
-            			<row>
-            				<text text="Ich habe eine Kopie erhalten" size="14"></text>
-            				<radiobutton checked="1"></radiobutton>
-            				<text text="Ich wünsche keine Kopie" size="14"></text>
-            				<radiobutton checked="0"></radiobutton>
-            			</row>
-            			<row>
-            				<input text="Unterschrift Patient" image="iVBORw0KGgoAAAANSUhEUgAAArIAAACdCAIAAADHfgwdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABwJSURBVHhe7d0rkBtJ1oZhQ4MFhgMNDQ0HNjRcaGi4EUsmFi0bOHCgoaGhYUNDw4UDDQ0NF+7//TpfnzhdN2VdJJWk9wEO5aVKdcnKPJVVar/4HwAAwAFhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAFvr48ePDw8Mff/zhNABcP8ICYAnFBC8OXr586SwAuH6EBcASv/zyS4QF8v37d+cCwJUjLACWcERw8OnTJ+dixOPj48PDAwcK2D/CAmAJRwQHHz58cC5GxOQKD1yA/SMsAGb78eNHBATh9evXLsAIH6kXdDjA3nGVArP99ttvHuWe8HrBNB8mwgJg97hKgXl+/Pjx8uXLGORevXoVH3hqPi2OkjgNYK+4Sm9HvNX18eNHp3EaOVXw9u3b33//PT7zesG0OEriNIC94iq9Ha9fv46eV2OVs7C1OlXw5cuXr1+/xmdeL5gWR0mcBrBXXKW3oz7wJjI4kTpVoOR///vfSEpUwCAfI44SsHtcpf/v8fFRd3ty1U+INUS9e/fOve+LF//5z39cgO3kXzH68uVL5ERSIolBPkYcJWD37v0qjYDAPdb1/65akcHDw0Psy9///nfnYiOKtOLYvnr1ylkMeG18jDhKwO7d+1Va/4RtcMHVyqFLmDDY1p9//hkHtoZckSNOH3Of/8GSjxFhAbB7N3WVfvr0KW/9jz4R+PLlS50nSC6+Zhq0Yl+YMNhWHljFB86aOeDd7X+wFHstTgPYq9u5SvOnYmmi563vk3e4xjVjwuBE8q8U1KMaOeL0pDo75az74H0mLAB270au0rwJ63BxT+ev1P3jH//wp1vpti41YXDb/yNOHFJx+sBZDS2nE7k69z54n+9sr4FrdAtX6c+fP/Mm7N27d0d/M9b56XlkRlIiee0uNWFw2/8jThxPcfrAWcdaTj9ydcF98D7f2V4D1+jqr1KN6zm1K4oJlOnESB+UcwPx03O5yV+fX2TCIL5RnL4hY43EWcd2+fZebp3F+3xnew1co6u/Smtv++7du8h0eqgPqhO5OVXw6dOnyHl9Q3+r7iITBv6+W+z9xxpJZIrTQ+ofQ4wP4rL74H0mLAB27+qvUnc2z/+vGmf1+qAaE2QMIb/++mtk3tjPxs4/YRBfJ07fkLFGEpni9JCcoPr3v/8dH8Rl98H7TFgA7N7VX6XubJ53N856nlkf7sYrCJGfd9UvX7788eNHZN6GM08Y1KjLWbdiopFEvjjdU99l+fbtW3wQF98H7/Od7TVwja77Kh0bh5xVMmvXXGMCyV8lnPml/fM424RBPRfv37937q2YaCSRL04/p3hC7S0qxLss8Vmiwp3wPhMWALt3xVdpvfvvjEPOLX1Q/R9uakwg+cbi4+Ojs27IeSYM6tx4J+q6DRONJPLF6Sc62p2/lxXvsjhBWABgl671Kp24+5csisfAtXK+ZpgiX5y+OSedMPj69eubN29i/XKTMYF494YaiQt6RZ2fHuTBd5qwAMAuXetVOnH3L1mqaEDJ/i8SqygSpzfy8+fP33//ffDvK/ep2un+BNCJJgwUbL1//97rPbjVmEC8h81hQf704NWrV2p+Srpg3wOkmoeunaONdkFz9ZKEBcDuXeVVOn33LxqcolTqM+/Byi5b0WE1dqbTIoI5kU0mDCYCHQ1+t/1//3g/m8OC+tMDZz2JfHF6Hz5+/DirAc9trl6MsADYvau8SutUgbN6okKle1mXPefi+R3WJtFA0kDi9Z5AnTDQAODcZhEQ1D8bVb1//16BmqveKO9qc1iQTxC+ffvmrCeRL05f1OPjY30G1G5uc/VihAXA7l3lVZp97uDdf8jphDAxv+0azR1W+9MB1enMtXb+Aq525HTPDjo+fPgQX6oj0x+rJmgLxwICjSh1evyGeYebwwJnNde/CAWLnctEDbLzyGMr/oId7DWAadd3leZTWw26zhryxx9/RDXR7ezEM29XOtZhKQQZCwXaO9MMaCr1zi4+JR2B/IM82oyW+/vv378rnIpFQj/QuRPe/7ZhXsfWWW31L0Lt4e3bt96Ug+nLZCV/x6X3GsBR13eVTjy1XSZvmJweUt9mSAturbzkixf16cMpfiAwSMN8xiUKEabHAMVVdZfvNiCQjERfvXrlrCKKxOnyJsfiV1z1jSf9jyi15mx+Ost//fWXC04mvkucBrBXV3aVfvv2LceqWTPhYzQ0xtq0Wmf1/Pz5s/PK/bIxsnMTWZ/3R4Uz0HiTB3Ds8bAGiZxXENW/7dcJj8q3Vj98+OCsIookko+Pj06PNFGXjZ/0GoM6a1P1JVw5z8n1l52xqQNY5pquUg3PeYsz8bLhLDk2j63w48eP9cn6xNsMR+U8R35XJCWS5/Hnn3/6Ww8/03DuE5XmmCSKD85wK7lzGSR9/vzZWUUUiT4rysw3+AZjCIlScbqn5Y3axToxwVhouDl/H2EBsHvXdJXm3KzG6a3GKg3zsc7BmfxOHzr2W4YW9WXDjC2cPntfmQGKZGSgqCuPsDBJEHRYfERevNBn5xYuO5zEfKNFTXTs7Y2oIE735IOeNTHooNqez/xHJvyt2zX1+hykT0ULfnEDQK4mLKj3uBt2l9mP999UqAP5sqcGqU4L19gicsTpM8ofJohGi2/fvtVOlkmC9Pnz5zgmDw8PznouSkWfc0RXc43SvqggTj+X01eD7zFMeHx8nHgdoTOInjkmEH/xRk29E6+PyZAXQLvrCAvqL6l+++03524h75s79xadgXxlH1qnheuqIlOcPhfd9arH/Nvf/uavf07H5Mxjxp5l/DQ2dxKl0vk8xjVG6mT4O/dF1IhI1GidLmqAK+ePCcTfvUVT7+zONCIDYK5zD0gLqAvTaBoX+dH35+fSDVasufODgrGBfJmxaeGMPL5//+6sE4uAoL4tUSl/8PH5Pcub7LHpkyiVzucxrjFSJ5/jTMw3DIqlxOkim5+c9FeIE/z1q8OClnhdmSqKOsKzMGCWtVfpGeT/zqfuYPOZ7ewxO0+CxwbyBerDaWc9yaBkzROKFo1/zO6f//ynF8BBnrvBu/AQFaTzeYxrjNTJiG3WX7OoN9DOKlzw4sVFAoLgLZg8Mi0a4/UaGUycOwB9a6/SU6v93eZRfz7H1R2hs55Evji91NevX+utuXOf5CPSsbfWN1F/1Znq2xL155dMulY6dHFYJn4UEBWk83mMa4zUcdmchldvoMW5hQvmrHNz3oLV29AerysyiJriLGyn87bKtNrbYP92fcHows4xVbG/c7czNirnn6/phwtz1fnb/i5s+EVjdL/buXr7l2i9tRIig5RRqSInZ/VEBel8HuMaI3VcNmckyxvo4NzCBXPWuTlvwbptmHu9RGVx+hKODp/963HndDdVX1huxJzNFbnkBXNUvgSuK2diwnCxnMPv3Hnke4gr/5Bi9mIKbgav/DPc0OSzal2WE49giAwG5Yg7MVMVFaTzeYxrjNRxWXN76EwViAsKFzSv8xS8Beu2Ye6FGZXF6TM6Gg1U1zJkKkpu36kOnbvpH8sso3XGJulfbZ5zsc4le4qjctg+xUtD9ZG/Pjv3IG/xV/4hxZZeLCqI09vpBPVHr0Yig748IBNT1lFBNEL70+TZdI2ROi5rbg+dqQJxQeGCE7Sxdt6Cddsw98KMyuL0ueQ0ZDsvuZ1OXKLPK3vR/k7p6ph1txanb9sYqE7Hyhl6rXpgbzUWuWRPMU23tnHo1Yw67wNuQmc31q/gw1kHW03s19u4iV4sKojT6yi+0YVRu4PQ+O4CkUFHdjoTEy1RQerbcC4bEnXE6edc1tweOt2iuKBwwQnGnnbegnXb4FU0r8S1z7vj/eFz4tcfrrH1Fva3Icx6jzXk7XhSk9MNj/pJ12jm5bfb2Xw5rDrpD0/qu25pYniqR08ftp0pOZ2zXjCzZCc78Vh3jXzPrg5+9SyueYKg4TnXv2aQaBcBQX29Mc36VSeRQcq7fx1VZw2JOpJR4PTbcFFHnH7OZc3twbULFxQu2K47XsBbsG4bvIq2lTRO3rTrDJD63P81bx2PW26mXXXTUzM4dIW5fwxDOnHn3BmCtPnp0Gaoa40VqovLXuukT2T6UbhMTBh06p902za0ZXPcVh7QBWFpixxB6618PYuLnyCos6jD85pB4qjOVGGlfVkW1BMZBJ24OAKd+aSOqJOmo0BxvZEz7rLm9uDahQsKF2zUHS/jLVi3DV5F20oaJ28a6UIbjLnr9TU3JpAMJTe8yrITy22od9VRp50XO5iY9jiqPu1y1gq139Mx/Ouvv7RhkRRXaqPLPFelDxNjfI1s9HVj882p1k8u27edbuVWM/kTYv3i9IGzjo0EE3QF5qUuujJdMCIrt8wv9Sf0+lShZVXT1OiJDLKXV4/mrCH1dMt0FJgd9NgMRJSK05PqZRIfxGVFbuGJIuwWsQHi9CJeRdtKcnScPiMt6njfoSMfI+WCmEDqYDk4+10HrTR9jbvS8z9T4az5x9+LrTtxUu+4nLVU/UP4ksct23l7f6WRu3P9ythjiE6g+fPnz1x2cJF8tyxnNcRl+7bTrcx35Vb+FmBCrF+cPnDW0pOn6zBbQOPwnHuqFnb0jzXVS6uv8RsbdSKDDdd8LfJHHNN/+bH27EejwKN/2zhKxelJ9TKJD+KyIp9n5Rh2frEB4vQiXkXDSuog7aylOjGB+nplajjJyQPl1Hn79phA6lWmHsC5TwYHrdCvHMZuqCJTnG7mxdYdxs5984JXHJI6yXpM4nSEeiW2RAa6yxr8I29jx7YfaObA31+kNgnV96fVrfE89riV9Tpc+VuACf6C5+fJWUtPXvbOaiVHx/igkFMXcCylNjrdodTrIa2Z2ZvW6bMa9+hmZL8/veM6SjHuaqQ/eiIy1Bj728ZRKk6P61wm/jS0YB3DtAFKumBrOZulf9Vj1smJ+HZxehGv4thKao+sU+PcReqNaWe8V6DsgsPcT3yYFRME1Y9lxVlPctQZ5ErPjd1QRaY43cyLrTtxnR0Zi4lb5P9y3n9lSsnsr2Q6+OhM62rknjgRMhhvjS1S4zltknLis0SFndvdVnbibueegL/j+Xly1qKTV7vpWW/Dqk/PNjT9kwGtVnVqgHxqs6KWGxN7LU5Pahxrc/wY67OiVJweURtbS79TxzA1tlnts11/Nks5uoerN4uuuohXcWwluRkLBumqjhyDq1JmlKZlX+eFn+9X53bTuZMHoS7SuaFy7vzj78VWnLjaVtOyCYPcQZ2XwWBdxz9/1j4RfKhandjPgcbpoZ3NyKYl3qqPG6JJRFKiws7tbiu3uqSPim8Rpw+cNfPkqZPNsVOykbXLmxI1d2ftRnvUcmNil8XpLXiN4+t08eSXdkLnxn4n7yPDKd4zyHYyQVeKtllDxefPn+fOBXoVQ/s4+NrNmg6kjhxjv+XR2BYVQr2PnMXLl/3q326mzO9HorXzdNaTyBenm3mx+QuGTlvN2bIFEwb1mEzEtfWkOKsnIxWtsIYXkSlOP6lffTTeqpUznoukRHLn9rWVeUZ1U3XSmEDii8TpA2c1nzw1qZzUCtlNz+Xld9lu6lSq+l/n3jrv8KZnxGscX6eLJ790MHSOHInkIHVS+TBVY9jml1jOZulC1g1Tf5welH2oaJH3799rLBm8F3Sl3j7+/Pkzj0nl4kUaHwhGndC5j2zn5csG9283k056FOkoOetguvOMInG6mRdbejA7bbVlzB5Tj4mzRkQ1cbont6oTXkSmOP1k4qsjX5x+/qahs1YfxjPb11YefSFrQ/FF4vSBsxpO3qehXwaueczvVey13WSYrytKvbBzb1rsrzi9Ba9xfJ0uHq9Qn3HWxpaDq9MjdCtznvcMggKRvOeeSy1N3XHdQhc830eNjrlH1Zpnbe0PBF3pYO7kR/LyT/s1eLuZ8nlQ59dSeV8+2HlGkTjdzIvNX1Dqo6tsq07PXOH0MemIauL0c/XkOuuJc3v5GUb0vzryJZL1DqpWdtbMvb6UfW1ljj06uM46jRpZO+sgMkUN2llDOk/L1F6n+44WXtde240uy7w27uRRQuysOL0Fr3F8nS4erzD2jDPv1J0ed573DDryfutf//rX4+OjriDF0J2ZtvV0S+rvW6Fe3dMrrPe+a77aq3g66dO3xQrKo1ScdZAPiQY7zygSp5t5sfkLdjpJ5y5dYftUgURNcbqoW9V/HdUFvQWdO7RCFxyK1B4ydum0h8gUp/dtR1tZ40EdX+eexti0RG6APjjrOV2T2UCDuraJOcZ2Xt2O203+z1VyNGC/dmqN3tVNz4jXOL5OF49XyOBs8b2pdN4zUF/pgpPJWGTwXjbpwte1qTqDEwATXm/069xOTDAx+aeiOhGyphPwKg4nveW2OErF6YNsGIOdZxSJ081yYxRxatuce0x9pUBqtOqsOVtSX29q6Xmipjj9pG7V4Ml1WW9B5w5tswsO0yHZHvovo0S+OL1ve9lKDbeK3eLAtcSDK41NS8QtV+j0ldpC5dTearrXmMsr3Xe7yXOk47BJMLRbs+5O2sU6xekeF6+o0Ejdax3VNKxql9v7/bnyxlpf5KxjOls4Yc3Du6o9JpBaWdYEJV7F4Zy2NLyoIE43/P23KBWnm3XugubqH0YXNG+JOl7tVCzSeDFGZXH6oMZbYyc3SqVzNp07tM0uKH87RN/S7xujSJzet11spdp0HW7PcCeaX9ePrBsvg21jAvF6991u6iV6279XnHiauFgOjWp+zuqJCuL0czr+Lt6inej0qRl7dQfq0U73TMHfsWLLs1s/RfiSM4jScnVnCwlrnqx5FYcj09LwooI4Pf7nClKUitPNdBzyJmqB/mF0QfOW5LcPDreDsp3U7j2fvim2GDu5uaA+OOsgMsXpwgXF4BXksvnH/yJ2sZX1AtMF6dxT8pcNnaR+X9mhcXGT6coOr3337aZO6N3wSwaxg+L0FsYeXVV5bI9OVrlgHbX2zgMF2W0Lzwuz8xL+ehpv8si3xAQSldPYbXoLr+JwZPxp8ii5xlOdGtCMPVpy8dKD3z5zUw2+6eKyti2pu9beJnNSMy+0OrUzEW/V2WJnHThraJuz2YSx8cvFS4//mV1+K3P6S13eKTqjQfGN4vRzg32lnKi7DP6Oww/KHx4eznYoFqjX6q3+XtG7t+llPPboqqqTVWpvGv90x6PMGhDI5tFzp9/v3C1twqtecUh1UcQaFv+XJWPy5cf+U+FBPzb9X3C8/GEN/jS5Ntc41FHzqAFNVOiLCuL05eTW9mdqO+q0/6w7kJyWEyU7rxREnTGuVw5UDSmcVdRIYuJhlmvs4Pi3uPxW5tzO4l/9LhDfKE7vgDfo0CPHBxfsUo5wv9zo7xVj78TpLUw8ukrqVtRzRbVBp4tNO9FwZ7piPa93xSFVS8urY8PNy2FDK2+cpq5vAMQHcdl8Xv7wcMSfJtfmGsdec6v206v0b+XH5EFe8LwyFpSWVwqqqCmRrCGFtjwyF/AqdnD8W1x4K+s5W/Nm9SxHX8+5iDwOQVe7C3ZJJy4f/Wz1wteuxK6J01vwGo+tUwfz/JNVqU5XbBsZeKXrDmneRcgmm1e7oPb3KuobAPFBXDaflz/8X53xYfryzw3Oo6Gc6YAmbmoHZ/XPrHMrP6bOgkxM+4+JBaUe0pZuKipLJPNEt4QUE2Il4vS+XXgrs1mfcxS8yPzEUbU7lgVXwpnV3ysqnD9bVHce3rFNL2OvsW2d6oPivkodk1qsYlkXnJi+t05XbBgZeI3rDunmm5cR2KwuKBYRfc7Ra/E5isWlcSDszye1BzR7kLs5ttk6yzodUefXX3917hyxrNQAzmWTorLoc41g1sQE4rVs2p+cziW3Upe0D9V5R8FsKLsaydTssofSZe/cfcsAK+z5fYi5sudyeguxQnF6r04UGXh1q3d/q83T7XW+UiCzuiAvc9iXnBV/vfTvScfi6WiAku9YJBdcibwF0lXmrOdyaFCFxsc6HbF45YJjXPv5A5r177Kcoj85nYtt5azXQLblb722a2mf1EPlI3PFW869fqeYdI2jJE7vWGfo3eRm1OvaYvfXRwafP3/OnlrmdkFe7LAvP8rfk17WYGLZdDRAqb9TDS64Ejp9efAHm1beuS1ueLF45YJjXPvY3yGY6xT9yelcrD3lidcFuSzEXkbXcHyvOAvrcEgb+RhdyVGqQ696RueuEKsSp9fpRAbqcNUOXXZMfZ9AHxaMPbGsRDJv35cdqFg2NAYouf2y5lW4S6kTBrpFdO6TKBKn56vHJ7jgmP6Cm8TE1+ViPZQP+epnNnM1vtSDWfJa2mrC+SbFIRKnd0/Xprd4i232irbb/U5koEbY2IPnw683b96snKN2et3eecmDxv4w7j7lSl/41TbXAbjTbzh3RVPpvKolLjims2BjlHZjNrtE5/JR366PaPTw8BDfe863GW5evZbuMLhu5AN09ja/hrd4i232ijbdfY0u+VvZcDQwzefWsrgT6MfBkZRIzuIlD5x1BzKyCfmr3XqCImeBTsgoLjhGC+Y7Xjf5G6sWF2uFcdzF6XOJNnf0J7OYpV6E6jHv81o6Ko6POH0NvMVbbLNXdILd1+ieb4e1W3Mj2I+DnVi0d17y/qYw1VHkfVr0yTUmWPlwpHZK4lw0uNjB8rnibN0KXYTxSrZibWfhuWjw4vQ18BZvsc1e0Wl2vzMGHKXKa4LX+nWKg1f+XxVe8i6nMOuPAKuVJyhkp8R94CyX6aH2+QeFsF77a193KNq8OL17275MmhPvTm9NY8Dgn4Hq22RyWGt48+ZNrPDx8TE+iIvnOPWR2bn+WdskJsBil2mI+crPrv6gEHBS5+n9NUQp2o4v2somk9vxLPlafqPVIh8l1MfkLpvj9o7MLJ147m6f6O/HZcKCff5BIeCkztP7bx4TCO/nDsrfJdbXHl0GXK0LNOL6h4ycBWAj9c51E+/u8jdaLfK5eA3FXAZcrXM34vqHRFa+aAoAl5W9WXIBcLXO3YjzrYK3bf+fFQDs1uI/mwPs1vkacedNKJ5WArh2ndfl7va1QdyS84UFNSbgaSUAADt0vrAg34Ti9ycAAOwTT8IAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAgIP//e//AJD5CJmrF+AhAAAAAElFTkSuQmCC"></input>
-            			</row>
-            		</page>
-            	</formData>
-            </root>', "2015-05-21 23:59:59", 1, 1);
+    <meta>
+        <pID>1</pID>
+        <pExamID>8378375385</pExamID>
+        <pFirstName>Liselotte</pFirstName>
+        <pLastName>Wetzel</pLastName>
+        <pDate>1980-12-10</pDate>
+        <name>CT Aufklärung</name>
+    </meta>
+    <form>
+        <page>
+            <row>
+                <text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text>
+            </row>
+            <row>
+                <text text="Was ist Computertomographie?" size="15"></text>
+            </row>
+            <row>
+                <text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text>
+            </row>
+            <row>
+                <text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!"
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text>
+            </row>
+            <row>
+                <text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!"
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie lange dauert die Untersuchung?" size="15"></text>
+            </row>
+            <row>
+                <text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie läuft die Untersuchung ab?" size="15"></text>
+            </row>
+            <row>
+                <text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <input text="Name, Vorname" patientInput="Liselotte, Wetzel"></input>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text=" Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?"
+                      size="14">
+                </text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?"
+                      size="14"></text>
+                <radiobutton checked="0" text="Ja"></radiobutton>
+                <radiobutton checked="1" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?"
+                      size="14"></text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?"
+                      size="14"></text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?"
+                      size="14"></text>
+                <radiobutton checked="0" text="Ja"></radiobutton>
+                <radiobutton checked="1" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein."
+                      size="14"></text>
+            </row>
+            <row>
+                <input text="Datum/Unterschrift Patient" patientInput="Liselotte, Wetzel"></input>
+            </row>
+        </page>
+        <page>
+            <row>
+                <radiobutton text="Ich wünsche keine Kopie" checked="1"></radiobutton>
+                <radiobutton text="Ich wünsche keine Kopie" checked="0"></radiobutton>
+            </row>
+            <row>
+                <input text="Unterschrift Patient" patientInput=""></input>
+            </row>
+        </page>
+    </form>
+    <sign image="iVBORw0KGgoAAAANSUhEUgAAArIAAACdCAIAAADHfgwdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABwJSURBVHhe7d0rkBtJ1oZhQ4MFhgMNDQ0HNjRcaGi4EUsmFi0bOHCgoaGhYUNDw4UDDQ0NF+7//TpfnzhdN2VdJJWk9wEO5aVKdcnKPJVVar/4HwAAwAFhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAFvr48ePDw8Mff/zhNABcP8ICYAnFBC8OXr586SwAuH6EBcASv/zyS4QF8v37d+cCwJUjLACWcERw8OnTJ+dixOPj48PDAwcK2D/CAmAJRwQHHz58cC5GxOQKD1yA/SMsAGb78eNHBATh9evXLsAIH6kXdDjA3nGVArP99ttvHuWe8HrBNB8mwgJg97hKgXl+/Pjx8uXLGORevXoVH3hqPi2OkjgNYK+4Sm9HvNX18eNHp3EaOVXw9u3b33//PT7zesG0OEriNIC94iq9Ha9fv46eV2OVs7C1OlXw5cuXr1+/xmdeL5gWR0mcBrBXXKW3oz7wJjI4kTpVoOR///vfSEpUwCAfI44SsHtcpf/v8fFRd3ty1U+INUS9e/fOve+LF//5z39cgO3kXzH68uVL5ERSIolBPkYcJWD37v0qjYDAPdb1/65akcHDw0Psy9///nfnYiOKtOLYvnr1ylkMeG18jDhKwO7d+1Va/4RtcMHVyqFLmDDY1p9//hkHtoZckSNOH3Of/8GSjxFhAbB7N3WVfvr0KW/9jz4R+PLlS50nSC6+Zhq0Yl+YMNhWHljFB86aOeDd7X+wFHstTgPYq9u5SvOnYmmi563vk3e4xjVjwuBE8q8U1KMaOeL0pDo75az74H0mLAB270au0rwJ63BxT+ev1P3jH//wp1vpti41YXDb/yNOHFJx+sBZDS2nE7k69z54n+9sr4FrdAtX6c+fP/Mm7N27d0d/M9b56XlkRlIiee0uNWFw2/8jThxPcfrAWcdaTj9ydcF98D7f2V4D1+jqr1KN6zm1K4oJlOnESB+UcwPx03O5yV+fX2TCIL5RnL4hY43EWcd2+fZebp3F+3xnew1co6u/Smtv++7du8h0eqgPqhO5OVXw6dOnyHl9Q3+r7iITBv6+W+z9xxpJZIrTQ+ofQ4wP4rL74H0mLAB27+qvUnc2z/+vGmf1+qAaE2QMIb/++mtk3tjPxs4/YRBfJ07fkLFGEpni9JCcoPr3v/8dH8Rl98H7TFgA7N7VX6XubJ53N856nlkf7sYrCJGfd9UvX7788eNHZN6GM08Y1KjLWbdiopFEvjjdU99l+fbtW3wQF98H7/Od7TVwja77Kh0bh5xVMmvXXGMCyV8lnPml/fM424RBPRfv37937q2YaCSRL04/p3hC7S0qxLss8Vmiwp3wPhMWALt3xVdpvfvvjEPOLX1Q/R9uakwg+cbi4+Ojs27IeSYM6tx4J+q6DRONJPLF6Sc62p2/lxXvsjhBWABgl671Kp24+5csisfAtXK+ZpgiX5y+OSedMPj69eubN29i/XKTMYF494YaiQt6RZ2fHuTBd5qwAMAuXetVOnH3L1mqaEDJ/i8SqygSpzfy8+fP33//ffDvK/ep2un+BNCJJgwUbL1//97rPbjVmEC8h81hQf704NWrV2p+Srpg3wOkmoeunaONdkFz9ZKEBcDuXeVVOn33LxqcolTqM+/Byi5b0WE1dqbTIoI5kU0mDCYCHQ1+t/1//3g/m8OC+tMDZz2JfHF6Hz5+/DirAc9trl6MsADYvau8SutUgbN6okKle1mXPefi+R3WJtFA0kDi9Z5AnTDQAODcZhEQ1D8bVb1//16BmqveKO9qc1iQTxC+ffvmrCeRL05f1OPjY30G1G5uc/VihAXA7l3lVZp97uDdf8jphDAxv+0azR1W+9MB1enMtXb+Aq525HTPDjo+fPgQX6oj0x+rJmgLxwICjSh1evyGeYebwwJnNde/CAWLnctEDbLzyGMr/oId7DWAadd3leZTWw26zhryxx9/RDXR7ezEM29XOtZhKQQZCwXaO9MMaCr1zi4+JR2B/IM82oyW+/vv378rnIpFQj/QuRPe/7ZhXsfWWW31L0Lt4e3bt96Ug+nLZCV/x6X3GsBR13eVTjy1XSZvmJweUt9mSAturbzkixf16cMpfiAwSMN8xiUKEabHAMVVdZfvNiCQjERfvXrlrCKKxOnyJsfiV1z1jSf9jyi15mx+Ost//fWXC04mvkucBrBXV3aVfvv2LceqWTPhYzQ0xtq0Wmf1/Pz5s/PK/bIxsnMTWZ/3R4Uz0HiTB3Ds8bAGiZxXENW/7dcJj8q3Vj98+OCsIookko+Pj06PNFGXjZ/0GoM6a1P1JVw5z8n1l52xqQNY5pquUg3PeYsz8bLhLDk2j63w48eP9cn6xNsMR+U8R35XJCWS5/Hnn3/6Ww8/03DuE5XmmCSKD85wK7lzGSR9/vzZWUUUiT4rysw3+AZjCIlScbqn5Y3axToxwVhouDl/H2EBsHvXdJXm3KzG6a3GKg3zsc7BmfxOHzr2W4YW9WXDjC2cPntfmQGKZGSgqCuPsDBJEHRYfERevNBn5xYuO5zEfKNFTXTs7Y2oIE735IOeNTHooNqez/xHJvyt2zX1+hykT0ULfnEDQK4mLKj3uBt2l9mP999UqAP5sqcGqU4L19gicsTpM8ofJohGi2/fvtVOlkmC9Pnz5zgmDw8PznouSkWfc0RXc43SvqggTj+X01eD7zFMeHx8nHgdoTOInjkmEH/xRk29E6+PyZAXQLvrCAvqL6l+++03524h75s79xadgXxlH1qnheuqIlOcPhfd9arH/Nvf/uavf07H5Mxjxp5l/DQ2dxKl0vk8xjVG6mT4O/dF1IhI1GidLmqAK+ePCcTfvUVT7+zONCIDYK5zD0gLqAvTaBoX+dH35+fSDVasufODgrGBfJmxaeGMPL5//+6sE4uAoL4tUSl/8PH5Pcub7LHpkyiVzucxrjFSJ5/jTMw3DIqlxOkim5+c9FeIE/z1q8OClnhdmSqKOsKzMGCWtVfpGeT/zqfuYPOZ7ewxO0+CxwbyBerDaWc9yaBkzROKFo1/zO6f//ynF8BBnrvBu/AQFaTzeYxrjNTJiG3WX7OoN9DOKlzw4sVFAoLgLZg8Mi0a4/UaGUycOwB9a6/SU6v93eZRfz7H1R2hs55Evji91NevX+utuXOf5CPSsbfWN1F/1Znq2xL155dMulY6dHFYJn4UEBWk83mMa4zUcdmchldvoMW5hQvmrHNz3oLV29AerysyiJriLGyn87bKtNrbYP92fcHows4xVbG/c7czNirnn6/phwtz1fnb/i5s+EVjdL/buXr7l2i9tRIig5RRqSInZ/VEBel8HuMaI3VcNmckyxvo4NzCBXPWuTlvwbptmHu9RGVx+hKODp/963HndDdVX1huxJzNFbnkBXNUvgSuK2diwnCxnMPv3Hnke4gr/5Bi9mIKbgav/DPc0OSzal2WE49giAwG5Yg7MVMVFaTzeYxrjNRxWXN76EwViAsKFzSv8xS8Beu2Ye6FGZXF6TM6Gg1U1zJkKkpu36kOnbvpH8sso3XGJulfbZ5zsc4le4qjctg+xUtD9ZG/Pjv3IG/xV/4hxZZeLCqI09vpBPVHr0Yig748IBNT1lFBNEL70+TZdI2ROi5rbg+dqQJxQeGCE7Sxdt6Cddsw98KMyuL0ueQ0ZDsvuZ1OXKLPK3vR/k7p6ph1txanb9sYqE7Hyhl6rXpgbzUWuWRPMU23tnHo1Yw67wNuQmc31q/gw1kHW03s19u4iV4sKojT6yi+0YVRu4PQ+O4CkUFHdjoTEy1RQerbcC4bEnXE6edc1tweOt2iuKBwwQnGnnbegnXb4FU0r8S1z7vj/eFz4tcfrrH1Fva3Icx6jzXk7XhSk9MNj/pJ12jm5bfb2Xw5rDrpD0/qu25pYniqR08ftp0pOZ2zXjCzZCc78Vh3jXzPrg5+9SyueYKg4TnXv2aQaBcBQX29Mc36VSeRQcq7fx1VZw2JOpJR4PTbcFFHnH7OZc3twbULFxQu2K47XsBbsG4bvIq2lTRO3rTrDJD63P81bx2PW26mXXXTUzM4dIW5fwxDOnHn3BmCtPnp0Gaoa40VqovLXuukT2T6UbhMTBh06p902za0ZXPcVh7QBWFpixxB6618PYuLnyCos6jD85pB4qjOVGGlfVkW1BMZBJ24OAKd+aSOqJOmo0BxvZEz7rLm9uDahQsKF2zUHS/jLVi3DV5F20oaJ28a6UIbjLnr9TU3JpAMJTe8yrITy22od9VRp50XO5iY9jiqPu1y1gq139Mx/Ouvv7RhkRRXaqPLPFelDxNjfI1s9HVj882p1k8u27edbuVWM/kTYv3i9IGzjo0EE3QF5qUuujJdMCIrt8wv9Sf0+lShZVXT1OiJDLKXV4/mrCH1dMt0FJgd9NgMRJSK05PqZRIfxGVFbuGJIuwWsQHi9CJeRdtKcnScPiMt6njfoSMfI+WCmEDqYDk4+10HrTR9jbvS8z9T4az5x9+LrTtxUu+4nLVU/UP4ksct23l7f6WRu3P9ythjiE6g+fPnz1x2cJF8tyxnNcRl+7bTrcx35Vb+FmBCrF+cPnDW0pOn6zBbQOPwnHuqFnb0jzXVS6uv8RsbdSKDDdd8LfJHHNN/+bH27EejwKN/2zhKxelJ9TKJD+KyIp9n5Rh2frEB4vQiXkXDSuog7aylOjGB+nplajjJyQPl1Hn79phA6lWmHsC5TwYHrdCvHMZuqCJTnG7mxdYdxs5984JXHJI6yXpM4nSEeiW2RAa6yxr8I29jx7YfaObA31+kNgnV96fVrfE89riV9Tpc+VuACf6C5+fJWUtPXvbOaiVHx/igkFMXcCylNjrdodTrIa2Z2ZvW6bMa9+hmZL8/veM6SjHuaqQ/eiIy1Bj728ZRKk6P61wm/jS0YB3DtAFKumBrOZulf9Vj1smJ+HZxehGv4thKao+sU+PcReqNaWe8V6DsgsPcT3yYFRME1Y9lxVlPctQZ5ErPjd1QRaY43cyLrTtxnR0Zi4lb5P9y3n9lSsnsr2Q6+OhM62rknjgRMhhvjS1S4zltknLis0SFndvdVnbibueegL/j+Xly1qKTV7vpWW/Dqk/PNjT9kwGtVnVqgHxqs6KWGxN7LU5Pahxrc/wY67OiVJweURtbS79TxzA1tlnts11/Nks5uoerN4uuuohXcWwluRkLBumqjhyDq1JmlKZlX+eFn+9X53bTuZMHoS7SuaFy7vzj78VWnLjaVtOyCYPcQZ2XwWBdxz9/1j4RfKhandjPgcbpoZ3NyKYl3qqPG6JJRFKiws7tbiu3uqSPim8Rpw+cNfPkqZPNsVOykbXLmxI1d2ftRnvUcmNil8XpLXiN4+t08eSXdkLnxn4n7yPDKd4zyHYyQVeKtllDxefPn+fOBXoVQ/s4+NrNmg6kjhxjv+XR2BYVQr2PnMXLl/3q326mzO9HorXzdNaTyBenm3mx+QuGTlvN2bIFEwb1mEzEtfWkOKsnIxWtsIYXkSlOP6lffTTeqpUznoukRHLn9rWVeUZ1U3XSmEDii8TpA2c1nzw1qZzUCtlNz+Xld9lu6lSq+l/n3jrv8KZnxGscX6eLJ790MHSOHInkIHVS+TBVY9jml1jOZulC1g1Tf5welH2oaJH3799rLBm8F3Sl3j7+/Pkzj0nl4kUaHwhGndC5j2zn5csG9283k056FOkoOetguvOMInG6mRdbejA7bbVlzB5Tj4mzRkQ1cbont6oTXkSmOP1k4qsjX5x+/qahs1YfxjPb11YefSFrQ/FF4vSBsxpO3qehXwaueczvVey13WSYrytKvbBzb1rsrzi9Ba9xfJ0uHq9Qn3HWxpaDq9MjdCtznvcMggKRvOeeSy1N3XHdQhc830eNjrlH1Zpnbe0PBF3pYO7kR/LyT/s1eLuZ8nlQ59dSeV8+2HlGkTjdzIvNX1Dqo6tsq07PXOH0MemIauL0c/XkOuuJc3v5GUb0vzryJZL1DqpWdtbMvb6UfW1ljj06uM46jRpZO+sgMkUN2llDOk/L1F6n+44WXtde240uy7w27uRRQuysOL0Fr3F8nS4erzD2jDPv1J0ed573DDryfutf//rX4+OjriDF0J2ZtvV0S+rvW6Fe3dMrrPe+a77aq3g66dO3xQrKo1ScdZAPiQY7zygSp5t5sfkLdjpJ5y5dYftUgURNcbqoW9V/HdUFvQWdO7RCFxyK1B4ydum0h8gUp/dtR1tZ40EdX+eexti0RG6APjjrOV2T2UCDuraJOcZ2Xt2O203+z1VyNGC/dmqN3tVNz4jXOL5OF49XyOBs8b2pdN4zUF/pgpPJWGTwXjbpwte1qTqDEwATXm/069xOTDAx+aeiOhGyphPwKg4nveW2OErF6YNsGIOdZxSJ081yYxRxatuce0x9pUBqtOqsOVtSX29q6Xmipjj9pG7V4Ml1WW9B5w5tswsO0yHZHvovo0S+OL1ve9lKDbeK3eLAtcSDK41NS8QtV+j0ldpC5dTearrXmMsr3Xe7yXOk47BJMLRbs+5O2sU6xekeF6+o0Ejdax3VNKxql9v7/bnyxlpf5KxjOls4Yc3Du6o9JpBaWdYEJV7F4Zy2NLyoIE43/P23KBWnm3XugubqH0YXNG+JOl7tVCzSeDFGZXH6oMZbYyc3SqVzNp07tM0uKH87RN/S7xujSJzet11spdp0HW7PcCeaX9ePrBsvg21jAvF6991u6iV6279XnHiauFgOjWp+zuqJCuL0czr+Lt6inej0qRl7dQfq0U73TMHfsWLLs1s/RfiSM4jScnVnCwlrnqx5FYcj09LwooI4Pf7nClKUitPNdBzyJmqB/mF0QfOW5LcPDreDsp3U7j2fvim2GDu5uaA+OOsgMsXpwgXF4BXksvnH/yJ2sZX1AtMF6dxT8pcNnaR+X9mhcXGT6coOr3337aZO6N3wSwaxg+L0FsYeXVV5bI9OVrlgHbX2zgMF2W0Lzwuz8xL+ehpv8si3xAQSldPYbXoLr+JwZPxp8ii5xlOdGtCMPVpy8dKD3z5zUw2+6eKyti2pu9beJnNSMy+0OrUzEW/V2WJnHThraJuz2YSx8cvFS4//mV1+K3P6S13eKTqjQfGN4vRzg32lnKi7DP6Oww/KHx4eznYoFqjX6q3+XtG7t+llPPboqqqTVWpvGv90x6PMGhDI5tFzp9/v3C1twqtecUh1UcQaFv+XJWPy5cf+U+FBPzb9X3C8/GEN/jS5Ntc41FHzqAFNVOiLCuL05eTW9mdqO+q0/6w7kJyWEyU7rxREnTGuVw5UDSmcVdRIYuJhlmvs4Pi3uPxW5tzO4l/9LhDfKE7vgDfo0CPHBxfsUo5wv9zo7xVj78TpLUw8ukrqVtRzRbVBp4tNO9FwZ7piPa93xSFVS8urY8PNy2FDK2+cpq5vAMQHcdl8Xv7wcMSfJtfmGsdec6v206v0b+XH5EFe8LwyFpSWVwqqqCmRrCGFtjwyF/AqdnD8W1x4K+s5W/Nm9SxHX8+5iDwOQVe7C3ZJJy4f/Wz1wteuxK6J01vwGo+tUwfz/JNVqU5XbBsZeKXrDmneRcgmm1e7oPb3KuobAPFBXDaflz/8X53xYfryzw3Oo6Gc6YAmbmoHZ/XPrHMrP6bOgkxM+4+JBaUe0pZuKipLJPNEt4QUE2Il4vS+XXgrs1mfcxS8yPzEUbU7lgVXwpnV3ysqnD9bVHce3rFNL2OvsW2d6oPivkodk1qsYlkXnJi+t05XbBgZeI3rDunmm5cR2KwuKBYRfc7Ra/E5isWlcSDszye1BzR7kLs5ttk6yzodUefXX3917hyxrNQAzmWTorLoc41g1sQE4rVs2p+cziW3Upe0D9V5R8FsKLsaydTssofSZe/cfcsAK+z5fYi5sudyeguxQnF6r04UGXh1q3d/q83T7XW+UiCzuiAvc9iXnBV/vfTvScfi6WiAku9YJBdcibwF0lXmrOdyaFCFxsc6HbF45YJjXPv5A5r177Kcoj85nYtt5azXQLblb722a2mf1EPlI3PFW869fqeYdI2jJE7vWGfo3eRm1OvaYvfXRwafP3/OnlrmdkFe7LAvP8rfk17WYGLZdDRAqb9TDS64Ejp9efAHm1beuS1ueLF45YJjXPvY3yGY6xT9yelcrD3lidcFuSzEXkbXcHyvOAvrcEgb+RhdyVGqQ696RueuEKsSp9fpRAbqcNUOXXZMfZ9AHxaMPbGsRDJv35cdqFg2NAYouf2y5lW4S6kTBrpFdO6TKBKn56vHJ7jgmP6Cm8TE1+ViPZQP+epnNnM1vtSDWfJa2mrC+SbFIRKnd0/Xprd4i232irbb/U5koEbY2IPnw683b96snKN2et3eecmDxv4w7j7lSl/41TbXAbjTbzh3RVPpvKolLjims2BjlHZjNrtE5/JR366PaPTw8BDfe863GW5evZbuMLhu5AN09ja/hrd4i232ijbdfY0u+VvZcDQwzefWsrgT6MfBkZRIzuIlD5x1BzKyCfmr3XqCImeBTsgoLjhGC+Y7Xjf5G6sWF2uFcdzF6XOJNnf0J7OYpV6E6jHv81o6Ko6POH0NvMVbbLNXdILd1+ieb4e1W3Mj2I+DnVi0d17y/qYw1VHkfVr0yTUmWPlwpHZK4lw0uNjB8rnibN0KXYTxSrZibWfhuWjw4vQ18BZvsc1e0Wl2vzMGHKXKa4LX+nWKg1f+XxVe8i6nMOuPAKuVJyhkp8R94CyX6aH2+QeFsF77a193KNq8OL17275MmhPvTm9NY8Dgn4Hq22RyWGt48+ZNrPDx8TE+iIvnOPWR2bn+WdskJsBil2mI+crPrv6gEHBS5+n9NUQp2o4v2somk9vxLPlafqPVIh8l1MfkLpvj9o7MLJ147m6f6O/HZcKCff5BIeCkztP7bx4TCO/nDsrfJdbXHl0GXK0LNOL6h4ycBWAj9c51E+/u8jdaLfK5eA3FXAZcrXM34vqHRFa+aAoAl5W9WXIBcLXO3YjzrYK3bf+fFQDs1uI/mwPs1vkacedNKJ5WArh2ndfl7va1QdyS84UFNSbgaSUAADt0vrAg34Ti9ycAAOwTT8IAAIARFgAAACMsAAAARlgAAACMsAAAABhhAQAAMMICAABghAUAAMAICwAAgBEWAAAAIywAAABGWAAAAIywAAAAGGEBAAAwwgIAAGCEBQAAwAgLAACAERYAAAAjLAAAAEZYAAAAjLAAAAAYYQEAADDCAgAAYIQFAADACAsAAIARFgAAgIP//e//AJD5CJmrF+AhAAAAAElFTkSuQmCC"></sign>
+</root>', "2015-05-21 23:59:59", 1, 1);
 
 INSERT INTO DocDocuments(documentID, patientID, XML, regDate, formID, MTRAID, sectionID) Values
     (1, 5, '<root>
-                       	<meta>
-                       		<pID>5</pID>
-                       		<pExamID>346346346</pExamID>
-                       		<pFirstName>Martina Jakob</pFirstName>
-                       		<pLastName>Schuler</pLastName>
-                       		<pDate>1961-12-10</pDate>
-                       		<name>CT Aufklärung</name>
-                       	</meta>
-                       	<formData>
-                       		<page>
-                       			<row>
-                       				<text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Was ist Computertomographie?" size="15"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden
-                       Röntgenstrahlen zur Bilderstellung verwendet." size="14"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist
-                       die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der
-                       Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund.
-                       Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren
-                       Fällen kann es zu einem Kompartmentsyndrom führen.
-                       In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei
-                       Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die
-                       Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken.
-                       Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH
-                       (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14"></text>
-                       			</row>
-                       		</page>
-                       		<page>
-                       			<row>
-                       				<text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung.
-                       Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem
-                       Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Wie lange dauert die Untersuchung?" size="15"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Wie läuft die Untersuchung ab?" size="15"></text>
-                       			</row>
-                       			<row>
-                       				<text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit
-                       dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes
-                       vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14"></text>
-                       			</row>
-                       		</page>
-                       		<page>
-                       			<row>
-                       				<input text="Name, Vorname"  mtraComment="Nichts besonderes" comment="Schuler, Martina Jakob"></input>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14"></text>
-                       				<radiobutton checked="1" text="Ja"></radiobutton>
-                       				<radiobutton checked="0" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14"></text>
-                       				<radiobutton checked="1" text="Ja"></radiobutton>
-                       				<radiobutton checked="0" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14"></text>
-                       				<radiobutton checked="1" text="Ja"></radiobutton>
-                       				<radiobutton checked="0" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text>
-                       				<radiobutton checked="0" text="Ja"></radiobutton>
-                       				<radiobutton checked="1" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14"></text>
-                       				<radiobutton checked="1" text="Ja"></radiobutton>
-                       				<radiobutton checked="0" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14"></text>
-                       				<radiobutton checked="0" text="Ja"></radiobutton>
-                       				<radiobutton checked="1" text="Nein"></radiobutton>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text>
-                       				<radiobutton checked="0" text="Ja"></radiobutton>
-                       				<radiobutton checked="1" text="Nein"></radiobutton>
-                       			</row>
-                       		</page>
-                       		<page>
-                       			<row>
-                       				<text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein." size="14"></text>
-                       			</row>
-                       			<row>
-                       				<input text="Datum/Unterschrift Patient" mtraComment="Nichts besonderes" comment="21.05.2015, Martina Jakob Schuler"></input>
-                       			</row>
-                            </page>
-                            <page>
-                       			<row mtraComment="Nichts besonderes">
-                       				<text text="Ich habe eine Kopie erhalten" size="14"></text>
-                       				<radiobutton checked="1"></radiobutton>
-                       				<text text="Ich wünsche keine Kopie" size="14"></text>
-                       				<radiobutton checked="0"></radiobutton>
-                       			</row>
-                       			<row>
-                       				<input text="Unterschrift Patient" mtraComment="Nichts besonderes" image="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"></input>
-                       			</row>
-                       		</page>
-                       	</formData>
-                       </root>', "2015-05-21 23:59:59", 3, 2, 3);
+    <meta>
+        <pID>5</pID>
+        <pExamID>346346346</pExamID>
+        <pFirstName>Martina Jakob</pFirstName>
+        <pLastName>Schuler</pLastName>
+        <pDate>1961-12-10</pDate>
+        <name>CT Aufklärung</name>
+    </meta>
+    <form>
+        <page>
+            <row>
+                <text text="Informationen für unsere Patienten zur Computertomographie" size="20"></text>
+            </row>
+            <row>
+                <text text="Was ist Computertomographie?" size="15"></text>
+            </row>
+            <row>
+                <text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie bereite ich mich auf die Untersuchung vor?" size="15"></text>
+            </row>
+            <row>
+                <text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!"
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15"></text>
+            </row>
+            <row>
+                <text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!"
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie lange dauert die Untersuchung?" size="15"></text>
+            </row>
+            <row>
+                <text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Wie läuft die Untersuchung ab?" size="15"></text>
+            </row>
+            <row>
+                <text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen."
+                      size="14"></text>
+            </row>
+        </page>
+        <page>
+            <row>
+                <input text="Name, Vorname" patientInput="MARTINA JAKOB SCHULER"></input>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text=" Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?"
+                      size="14">
+                </text>
+                <radiobutton checked="1" text="Ja"></radiobutton>
+                <radiobutton checked="0" text="Nein"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?"
+                      size="14"></text>
+                <radiobutton checked="0" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="1" text="Nein" highlight="false"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?"
+                      size="14"></text>
+                <radiobutton checked="1" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="0" text="Nein" highlight="true"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Besteht eine Schilddrüsenüberfunktion?" size="14"></text>
+                <radiobutton checked="1" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="0" text="Nein" highlight="true"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?"
+                      size="14"></text>
+                <radiobutton checked="1" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="0" text="Nein" highlight="true"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?"
+                      size="14"></text>
+                <radiobutton checked="0" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="1" text="Nein" highlight="true"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Könnten Sie schwanger sein oder stillen Sie?" size="14"></text>
+                <radiobutton checked="1" text="Ja" highlight="true"></radiobutton>
+                <radiobutton checked="0" text="Nein" highlight="true"></radiobutton>
+            </row>
+        </page>
+        <page>
+            <row>
+                <text text="Meine Fragen wurden vollständig und verständlich beantwortet, ich willige hiermit in die geplante Untersuchung ein."
+                      size="14"></text>
+            </row>
+            <row>
+                <input text="Datum/Unterschrift Patient" patientInput="MARTINA JAKOB SCHULER"></input>
+            </row>
+        </page>
+        <page>
+            <row>
+                <radiobutton text="Ich wünsche keine Kopie" checked="1"></radiobutton>
+                <radiobutton text="Ich wünsche keine Kopie" checked="0"></radiobutton>
+            </row>
+            <row>
+                <input text="Unterschrift Patient" patientInput=""></input>
+            </row>
+        </page>
+    </form>
+    <sign image="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"></sign>
+</root>', "2015-05-21 23:59:59", 3, 2, 3);
 
-INSERT INTO Codes (code, sectionID, formID) VALUES
-("R0CG.SCHO", 1, 1),
-("R0CG.PLAS", 1, 1),
-("R0CG.HB", 1, 1),
-("R0CG.TB", 1, 1),
-("R0CG.BST", 1, 1),
-("ROCHT.HALS", 1, 1),
-("ROCHT.THO", 1, 1),
-("ROCHT.HT", 1, 1),
-("ROCHT.LE", 1, 1),
-("ROCHT.CHPA", 1, 1),
-("R0CG.OBB", 1, 1),
-("R0CG.OB", 1, 1),
-("R0CG.BECK", 1, 1),
-("R0CG.PANK", 1, 1),
-("R0CG.NIER", 1, 1),
-("R0CG.LITH", 1, 1),
-("R0CG.CHPA", 1, 1),
-("R0CG.KALK", 1, 1),
-("R0CG.ANG", 1, 1),
-("R0CG.HIRN", 1, 1),
-("R0CG.HALS", 1, 1),
-("R0CG.HIHA", 1, 1),
-("R0CG.THOR", 1, 1),
-("R0CG.ABD", 1, 1),
-("R0CG.BBA", 1, 1),
-("R0CG.VENO", 1, 1),
-("R0CG.HIRN", 1, 1),
-("R0CG.ORB", 1, 1),
-("R0CG.GES", 1, 1),
-("R0CG.FELS", 1, 1),
-("R0CG.H", 1, 1),
-("R0CG.B", 1, 1),
-("R0CG.L", 1, 1),
-("R0CG.BMD", 1, 1),
-("R0CG.HAND", 1, 1),
-("R0CG.OEX", 1, 1),
-("R0CG.FUSS", 1, 1),
-("R0CG.UEX", 1, 1),
-("R0CG.ACHS", 1, 1),
-("R0CG.SCHM", 1, 1),
-("R0CG.FAC", 1, 1),
-("R0CG.ALK", 1, 1),
-("R0CG.LUNG", 1, 1),
-("R0CG.ABD", 1, 1),
-("R0CG.KNO", 1, 1),
-("R0CG.RITA", 1, 1),
-("R0CG.DRLU", 1, 1),
-("R0CG.DRAB", 1, 1),
-("R0CG.DRAIN", 1, 1),
-("R0CG.VT", 1, 1),
-("R0CG.THO", 1, 1),
-("R0CG.OB", 1, 1),
-("R0CG.SCH", 1, 1),
-("R0CG.WS", 1, 1),
-("R0CG.HIRN", 2, 1),
-("R0CG.STRO", 2, 1),
-("R0CG.PLAN", 2, 1),
-("R0CG.ORB", 2, 1),
-("R0CG.NNH", 2, 1),
-("R0CG.AN", 2, 1),
-("R0CG.HYPO", 2, 1),
-("R0CG.GEF", 2, 1),
-("R0CG.HALS", 2, 1),
-("R0CG.CARO", 2, 1),
-("R0CG.THOR", 2, 1),
-("R0CG.PUL", 2, 1),
-("R0CG.MAM", 2, 1),
-("R0CG.IS", 2, 1),
-("R0CG.VOL", 2, 1),
-("R0CG.STR", 2, 1),
-("R0CG.MP", 2, 1),
-("R0CG.ISO", 2, 1),
-("R0CG.PLAS", 2, 1),
-("R0CG.MET", 2, 1),
-("R0CG.FOK", 2, 1),
-("R0CG.MAS", 2, 1),
-("R0CG.SCRE", 2, 1),
-("R0CG.OB", 2, 1),
-("R0CG.OB", 2, 1),
-("R0CG.BECK", 2, 1),
-("R0CG.LEB", 2, 1),
-("R0CG.PRIM", 2, 1),
-("R0CG.LEFE", 2, 1),
-("R0CG.PANK", 2, 1),
-("R0CG.MRCP", 2, 1),
-("R0CG.NIER", 2, 1),
-("R0CG.AUG", 2, 1),
-("R0CG.PROS", 2, 1),
-("R0CG.HOD", 2, 1),
-("R0CG.REK", 2, 1),
-("R0CG.COLO", 2, 1),
-("R0CG.FAEK", 2, 1),
-("R0CG.SELL", 2, 1),
-("R0CG.DYN", 2, 1),
-("R0CG.ANG", 2, 1),
-("R0CG.HWS", 2, 1),
-("R0CG.BWS", 2, 1),
-("R0CG.LWS", 2, 1),
-("R0CG.TS", 2, 1),
-("R0CG.ISG", 2, 1),
-("R0CG.MYE", 2, 1),
-("R0CG.SG", 2, 1),
-("R0CG.ASG", 2, 1),
-("R0CG.OA", 2, 1),
-("R0CG.EB", 2, 1),
-("R0CG.UA", 2, 1),
-("R0CG.HAN", 2, 1),
-("R0CG.HG", 2, 1),
-("R0CG.FI", 2, 1),
-("R0CG.HUE", 2, 1),
-("R0CG.AHUE", 2, 1),
-("R0CG.OS", 2, 1),
-("R0CG.US", 2, 1),
-("R0CG.KG", 2, 1),
-("R0CG.SG", 2, 1),
-("R0CG.FU", 2, 1),
-("R0CG.HIRN", 2, 1),
-("R0CG.CARO", 2, 1),
-("R0CG.PUL", 2, 1),
-("R0CG.NIE", 2, 1),
-("R0CG.ABD", 2, 1),
-("R0CG.AORT", 2, 1),
-("R0CG.BBA", 2, 1),
-("R0CG.GK", 2, 1),
-("R0CG.EXT", 2, 1),
-("R0CG.HIRN", 2, 1),
-("R0CG.THOR", 2, 1),
-("R0CG.ABD", 2, 1),
-("R0CG.BECK", 2, 1),
-("R0CG.IU", 2, 1),
-("R0CG.MSK", 2, 1),
-("R0CG.CDH", 2, 1),
-("R0CG.GK", 3, 1),
-("R0CG.CH", 3, 1),
-("R0CG.HIR", 3, 1),
-("R0CG.HIR2", 3, 1),
-("R0CG.HIR3", 3, 1),
-("R0CG.KN", 3, 1),
-("R0CG.KN2", 3, 1),
-("R0CG.KN3", 3, 1),
-("R0CG.SDTC", 3, 1),
-("R0CG.SDJ", 3, 1),
-("R0CG.NSD", 3, 1),
-("R0CG.SEQ", 3, 1),
-("R0CG.TPL", 3, 1),
-("R0CG.PERF", 3, 1),
-("R0CG.GES", 3, 1),
-("R0CG.MYR", 3, 1),
-("R0CG.MYB", 3, 1),
-("R0CG.DAT", 3, 1),
-("R0CG.IBZM", 3, 1),
-("R0CG.HMPA", 3, 1),
-("R0CG.LIQ", 3, 1),
-("R0CG.2", 3, 1),
-("R0CG.REZ", 3, 1),
-("R0CG.1", 3, 1),
-("R0CG.ME", 3, 1),
-("R0CG.EP", 3, 1),
-("R0CG.LE", 3, 1),
-("R0CG.SP", 3, 1),
-("R0CG.SIMA", 3, 1),
-("R0CG.SIRT", 3, 1),
-("R0CG.TU", 3, 1),
-("R0CG.GA", 3, 1),
-("R0CG.ME", 3, 1),
-("R0CG.MA", 3, 1),
-("R0CG.AND", 3, 1);
-
-insert into ScheduledResigningPatients(resignScheduledID, patientID, XML, regDate, formID, docID,sectionID,tabletID) values (
-1,2,
-'<root>
-	<meta>
-		<pID>9</pID>
-		<pFirstName>Hans</pFirstName>
-		<pLastName>Müller</pLastName>
-		<pDate>1980-10-10</pDate>
-		<name>Computer Tomografie und Magnetische Resonant Röhren Inspektion durch Aufklärung an Probanden</name>
-	</meta>
-	<form>
-		<page>
-			<row><text text="Informationen für unsere Patienten zur Computertomographie" size="20" /></row>
-			<row><text text="Was ist Computertomographie?" size="15" /></row><row><text text="Die Computertomographie, auch CT genannt, ist neben der Kernspintomographie eine weitere moderne Form der diagnostischen Abbildung des menschlichen Körpers. In der Computertomographie werden Röntgenstrahlen zur Bilderstellung verwendet." size="14" /></row>
-			<row><text text="Wie bereite ich mich auf die Untersuchung vor?" size="15" /></row>
-			<row><text text="Wird bei Ihnen eine CT-Untersuchung ohne Kontrastmittel (nativ) durchgeführt, ist keine besondere Vorbereitung notwendig. Sie können wie üblich essen und trinken. Bei einigen Untersuchungen ist die Gabe von Kontrastmittel nötig, um die diagnostische Information der CT-Untersuchung zu verbessern. Diese Kontrastmittel enthalten einen Jod - Komplex, sind in der Regel gut verträglich und werden über einen  venösen Zugang in der Ellenbeuge oder an der Hand eingespritzt. In vielen Fällen beobachten Patienten ein intensives Wärmegefühl im gesamten Körper oder einen ungewohnten Geschmack im Mund. Dies ist eine normale Reaktion, keine Unverträglichkeit! In seltenen Fällen kann es zu einem Austritt des Kontrastmittels aus dem Gefäß kommen (so genanntes Paravasat), was zu einer Schwellung und Gewebsuntergang führen kann, in schweren Fällen kann es zu einem Kompartmentsyndrom führen. In extrem seltenen Fällen wurden auch mittelgradige und schwere Unverträglichkeitsreaktionen auf die Kontrastmittelgabe mit Komplikationen beobachtet. Sollte solch eine Unverträglichkeit bereits bei einer vorangegangenen Untersuchung bei Ihnen aufgetreten sein, so bitten wir Sie, dieses unbedingt anzugeben. Sollte eine unvorhergesehene Komplikation auftreten, so stehen alle nötigen Möglichkeiten zur sofortigen Behandlung zur Verfügung. Da das Kontrastmittel wird über die Nieren ausgeschieden wird sollten sie nach der Untersuchung viel trinken. Ist eine Kontrastmittelgabe für die Untersuchung notwendig, müssen eine Nierenfunktionsstörung und/oder eine Schilddrüsenfunktionsstörung ausgeschlossen werden. Dazu werden zwei Blutwerte bestimmt, Kreatinin (Nierenwert) und TSH (Schilddrüsenwert). Auch müssen metforminhaltige Antidiabetika nach der Untersuchung für 48 Stunden abgesetzt werden, da sonst Wechselwirkungen mit dem Kontrastmittel auftreten können!" size="14" /></row>
-		</page>
-		<page>
-			<row><text text="Ist die Untersuchung schmerzhaft oder gefährlich?" size="15" /></row>
-			<row><text text="Die CT-Untersuchung ist ein schmerzloses Verfahren. Während der Untersuchung verspüren Sie nichts. Die Strahlenbelastung ist deutlich höher als bei einer konventionellen Röntgenuntersuchung. Deshalb muss sorgfältig geprüft werden, ob eine eventuelle Schädigung durch die Röntgenstrahlung den Informationsgewinn aufwiegt.  Da Kinder, Jugendliche und ungeborene Kinder besonders strahlenempfindlich sind, wird bei diesem Personenkreis die Indikation zu einer CT-Untersuchung besonders streng überprüft! Teilen Sie dem Arzt deshalb unbedingt mit, ob eine Schwangerschaft besteht, auch wenn Sie nicht sicher sind!" size="14" /></row>
-			<row><text text="Wie lange dauert die Untersuchung?" size="15" /></row><
-			row><text text="Standarduntersuchungen in der CT dauern meist 5-10 Minuten, wobei Vorbereitungszeiten wie Kontrastmittelzugang legen und Umkleidezeiten nicht mit eingerechnet sind." size="14" /></row>
-			<row><text text="Wie läuft die Untersuchung ab?" size="15" /></row>
-			<row><text text="Sie werden vom CT-Personal auf einem Untersuchungstisch gelagert und in den Untersuchungsring (Gantry) gefahren. Sie stehen ständig unter ärztlicher Beobachtung und sind in Sprechverbindung mit dem Untersuchungspersonal. Während der Untersuchung sollten sie ganz ruhig und entspannt liegen. Sollte eine Dünndarmuntersuchung notwendig sein, erhalten Sie ca. 30-40 Minuten vor der CT eine Trinklösung, was die Abgrenzung des Darmes vom restlichen Gewebe vereinfacht. Bei einer Dickdarmuntersuchung ist es manchmal erforderlich, über ein Darmrohr Luft oder Wasser einzubringen. Für Herzuntersuchungen ist es notwendig, Ihnen ein EKG anzulegen." size="14" /></row></page>
-		<page>
-			<row comment="Dickbutt" mtraComment="DickerButt" docComment="DiggestButt">
-				<text text="Wurde bei Ihnen bereits eine CT/MRT Untersuchung durchgeführt? Wenn ja, wo und welches Organ?" size="14" />
-			</row>
-			<row>
-				<radiobutton text="Ja" checked="1" comment="Dickbutt" mtraComment="DickerButt" docComment="DiggestButt" highlight="0" />
-				<radiobutton text="Nein" checked="0" comment="" mtraComment="" docComment="" highlight="false" />
-			</row>
-		</page>
-		<page>
-			<row><text text="Traten bei früheren Untersuchungen Kontrastmittel-Reaktionen auf z.B.: Hautausschlag, Erbrechen o.Ä.?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-		<page>
-			<row><text text="Ist eine Stoffwechsel- (Diabetes) oder Funktionsstörung (Nieren) bekannt? Nehmen sie Metformin ein?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-		<page>
-			<row><text text="Besteht eine Schilddrüsenüberfunktion?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-		<page>
-			<row><text text="Besteht bei Ihnen eine Allergie oder Überempfindlichkeit gegen Medikamente (Jod, Penicillin etc), Pflaster, Latex, örtliche Beträubungsmittel etc?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-		<page>
-			<row><text text="Nehmen Sie regelmäßig Medikamente ein (Antidiabetika, Marcumar, Aspirin, Herzmedikamente etc.)?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-		<page>
-			<row><text text="Könnten Sie schwanger sein oder stillen Sie?" size="14" /></row>
-			<row><radiobutton text="Ja" checked="false" comment="" mtraComment="" docComment="" highlight="false" /><radiobutton text="Nein" checked="false" comment="" mtraComment="" docComment="" highlight="false" /></row></page>
-	</form>
-<sign text="iVBORw0KGgoAAAANSUhEUgAABKEAAAJRCAYAAACdhaQEAAAABHNCSVQICAgIfAhkiAAAEBBJREFU
-eJzt2EENwCAAwEDAv75JwAHvTUVDstwp6Lvz2ecdAAAAABBatwMAAAAA+D8TCgAAAICcCQUAAABA
-zoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6E
-AgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIA
-AAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAA
-IGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBn
-QgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IB
-AAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAA
-AJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQ
-M6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOh
-AAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAA
-AADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAA
-yJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZ
-UAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAA
-AAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAA
-AORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADk
-TCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5Ewo
-AAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAA
-AAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAA
-ciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHIm
-FAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQA
-AAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAA
-ADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5
-EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMK
-AAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAA
-AICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACA
-nAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJ
-BQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUA
-AABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAA
-QM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDO
-hAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQC
-AAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAA
-ACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAg
-Z0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdC
-	AQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEA
-	AACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAA
-	kDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAz
-	oQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EA
-	AAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAA
-	AMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADI
-	mVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQ
-	AAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAA
-	AADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA
-	5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORM
-	KAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgA
-	AAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAA
-	AHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAABy
-	JhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYU
-	AAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAA
-	AAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAA
-	ORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkT
-	CgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoA
-	AACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAA
-	gJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICc
-	CQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkF
-	AAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAA
-	AEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABA
-	zoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6E
-	AgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIA
-	AAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAA
-	IGdCAQAAAJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBn
-	QgEAAACQM6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IB
-	AAAAkDOhAAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAA
-	AJAzoQAAAADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQ
-	M6EAAAAAyJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOh
-	AAAAAMiZUAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAA
-	AADImVAAAAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAA
-	yJlQAAAAAORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZ
-	UAAAAADkTCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAA
-	AAAA5EwoAAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAA
-	AORMKAAAAAByJhQAAAAAORMKAAAAgJwJBQAAAEDOhAIAAAAgZ0IBAAAAkDOhAAAAAMiZUAAAAADk
-	TCgAAAAAciYUAAAAADkTCgAAAICcCQUAAABAzoQCAAAAIGdCAQAAAJAzoQAAAADImVAAAAAA5Ewo
-	AAAAAHImFAAAAAA5EwoAAACAnAkFAAAAQM6EAgAAACBnQgEAAACQM6EAAAAAyJlQAAAAAORMKAAA
-	AAByH1t0CFJgmT2eAAAAAElFTkSuQmCC
-	" />
-</root>', "2015-05-21 23:59:59", 1, 2,3,4);
+#INSERT INTO ScheduledResigningPatients(resignScheduledID, patientID, XML, regDate, formID, mtraID, docID, docTimestamp, sectionID, tabletID) Values
+#(1, 12, 'hall', "2015-05-21 23:59:59", 1,1,1, "2015-05-21 23:59:59",1,3),
+#(2, 13, 'hall', "2015-05-21 23:59:59", 1,1,1, "2015-05-21 23:59:59",1,3);
