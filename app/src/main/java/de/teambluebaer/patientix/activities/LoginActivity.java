@@ -24,8 +24,10 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -130,7 +132,25 @@ public class LoginActivity extends Activity {
                 return false;
             }
             return true;
-        }
+        }else{
+            BufferedReader br = null;
+            try {
+                String sCurrentLine = "";
+                br = new BufferedReader(new FileReader(path+"/config.txt"));
+                sCurrentLine =sCurrentLine + br.readLine();
+                sCurrentLine =sCurrentLine + br.readLine();
+                    Log.d("currentLine",sCurrentLine);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (br != null)br.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            }
         return false;
     }
 

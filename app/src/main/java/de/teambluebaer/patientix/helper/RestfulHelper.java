@@ -32,15 +32,16 @@ public class RestfulHelper extends Activity {
     //private  final String SERVER_URL = "http://192.168.1.7/";
     //private final String SERVER_URL ="http://192.168.43.168/"
     //private final String SERVER_URL = "http://192.168.178.40/";
-    private final String SERVER_URL = "http://141.19.145.237/";
+    // private final String SERVER_URL = "http://141.19.145.237/";
     //private final String SERVER_URL = "http://192.168.1.13/";
     //private final String SERVER_URL = "http://192.168.2.1/";
     //private final String SERVER_URL = "http://141.19.145.225/";
+    private String SERVER_URL = "http://141.19.145.237/";
     private final String POST_LOGIN = "server/index.php/login";
     private final String POST_FORMULA = "server/index.php/formula";
     private final String POST_GET_TABLET_ID = "server/index.php/getTabletID";
     private final String POST_FILLED_FORMULA = "server/index.php/filledformula";
-    private final String POST_RESIGNED_FORMULA ="server/index.php/resignFormula";
+    private final String POST_RESIGNED_FORMULA = "server/index.php/resignFormula";
     private String POST_URL;
 
     //Respones Output
@@ -135,7 +136,7 @@ public class RestfulHelper extends Activity {
     private void setURLForRequest(String restMethod) {
         try {
             Log.d("RESTMETHOD", restMethod);
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.print(e.toString());
         }
         if (restMethod.equals("login")) {
@@ -144,9 +145,9 @@ public class RestfulHelper extends Activity {
             POST_URL = SERVER_URL + POST_FORMULA;
         } else if (restMethod.equals("filledformula")) {
             POST_URL = SERVER_URL + POST_FILLED_FORMULA;
-        }else if (restMethod.equals("getTabletID")) {
+        } else if (restMethod.equals("getTabletID")) {
             POST_URL = SERVER_URL + POST_GET_TABLET_ID;
-        }else if (restMethod.equals("resignFormula")){
+        } else if (restMethod.equals("resignFormula")) {
             POST_URL = SERVER_URL + POST_RESIGNED_FORMULA;
         }
     }
@@ -181,6 +182,14 @@ public class RestfulHelper extends Activity {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Sets the SERVER_URL to connect to
+     * @param ip the ip of the server
+     */
+    public void setServerUrl(String ip) {
+        this.SERVER_URL = "http://" + ip + "/";
     }
 
     /**
