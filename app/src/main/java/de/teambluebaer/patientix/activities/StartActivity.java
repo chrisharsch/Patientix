@@ -128,12 +128,14 @@ public class StartActivity extends Activity {
     public void onClickUpdateButton(View v) {
         textViewPatientName.setText("");
         textViewPatientBirth.setText("");
+        textViewExameName.setText("");
         Constants.GLOBALMETAANDFORM = new MetaAndForm();
         buttonStart.setVisibility(View.INVISIBLE);
         buttonStart.setClickable(false);
 
 
         Flasher.flash(buttonUpdate, "1x5");
+        parameterMap.clear();
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
 
@@ -142,7 +144,7 @@ public class StartActivity extends Activity {
 
         //changing some things on the layout
         Log.d("ResponseCode", responseCode + "");
-        Log.d("ResponseString",restfulHelper.responseString);
+        Log.d("ResponseString", restfulHelper.responseString);
         if (responseCode == 200) {
             if(!restfulHelper.responseString.isEmpty() || restfulHelper.responseString.length()<10) {
                 try {
@@ -182,6 +184,7 @@ public class StartActivity extends Activity {
         } else {
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
         }
+
     }
 
     /**

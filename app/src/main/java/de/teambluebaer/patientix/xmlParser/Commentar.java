@@ -18,6 +18,10 @@ import de.teambluebaer.patientix.helper.TextSize;
 
 /**
  * Created by Simon on 21.05.2015.
+ *
+ * Abstract Class, Subclasses could have Comments
+ *
+ * @see Row
  */
 public abstract class Commentar {
 
@@ -25,6 +29,12 @@ public abstract class Commentar {
     protected String mtraCommentar;
     protected String doctorCommentar;
 
+
+    /**
+     * Add a Comentarbutton thet extends on Click to an Comentarfield
+     * @param context Context of the Activite the Comment should be added
+     * @param layout Layout the Comment should be added
+     */
     public void addCommentarField(Context context, LinearLayout layout) {
         final LinearLayout linearLayout = layout;
         final Context comContext = context;
@@ -98,6 +108,11 @@ public abstract class Commentar {
     }
 
 
+    /**
+     * Show all Commentartypes in different Colors
+     * @param context Context of the Activite the Comment should be added
+     * @param layout Layout the Comment should be added
+     */
     public void showAllComments(Context context, LinearLayout layout) {
         if (patientCommentar != null && !patientCommentar.isEmpty()) {
             TextView patCom = new TextView(context);

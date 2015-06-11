@@ -57,6 +57,11 @@ public class Radio implements Element,Editable {
         layout.addView(radio);
     }
 
+    /**
+     * Costem addToView Methode that should be Used to add Radiobutton to Views
+     * @param context Context of the Activite the Radiobutton should be added
+     * @param radiogroup could contains severel Radiobutton
+     */
     public void addToView(Context context, RadioGroup radiogroup) {
         RadioButton radio = new RadioButton(context);
         radio.setText(radioText);

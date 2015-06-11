@@ -24,6 +24,12 @@ public class LayoutCreater {
     public LayoutCreater() {
     }
 
+    /**
+     *
+     * @param context Context of the Activite the Row should be added
+     * @param row Row that should be added
+     * @param pageLayout Pagelayout the row should be added to
+     */
     public void CreateRowLayout(Context context, Row row, LinearLayout pageLayout) {
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
@@ -63,6 +69,12 @@ public class LayoutCreater {
         }
     }
 
+    /**
+     * Create a given Page out of the Global metha and Form Pagelist
+     * @param context Context of the Activite the Page should be added
+     * @param page Page that shuld be convertet into a Layout
+     * @param pageLayout Layout the Page should use
+     */
     public void CreatPageLayout(Context context, Page page, LinearLayout pageLayout) {
         pageLayout.removeAllViews();
         List<Row> rows = page.getRows();
@@ -71,6 +83,11 @@ public class LayoutCreater {
         }
     }
 
+    /**
+     *
+     * @param context Context of the Activite the List should be added
+     * @param layout Layout the List is added to
+     */
     public void CreatListLayout(Context context, LinearLayout layout) {
         layout.removeAllViews();
         List<Page> pageList = Constants.GLOBALMETAANDFORM.getForm().getPageList();

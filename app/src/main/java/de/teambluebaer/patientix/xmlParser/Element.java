@@ -25,6 +25,12 @@ public interface Element {
      */
     public void addToView(Context context, LinearLayout layout);
 
+
+    /**
+     * convert an Element into an valid XML String
+     *
+     * @return an Element as a XML String
+     */
     public String toXMLString();
 
 
