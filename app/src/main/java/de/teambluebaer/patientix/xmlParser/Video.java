@@ -1,12 +1,16 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
+
+import de.teambluebaer.patientix.helper.TextSize;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -35,22 +39,31 @@ public class Video implements Element {
     public void addToView(Context context, LinearLayout layout) {
 
         if(!videoSource.isEmpty()) {
-            RelativeLayout rl = new RelativeLayout(context);
-            rl.setLayoutParams(new RelativeLayout.LayoutParams(1980, 1000));
-            VideoView video = new VideoView(context);
-            rl.setGravity(Gravity.CENTER);
-            FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1980, 1000);
-            layoutParameter.gravity = Gravity.CENTER;
-            video.setLayoutParams(layoutParameter);
-            video.setVideoPath(videoSource);
-            MediaController mediaController = new MediaController(video.getContext());
-            mediaController.setAnchorView(video);
-            mediaController.setMediaPlayer(video);
-            video.requestFocus();
-            video.setMediaController(mediaController);
-            video.start();
-            rl.addView(video);
-            layout.addView(rl);
+            try{
+                RelativeLayout rl = new RelativeLayout(context);
+                rl.setLayoutParams(new RelativeLayout.LayoutParams(1980, 1000));
+                VideoView video = new VideoView(context);
+                rl.setGravity(Gravity.CENTER);
+                FrameLayout.LayoutParams layoutParameter = new FrameLayout.LayoutParams(1980, 1000);
+                layoutParameter.gravity = Gravity.CENTER;
+                video.setLayoutParams(layoutParameter);
+                video.setVideoPath(videoSource);
+                MediaController mediaController = new MediaController(video.getContext());
+                mediaController.setAnchorView(video);
+                mediaController.setMediaPlayer(video);
+                video.requestFocus();
+                video.setMediaController(mediaController);
+                video.start();
+                rl.addView(video);
+                layout.addView(rl);
+            }catch (Exception e){
+                TextView textView = new TextView(context);
+                textView.setText("Das Video konnte nicht geladen werden, bitte drücken Sie einmal Zurück ond Weiter um diese Seite erneut zu laden");
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+
+                layout.addView(textView);
+            }
+
         }
     }
 

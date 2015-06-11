@@ -1,8 +1,12 @@
 package de.teambluebaer.patientix.xmlParser;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import de.teambluebaer.patientix.helper.TextSize;
 
 
 /**
@@ -35,9 +39,17 @@ public class Image implements Element {
     public void addToView(Context context, LinearLayout layout) {
 
         if (!imageSource.isEmpty()) {
-            WebView image = new WebView(context);
-            image.loadUrl(imageSource);
-            layout.addView(image);
+            try {
+                WebView image = new WebView(context);
+                image.loadUrl(imageSource);
+                layout.addView(image);
+            }catch (Exception e){
+                TextView textView = new TextView(context);
+                textView.setText("Das Bild konnte nicht geladen werden, bitte drücken Sie einmal Zurück ond Weiter um diese Seite erneut zu laden");
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.SUBTITEL.zoomedSize);
+
+                layout.addView(textView);
+            }
         }
 
 
