@@ -6,7 +6,7 @@
     android:keepScreenOn="true"
     android:background="#ffffffff">
 
-    <!-- Banner in the right corner bottom -->
+    <!-- Banner from Team Bluebär in the right corner bottom -->
     <LinearLayout
         android:layout_width="500dip"
         android:layout_height="fill_parent"
@@ -14,10 +14,9 @@
         android:background="@drawable/bannerklein"
         android:id="@+id/linearLayoutBannerLeft"
         android:orientation="horizontal">
-
     </LinearLayout>
 
-    <!-- Banner left -->
+    <!-- Banner left from Team Bluebär -->
     <LinearLayout
         android:layout_width="220dip"
         android:layout_height="220dip"
@@ -121,7 +120,5 @@
         android:textStyle="bold"
         android:layout_below="@+id/buttonUpdate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        />
-
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

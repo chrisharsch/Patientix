@@ -7,7 +7,7 @@
     tools:context="de.teambluebaer.patientix.activities.LoginActivity"
     android:background="#ffffffff">
 
-
+    <!-- Banner from Team Bluebär -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="500dip"
@@ -15,9 +15,9 @@
         android:gravity="left"
         android:background="@drawable/bannerklein"
         android:id="@+id/linearLayoutBannerLeft">
-
     </LinearLayout>
 
+    <!-- Design from Team Bluebär -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="220dip"
@@ -63,6 +63,7 @@
         android:layout_alignEnd="@+id/linearLayoutAdditionRight"
         android:src="@drawable/ummlogoklein" />
 
+    <!-- Text Field Password -->
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,6 +74,7 @@
         android:layout_centerHorizontal="true"
         android:hint="PIN" />
 
+    <!-- Exit Button -->
     <Button
         android:id="@+id/buttonExit"
         android:layout_width="210dip"
@@ -85,6 +87,4 @@
         android:layout_below="@+id/buttonLogin"
         android:layout_alignStart="@+id/buttonLogin"
         android:layout_marginTop="50dip"/>
-
-
 </RelativeLayout>

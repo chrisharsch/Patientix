@@ -33,6 +33,9 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
  * is send to the server.
  */
 
+/**
+ * Created by Maren on 18.05.2015.
+ */
 public class EndActivity extends Activity {
 
     TextView textViewEndtext;

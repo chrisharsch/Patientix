@@ -45,7 +45,9 @@ import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
  * This Activity displays the Login for the Docs or the MTRA.
  * Here they can enter their pin to access to the APP.
  */
-
+/**
+ * Created by Maren on 21.05.2015.
+ */
 public class LoginActivity extends Activity {
 
 

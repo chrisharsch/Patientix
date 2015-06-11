@@ -22,6 +22,8 @@
         android:layout_marginTop="174dp"
         android:layout_below="@+id/imageViewLogo"
         android:layout_centerHorizontal="true" />
+
+    <!-- Design left -->
     <ImageView
         android:id="@+id/imageViewLeftSide"
         android:layout_width="200dip"
@@ -40,7 +42,4 @@
         android:paddingRight="0dp"
         android:paddingTop="0dp"
         android:src="@drawable/ummlogoklein" />
-
-
-
 </RelativeLayout>
