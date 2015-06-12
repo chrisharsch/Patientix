@@ -36,12 +36,12 @@ public class RestfulHelper extends Activity {
     //private final String SERVER_URL = "http://192.168.1.13/";
     //private final String SERVER_URL = "http://192.168.2.1/";
     //private final String SERVER_URL = "http://141.19.145.225/";
-    private String SERVER_URL = "http://"+ Constants.SERVER_URL+"/";
-    private final String POST_LOGIN = "server/index.php/login";
-    private final String POST_FORMULA = "server/index.php/formula";
-    private final String POST_GET_TABLET_ID = "server/index.php/getTabletID";
-    private final String POST_FILLED_FORMULA = "server/index.php/filledformula";
-    private final String POST_RESIGNED_FORMULA = "server/index.php/resignFormula";
+    private String SERVER_URL = "http://" + Constants.SERVER_URL + "/";
+    private final String POST_LOGIN = "MTRAWebApp/server/index.php/login";
+    private final String POST_FORMULA = "MTRAWebApp/server/index.php/formula";
+    private final String POST_GET_TABLET_ID = "MTRAWebApp/server/index.php/getTabletID";
+    private final String POST_FILLED_FORMULA = "MTRAWebApp/server/index.php/filledformula";
+    private final String POST_RESIGNED_FORMULA = "MTRAWebApp/server/index.php/resignFormula";
     private String POST_URL;
 
     //Respones Output
@@ -75,7 +75,7 @@ public class RestfulHelper extends Activity {
             networkThread.start();
             //Join main-thread with Network-Thread to share Domain-Objects
             // The network-thread get an Timeout of 1 Second, otherwise, the application will hang
-            networkThread.join(Constants.PING-1);
+            networkThread.join(Constants.PING - 1);
             try {
                 sleep(Constants.PING);
             } catch (Exception e) {
