@@ -44,19 +44,26 @@ public class LayoutCreater {
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         Commentar commentar = null;
         for (Element element : elements) {
-            if(rowCounter + element.getCounter() > 10){
-                rowLayout.setPadding(0, 30, 0, 30);
-                rowLayout.setGravity(Gravity.CENTER);
-                pageLayout.addView(rowLayout);
-                rowLayout = new LinearLayout(context);
-                rowCounter = 0;
-            }
+
             rowCounter = rowCounter + element.getCounter();
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
                 radio.addToView(context, radioGroup);
+                if(radioGroup.getChildCount()>2 && rowCounter > 10){
+                    radioGroup.setOrientation(LinearLayout.VERTICAL);
+                }
+
             } else {
+                if(rowCounter + element.getCounter() > 10){
+                    rowLayout.setPadding(0, 30, 0, 30);
+                    rowLayout.setGravity(Gravity.CENTER);
+                    pageLayout.addView(rowLayout);
+                    rowLayout = new LinearLayout(context);
+                    rowCounter = 0;
+                    rowCounter = rowCounter + element.getCounter();
+                }
                 element.addToView(context, rowLayout);
+
             }
             if (element instanceof Editable && !hasComBut) {
                 hasComBut = true;
