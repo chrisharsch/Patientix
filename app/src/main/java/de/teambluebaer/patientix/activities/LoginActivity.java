@@ -95,13 +95,12 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
-
-        createDirIfNotExists(pathOfConfig);
         createConfigIfNotExists(pathOfConfig);
     }
 
     /**
      * creates the direction for the config file
+     *
      * @param path the path that should created
      */
     private void createDirIfNotExists(String path) {
@@ -122,6 +121,7 @@ public class LoginActivity extends Activity {
      */
 
     private void createConfigIfNotExists(String path) {
+        createDirIfNotExists(path);
         File file = new File(path + "/config.txt");
 
         if (!file.exists()) {
@@ -142,6 +142,7 @@ public class LoginActivity extends Activity {
 
     /**
      * Gets the data of the config file and set it up in config
+     *
      * @param path the path where the config file is stored
      */
     private void getConfigData(String path) {

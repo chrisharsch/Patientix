@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
-import static de.teambluebaer.patientix.helper.Constants.TORESTART;
 import static java.lang.Thread.sleep;
 
 public class KioskService extends Service {
@@ -73,7 +72,6 @@ public class KioskService extends Service {
     private void handleKioskMode() {
         if (PrefUtils.isKioskModeActive(ctx)) {
             if (isInBackground()) {
-
                 restoreApp();
             }
         }
@@ -95,23 +93,13 @@ public class KioskService extends Service {
      * This method restores the App to the last Activity
      */
     private void restoreApp() {
-        if (TORESTART) {
-            Log.i(TAG, "app restarted'");
-            Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        } else {
-            try {
-                Log.i(TAG, "app restored'");
-                startActivity(CURRENTACTIVITY.getIntent());
-            } catch (RuntimeException e) {
-                PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
-                CURRENTACTIVITY.finish();
-                Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-            }
-        }
+
+        PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
+        CURRENTACTIVITY.finish();
+        Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+
     }
 
 
