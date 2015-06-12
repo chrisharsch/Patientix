@@ -95,7 +95,7 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
-        createConfigIfNotExists(pathOfConfig);
+
     }
 
     /**
@@ -158,9 +158,11 @@ public class LoginActivity extends Activity {
                 lineTwo = br.readLine();
             }
 
-            Constants.SERVER_URL = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
-            Constants.PING = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
+            String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
+            int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
 
+            Constants.SERVER_URL =tempIP;
+            Constants.PING = tempPing;
             Log.d("test", "" + Constants.PING);
             Log.d("test", Constants.SERVER_URL);
             Log.d("LineOne", lineOne);
