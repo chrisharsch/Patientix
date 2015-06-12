@@ -255,10 +255,11 @@ public class RestfulHelper extends Activity {
             String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
             int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
 
-            Constants.SERVER_URL =tempIP;
+            Constants.SERVER_URL = tempIP;
             Constants.PING = tempPing;
-            Log.d("test", "" + Constants.PING);
+
             Log.d("test", Constants.SERVER_URL);
+            Log.d("test", "" + Constants.PING);
             Log.d("LineOne", lineOne);
             Log.d("LineTwo", lineTwo);
         } catch (IOException e) {
