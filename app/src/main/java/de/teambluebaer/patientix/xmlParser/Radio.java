@@ -23,6 +23,7 @@ public class Radio implements Element,Editable {
     private String radioText;
     private boolean checked;
     private boolean highlight;
+    private int counter;
 
 
     /**
@@ -46,6 +47,14 @@ public class Radio implements Element,Editable {
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
             this.highlight = false;
+        }
+
+        if(radioText.length()<=6){
+            counter = 3;
+        }else if(6 < radioText.length() & radioText.length() <= 10){
+            counter = 5;
+        }else{
+            counter = 10;
         }
     }
 
@@ -136,5 +145,10 @@ public class Radio implements Element,Editable {
         result = 31 * result + (checked ? 1 : 0);
         result = 31 * result + (highlight ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }

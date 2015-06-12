@@ -18,6 +18,7 @@ import de.teambluebaer.patientix.helper.TextSize;
  */
 public class Image implements Element {
     private String imageSource;
+    private int counter;
 
     /**
      * Constructor
@@ -25,7 +26,7 @@ public class Image implements Element {
      * @param src URL-String represents Location of the Image you want to add
      */
     public Image(String src) {
-
+        counter = 10;
         if(src != null && !src.isEmpty()){
             imageSource = src;
         }else{
@@ -95,6 +96,11 @@ public class Image implements Element {
     @Override
     public int hashCode() {
         return imageSource != null ? imageSource.hashCode() : 0;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }
 

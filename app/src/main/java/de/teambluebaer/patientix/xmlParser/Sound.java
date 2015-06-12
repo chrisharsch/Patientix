@@ -22,12 +22,14 @@ import de.teambluebaer.patientix.helper.TextSize;
  */
 public class Sound implements Element {
     private String soundSource;
+    private int counter;
 
     /**
      * Constructor
      * @param src URL-String represents Location of the Sound you want to add
      */
     public Sound(String src){
+        counter = 10;
         if(src != null && !src.isEmpty()){
             soundSource = src;
         }else{
@@ -96,5 +98,10 @@ public class Sound implements Element {
     @Override
     public int hashCode() {
         return soundSource != null ? soundSource.hashCode() : 0;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }

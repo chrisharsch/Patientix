@@ -12,14 +12,19 @@ import android.widget.LinearLayout;
 public class WhiteSpace implements Element{
 
     private String param;
+    private int counter;
     /**
     * Constructor
     */
     public WhiteSpace(){
         param = "";
+        counter = 0;
     }
 
-
+    @Override
+    public int getCounter() {
+        return counter;
+    }
 
     @Override
     public void addToView(Context context, LinearLayout layout) {

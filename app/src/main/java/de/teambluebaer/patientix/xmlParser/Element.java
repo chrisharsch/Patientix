@@ -33,5 +33,7 @@ public interface Element {
      */
     public String toXMLString();
 
+    public int getCounter();
+
 
 }

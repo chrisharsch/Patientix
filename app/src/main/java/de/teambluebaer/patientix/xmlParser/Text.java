@@ -18,6 +18,7 @@ import de.teambluebaer.patientix.helper.TextSize;
 public class Text implements Element {
     private String text;
     private TextSize size;
+    private int counter;
 
     /**
      * Constructor
@@ -25,6 +26,7 @@ public class Text implements Element {
      * @param size represents the Fontsize
      */
     public Text(String text, String size){
+        counter = 10;
         int sizeint = Integer.parseInt(size);
         this.text = text;
         if(sizeint == 20){
@@ -92,5 +94,10 @@ public class Text implements Element {
 
     public TextSize getSize() {
         return size;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }

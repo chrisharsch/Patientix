@@ -24,12 +24,13 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
     private String inputText;
     private String patientInput;
     private boolean highlight;
+    private int counter;
 
     /**
      * Constructor
      */
     public Input(String patientImput, String inputText, String highlight) {
-
+        counter = 10;
         if(inputText != null && !inputText.isEmpty()){
             this.inputText = inputText;
         }else{
@@ -149,5 +150,10 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
 
     public boolean isHighlight() {
         return highlight;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }

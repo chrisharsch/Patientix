@@ -21,6 +21,7 @@ import de.teambluebaer.patientix.helper.TextSize;
  */
 public class Video implements Element {
     private String videoSource;
+    private int counter;
 
     /**
      * Constructor
@@ -28,6 +29,7 @@ public class Video implements Element {
      * @param src URL-String represents Location of the Video you want to add
      */
     public Video(String src) {
+        counter = 10;
         if(src != null && !src.isEmpty()){
             videoSource = src;
         }else{
@@ -95,5 +97,10 @@ public class Video implements Element {
     @Override
     public int hashCode() {
         return videoSource != null ? videoSource.hashCode() : 0;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }

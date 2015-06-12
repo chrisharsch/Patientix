@@ -19,9 +19,15 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class LayoutCreater {
 
+    private int LineCounter;
+
     private boolean hasComBut = false;
 
+    /**
+     * Constructor
+     */
     public LayoutCreater() {
+        LineCounter = 0;
     }
 
     /**
@@ -31,13 +37,21 @@ public class LayoutCreater {
      * @param pageLayout Pagelayout the row should be added to
      */
     public void CreateRowLayout(Context context, Row row, LinearLayout pageLayout) {
+        int rowCounter = 0;
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-        rowLayout.setGravity(Gravity.CENTER);
         Commentar commentar = null;
         for (Element element : elements) {
+            if(rowCounter + element.getCounter() > 10){
+                rowLayout.setPadding(0, 30, 0, 30);
+                rowLayout.setGravity(Gravity.CENTER);
+                pageLayout.addView(rowLayout);
+                rowLayout = new LinearLayout(context);
+                rowCounter = 0;
+            }
+            rowCounter = rowCounter + element.getCounter();
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
                 radio.addToView(context, radioGroup);
@@ -52,6 +66,7 @@ public class LayoutCreater {
         if (radioGroup.getChildCount() != 0) {
             rowLayout.addView(radioGroup);
         }
+        rowLayout.setGravity(Gravity.CENTER);
         rowLayout.setPadding(0, 30, 0, 30);
         pageLayout.addView(rowLayout);
         if (hasComBut) {

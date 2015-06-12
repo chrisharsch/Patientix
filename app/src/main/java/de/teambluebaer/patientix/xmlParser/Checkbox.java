@@ -22,6 +22,7 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
     private String checkboxText;
     private boolean checked;
     private boolean highlight;
+    private int counter;
 
 
     /**
@@ -45,6 +46,14 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
             this.highlight = (highlight.equals("1")|highlight.equals("true"));
         } else {
             this.highlight = false;
+        }
+
+        if(checkboxText.length()<=6){
+            counter = 3;
+        }else if(6 < checkboxText.length() & checkboxText.length() <= 10){
+            counter = 5;
+        }else{
+            counter = 10;
         }
 
     }
@@ -126,5 +135,10 @@ public class Checkbox implements Element, de.teambluebaer.patientix.xmlParser.Ed
         result = 31 * result + (checked ? 1 : 0);
         result = 31 * result + (highlight ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public int getCounter() {
+        return counter;
     }
 }
