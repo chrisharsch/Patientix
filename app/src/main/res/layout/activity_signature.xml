@@ -26,7 +26,7 @@
         android:text="@string/buttonDone"
         android:id="@+id/buttonDone"
         android:textSize="40sp"
-        android:background="@drawable/button1x3normal"
+        android:background="@drawable/button1x3"
         android:textColor="#fffafa"
         android:layout_alignTop="@+id/eraserBtn"
         android:layout_centerHorizontal="true"

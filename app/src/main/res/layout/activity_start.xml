@@ -47,7 +47,7 @@
         android:layout_marginTop="61dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/button1x5normal"
+        android:background="@drawable/button1x5"
         android:padding="1dp"
         android:textColor="#fffafa"
         android:onClick="onClickUpdateButton"/>
@@ -58,7 +58,7 @@
         android:layout_height="60dip"
         android:id="@+id/buttonStart"
         android:textSize="40sp"
-        android:background="@drawable/button1x3normal"
+        android:background="@drawable/button1x3"
         android:text="Start"
         android:visibility="invisible"
         android:clickable="false"
