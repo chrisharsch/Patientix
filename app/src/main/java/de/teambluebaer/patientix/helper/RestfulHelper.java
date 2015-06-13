@@ -73,13 +73,15 @@ public class RestfulHelper extends Activity {
 
         Thread networkThread = new Thread() {
             public void run() {
-                createConfigIfNotExists(pathOfConfig);
+
                 setURLForRequest(method);
                 postDataToServer(method, parameterMap);
             }
         };
         try {
             networkThread.setDaemon(false);
+            createConfigIfNotExists(pathOfConfig);
+            this.refresh();
             networkThread.start();
             //Join main-thread with Network-Thread to share Domain-Objects
             // The network-thread get an Timeout of 1 Second, otherwise, the application will hang
@@ -95,6 +97,9 @@ public class RestfulHelper extends Activity {
         return responseCode;
     }
 
+    private void refresh(){
+        SERVER_URL = "http://" + Constants.SERVER_URL + "/";
+    }
     /**
      * Method which post data to the server
      *

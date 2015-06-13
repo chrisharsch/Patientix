@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="D:\HS Mannheim\MEP\Patientix\app\src\main\libs\apacheds-all-1.5.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f5b7ce73d6a3cd8a221ca90bdd0c6bbbe914480d">
+        <dex dex="D:\HS Mannheim\MEP\Patientix\app\build\intermediates\pre-dexed\debug\apacheds-all-1.5.5-09692922f8f2a49f3ff9e1145a7647196b0cb128.jar" />
+    </item>
+    <item
         jar="D:\HS Mannheim\MEP\Patientix\app\src\main\libs\sdk-v1.0.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -21,13 +28,6 @@
         revision="22.0.1"
         sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
         <dex dex="D:\HS Mannheim\MEP\Patientix\app\build\intermediates\pre-dexed\debug\classes-e1993c4d0158b0b57f114482842552984072fc18.jar" />
-    </item>
-    <item
-        jar="D:\HS Mannheim\MEP\Patientix\app\src\main\libs\apacheds-all-1.5.5.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f5b7ce73d6a3cd8a221ca90bdd0c6bbbe914480d">
-        <dex dex="D:\HS Mannheim\MEP\Patientix\app\build\intermediates\pre-dexed\debug\apacheds-all-1.5.5-09692922f8f2a49f3ff9e1145a7647196b0cb128.jar" />
     </item>
 
 </items>

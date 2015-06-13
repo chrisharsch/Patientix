@@ -49,7 +49,7 @@ public class LayoutCreater {
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
                 radio.addToView(context, radioGroup);
-                if(radioGroup.getChildCount()>2 && rowCounter > 10){
+                if(radioGroup.getChildCount()>=2 && rowCounter > 10){
                     radioGroup.setOrientation(LinearLayout.VERTICAL);
                 }
 
@@ -59,8 +59,7 @@ public class LayoutCreater {
                     rowLayout.setGravity(Gravity.CENTER);
                     pageLayout.addView(rowLayout);
                     rowLayout = new LinearLayout(context);
-                    rowCounter = 0;
-                    rowCounter = rowCounter + element.getCounter();
+                    rowCounter = element.getCounter();
                 }
                 element.addToView(context, rowLayout);
 
