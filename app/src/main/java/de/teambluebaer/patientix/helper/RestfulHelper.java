@@ -97,7 +97,7 @@ public class RestfulHelper extends Activity {
         return responseCode;
     }
 
-    private void refresh(){
+    private synchronized void refresh(){
         SERVER_URL = "http://" + Constants.SERVER_URL + "/";
     }
     /**
@@ -263,10 +263,8 @@ public class RestfulHelper extends Activity {
             Constants.SERVER_URL = tempIP;
             Constants.PING = tempPing*1000;
 
-            Log.d("test", Constants.SERVER_URL);
-            Log.d("test", "" + Constants.PING);
-            Log.d("LineOne", lineOne);
-            Log.d("LineTwo", lineTwo);
+            Log.d("ConfigLineOne", lineOne);
+            Log.d("ConfigLineTwo", lineTwo);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
