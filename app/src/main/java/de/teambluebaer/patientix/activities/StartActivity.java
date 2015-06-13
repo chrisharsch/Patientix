@@ -183,6 +183,7 @@ public class StartActivity extends Activity {
         } else {
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
       }
+        parameterMap.clear();
     }
 
     /**

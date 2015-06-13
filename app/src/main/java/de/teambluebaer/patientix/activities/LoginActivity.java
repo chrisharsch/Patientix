@@ -9,7 +9,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,12 +23,6 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,8 +46,6 @@ import static de.teambluebaer.patientix.helper.Constants.CURRENTACTIVITY;
  */
 public class LoginActivity extends Activity {
 
-
-    private String pathOfConfig = Environment.getExternalStorageDirectory() + "/.patientix";
     private Button buttonLogin;
     private EditText editTextPassword = null;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
@@ -95,87 +86,6 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
-
-    }
-
-    /**
-     * creates the direction for the config file
-     *
-     * @param path the path that should created
-     */
-    private void createDirIfNotExists(String path) {
-
-
-        File file = new File(path);
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                Log.e("TravellerLog :: ", "Problem creating folder");
-            }
-        }
-    }
-
-    /**
-     * Creates the Configfile if it not exists
-     *
-     * @param path The path where the file will be stored
-     */
-
-    private void createConfigIfNotExists(String path) {
-        createDirIfNotExists(path);
-        File file = new File(path + "/config.txt");
-
-        if (!file.exists()) {
-            try {
-                OutputStream fo = new FileOutputStream(file);
-                fo.write(Constants.CONFIGURATION.getBytes());
-                fo.close();
-                file.createNewFile();
-                Log.d("File", "Config.txt created");
-            } catch (IOException e) {
-                Log.d("FileCreationExeption", e.toString());
-
-            }
-        } else {
-            getConfigData(path);
-        }
-    }
-
-    /**
-     * Gets the data of the config file and set it up in config
-     *
-     * @param path the path where the config file is stored
-     */
-    private void getConfigData(String path) {
-        BufferedReader br = null;
-        try {
-            String lineOne = "";
-            String lineTwo = "";
-            br = new BufferedReader(new FileReader(path + "/config.txt"));
-            while (!lineOne.contains("ip")) {
-                lineOne = br.readLine();
-            }
-            while (!lineTwo.contains("ping")) {
-                lineTwo = br.readLine();
-            }
-
-            String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
-            int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
-
-            Constants.SERVER_URL =tempIP;
-            Constants.PING = tempPing;
-            Log.d("test", "" + Constants.PING);
-            Log.d("test", Constants.SERVER_URL);
-            Log.d("LineOne", lineOne);
-            Log.d("LineTwo", lineTwo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
 
     }
 

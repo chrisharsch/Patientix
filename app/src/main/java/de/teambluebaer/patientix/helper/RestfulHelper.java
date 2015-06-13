@@ -53,7 +53,7 @@ public class RestfulHelper extends Activity {
     public volatile HttpResponse response;
     public static volatile String responseString;
     private static volatile int responseCode;
-    public byte[] responseArray;
+    public volatile byte[] responseArray;
     private static volatile HttpClient client;
     private static volatile HttpPost post;
     private final boolean DEBUG = false;
@@ -146,7 +146,7 @@ public class RestfulHelper extends Activity {
      *
      * @param restMethod Method which to be set
      */
-    private void setURLForRequest(String restMethod) {
+    private synchronized void setURLForRequest(String restMethod) {
         try {
             Log.d("RESTMETHOD", restMethod);
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class RestfulHelper extends Activity {
      * @return Response String
      */
 
-    private String getStringFromInputStream(byte[] array) {
+    private synchronized String getStringFromInputStream(byte[] array) {
         BufferedReader br = null;
         InputStream is = null;
         StringBuilder sb = new StringBuilder();
@@ -202,7 +202,7 @@ public class RestfulHelper extends Activity {
      *
      * @param path the path that should created
      */
-    private void createDirIfNotExists(String path) {
+    private synchronized void createDirIfNotExists(String path) {
 
 
         File file = new File(path);
@@ -219,7 +219,7 @@ public class RestfulHelper extends Activity {
      * @param path The path where the file will be stored
      */
 
-    private void createConfigIfNotExists(String path) {
+    private synchronized void createConfigIfNotExists(String path) {
         createDirIfNotExists(path);
         File file = new File(path + "/config.txt");
 
@@ -244,7 +244,7 @@ public class RestfulHelper extends Activity {
      *
      * @param path the path where the config file is stored
      */
-    private void getConfigData(String path) {
+    private synchronized void getConfigData(String path) {
         BufferedReader br = null;
         try {
             String lineOne = "";
@@ -261,7 +261,7 @@ public class RestfulHelper extends Activity {
             int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
 
             Constants.SERVER_URL = tempIP;
-            Constants.PING = tempPing;
+            Constants.PING = tempPing*1000;
 
             Log.d("test", Constants.SERVER_URL);
             Log.d("test", "" + Constants.PING);

@@ -1,12 +1,14 @@
 package de.teambluebaer.patientix.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +26,7 @@ import de.teambluebaer.patientix.xmlParser.MetaAndForm;
  * This Activity displays the formula to fill for the patient
  * in page elements
  */
+
 /**
  * Created by Maren on 30.04.2015.
  */
@@ -103,6 +106,8 @@ public class FormActivity extends Activity {
             layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getFirstPage(), content);
             textViewNumberOfPages = (TextView) findViewById(R.id.pageOfNumbers);
             textViewNumberOfPages.setText(metaAndForm.getForm().getCurrentPageText());
+            lastPageCheck();
+            firstPageCheck();
         } catch (NullPointerException e) {
             Intent intent = new Intent(FormActivity.this, StartActivity.class);
             startActivity(intent);
@@ -127,10 +132,16 @@ public class FormActivity extends Activity {
 
     /**
      * Sets the herlperview when button clicked
+     *
      * @param v
      */
-    public void onClickHelpButton(View v){
+    public void onClickHelpButton(View v) {
         Flasher.flash(buttonHelp, "1x3");
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         imageViewHelpScreen.setVisibility(View.VISIBLE);
         imageViewHelpScreen.setClickable(true);
     }
@@ -167,7 +178,6 @@ public class FormActivity extends Activity {
             textViewNumberOfPages.setText(metaAndForm.getForm().getCurrentPageText());
         }
         lastPageCheck();
-        firstPageCheck();
 
     }
 
@@ -222,13 +232,16 @@ public class FormActivity extends Activity {
             buttonOk.setVisibility(View.VISIBLE);
             return true;
         }
-        buttonBack.setVisibility(View.VISIBLE);
-        buttonBack.setClickable(true);
-        buttonOk.setVisibility(View.INVISIBLE);
-        buttonOk.setClickable(false);
-
+        if (metaAndForm.getForm().getLastPage() != 1) {
+            buttonBack.setVisibility(View.VISIBLE);
+            buttonBack.setClickable(true);
+            buttonOk.setVisibility(View.INVISIBLE);
+            buttonOk.setClickable(false);
+        }
         return false;
+
     }
+
     /**
      * This method checks if there is a filled formula and
      * return true if there is one else it return false
