@@ -62,8 +62,8 @@
     <!-- S Pen Field -->
     <RelativeLayout
         android:id="@+id/spenViewLayout"
-        android:layout_width="60mm"
-        android:layout_height="30mm"
+        android:layout_width="40mm"
+        android:layout_height="20mm"
         android:layout_gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
