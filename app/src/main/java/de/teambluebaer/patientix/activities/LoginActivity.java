@@ -30,7 +30,7 @@ import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
-import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.InsertConfig;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
-    RestfulHelper restfulHelper = new RestfulHelper();
+
 
     /**
      * In this method is defined what happens on create of the Activity:
@@ -86,7 +86,7 @@ public class LoginActivity extends Activity {
                         return true;
                     }
                 });
-
+        InsertConfig.getConfig();
     }
 
     /**
@@ -96,7 +96,6 @@ public class LoginActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickLoginButton(View v) {
-        Flasher.flash(buttonLogin, "1x3");
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
@@ -216,11 +215,14 @@ public class LoginActivity extends Activity {
         }
     }
 
+
     /**
      * This AsyncTask sets the TabletID in Constants that the Tablet can
      * work wirh the System.
      */
     private class GetTabletID extends AsyncTask<String, Void, String> {
+
+        RestfulHelper restfulHelper = new RestfulHelper();
         /**
          * Everything in this method happens in the background and in here
          * the there will be send so many Requests until the Server connection
@@ -232,6 +234,7 @@ public class LoginActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
+
             responseCode = restfulHelper.executeRequest("getTabletID", parameterMap);
 
             while (responseCode != 200) {

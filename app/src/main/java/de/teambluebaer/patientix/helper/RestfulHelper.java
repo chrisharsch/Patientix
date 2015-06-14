@@ -1,7 +1,6 @@
 package de.teambluebaer.patientix.helper;
 
 import android.app.Activity;
-import android.os.Environment;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
@@ -15,13 +14,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +52,7 @@ public class RestfulHelper extends Activity {
     private static volatile HttpClient client;
     private static volatile HttpPost post;
     private final boolean DEBUG = false;
-    private final String pathOfConfig = Environment.getExternalStorageDirectory() + "/.patientix";
+
 
 
     /**
@@ -80,9 +75,7 @@ public class RestfulHelper extends Activity {
         };
         try {
             networkThread.setDaemon(false);
-            createConfigIfNotExists(pathOfConfig);
-            this.refresh();
-            networkThread.start();
+                networkThread.start();
             //Join main-thread with Network-Thread to share Domain-Objects
             // The network-thread get an Timeout of 1 Second, otherwise, the application will hang
             networkThread.join(Constants.PING - 1);
@@ -97,9 +90,7 @@ public class RestfulHelper extends Activity {
         return responseCode;
     }
 
-    private synchronized void refresh(){
-        SERVER_URL = "http://" + Constants.SERVER_URL + "/";
-    }
+
     /**
      * Method which post data to the server
      *
@@ -197,85 +188,7 @@ public class RestfulHelper extends Activity {
         return sb.toString();
     }
 
-    /**
-     * creates the direction for the config file
-     *
-     * @param path the path that should created
-     */
-    private synchronized void createDirIfNotExists(String path) {
 
-
-        File file = new File(path);
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                Log.e("TravellerLog :: ", "Problem creating folder");
-            }
-        }
-    }
-
-    /**
-     * Creates the Configfile if it not exists
-     *
-     * @param path The path where the file will be stored
-     */
-
-    private synchronized void createConfigIfNotExists(String path) {
-        createDirIfNotExists(path);
-        File file = new File(path + "/config.txt");
-
-        if (!file.exists()) {
-            try {
-                OutputStream fo = new FileOutputStream(file);
-                fo.write(Constants.CONFIGURATION.getBytes());
-                fo.close();
-                file.createNewFile();
-                Log.d("File", "Config.txt created");
-            } catch (IOException e) {
-                Log.d("FileCreationExeption", e.toString());
-
-            }
-        } else {
-            getConfigData(path);
-        }
-    }
-
-    /**
-     * Gets the data of the config file and set it up in config
-     *
-     * @param path the path where the config file is stored
-     */
-    private synchronized void getConfigData(String path) {
-        BufferedReader br = null;
-        try {
-            String lineOne = "";
-            String lineTwo = "";
-            br = new BufferedReader(new FileReader(path + "/config.txt"));
-            while (!lineOne.contains("ip")) {
-                lineOne = br.readLine();
-            }
-            while (!lineTwo.contains("ping")) {
-                lineTwo = br.readLine();
-            }
-
-            String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
-            int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
-
-            Constants.SERVER_URL = tempIP;
-            Constants.PING = tempPing*1000;
-
-            Log.d("ConfigLineOne", lineOne);
-            Log.d("ConfigLineTwo", lineTwo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-    }
 
     /**
      * Equals method to check if this class equals another

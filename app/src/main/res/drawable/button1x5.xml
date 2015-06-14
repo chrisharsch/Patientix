@@ -8,6 +8,6 @@
         android:drawable="@drawable/button1x5aktiv" />
     <item android:state_focused="false"
         android:state_pressed="true"
-        android:drawable="button1x5aktiv" />
+        android:drawable="@drawable/button1x5aktiv" />
     <item android:drawable="@drawable/button1x5normal" />
 </selector>

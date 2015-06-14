@@ -108,12 +108,14 @@ public class EndActivity extends Activity {
          */
         @Override
         protected String doInBackground(String... params) {
-            String xml = Constants.GLOBALMETAANDFORM.toXMLString();
+            String requestPath = "filledformula";
             if (!Constants.ISSEND) {
                 if (Constants.RESIGN) {
+                    requestPath = "resignFormula";
+                }
                     while (responseCode != 200) {
 
-                        responseCode = restfulHelper.executeRequest("resignFormula", parameterMap);
+                        responseCode = restfulHelper.executeRequest(requestPath, parameterMap);
                         Log.d("ResponseString", restfulHelper.responseString);
                         Log.d("ResponseCode", responseCode + "");
                         if (responseCode == 404) {
@@ -156,52 +158,7 @@ public class EndActivity extends Activity {
                     }
                     Log.d("ResponseCode", responseCode + "");
                     Constants.ISSEND = true;
-                } else {
-                    while (responseCode != 200) {
-                        responseCode = restfulHelper.executeRequest("filledformula", parameterMap);
-                        Log.d("ResponseString", restfulHelper.responseString);
-                        Log.d("ResponseCode", responseCode + "");
-                        if (responseCode == 404) {
-                            Log.d("ResponseCode", responseCode + "");
-                            Log.d("ResponseString", restfulHelper.responseString);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(EndActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
-                                    textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
-                                        @Override
-                                        public boolean onLongClick(View v) {
-                                            Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                                            startActivity(intent);
-                                            PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                            finish();
-                                            return true;
-                                        }
-                                    });
-                                }
-                            });
-                            break;
-                        }
-                    }
-                    if (responseCode == 200) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
-                                textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
-                                    @Override
-                                    public boolean onLongClick(View v) {
-                                        Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                                        startActivity(intent);
-                                        PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                        finish();
-                                        return true;
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    Log.d("ResponseCode", responseCode + "");
-                    Constants.ISSEND = true;
-                }
+
             } else {
                 runOnUiThread(new Runnable() {
                     public void run() {

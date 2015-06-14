@@ -29,7 +29,7 @@ import java.util.List;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
-import de.teambluebaer.patientix.helper.Flasher;
+import de.teambluebaer.patientix.helper.InsertConfig;
 import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.JavaStrucBuilder;
@@ -49,12 +49,12 @@ import static de.teambluebaer.patientix.helper.Constants.TABLET_ID;
  */
 public class StartActivity extends Activity {
 
+
     private TextView textViewPatientName;
     private TextView textViewPatientBirth;
     private TextView textViewExameName;
     private Button buttonStart;
-    private Button buttonUpdate;
-    private RestfulHelper restfulHelper =new RestfulHelper();
+
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
@@ -81,10 +81,11 @@ public class StartActivity extends Activity {
         PrefUtils.setKioskModeActive(true, this);
 
         buttonStart = (Button) findViewById(R.id.buttonStart);
-        buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
         textViewPatientName = (TextView) findViewById(R.id.textViewPatientName);
         textViewPatientBirth = (TextView) findViewById(R.id.textViewPatientBirthDate);
         textViewExameName = (TextView) findViewById(R.id.textViewExamination);
+        InsertConfig.getConfig();
+
 
         new GetTabletID().execute();
     }
@@ -96,13 +97,12 @@ public class StartActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickStartButton(View v) {
-        Flasher.flash(buttonStart, "1x3");
-        if(Constants.RESIGN){
+        if (Constants.RESIGN) {
             Intent intent = new Intent(StartActivity.this, OverviewActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
             finish();
-        }else{
+        } else {
             Intent intent = new Intent(StartActivity.this, FormActivity.class);
             startActivity(intent);
             PrefUtils.setKioskModeActive(false, this);
@@ -125,6 +125,7 @@ public class StartActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickUpdateButton(View v) {
+        RestfulHelper restfulHelper = new RestfulHelper();
         textViewPatientName.setText("");
         textViewPatientBirth.setText("");
         textViewExameName.setText("");
@@ -132,12 +133,10 @@ public class StartActivity extends Activity {
         buttonStart.setVisibility(View.INVISIBLE);
         buttonStart.setClickable(false);
 
-
-        Flasher.flash(buttonUpdate, "1x5");
         parameterMap.clear();
         parameterMap.add(new BasicNameValuePair("tabletID", TABLET_ID));
 
-
+        Log.d("tabletID", TABLET_ID);
         //send the request to server
         responseCode = restfulHelper.executeRequest("formula", parameterMap);
 
@@ -145,7 +144,7 @@ public class StartActivity extends Activity {
         Log.d("ResponseCode", responseCode + "");
         Log.d("ResponseString", restfulHelper.responseString);
         if (responseCode == 200) {
-            if(!restfulHelper.responseString.isEmpty() || restfulHelper.responseString.length()<10) {
+            if (!restfulHelper.responseString.isEmpty() || restfulHelper.responseString.length() < 10) {
                 try {
                     String xmlString = restfulHelper.responseString;
                     Log.d("ResponseString: ", restfulHelper.responseString);
@@ -174,7 +173,7 @@ public class StartActivity extends Activity {
                     Toast.makeText(getBaseContext(), "Fehler beim Speichern des Fragebogens", Toast.LENGTH_LONG).show();
                 }
                 Constants.ISSEND = false;
-            }else{
+            } else {
                 Toast.makeText(getBaseContext(), "Keine Verbindung zum Server!", Toast.LENGTH_LONG).show();
             }
 
@@ -182,8 +181,7 @@ public class StartActivity extends Activity {
             Toast.makeText(StartActivity.this, "Keine Daten für dieses Tablet vorhanden", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(StartActivity.this, "Kein Verbindung zum Server! Fehlercode: " + responseCode, Toast.LENGTH_LONG).show();
-      }
-        parameterMap.clear();
+        }
     }
 
     /**
@@ -256,6 +254,7 @@ public class StartActivity extends Activity {
      */
     private class GetTabletID extends AsyncTask<String, Void, String> {
         private ArrayList<NameValuePair> parameterMap = new ArrayList();
+        RestfulHelper restfulHelper = new RestfulHelper();
 
         /**
          * Everything in this method happens in the background and in here
@@ -267,6 +266,7 @@ public class StartActivity extends Activity {
          */
         @Override
         protected String doInBackground(String... params) {
+
             this.parameterMap.add(new BasicNameValuePair("macAddress", getMacAddress()));
             responseCode = restfulHelper.executeRequest("getTabletID", this.parameterMap);
 

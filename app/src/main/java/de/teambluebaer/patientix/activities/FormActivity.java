@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.Constants;
-import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 import de.teambluebaer.patientix.xmlParser.MetaAndForm;
@@ -123,7 +122,7 @@ public class FormActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickButtonOk(View v) {
-        Flasher.flash(buttonOk, "1x3");
+
         Intent intent = new Intent(FormActivity.this, OverviewActivity.class);
         startActivity(intent);
         PrefUtils.setKioskModeActive(false, this);
@@ -136,12 +135,15 @@ public class FormActivity extends Activity {
      * @param v
      */
     public void onClickHelpButton(View v) {
-        Flasher.flash(buttonHelp, "1x3");
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
+        try {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (NullPointerException e) {
+            Log.d("KeyboardError", e.toString());
+        }
         imageViewHelpScreen.setVisibility(View.VISIBLE);
         imageViewHelpScreen.setClickable(true);
     }
@@ -153,7 +155,7 @@ public class FormActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickNextButton(View v) {
-        Flasher.flash(buttonContinue, "1x3");
+
         scrollViewForm.scrollTo(0, 0);
         if (!lastPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getNextPage(), content);
@@ -170,7 +172,7 @@ public class FormActivity extends Activity {
      * @param v default parameter to change something of the view
      */
     public void onClickBackButton(View v) {
-        Flasher.flash(buttonBack, "1x3");
+
         scrollViewForm.scrollTo(0, 0);
         if (!firstPageCheck()) {
             layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getPreviousPage(), content);
@@ -190,7 +192,7 @@ public class FormActivity extends Activity {
      */
     public void onClickZoomButton(View v) {
         if (!Constants.ZOOMED) {
-            Flasher.flash(buttonZoom, "1x1");
+
             Constants.ZOOMED = true;
             layoutCreater.CreatPageLayout(this, metaAndForm.getForm().getcurrenPage(), content);
             buttonZoom.setText("-");

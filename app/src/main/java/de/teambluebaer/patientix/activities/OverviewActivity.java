@@ -13,7 +13,6 @@ import android.widget.Toast;
 import de.teambluebaer.patientix.R;
 import de.teambluebaer.patientix.helper.AnswerChecker;
 import de.teambluebaer.patientix.helper.Constants;
-import de.teambluebaer.patientix.helper.Flasher;
 import de.teambluebaer.patientix.helper.LayoutCreater;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
@@ -82,7 +81,6 @@ public class OverviewActivity extends Activity {
      * @param v Parameter to change something in view
      */
     public void onClickContinueButton(View v) {
-        Flasher.flash(buttonContinue, "1x3");
 
         if(Constants.RESIGN | AnswerChecker.isEverythingAnswert()) {
             Intent intent = new Intent(OverviewActivity.this, SignatureActivity.class);
@@ -102,7 +100,6 @@ public class OverviewActivity extends Activity {
      */
     public void onClickZoomButton(View v) {
         if (!Constants.ZOOMED) {
-            Flasher.flash(buttonZoom, "1x1");
             Constants.ZOOMED = true;
             layoutCreater.CreatListLayout(this, listLinearLayout);
             buttonZoom.setText("-");
