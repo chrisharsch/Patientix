@@ -358,10 +358,10 @@ public class SignatureActivity extends Activity {
     public static String encodeTobase64(Bitmap image) {
         Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        immagex.compress(Bitmap.CompressFormat.PNG, 50, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        Log.d("SignaturString", imageEncoded);
+        //Log.d("SignaturString", imageEncoded);
         return imageEncoded;
     }
 

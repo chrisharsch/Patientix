@@ -88,7 +88,7 @@ public class OverviewActivity extends Activity {
             PrefUtils.setKioskModeActive(false, this);
             finish();
         }else{
-            Toast.makeText(this, "Bitte füllen sie alle Fragen aus", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bitte füllen Sie alle Fragen aus", Toast.LENGTH_LONG).show();
         }
     }
 
