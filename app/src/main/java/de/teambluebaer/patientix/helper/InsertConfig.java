@@ -69,55 +69,48 @@ public class InsertConfig {
      * @param path the path where the config file is stored
      */
     private static void getConfigData(String path) {
+
         BufferedReader br = null;
 
         try {
             br = new BufferedReader(new FileReader(path + "/config.txt"));
 
             String temp;
-
+            String config = "";
 
             do{
-                boolean isServerIP = false,isPing = false,isPIN = false;
                 temp = br.readLine();
-                if(temp.startsWith("serverip")){
-                    isServerIP = true;
-                }else if(temp.startsWith("ping")){
-                    isPing = true;
-                }else if(temp.startsWith("PING")){
-                    isPIN = true;
-                }
-
-                boolean start = false;
-                String value = "";
-                for(char c : temp.toCharArray()){
-
-                    if(start){
-                       if(c != "\"".charAt(0)){
-                           value = value + c;
-                       }else{
-                           if(isServerIP){
-                               Constants.SERVER_URL = value;
-                           }else if(isPIN){
-                               Constants.PIN = value;
-                           }else if(isPing){
-                               Constants.PING = Integer.parseInt(value) * 1000;
-                           }
-                       }
-                    }
-                    if(c == "\"".charAt(0) & !start){
-                        start = true;
-                    }
-                }
-            }while(!temp.isEmpty());
-
-
+                config = config + temp;
+            }while(temp != null && !temp.isEmpty());
             br.close();
 
+            String[] splitConfig = config.split("\"");
 
+            boolean isPIN = false, isPing = false, isIP = false;
 
+            for(String s : splitConfig){
+                Log.d("read s",s);
 
+                if(isPIN){
+                    Constants.PIN = passwordHash(s);
+                    isPIN = false;
+                }else if(isIP){
+                    Constants.SERVER_URL = s;
+                    isIP = false;
+                }else if(isPing){
+                    Constants.PING = Integer.parseInt(s);
+                    isPing = false;
+                }
 
+                if(s.contains("PIN")){
+                    isPIN = true;
+                }else if(s.contains("serverip")){
+                    isIP = true;
+                }else if(s.contains("ping")){
+                    isPing = true;
+                }
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,6 +121,7 @@ public class InsertConfig {
                 ex.printStackTrace();
             }
         }
+
 
     }
 

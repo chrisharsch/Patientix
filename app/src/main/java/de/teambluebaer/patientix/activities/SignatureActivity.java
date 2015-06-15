@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -60,6 +59,7 @@ public class SignatureActivity extends Activity {
     private ImageView mEraserBtn;
     private Button buttonDone;
     private int mToolType = SpenSurfaceView.TOOL_SPEN;
+    private Bitmap imgBitmap;
 
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
@@ -194,7 +194,7 @@ public class SignatureActivity extends Activity {
         // Set PageDoc to View.
         mSpenSurfaceView.setPageDoc(mSpenPageDoc, true);
 
-        Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
+        imgBitmap = mSpenSurfaceView.captureCurrentView(true);
         Constants.EMPTYSIGNATURE = (encodeTobase64(imgBitmap));
 
         initSettingInfo();
@@ -356,9 +356,8 @@ public class SignatureActivity extends Activity {
      * @return String Bitmap of an image
      */
     public static String encodeTobase64(Bitmap image) {
-        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.PNG, 50, baos);
+        image.compress(Bitmap.CompressFormat.PNG, 50, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
         //Log.d("SignaturString", imageEncoded);
@@ -368,6 +367,7 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        imgBitmap.recycle();
     }
 
     /**
@@ -544,6 +544,7 @@ public class SignatureActivity extends Activity {
             // Close every kind of system dialog
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
+            finish();
         }
     }
 
