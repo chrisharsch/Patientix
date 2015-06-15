@@ -72,38 +72,53 @@ public class InsertConfig {
         BufferedReader br = null;
 
         try {
-            String lineOne = "";
-            String lineTwo = "";
-            String lineThree = "";
-
-
             br = new BufferedReader(new FileReader(path + "/config.txt"));
-            while (!lineOne.contains("ip")) {
-                lineOne = br.readLine();
-            }
-            br.close();
-            br = new BufferedReader(new FileReader(path + "/config.txt"));
-            while (!lineTwo.contains("ping")) {
-                br = new BufferedReader(new FileReader(path + "/config.txt"));
-                lineTwo = br.readLine();
-            }
-            br.close();
-            br = new BufferedReader(new FileReader(path + "/config.txt"));
-            while (!lineTwo.contains("PIN")) {
-                br = new BufferedReader(new FileReader(path + "/config.txt"));
-                lineThree = br.readLine();
-            }
-            br.close();
-            String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
-            int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
-            String tempPIN = lineThree.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
 
-            Constants.SERVER_URL = tempIP;
-            Constants.PING = tempPing * 1000;
-            Constants.PIN = passwordHash(tempPIN);
+            String temp;
 
-            Log.d("ConfigLineOne", lineOne);
-            Log.d("ConfigLineTwo", lineTwo);
+
+            do{
+                boolean isServerIP = false,isPing = false,isPIN = false;
+                temp = br.readLine();
+                if(temp.startsWith("serverip")){
+                    isServerIP = true;
+                }else if(temp.startsWith("ping")){
+                    isPing = true;
+                }else if(temp.startsWith("PING")){
+                    isPIN = true;
+                }
+
+                boolean start = false;
+                String value = "";
+                for(char c : temp.toCharArray()){
+
+                    if(start){
+                       if(c != "\"".charAt(0)){
+                           value = value + c;
+                       }else{
+                           if(isServerIP){
+                               Constants.SERVER_URL = value;
+                           }else if(isPIN){
+                               Constants.PIN = value;
+                           }else if(isPing){
+                               Constants.PING = Integer.parseInt(value) * 1000;
+                           }
+                       }
+                    }
+                    if(c == "\"".charAt(0) & !start){
+                        start = true;
+                    }
+                }
+            }while(!temp.isEmpty());
+
+
+            br.close();
+
+
+
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
