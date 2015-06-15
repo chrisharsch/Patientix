@@ -19,7 +19,6 @@ import de.teambluebaer.patientix.xmlParser.Row;
  */
 public class LayoutCreater {
 
-    private int LineCounter;
 
     private boolean hasComBut = false;
 
@@ -27,7 +26,6 @@ public class LayoutCreater {
      * Constructor
      */
     public LayoutCreater() {
-        LineCounter = 0;
     }
 
     /**
@@ -38,6 +36,7 @@ public class LayoutCreater {
      */
     public void CreateRowLayout(Context context, Row row, LinearLayout pageLayout) {
         int rowCounter = 0;
+        int radioCounter = 0;
         LinearLayout rowLayout = new LinearLayout(context);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
@@ -45,23 +44,25 @@ public class LayoutCreater {
         Commentar commentar = null;
         for (Element element : elements) {
 
-            rowCounter = rowCounter + element.getCounter();
             if (element instanceof Radio) {
                 Radio radio = (Radio) element;
                 radio.addToView(context, radioGroup);
-                if(radioGroup.getChildCount()>=2 && rowCounter > 10){
-                    radioGroup.setOrientation(LinearLayout.VERTICAL);
-                }
+                radioCounter = radioCounter + radio.getCounter();
 
             } else {
-                if(rowCounter + element.getCounter() > 10){
+                if(rowCounter + element.getCounter() >= 10){
+
+
                     rowLayout.setPadding(0, 30, 0, 30);
                     rowLayout.setGravity(Gravity.CENTER);
                     pageLayout.addView(rowLayout);
                     rowLayout = new LinearLayout(context);
                     rowCounter = element.getCounter();
+
+
                 }
                 element.addToView(context, rowLayout);
+                rowCounter = rowCounter + element.getCounter();
 
             }
             if (element instanceof Editable && !hasComBut) {
@@ -70,7 +71,13 @@ public class LayoutCreater {
             }
         }
         if (radioGroup.getChildCount() != 0) {
+
+            pageLayout.addView(rowLayout);
+            rowLayout = new LinearLayout(context);
             rowLayout.addView(radioGroup);
+            if(radioGroup.getChildCount()>=2 && radioCounter >= 10){
+                radioGroup.setOrientation(LinearLayout.VERTICAL);
+            }
         }
         rowLayout.setGravity(Gravity.CENTER);
         rowLayout.setPadding(0, 30, 0, 30);
