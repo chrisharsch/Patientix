@@ -62,11 +62,12 @@
     <!-- S Pen Field -->
     <RelativeLayout
         android:id="@+id/spenViewLayout"
-        android:layout_width="80mm"
-        android:layout_height="40mm"
+        android:layout_width="100mm"
+        android:layout_height="50mm"
         android:layout_gravity="center"
         android:layout_above="@+id/imageViewLeftSide"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+>
     </RelativeLayout>
 
     <!-- Design from Team Bluebär -->

@@ -94,7 +94,6 @@ public class KioskService extends Service {
      * This method restores the App to the last Activity
      */
     private void restoreApp() {
-
         PrefUtils.setKioskModeActive(false, CURRENTACTIVITY);
         CURRENTACTIVITY.finish();
         Intent i = new Intent(ctx, CURRENTACTIVITY.getClass());
