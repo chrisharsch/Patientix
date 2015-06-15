@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.MessageDigest;
 
 /**
  * Created by chris on 14.06.15.
@@ -69,22 +70,37 @@ public class InsertConfig {
      */
     private static void getConfigData(String path) {
         BufferedReader br = null;
+
         try {
             String lineOne = "";
             String lineTwo = "";
+            String lineThree = "";
+
+
             br = new BufferedReader(new FileReader(path + "/config.txt"));
             while (!lineOne.contains("ip")) {
                 lineOne = br.readLine();
             }
+            br.close();
+            br = new BufferedReader(new FileReader(path + "/config.txt"));
             while (!lineTwo.contains("ping")) {
+                br = new BufferedReader(new FileReader(path + "/config.txt"));
                 lineTwo = br.readLine();
             }
-
+            br.close();
+            br = new BufferedReader(new FileReader(path + "/config.txt"));
+            while (!lineTwo.contains("PIN")) {
+                br = new BufferedReader(new FileReader(path + "/config.txt"));
+                lineThree = br.readLine();
+            }
+            br.close();
             String tempIP = lineOne.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
             int tempPing = Integer.parseInt(lineTwo.substring(lineTwo.indexOf('"') + 1, lineTwo.lastIndexOf('"')));
+            String tempPIN = lineThree.substring(lineOne.indexOf('"') + 1, lineOne.lastIndexOf('"'));
 
             Constants.SERVER_URL = tempIP;
             Constants.PING = tempPing * 1000;
+            Constants.PIN = passwordHash(tempPIN);
 
             Log.d("ConfigLineOne", lineOne);
             Log.d("ConfigLineTwo", lineTwo);
@@ -98,5 +114,36 @@ public class InsertConfig {
             }
         }
 
+    }
+
+
+    /**
+     * This method converts the bytes of String to hex
+     *
+     * @param data byte Array to convert
+     * @return String of hexcode
+     */
+    private static String convertByteToHex(byte data[]) {
+        StringBuffer hexData = new StringBuffer();
+        for (int byteIndex = 0; byteIndex < data.length; byteIndex++)
+            hexData.append(Integer.toString((data[byteIndex] & 0xff) + 0x100, 16).substring(1));
+        return hexData.toString();
+    }
+
+    /**
+     * This method is used to hash the password or pin
+     *
+     * @param textToHash String of text to hash
+     * @return String which is hashed
+     */
+    private static String passwordHash(String textToHash) {
+        try {
+            final MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
+            sha512.update(textToHash.getBytes());
+            return convertByteToHex(sha512.digest());
+        } catch (Exception e) {
+            Log.d("HashFail", e.toString());
+        }
+        return null;
     }
 }

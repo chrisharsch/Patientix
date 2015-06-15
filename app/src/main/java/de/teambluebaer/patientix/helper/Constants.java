@@ -13,7 +13,7 @@ public class Constants {
     public static volatile String SERVER_URL = "141.19.145.237";
     public static boolean ISSEND = false;
     public static volatile String TABLET_ID = "-1";
-    public static final String PIN = "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db";
+    public static String PIN = "c6001d5b2ac3df314204a8f9d7a00e1503c9aba0fd4538645de4bf4cc7e2555cfe9ff9d0236bf327ed3e907849a98df4d330c4bea551017d465b4c1d9b80bcb0";
     public static MetaAndForm GLOBALMETAANDFORM;
     public static boolean ZOOMED = false;
     public static boolean CURRENTPAGEISANSWERED;
@@ -23,5 +23,7 @@ public class Constants {
     public static boolean TORESTART = false;
     public static String EMPTYSIGNATURE = "";
     public static int PING = 2000;
-    public static final String CONFIGURATION = "serverip = \"141.19.145.237\"\nping= \"1\" -> in Sekunden(Standardwert 1 Sekunde)";
+    public static final String CONFIGURATION = "serverip = \"141.19.145.237\"" +
+            "\nping= \"1\" -> in Sekunden(Standardwert 1 Sekunde)" +
+            "\nPIN= \"0000\" -> Standardwert 0000";
 }

@@ -114,7 +114,6 @@ public class EndActivity extends Activity {
                     requestPath = "resignFormula";
                 }
                     while (responseCode != 200) {
-
                         responseCode = restfulHelper.executeRequest(requestPath, parameterMap);
                         Log.d("ResponseString", restfulHelper.responseString);
                         Log.d("ResponseCode", responseCode + "");
@@ -143,6 +142,7 @@ public class EndActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
+                                Log.d("Response String", restfulHelper.responseString);
                                 textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                                     @Override
                                     public boolean onLongClick(View v) {
@@ -156,6 +156,7 @@ public class EndActivity extends Activity {
                             }
                         });
                     }
+                    Log.d("Response String", restfulHelper.responseString);
                     Log.d("ResponseCode", responseCode + "");
                     Constants.ISSEND = true;
 
