@@ -26,4 +26,8 @@ public class Constants {
     public static final String CONFIGURATION = "serverip = \"141.19.145.237\"" +
             "\nping= \"1\" -> in Sekunden(Standardwert 1 Sekunde)" +
             "\nPIN= \"0000\" -> Standardwert 0000";
+
+
 }
+
+

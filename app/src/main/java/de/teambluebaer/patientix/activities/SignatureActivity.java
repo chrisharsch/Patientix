@@ -86,7 +86,7 @@ public class SignatureActivity extends Activity {
         if (!isFormula()) {
             Intent intent = new Intent(SignatureActivity.this, StartActivity.class);
             startActivity(intent);
-            PrefUtils.setKioskModeActive(false,this);
+            PrefUtils.setKioskModeActive(false, this);
             finish();
         }
 
@@ -102,7 +102,7 @@ public class SignatureActivity extends Activity {
             spenPackage.initialize(this);
             isSpenFeatureEnabled = spenPackage.isFeatureEnabled(Spen.DEVICE_PEN);
         } catch (SsdkUnsupportedException e) {
-            if( processUnsupportedException(e) == true) {
+            if (processUnsupportedException(e) == true) {
                 return;
             }
         } catch (Exception e1) {
@@ -168,7 +168,8 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     *  Creates the Layout of the sign
+     * Creates the Layout of the sign
+     *
      * @param spenViewLayout Layout where the SPen can write in
      */
     private void createSpenNoteDoc(View spenViewLayout) {
@@ -291,7 +292,7 @@ public class SignatureActivity extends Activity {
             Bitmap imgBitmap = mSpenSurfaceView.captureCurrentView(true);
 
 
-            if(Constants.EMPTYSIGNATURE.equals(encodeTobase64(imgBitmap))) {
+            if (Constants.EMPTYSIGNATURE.equals(encodeTobase64(imgBitmap))) {
                 Toast.makeText(mContext, "Bitte unterschreiben Sie", Toast.LENGTH_LONG).show();
 
             } else {
@@ -314,7 +315,6 @@ public class SignatureActivity extends Activity {
                     }
                 }
                 imgBitmap.recycle();
-
                 Intent intent = new Intent(SignatureActivity.this, EndActivity.class);
                 startActivity(intent);
                 PrefUtils.setKioskModeActive(false, SignatureActivity.this);
@@ -326,9 +326,9 @@ public class SignatureActivity extends Activity {
     };
 
 
-
     /**
      * Selects the pen or the eraser
+     *
      * @param v
      */
     private void selectButton(View v) {
@@ -352,6 +352,7 @@ public class SignatureActivity extends Activity {
 
     /**
      * Converts an image to a bitmap
+     *
      * @param image Image to converts
      * @return String Bitmap of an image
      */
@@ -371,7 +372,8 @@ public class SignatureActivity extends Activity {
     }
 
     /**
-     *  Handle the Exceptions
+     * Handle the Exceptions
+     *
      * @param e
      * @return
      */
@@ -386,18 +388,17 @@ public class SignatureActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
             PrefUtils.setKioskModeActive(false, this);
             finish();
-        }
-        else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
+        } else if (errType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
             // If SpenSDK APK is not installed.
-            showAlertDialog( "You need to install additional Spen software"
-                    +" to use this application."
+            showAlertDialog("You need to install additional Spen software"
+                    + " to use this application."
                     + "You will be taken to the installation screen."
                     + "Restart this application after the software has been installed."
                     , true);
         } else if (errType
                 == SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED) {
             // SpenSDK APK must be updated.
-            showAlertDialog( "You need to update your Spen software "
+            showAlertDialog("You need to update your Spen software "
                     + "to use this application."
                     + " You will be taken to the installation screen."
                     + " Restart this application after the software has been updated."
@@ -405,8 +406,8 @@ public class SignatureActivity extends Activity {
         } else if (errType
                 == SsdkUnsupportedException.LIBRARY_UPDATE_IS_RECOMMENDED) {
             // Update of SpenSDK APK to an available new version is recommended.
-            showAlertDialog( "We recommend that you update your Spen software"
-                    +" before using this application."
+            showAlertDialog("We recommend that you update your Spen software"
+                    + " before using this application."
                     + " You will be taken to the installation screen."
                     + " Restart this application after the software has been updated."
                     , false);
@@ -417,6 +418,7 @@ public class SignatureActivity extends Activity {
 
     /**
      * Show alert for the exceptions
+     *
      * @param msg
      * @param closeActivity
      */
@@ -450,7 +452,7 @@ public class SignatureActivity extends Activity {
                             @Override
                             public void onClick(
                                     DialogInterface dialog, int which) {
-                                if(closeActivity == true) {
+                                if (closeActivity == true) {
                                     // Terminate the activity if APK is not installed.
                                     PrefUtils.setKioskModeActive(false, SignatureActivity.this);
                                     finish();
@@ -461,7 +463,7 @@ public class SignatureActivity extends Activity {
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-                        if(closeActivity == true) {
+                        if (closeActivity == true) {
                             // Terminate the activity if APK is not installed.
                             PrefUtils.setKioskModeActive(false, SignatureActivity.this);
                             finish();
@@ -478,6 +480,11 @@ public class SignatureActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (imgBitmap != null) {
+            imgBitmap.recycle();
+            imgBitmap = null;
+        }
+
         if (mSpenNoteDoc != null && mSpenPageDoc.isRecording()) {
             mSpenPageDoc.stopRecord();
         }
@@ -505,6 +512,7 @@ public class SignatureActivity extends Activity {
             mSpenNoteDoc = null;
         }
     }
+
     /**
      * This method checks if there is a filled formula and
      * return true if there is one else it return false

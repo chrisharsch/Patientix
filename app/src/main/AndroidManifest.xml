@@ -21,7 +21,8 @@
         android:allowBackup="true"
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:largeHeap="true">
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
@@ -33,11 +34,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".BootReceiver" >
+        <!--<receiver android:name=".BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <service
             android:name=".kioskMode.KioskService"
@@ -64,10 +65,6 @@
             android:name=".activities.EndActivity"
             android:label="@string/title_activity_end"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".activities.DocOverviewActivity"
-            android:label="@string/title_activity_doc_overview" >
-        </activity>
     </application>
 
 </manifest>

@@ -36,7 +36,6 @@ import de.teambluebaer.patientix.kioskMode.PrefUtils;
  * Created by Maren on 18.05.2015.
  */
 public class EndActivity extends Activity {
-
     TextView textViewEndtext;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
     private int responseCode;
@@ -50,6 +49,7 @@ public class EndActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //removes the titlebar in fullscreenmode
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -127,8 +127,9 @@ public class EndActivity extends Activity {
                                         public boolean onLongClick(View v) {
                                             Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                             startActivity(intent);
-                                            PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                            finish();
+                                            //PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                            // finish();
+                                            System.exit(0);
                                             return true;
                                         }
                                     });
@@ -147,8 +148,9 @@ public class EndActivity extends Activity {
                                     public boolean onLongClick(View v) {
                                         Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                         startActivity(intent);
-                                        PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                        finish();
+                                        //PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                       // finish();
+                                        System.exit(0);
                                         return true;
                                     }
                                 });

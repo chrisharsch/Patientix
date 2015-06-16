@@ -297,4 +297,6 @@ public class StartActivity extends Activity {
             return info.getMacAddress();
         }
     }
+
+
 }

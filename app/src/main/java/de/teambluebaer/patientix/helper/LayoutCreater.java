@@ -38,8 +38,10 @@ public class LayoutCreater {
         int rowCounter = 0;
         int radioCounter = 0;
         LinearLayout rowLayout = new LinearLayout(context);
+        rowLayout.setDrawingCacheEnabled(false);
         List<Element> elements = row.getElements();
         RadioGroup radioGroup = new RadioGroup(context);
+        radioGroup.setDrawingCacheEnabled(false);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         Commentar commentar = null;
         for (Element element : elements) {
@@ -58,6 +60,7 @@ public class LayoutCreater {
                     pageLayout.addView(rowLayout);
                     rowLayout = new LinearLayout(context);
                     rowCounter = element.getCounter();
+                    rowLayout.setDrawingCacheEnabled(false);
 
 
                 }
@@ -74,6 +77,7 @@ public class LayoutCreater {
 
             pageLayout.addView(rowLayout);
             rowLayout = new LinearLayout(context);
+            rowLayout.setDrawingCacheEnabled(false);
             rowLayout.addView(radioGroup);
             if(radioGroup.getChildCount()>=2 && radioCounter >= 10){
                 radioGroup.setOrientation(LinearLayout.VERTICAL);
@@ -89,6 +93,7 @@ public class LayoutCreater {
             } else {
                 LinearLayout comRow = new LinearLayout(context);
                 commentar.addCommentarField(context, comRow);
+                comRow.setDrawingCacheEnabled(false);
                 comRow.setPadding(0, 30, 0, 30);
                 comRow.setGravity(Gravity.CENTER);
                 pageLayout.addView(comRow);
