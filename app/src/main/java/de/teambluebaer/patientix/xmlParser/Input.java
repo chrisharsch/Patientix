@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,7 +61,7 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
         textAndInput.setGravity(Gravity.CENTER);
         TextView label = new TextView(context);
         EditText input = new EditText(context);
-        input.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         label.setText(inputText);
         input.setHint(hint);
 
