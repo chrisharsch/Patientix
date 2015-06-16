@@ -41,7 +41,7 @@ public abstract class Commentar {
         if (patientCommentar.isEmpty()) {
             final Button comButton = new Button(context);
             comButton.setText("Kommentar hinzufügen");
-            comButton.setBackgroundResource(R.drawable.button1x5normal);
+            comButton.setBackgroundResource(R.drawable.button1x5);
             comButton.setLayoutParams(new LinearLayout.LayoutParams( 760, 152));
             comButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize.TEXT.normalSize);
             comButton.setTextColor(Color.parseColor("#fffafa"));

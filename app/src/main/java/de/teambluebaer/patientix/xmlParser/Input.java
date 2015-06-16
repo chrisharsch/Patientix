@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,8 +56,13 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
 
     @Override
     public void addToView(Context context, LinearLayout layout) {
+
+        LinearLayout textAndInput = new LinearLayout(context);
+        textAndInput.setOrientation(LinearLayout.VERTICAL);
+        textAndInput.setGravity(Gravity.CENTER);
         TextView label = new TextView(context);
         EditText input = new EditText(context);
+        input.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         label.setText(inputText);
         input.setHint(hint);
 
@@ -66,8 +73,9 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
         }
 
 
-        layout.addView(label);
-        layout.addView(input);
+        textAndInput.addView(label);
+        textAndInput.addView(input);
+        layout.addView(textAndInput);
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
