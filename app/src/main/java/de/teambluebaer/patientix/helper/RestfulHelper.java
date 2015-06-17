@@ -5,12 +5,23 @@ import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -18,8 +29,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import static java.lang.Thread.sleep;
 
@@ -29,7 +52,7 @@ import static java.lang.Thread.sleep;
 public class RestfulHelper extends Activity {
 
 
-    private volatile String SERVER_URL = "http://" + Constants.SERVER_URL + "/";
+    private volatile String SERVER_URL = "https://" + Constants.SERVER_URL + "/";
     private final String POST_LOGIN = "MTRAWebApp/server/index.php/login";
     private final String POST_FORMULA = "MTRAWebApp/server/index.php/formula";
     private final String POST_GET_TABLET_ID = "MTRAWebApp/server/index.php/getTabletID";
@@ -96,7 +119,8 @@ public class RestfulHelper extends Activity {
             Log.d("restMethod", restMethod);
         }
         response = null;
-        client = new DefaultHttpClient();
+        client = createHttpClient();
+
         try {
             if (DEBUG) {
                 Log.d("POST_URL: ", POST_URL);
@@ -111,16 +135,24 @@ public class RestfulHelper extends Activity {
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.d("Fehler: ", String.valueOf(true));
+            Log.d("Fehler", e.toString());
+
         } catch (ClientProtocolException e) {
             e.printStackTrace();
             Log.d("Fehler: ", String.valueOf(true));
+            Log.d("Fehler", e.toString());
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             Log.d("Fehler: ", String.valueOf(true));
+            Log.d("Fehler", e.toString());
+
         } catch (IOException e) {
             e.printStackTrace();
             responseCode = 503;
             Log.d("Fehler: ", String.valueOf(true));
+            Log.d("Fehler", e.toString());
+
         }
     }
 
@@ -181,53 +213,61 @@ public class RestfulHelper extends Activity {
         return sb.toString();
     }
 
+    public HttpClient createHttpClient() {
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
 
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 
-    /**
-     * Equals method to check if this class equals another
-     *
-     * @param o Object to check sameness
-     * @return true for the same Object false for not the same
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+            HttpParams params = new BasicHttpParams();
+            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+            HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
 
-        RestfulHelper that = (RestfulHelper) o;
+            SchemeRegistry registry = new SchemeRegistry();
+            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+            registry.register(new Scheme("https", sf, 443));
 
-        if (DEBUG != that.DEBUG) return false;
-        if (SERVER_URL != null ? !SERVER_URL.equals(that.SERVER_URL) : that.SERVER_URL != null)
-            return false;
-        if (POST_LOGIN != null ? !POST_LOGIN.equals(that.POST_LOGIN) : that.POST_LOGIN != null)
-            return false;
-        if (POST_FORMULA != null ? !POST_FORMULA.equals(that.POST_FORMULA) : that.POST_FORMULA != null)
-            return false;
-        if (POST_FILLED_FORMULA != null ? !POST_FILLED_FORMULA.equals(that.POST_FILLED_FORMULA) : that.POST_FILLED_FORMULA != null)
-            return false;
-        if (POST_URL != null ? !POST_URL.equals(that.POST_URL) : that.POST_URL != null)
-            return false;
-        if (response != null ? !response.equals(that.response) : that.response != null)
-            return false;
-        return Arrays.equals(responseArray, that.responseArray);
+            ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
 
+            return new DefaultHttpClient(ccm, params);
+        } catch (Exception e) {
+            return new DefaultHttpClient();
+        }
     }
 
-    /**
-     * Hashcode generator of this class
-     *
-     * @return int Hashcode
-     */
-    @Override
-    public int hashCode() {
-        int result = SERVER_URL != null ? SERVER_URL.hashCode() : 0;
-        result = 31 * result + (POST_LOGIN != null ? POST_LOGIN.hashCode() : 0);
-        result = 31 * result + (POST_FORMULA != null ? POST_FORMULA.hashCode() : 0);
-        result = 31 * result + (POST_FILLED_FORMULA != null ? POST_FILLED_FORMULA.hashCode() : 0);
-        result = 31 * result + (POST_URL != null ? POST_URL.hashCode() : 0);
-        result = 31 * result + (response != null ? response.hashCode() : 0);
-        result = 31 * result + (responseArray != null ? Arrays.hashCode(responseArray) : 0);
-        result = 31 * result + (DEBUG ? 1 : 0);
-        return result;
+
+
+    public class MySSLSocketFactory extends SSLSocketFactory {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+
+        public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+            super(truststore);
+
+            TrustManager tm = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            };
+
+            sslContext.init(null, new TrustManager[] { tm }, null);
+        }
+
+        @Override
+        public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
+            return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
+        }
+
+        @Override
+        public Socket createSocket() throws IOException {
+            return sslContext.getSocketFactory().createSocket();
+        }
     }
 }
