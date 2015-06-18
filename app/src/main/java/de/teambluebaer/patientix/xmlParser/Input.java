@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import de.teambluebaer.patientix.helper.Constants;
 import de.teambluebaer.patientix.helper.TextSize;
+import de.teambluebaer.patientix.helper.XMLCleaner;
 
 /**
  * Created by Simon on 06.05.2015.
@@ -112,7 +113,7 @@ public class Input  implements Element, de.teambluebaer.patientix.xmlParser.Edit
         String xmlString = new String();
         xmlString = xmlString + "<input ";
         xmlString = xmlString + "text=\"" + this.inputText + "\" ";
-        xmlString = xmlString + "patientInput=\"" + this.patientInput + "\" ";
+        xmlString = xmlString + "patientInput=\"" + XMLCleaner.cleanStringForXML(this.patientInput) + "\" ";
         xmlString = xmlString + "highlight=\"" + this.highlight + "\" ";
         xmlString = xmlString + "/>";
 

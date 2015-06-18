@@ -3,6 +3,8 @@ package de.teambluebaer.patientix.xmlParser;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.teambluebaer.patientix.helper.XMLCleaner;
+
 /**
  * Created by Simon on 06.05.2015.
  */
@@ -49,7 +51,7 @@ public class Row extends Commentar{
         String xmlString = new String();
         xmlString = xmlString + "<row";
         if(!patientCommentar.isEmpty()){
-            xmlString = xmlString + " comment=\"" + this.patientCommentar +"\"";
+            xmlString = xmlString + " comment=\"" + XMLCleaner.cleanStringForXML(this.patientCommentar) +"\"";
         }
         if(!mtraCommentar.isEmpty()){
             xmlString = xmlString + " mtraComment=\"" + this.mtraCommentar + "\"";
