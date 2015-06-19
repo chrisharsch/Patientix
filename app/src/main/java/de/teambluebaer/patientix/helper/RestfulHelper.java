@@ -52,12 +52,12 @@ import static java.lang.Thread.sleep;
 public class RestfulHelper extends Activity {
 
 
-    private volatile String SERVER_URL = "https://" + Constants.SERVER_URL + "/";
-    private final String POST_LOGIN = "MTRAWebApp/server/index.php/login";
-    private final String POST_FORMULA = "MTRAWebApp/server/index.php/formula";
-    private final String POST_GET_TABLET_ID = "MTRAWebApp/server/index.php/getTabletID";
-    private final String POST_FILLED_FORMULA = "MTRAWebApp/server/index.php/filledformula";
-    private final String POST_RESIGNED_FORMULA = "MTRAWebApp/server/index.php/resignFormula";
+    private volatile String SERVER_URL = "https://" + Constants.SERVER_URL + "/patientix/server/index.php";
+    private final String POST_LOGIN = "/login";
+    private final String POST_FORMULA = "/formula";
+    private final String POST_GET_TABLET_ID = "/getTabletID";
+    private final String POST_FILLED_FORMULA = "/filledformula";
+    private final String POST_RESIGNED_FORMULA = "/resignFormula";
     private String POST_URL;
 
     //Respones Output

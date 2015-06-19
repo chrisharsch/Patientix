@@ -11,8 +11,9 @@ public class BootReceiver extends BroadcastReceiver {
     /**
      * This method checks if the app is displayed when the screen
      * wakes up
+     *
      * @param context context to set new Activity
-     * @param intent to set as new task
+     * @param intent  to set as new task
      */
     @Override
     public void onReceive(Context context, Intent intent) {
