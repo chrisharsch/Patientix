@@ -33,8 +33,8 @@ public class MetaDataTest extends TestCase {
 
     public void testToXMLString() throws Exception {
         String metaXML = meta.toXMLString();
-        String testXML = "<meta><pID>1234</pID><pFirstName>Hans</pFirstName><pLastName>Peter</pLastName>" +
-                "<pDate>12.12.2012</pDate><name>MRT</name><pExamID></pExamID></meta>";
+        String testXML = "<meta><pID>1234</pID><pExamID></pExamID><pFirstName>Hans</pFirstName><pLastName>Peter</pLastName>" +
+                "<pDate>12.12.2012</pDate><name>MRT</name></meta>";
         assertEquals(testXML,metaXML);
     }
 }

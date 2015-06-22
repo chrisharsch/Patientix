@@ -32,26 +32,28 @@ public class JavaStrucBuilderTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         xmlTestString =
-                "<meta>" +
-                    "<pID>1234</pID>" +
-                    "<pFirstName>Hans</pFirstName>" +
-                    "<pLastName>Peter</pLastName>" +
-                    "<pDate>12.12.2012</pDate>" +
-                    "<name>MRT</name>" +
-                "</meta>" +
-                "<form>" +
-                    "<page>" +
-                        "<row>" +
-                            "<text text=\"DAS IST EIN TEST\" size=\"20\"/>" +
-                            "<radiobutton text=\"DAS IST EIN TEST\" checked=\"1\" highlight=\"false\"/>" +
-                            "<checkbox text=\"DAS IST EIN TEST\" checked=\"1\" highlight=\"false\"/>"+
+                "<root>" +
+                    "<meta>" +
+                        "<pID>1234</pID>" +
+                        "<pFirstName>Hans</pFirstName>" +
+                        "<pLastName>Peter</pLastName>" +
+                        "<pDate>12.12.2012</pDate>" +
+                        "<name>MRT</name>" +
+                    "</meta>" +
+                    "<form>" +
+                        "<page>" +
+                            "<row>" +
+                                "<text text=\"DAS IST EIN TEST\" size=\"20\"/>" +
+                                "<radiobutton text=\"DAS IST EIN TEST\" checked=\"1\" highlight=\"false\"/>" +
+                                "<checkbox text=\"DAS IST EIN TEST\" checked=\"1\" highlight=\"false\"/>"+
 
-                            "<sound/>"+
-                            "<video/>"+
-                            "<input text=\"DAS IST EIN TEST\" patientInput=\"INPUT\" highlight=\"false\"/>"+
-                        "</row>" +
-                    "</page>" +
-                "</form>";
+                                "<audio/>"+
+                                "<video/>"+
+                                "<input text=\"DAS IST EIN TEST\" patientInput=\"INPUT\" highlight=\"false\"/>"+
+                            "</row>" +
+                        "</page>" +
+                    "</form>" +
+                "</root>";
 
         xmlTestString2 = "<meta resign=\"1\"/>";
         testBuilder = new JavaStrucBuilder();
