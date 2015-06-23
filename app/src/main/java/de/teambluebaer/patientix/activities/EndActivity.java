@@ -27,14 +27,28 @@ import de.teambluebaer.patientix.helper.RestfulHelper;
 import de.teambluebaer.patientix.kioskMode.PrefUtils;
 
 /**
+ * Copyright 2015 By Authors
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * Authors:
+ * Simon Sauerzapf
+ * Maren Dietrich
+ * Chris Harsch
+ */
+
+/**
  * This Activity shows the endscreen there the patient is afford
  * to bring the tablet back. In this Activity the filled formula
  * is send to the server.
  */
 
-/**
- * Created by Maren on 18.05.2015.
- */
 public class EndActivity extends Activity {
     TextView textViewEndtext;
     private ArrayList<NameValuePair> parameterMap = new ArrayList();
@@ -45,6 +59,7 @@ public class EndActivity extends Activity {
     /**
      * This method creates the layout of the Activity, sets the fullscreenmode and
      * removes the titlebar. In here also the Views are referenced.
+     *
      * @param savedInstanceState default parameter
      */
     @Override
@@ -112,54 +127,54 @@ public class EndActivity extends Activity {
                 if (Constants.RESIGN) {
                     requestPath = "resignFormula";
                 }
-                    while (responseCode != 200) {
-                        responseCode = restfulHelper.executeRequest(requestPath, parameterMap);
-                        Log.d("ResponseString", restfulHelper.responseString);
+                while (responseCode != 200) {
+                    responseCode = restfulHelper.executeRequest(requestPath, parameterMap);
+                    Log.d("ResponseString", restfulHelper.responseString);
+                    Log.d("ResponseCode", responseCode + "");
+                    if (responseCode == 404) {
                         Log.d("ResponseCode", responseCode + "");
-                        if (responseCode == 404) {
-                            Log.d("ResponseCode", responseCode + "");
-                            Log.d("ResponseString", restfulHelper.responseString);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(EndActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
-                                    textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
-                                        @Override
-                                        public boolean onLongClick(View v) {
-                                            Intent intent = new Intent(EndActivity.this, LoginActivity.class);
-                                            startActivity(intent);
-                                            //PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                            // finish();
-                                            System.exit(0);
-                                            return true;
-                                        }
-                                    });
-                                }
-                            });
-                            break;
-                        }
-                    }
-                    if (responseCode == 200) {
+                        Log.d("ResponseString", restfulHelper.responseString);
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
-                                Log.d("Response String", restfulHelper.responseString);
+                                Toast.makeText(EndActivity.this, restfulHelper.responseString, Toast.LENGTH_LONG).show();
                                 textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
                                     @Override
                                     public boolean onLongClick(View v) {
                                         Intent intent = new Intent(EndActivity.this, LoginActivity.class);
                                         startActivity(intent);
                                         //PrefUtils.setKioskModeActive(false, EndActivity.this);
-                                       // finish();
+                                        // finish();
                                         System.exit(0);
                                         return true;
                                     }
                                 });
                             }
                         });
+                        break;
                     }
-                    Log.d("Response String", restfulHelper.responseString);
-                    Log.d("ResponseCode", responseCode + "");
-                    Constants.ISSEND = true;
+                }
+                if (responseCode == 200) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(EndActivity.this, "Formular wurde erfolgreich übertragen.", Toast.LENGTH_LONG).show();
+                            Log.d("Response String", restfulHelper.responseString);
+                            textViewEndtext.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    Intent intent = new Intent(EndActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    //PrefUtils.setKioskModeActive(false, EndActivity.this);
+                                    // finish();
+                                    System.exit(0);
+                                    return true;
+                                }
+                            });
+                        }
+                    });
+                }
+                Log.d("Response String", restfulHelper.responseString);
+                Log.d("ResponseCode", responseCode + "");
+                Constants.ISSEND = true;
 
             } else {
                 runOnUiThread(new Runnable() {
@@ -190,13 +205,15 @@ public class EndActivity extends Activity {
         System.gc();
         deleteCache(getApplicationContext());
     }
+
     public static void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
             if (dir != null && dir.isDirectory()) {
                 deleteDir(dir);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public static boolean deleteDir(File dir) {
